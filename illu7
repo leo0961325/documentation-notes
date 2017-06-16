@@ -1,0 +1,109 @@
+CentOS7  
+CentOS Linux release 7.3.1611 (Core) 
+
+$ uname -a
+Linux localhost.localdomain 3.10.0-514.21.1.el7.x86_64 #1 SMP Thu May 25 17:04:51 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+===============================================================
+mongoDB
+https://www.phpini.com/linux/rhel-centos-7-install-mongodb
+
+$ sudo touch /etc/yum.repos.d/mongodb.repo
+
+$ sudo vi /etc/yum.repos.d/mongodb.repo
+[mongodb]
+name=MongoDB Repository
+baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
+gpgcheck=0
+enabled=1
+
+$ sudo yum -y install mongodb-org mongodb-org-server 
+
+Start service
+$ systemctl start mongod 
+
+Check service
+$ ps auxw | grep mongod
+$ systemctl status mongod 
+
+$ mongo
+
+===============================================================
+Docker
+https://www.phpini.com/linux/rhel-centos-7-install-docker
+
+下載 & 安裝,   -y : 若有詢問使用者是否時, 自動回答y
+$ sudo yum -y update 
+$ sudo yum -y install docker docker-registry 
+
+$ systemctl enable docker
+
+$ systemctl start docker 
+
+$ systemctl status docker.service 
+
+$ docker run hello-world
+===============================================================
+mysl 5.6
+https://www.phpini.com/mysql/rhel-centos-yum-install-mysql
+
+安裝 MySQL Repository
+$ sudo rpm -Uvh http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm 
+
+安裝MySQL Server
+$ sudo yum install mysql-community-server 
+
+自動啟用MySQL
+$ /usr/bin/systemctl enable mysqld 
+
+手動啟用MySQL
+$ /usr/bin/systemctl start mysqld 
+
+MySQL執行密碼修改
+$ /usr/bin/mysql_secure_installation 
+
+建立使用者
+> CREATE USER '<new-user>'@'localhost' IDENTIFIED BY '<newpassword>';
+
+賦予讀取權限
+> GRANT ALL PRIVILEGES ON newdatabase.* TO '<new-user>'@'localhost';
+===============================================================
+Anacoda on CentOS 7 using docker
+https://www.continuum.io/blog/developer-blog/anaconda-and-docker-better-together-reproducible-data-science
+
+# docker pull continuumio/anaconda3
+
+
+1. 
+# docker run -i -t continuumio/anaconda3 /bin/bash
+
+2. Start a Notebook server with Anaconda from a Docker image
+# docker run -i -t -p 8888:8888 continuumio/anaconda3 /bin/bash -c "/opt/conda/bin/conda install jupyter -y --quiet && mkdir /opt/notebooks && /opt/conda/bin/jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser"
+
+===============================================================
+net-tools in docker
+docker內, 若無法使用網路服務, 安裝它吧
+
+# ifconfig
+bash: ifconfig: command not found
+
+# yum install net-tools
+
+# ifconfig
+-> success!
+
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
+===============================================================
