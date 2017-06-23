@@ -35,13 +35,17 @@ https://www.phpini.com/linux/rhel-centos-7-install-docker
 $ sudo yum -y update 
 $ sudo yum -y install docker docker-registry 
 
-$ systemctl enable docker
+加入pu權限
+$ cat /etc/group | grep docker
+$ sudo usermod -aG docker <userName>
 
-$ systemctl start docker 
-
-$ systemctl status docker.service 
+$ sudo systemctl start docker 
+$ sudo systemctl enable docker
+$ sudo systemctl status docker.service 
 
 $ docker run hello-world
+
+$ docker --version
 ===============================================================
 mysl 5.6
 https://www.phpini.com/mysql/rhel-centos-yum-install-mysql
@@ -67,17 +71,34 @@ $ /usr/bin/mysql_secure_installation
 賦予讀取權限
 > GRANT ALL PRIVILEGES ON newdatabase.* TO '<new-user>'@'localhost';
 ===============================================================
-Anacoda on CentOS 7 using docker
-https://www.continuum.io/blog/developer-blog/anaconda-and-docker-better-together-reproducible-data-science
+docker-mysql
+https://severalnines.com/blog/mysql-docker-containers-understanding-basics
 
-# docker pull continuumio/anaconda3
+1. docker-mysql
+$ docker pull mysql
 
+本地端要先有mysql-client才能登入
+$ sudo yum install -y mysql
 
-1. 
-# docker run -i -t continuumio/anaconda3 /bin/bash
+啟動mysql(背景)
+$ docker run --d --name=<container's name> --env="MYSQL_ROOT_PASSWORD=<password>" mysql 
 
-2. Start a Notebook server with Anaconda from a Docker image
-# docker run -i -t -p 8888:8888 continuumio/anaconda3 /bin/bash -c "/opt/conda/bin/conda install jupyter -y --quiet && mkdir /opt/notebooks && /opt/conda/bin/jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser"
+看mysql啟動的Log
+$ docker logs test-mysql
+
+可以直接取得每次啟動的docker ip
+$ docker inspect test-mysql | grep IPAddress
+
+連進去Container囉!!
+$ mysql -u <user> -p <password> -h <ip> -P <port>
+
+來開時
+> exit
+$ docker stop mysql-test
+
+將來再進去(Container要在, 只是還沒被啟動 docker ps -a要有)
+$ docker start <container's name>
+
 
 ===============================================================
 net-tools in docker
@@ -92,6 +113,18 @@ bash: ifconfig: command not found
 -> success!
 
 ===============================================================
+mongoDB in docker
+
+
+$ sudo docker run -it mongo /bin/bash
+
+$ sudo docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+docker.io/mongo         latest              88b7188af865        23 hours ago        358.3 MB
+...
+
+$ 
+
 ===============================================================
 ===============================================================
 ===============================================================
