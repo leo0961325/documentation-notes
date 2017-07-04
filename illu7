@@ -1,4 +1,4 @@
-CentOS7  
+CentOS7
 CentOS Linux release 7.3.1611 (Core) 
 
 $ uname -a
@@ -37,11 +37,12 @@ $ sudo yum -y install docker docker-registry
 
 加入pu權限
 $ cat /etc/group | grep docker
+$ sudo groupadd docker
 $ sudo usermod -aG docker <userName>
 
-$ sudo systemctl start docker 
-$ sudo systemctl enable docker
-$ sudo systemctl status docker.service 
+$ systemctl start docker 
+$ systemctl enable docker
+$ systemctl status docker.service 
 
 $ docker run hello-world
 
@@ -54,7 +55,7 @@ https://www.phpini.com/mysql/rhel-centos-yum-install-mysql
 $ sudo rpm -Uvh http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm 
 
 安裝MySQL Server
-$ sudo yum install mysql-community-server 
+$ sudo yum -y install mysql-community-server 
 
 自動啟用MySQL
 $ /usr/bin/systemctl enable mysqld 
@@ -175,9 +176,38 @@ $ sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages
 
 $ yum check-update
 
-$ sudo yum install code
+$ sudo yum -y install code
 
 ===============================================================
+jdk1.8
+https://tecadmin.net/install-java-8-on-centos-rhel-and-fedora/
+
+
+First, remove openjdk!!
+$ rpm -qa | grep java
+
+$ sudo yum remove <openjdk-versionName>
+
+Then, install jdk1.8
+$ su
+# cd /opt/
+
+# wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz"
+
+# sudo tar xzf jdk-8u131-linux-x64.tar.gz
+
+# cd /opt/jdk1.8.0_131/
+
+# alternatives --install /usr/bin/java java /opt/jdk1.8.0_131/bin/java 2
+
+# alternatives --config java
+
+# alternatives --install /usr/bin/jar jar /opt/jdk1.8.0_131/bin/jar 2
+# alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_131/bin/javac 2
+# alternatives --set jar /opt/jdk1.8.0_131/bin/jar
+# alternatives --set javac /opt/jdk1.8.0_131/bin/javac
+
+$ java -version
 
 
 ===============================================================
