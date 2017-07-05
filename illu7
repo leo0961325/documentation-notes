@@ -81,8 +81,8 @@ $ docker pull mysql
 本地端要先有mysql-client才能登入
 $ sudo yum install -y mysql
 
-啟動mysql(背景)
-$ docker run --d --name=<container's name> --env="MYSQL_ROOT_PASSWORD=<password>" mysql 
+docker image 建立 container (背景執行)
+$ docker run -d --name=<container's name> --env="MYSQL_ROOT_PASSWORD=<password>" mysql 
 
 看mysql啟動的Log
 $ docker logs test-mysql
