@@ -211,3 +211,30 @@ $ java -version
 
 
 ===============================================================
+install Anaconda (python3.6.1)
+https://www.continuum.io/downloads
+
+$ wget https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh
+
+$ bash ./Anaconda3-4.4.0-Linux-x86_64.sh
+
+
+不要建立預設的環境變數(會破壞原有pyhton2變成anaconda的python3.6)
+
+$ cd ~
+
+加入環境變數
+$ vi .bashrc
+export anaconda_HOME="/home/tony/anaconda3/"
+export PATH=$anaconda_HOME/bin:$PATH
+
+$ source .bashrc
+
+$ python --version
+Python 3.6.1 :: Anaconda 4.4.0 (64-bit)
+
+===============================================================
+
+
+
+
