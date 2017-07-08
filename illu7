@@ -117,7 +117,7 @@ bash: ifconfig: command not found
 mongoDB in docker
 
 
-$ sudo docker run -it mongo /bin/bash
+$ docker run --name mongo -it mongo /bin/bash
 
 $ sudo docker images
 REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
@@ -234,7 +234,27 @@ $ python --version
 Python 3.6.1 :: Anaconda 4.4.0 (64-bit)
 
 ===============================================================
+install Redis
+https://redis.io/download
 
+$ wget http://download.redis.io/releases/redis-3.2.9.tar.gz
+$ tar xzf redis-3.2.9.tar.gz
+$ cd redis-3.2.9
+$ make
 
+啟動方式:
+terminal1 $ src/redis-server
+terminal2 $ src/redis-cli
 
+===============================================================
+install scala
+
+1.到官方網站下載scala-SDK.xxx.tar.gz後
+
+$ tar zxf scala-SDK.xxx.tar.gz
+
+加入環境變數
+$ vi .bashrc
+export scala_HOME="/home/tony/scala-2.12.2"
+export PATH=$scala_HOME/bin:$PATH 
 
