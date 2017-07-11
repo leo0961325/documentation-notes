@@ -251,7 +251,9 @@ $ cd git-*
 
 $ make configure
 
-$ ./configure --prefix=/usr/local
+說明文件中, 遺漏了重要的 "--with-curl"會導致無法上傳下載, 在此補上
+$ sudo yum install curl-devel
+$ ./configure --prefix=/usr/local --with-curl
 
 $ sudo make install
 
