@@ -156,35 +156,24 @@ $ sudo yum -y install code
 
 ===============================================================
 jdk1.8
-https://tecadmin.net/install-java-8-on-centos-rhel-and-fedora/
+徐老師的hadoop講義的安裝方式(下載java的rpm包來安裝)
 
+$ wget http://ftp.wsisiz.edu.pl/pub/pc/pozyteczne%20oprogramowanie/java/jdk-8u131-linux-x64.rpm
 
-First, remove openjdk!!
-$ rpm -qa | grep java
+$ sudo rpm -ivh jdk-8u131-linux-x64.rpm
 
-$ sudo yum remove <openjdk-versionName>
+$ sudo ln -s /usr/java/jdk1.8.0_131/ /usr/java/java
 
-Then, install jdk1.8
-$ su
-# cd /opt/
-
-# wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz"
-
-# sudo tar xzf jdk-8u131-linux-x64.tar.gz
-
-# cd /opt/jdk1.8.0_131/
-
-# alternatives --install /usr/bin/java java /opt/jdk1.8.0_131/bin/java 2
-
-# alternatives --config java
-
-# alternatives --install /usr/bin/jar jar /opt/jdk1.8.0_131/bin/jar 2
-# alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_131/bin/javac 2
-# alternatives --set jar /opt/jdk1.8.0_131/bin/jar
-# alternatives --set javac /opt/jdk1.8.0_131/bin/javac
+$ sudo vi /etc/profile
+export JAVA_HOME=/usr/java/java
+export JRE_HOME=$JAVA_HOME/jre
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib/rt.jar
+export PATH=$PATH:$JAVA_HOME/bin
 
 $ java -version
-
+java version "1.8.0_131"
+Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
+Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
 
 ===============================================================
 install Anaconda (python3.6.1)
@@ -261,6 +250,6 @@ $ git --version
 git version 2.13.2
 ===============================================================
 
-
 ===============================================================
+
 ===============================================================
