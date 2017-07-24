@@ -183,10 +183,7 @@ $ wget https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh
 
 $ bash ./Anaconda3-4.4.0-Linux-x86_64.sh
 
-
-不要建立預設的環境變數(會破壞原有pyhton2變成anaconda的python3.6)
-
-$ cd ~
+$ cd 
 
 加入環境變數
 $ vi .bashrc
@@ -263,10 +260,86 @@ $ sudo yum install -y postgresql96-server
 $ /usr/pgsql-9.6/bin/postgresql96-setup initdb
 
 允許重開機後自動啟動服務
-$ systemctl enable postgresql-9.6
+$ systemctl enable postgresql-9.6.service
 
 立即啟動服務
-$ systemctl start postgresql-9.6
+$ systemctl start postgresql-9.6.service
 ===============================================================
+安裝GeoDjango (非常大一包= =)
+https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/
+
+1.安裝python and Django
+2.安裝Spatial libraries
+3.安裝Geospatial database
+
+1.（略)
+yum -y install gdal
+
+2.安裝Spatial Database
+官方建議使用PostgreSQL with PostGIS
+https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/geolibs/
+
+安裝順序如下
+ - GEOS
+ - PROJ.4
+ - GDAL
+ - PostgreSQL
+ - PostGIS
+
+- 安裝GEOS(C++ library for geometric operation, GeoDjango的預設地理操作函式庫)
+$ wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2
+$ tar xjf geos-3.4.2.tar.bz2
+$ cd geos-3.4.2
+$ ./configure
+$ make
+$ sudo make install 
+$ sudo ldconfig       <- 用來確認動態函式庫的連結資訊
+$ cd ..
+
+- 安裝PROJ.4
+$ wget http://download.osgeo.org/proj/proj-4.9.1.tar.gz
+$ wget http://download.osgeo.org/proj/proj-datumgrid-1.5.tar.gz
+$ tar xzf proj-4.9.1.tar.gz
+$ cd proj-4.9.1/nad
+$ tar xzf ../../proj-datumgrid-1.5.tar.gz
+$ cd ..
+$ ./configure
+$ make
+$ sudo make install
+$ cd ..
+
+- 安裝GDAL
+$ wget http://download.osgeo.org/gdal/1.11.2/gdal-1.11.2.tar.gz
+$ tar xzf gdal-1.11.2.tar.gz
+$ cd gdal-1.11.2
+$ ./configure
+$ make # Go get some coffee, this takes a while.
+$ sudo make install
+$ cd ..
+
+- 安裝PostgreSQL (底下是安裝9.2版, 2017/7, 最新版為9.6, 10.0beta出來了)
+$ gunzip
+
+
+- 安裝PostGIS
+$ sudo yum -y install libxml2-devel
+$ svn checkout http://svn.osgeo.org/postgis/trunk/ postgis-2.3.4dev
+$ wget http://postgis.net/stuff/postgis-2.3.4dev.tar.gz
+$ tar zxf postgis-2.3.4dev.tar.gz
+
+下式改為PostgreSQL的pg_config所在位置
+$ ./configure --with-pgconfig=/usr/local/pgsql/bin/pg_config
+
+------------------------------------------
+修改登入
+
+環境被我弄髒了, 目前找不到怎麼安裝到這邊的指令了orz
+/usr/pgsql-9.6/bin
+
+
+登入PL-SQL
+$ sudo su - postgres / sudo -u postgres -i
+
+
 
 ===============================================================
