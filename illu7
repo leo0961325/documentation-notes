@@ -249,7 +249,24 @@ $ sudo make install
 $ git --version
 git version 2.13.2
 ===============================================================
+PostgreSQL9.6
+https://www.postgresql.org/download/linux/redhat/
 
+安裝Repo
+$ yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+
+主程式
+$ sudo yum install -y postgresql96
+$ sudo yum install -y postgresql96-server
+
+啟動叢集
+$ /usr/pgsql-9.6/bin/postgresql96-setup initdb
+
+允許重開機後自動啟動服務
+$ systemctl enable postgresql-9.6
+
+立即啟動服務
+$ systemctl start postgresql-9.6
 ===============================================================
 
 ===============================================================
