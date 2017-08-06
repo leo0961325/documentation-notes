@@ -318,7 +318,6 @@ $ sudo make install
 $ cd ..
 
 - 安裝PostgreSQL (底下是安裝9.2版, 2017/7, 最新版為9.6, 10.0beta出來了)
-$ gunzip
 
 
 - 安裝PostGIS
@@ -328,13 +327,8 @@ $ wget http://postgis.net/stuff/postgis-2.3.4dev.tar.gz
 $ tar zxf postgis-2.3.4dev.tar.gz
 
 下式改為PostgreSQL的pg_config所在位置
-$ ./configure --with-pgconfig=/usr/local/pgsql/bin/pg_config
+$ ./configure --with-pgconfig=/usr/pgsql-9.4/bin/pg_config
 
-------------------------------------------
-修改登入
-
-環境被我弄髒了, 目前找不到怎麼安裝到這邊的指令了orz
-/usr/pgsql-9.6/bin
 
 
 登入PL-SQL
@@ -343,3 +337,18 @@ $ sudo su - postgres / sudo -u postgres -i
 
 
 ===============================================================
+sshd無法啟動的原因
+1.sshd未安裝
+2.sshd未啟動
+3.防火牆
+
+1.安裝sshd
+$ sudo yum -y install openssh-server
+$ service sshd restart
+
+2.檢查看看(應該要有下面兩個)
+$ ps -e | grep ssh
+xxxx ? 00:00:00 ssh-agent
+xxxx ? 00:00:00 sshd
+
+
