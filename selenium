@@ -1,16 +1,28 @@
-Use selenium to crawler for python3.5
-1.Install Selenium Client Driver
-https://seleniumhq.github.io/selenium/docs/api/py/index.html
+使用Selenium來解決javascript動態產生網頁產生的爬網難題
+python3安裝完以後,開始安裝selenium
 
-1.Install Selenium Client Driver
+1.下載Firefox Selenium Client Driver
+$ cd ~
+$ mkdir bin
+$ cd bin
+$ wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz
+$ tar zxf geckodriver-v0.18.0-linux64.tar.gz
+## 在此確認好環境變數有包含使用者目錄底下的bin
 
-2.Install Python bindings
-$ pip3 install -U selenium
 
-3.Set Environment Path
-move download file(from step1) to your system path
+2.安裝python3的相依套件(pip為python3的管理套件)
+$ pip install -U selenium
 
-4.Start using it  ^_^
+3.確定環境變數是否設定妥善
+$ echo $PATH
+看看第1點解壓縮之後的"geckodriver"是否能由環境變數找到
+
+4.進入python之後快樂使用selenium~~
 from selenium import webdriver
 browser = webdriver.Firefox()
 browser.get('https://google.com.tw')
+詳細說明請見 http://www.seleniumhq.org/
+browser.close()
+
+===============================================================================
+
