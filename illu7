@@ -176,6 +176,28 @@ Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
 Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
 
 ===============================================================
+install Python
+$ wget <python>
+
+$ tar xf <python>.tar.xz
+$ cd <python>
+
+$ ./configure --enable-loadable-sqlite-extensions \
+              --enable-shared \
+              --prefix="\opt\python3"
+$ make
+$ sudo make install
+$ ldconfig
+
+安裝完後,開始設定環境變數（略）
+
+底下開始安裝python3的pip
+$ wget -0 /tmp/get-pip.py "https://bootstrap.pypa.io/get-pip.py"
+$ export PYTHON_PIP_VERSION=9.0.1
+$ python3 /tmp/get-pip.py "pip==$PYTHON_PIP_VERSION"
+$ pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERSION"
+
+===============================================================
 install Anaconda (python3.6.1)
 https://www.continuum.io/downloads
 
@@ -265,7 +287,7 @@ $ systemctl enable postgresql-9.6.service
 立即啟動服務
 $ systemctl start postgresql-9.6.service
 ===============================================================
-安裝GeoDjango (非常大一包= =)
+安裝GeoDjango (非常大一包= =)(###失敗收場###)
 https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/
 
 1.安裝python and Django
@@ -318,6 +340,7 @@ $ sudo make install
 $ cd ..
 
 - 安裝PostgreSQL (底下是安裝9.2版, 2017/7, 最新版為9.6, 10.0beta出來了)
+===============================================================
 
 
 - 安裝PostGIS
@@ -337,6 +360,7 @@ $ sudo su - postgres / sudo -u postgres -i
 
 
 ===============================================================
+===============================================================
 sshd無法啟動的原因
 1.sshd未安裝
 2.sshd未啟動
@@ -350,5 +374,4 @@ $ service sshd restart
 $ ps -e | grep ssh
 xxxx ? 00:00:00 ssh-agent
 xxxx ? 00:00:00 sshd
-
 
