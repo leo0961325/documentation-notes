@@ -375,3 +375,11 @@ $ ps -e | grep ssh
 xxxx ? 00:00:00 ssh-agent
 xxxx ? 00:00:00 sshd
 
+3.若出現下列狀況
+$ ssh localhost
+ssh: connect to host localhost port 22: Connection refused
+請先依照第2點的說明查看是否有啟動ssh-agent及sshd才可以ssh localhost,
+所以只要
+$ service sshd restart
+$ systemctl enable sshd(這個還不是非常確定是否可行)
+
