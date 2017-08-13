@@ -1,3 +1,6 @@
+# Hadoop筆記
+## 目前還非常雜亂... 改天改
+
 Hive 內, 使用
 ADD JAR xxx.jar
 來使用使用者字定義的jar user define function
