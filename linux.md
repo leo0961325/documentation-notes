@@ -1,7 +1,19 @@
 # Linux相關指令
 
-=======================================================================
-## ps相關指令
+
+
+## - 設定terminal的熱鍵
+```
+畫面右上角功能表 > 設定 > 鍵盤 > 快捷鍵 > 自訂捷徑列 > +
+Name: Terminal Shortcut
+Command: gnome-terminal
+再點選所要設定的熱鍵
+```
+
+
+---
+## - ps相關指令
+```
 僅列出與自己相關的bash相關程序
 $ ps
   PID TTY          TIME CMD
@@ -17,38 +29,33 @@ F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
 列出所有系統運作的程序
 $ ps aux
 （超多～～～）
+```
 
-=======================================================================
-## top
-$ top -d 10	每隔10秒更新一次(預設5秒更新一次)
+
+---
+## - top(類似Windows的工作管理員)
+[參考自鳥哥](http://linux.vbird.org/linux_basic/0440processcontrol/0440processcontrol-fc4.php#top)
+
 內容大致如下（上半部：系統資訊,下半部：Process資訊)
-------------------------------------
-top - 00:47:02 up  3:01,  4 users,  load average: 0.16, 0.22, 0.29
-Tasks: 223 total,   1 running, 222 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  1.3 us,  1.5 sy,  0.0 ni, 97.1 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st
-KiB Mem :  3779536 total,   998684 free,   955476 used,  1825376 buff/cache
-KiB Swap:  8384508 total,  8384508 free,        0 used.  2370688 avail Mem
-  
-PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND 
-2388 root      20   0  334212  50228  39312 S   2.7  1.3   1:17.29 Xorg 
-7534 tony      20   0  749800  33044  16568 S   1.7  0.9   1:12.52 gnome-terminal- 
-2541 mongod    20   0 2238880 172288 136248 S   1.0  4.6   1:59.48 mongod
-3608 tony      20   0 1994380 174520  42976 S   1.0  4.6   2:21.73 gnome-shell  
-------------------------------------
-top後,可執行下列互動
-h		Help
-P		依據CPU使用時間排序
-M		依據記憶體使用量排序
-T		依據執行時間排序
-N		依據PID大小排序
-u		只列出該帳號的程序
-k		刪除
-d		更新秒數
-q		離開
+<img src="img/top.jpg" style="width:480px; height:320px;" />
+
+| top後操作指令 | 說明 |
+| --- | --- |
+| h	| Help |
+| P	| 依據CPU使用時間排序 |
+| M	| 依據記憶體使用量排序 |
+| T	| 依據執行時間排序 |
+| N	| 依據PID大小排序 |
+| u	| 只列出該帳號的程序 |
+| k	| 刪除 |
+| d	| 更新秒數 |
+| q	| 離開 |
 
 
-=======================================================================
-## CentOS7服務相關指令
+
+---
+## - CentOS7服務相關指令
+```
 啟動與關閉<service>
 $ systemctl start <service>
 $ systemctl stop <service>
@@ -58,42 +65,97 @@ $ systemctl restart <service>
 $ systemctl enable <service>
 $ systemctl disable <service>
 
-=======================================================================
-## kill 殺程序
-$ xkill			點選視窗後,就可以把相關程序殺掉
+(以上看狀況加sudo)
+```
 
-=======================================================================
-## 壓縮/解壓縮(這部份還不確定, 待確認08/13)
-  ### zip
-	壓縮
-	$ zip -er F.zip f1 f2 ... 來替代
-	(下一行再輸入密碼)
+---
+## - kill 殺程序
+```
+點選視窗後,就可以把相關程序殺掉
+$ xkill			
 
-	解壓縮
-	$ unzip -P F.zip
+殺掉8888的程序
+$ kill 8888
+```
 
-=======================================================================
+---
+## - 壓縮/解壓縮
+
+1. zip
+
+```
+將a1, a2, a3壓縮為FF.zip, 並設定密碼
+$ zip -er FF.zip a1 a2 a3
+(下一行再輸入密碼)
+
+把QQ.zip裡面的檔案全部解壓縮出來
+$ unzip QQ.zip
+
+把QQ.zip(解壓縮密碼為1234)解壓縮
+$ unzip -P QQ.zip
+(下一行在輸入密碼)
+```
+
+2. (待續)
+
+---
 ## find相關
-https://blog.gtwang.org/linux/unix-linux-find-command-examples/
 
-$find . -iname xx.txt
+[參考自網路blog](https://blog.gtwang.org/linux/unix-linux-find-command-examples/)
+
+```
 在目前dir底下,忽略大小寫找出所有xx.txt
+$ find . -iname xx.txt
 
+-perm:尋找特定權限的檔案
 $ find . -type f ! -perm 777
--perm:指定檔案權限
 
-$ find . -perm /u=r
 列出唯獨的檔案
+$ find . -perm /u=r
 
-$ find . -perm /a=x
 列出可執行的檔案
+$ find . -perm /a=x
+```
 
-$ find . -type d -name xx
-d:目錄
-p:具名的pipe(FIFO)
-f:一般檔案
-l:連結檔
-s:socket檔案
+```$ find . -type <代碼> -name xx```
+| <代碼> | 說明 |
+| --- | --- |
+| d | 目錄 |
+| p | 具名的pipe(FIFO) |
+| f | 一般檔案 |
+| l | 連結檔 |
+| s | socket檔案 |
 
 
-=======================================================================
+
+---
+## sshd無法啟動的原因
+1. sshd未安裝
+2. sshd未啟動
+3. 防火牆
+
+1. 安裝sshd
+```
+$ sudo yum -y install openssh-server
+$ service sshd restart
+```
+
+2. 檢查看看(應該要有下面兩個)
+```
+$ ps -e | grep ssh
+xxxx ? 00:00:00 ssh-agent
+xxxx ? 00:00:00 sshd
+```
+
+3. 若出現下列狀況
+```
+$ ssh localhost
+ssh: connect to host localhost port 22: Connection refused
+請先依照第2點的說明查看是否有啟動ssh-agent及sshd才可以ssh localhost,
+所以只要
+$ service sshd restart
+$ systemctl enable sshd(這個還不是非常確定是否可行)
+```
+
+---
+最近更新日期 2017/09/23, by TonyCJ
