@@ -1,54 +1,135 @@
-CentOS7
-CentOS Linux release 7.3.1611 (Core) 
+# CentOS7 安裝雜七雜八的備註
+- 我的版本是 CentOS Linux release 7.3.1611 (Core) 
 
+```
 $ uname -a
-Linux localhost.localdomain 3.10.0-514.21.1.el7.x86_64 #1 SMP Thu May 25 17:04:51 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
-===============================================================
-Docker
-https://www.phpini.com/linux/rhel-centos-7-install-docker
+Linux tonydt 3.10.0-693.2.2.el7.x86_64 #1 SMP Tue Sep 12 22:26:13 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+```
 
-下載 & 安裝,   -y : 若有詢問使用者是否時, 自動回答y
+---
+
+## - Google Chrome
+- 2017/09/23
+- [老灰鴨的筆記本](http://oldgrayduck.blogspot.tw/2016/04/linuxcentos-7-google-chrome.html)
+
+
+1. 增加本地repo參考
+
+```
+# sudo touch /etc/yum.repos.d/google-chrome.repo
+```
+
+2. 新增下列內容
+```
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://dl.google.com/linux/linux_signing_key.pub
+```
+
+3. 安裝穩定版Google Chrome
+```
+# sudo yum -y install google-chrome-stable
+```
+
+
+---
+## Docker
+- 
+- [Linux 技術手札](https://www.phpini.com/linux/rhel-centos-7-install-docker)
+
+1. 安裝Docker
+```
 $ sudo yum -y update 
 $ sudo yum -y install docker docker-registry 
+```
 
-加入pu權限
+2. 設定目前使用者, 對Docker具有Power User的權限
+```
 $ cat /etc/group | grep docker
+dockerroot:x:983:
+
 $ sudo groupadd docker
-$ sudo usermod -aG docker <userName>
 
-$ systemctl start docker 
-$ systemctl enable docker
+$ sudo usermod -aG docker $USERNAME
+
+$ cat /etc/group | grep docker
+dockerroot:x:983:
+docker:x:1001:tony                 <-已經讓目前的使用者加到docker的群組了
+```
+3. 設定docker服務
+```
+$ systemctl start docker           <-立刻啟用
+$ systemctl enable docker          <-重新開機後才啟用
 $ systemctl status docker.service 
+(建議這邊run完後, 重新登入 or 重新開機)
+```
 
+4. 測試執行docker
+```
 $ docker run hello-world
+((如果看到一大堆歡迎使用Docker之類的廢話, 就表示OK了))
 
 $ docker --version
-===============================================================
-mysl 5.6
-https://www.phpini.com/mysql/rhel-centos-yum-install-mysql
+Docker version 1.12.6, build c4618fb/1.12.6
+```
 
-安裝 MySQL Repository
+
+
+---
+## MySql 5.6
+- 
+- [Linux 技術手札](https://www.phpini.com/mysql/rhel-centos-yum-install-mysql)
+
+1. 新增本地repo
+```
 $ sudo rpm -Uvh http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm 
+```
 
-安裝MySQL Server
+2. 安裝MySQL Server
+```
 $ sudo yum -y install mysql-community-server 
+```
 
-自動啟用MySQL
-$ /usr/bin/systemctl enable mysqld 
+3. 啟動MySQL服務
+```
+# systemctl enable mysqld 
+# systemctl start mysqld 
+# systemctl status mysql.service 
+```
 
-手動啟用MySQL
-$ /usr/bin/systemctl start mysqld 
-
-MySQL執行密碼修改
-$ /usr/bin/mysql_secure_installation 
+4. 其他備註
+```sql
+更改 root密碼
+> SET PASSWORD FOR 'root'@'localhost' = '<newPassWord>';
 
 建立使用者
-> CREATE USER '<new-user>'@'localhost' IDENTIFIED BY '<newpassword>';
+> CREATE USER '<new-user>'@'<host>' IDENTIFIED BY '<newPassWord>';
 
 賦予讀取權限
 > GRANT ALL PRIVILEGES ON newdatabase.* TO '<new-user>'@'localhost';
-===============================================================
-docker-mysql
+```
+
+
+
+---
+## net-tools in docker
+docker內, 若無法使用網路服務, 安裝它吧
+
+- ifconfig
+bash: ifconfig: command not found
+
+- yum install net-tools
+
+- ifconfig
+-> success!
+
+
+
+---
+## docker-mysql
 https://severalnines.com/blog/mysql-docker-containers-understanding-basics
 
 1. docker-mysql
@@ -76,21 +157,8 @@ $ docker stop mysql-test
 將來再進去(Container要在, 只是還沒被啟動 docker ps -a要有)
 $ docker start <container's name>
 
-
-===============================================================
-net-tools in docker
-docker內, 若無法使用網路服務, 安裝它吧
-
-# ifconfig
-bash: ifconfig: command not found
-
-# yum install net-tools
-
-# ifconfig
--> success!
-
-===============================================================
-mongoDB in docker
+---
+## mongoDB in docker
 
 
 $ docker run --name mongo -it mongo /bin/bash
@@ -107,8 +175,8 @@ $ docker inspect <containerName> | grep IPAddress
 $ mongo --port <port> --host <ip>
 
 
-===============================================================
-install mongoDB 3.2 (只要改3.2為3.4, 也可裝3.4版)
+---
+## install mongoDB 3.2 (只要改3.2為3.4, 也可裝3.4版)
 http://blog.topspeedsnail.com/archives/6005
 
 $ sudo vim /etc/yum.repos.d/mongodb-org.repo
@@ -142,8 +210,8 @@ mongod   soft  nproc   64000
 $ systemctl restart mongod
 重啟後, 就不會有亂七八糟的警告訊息了
 
-===============================================================
-vs code
+---
+## vs code
 https://code.visualstudio.com/docs/setup/linux
 
 $ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -154,29 +222,29 @@ $ yum check-update
 
 $ sudo yum -y install code
 
-===============================================================
-jdk1.8
+---
+## jdk1.8
 徐老師的hadoop講義的安裝方式(下載java的rpm包來安裝)
 
-$ wget http://ftp.wsisiz.edu.pl/pub/pc/pozyteczne%20oprogramowanie/java/jdk-8u131-linux-x64.rpm
+手動到官方網站下載jdk(上課時徐老師給的載點掛掉了...2017/09/20)
 
-$ sudo rpm -ivh jdk-8u131-linux-x64.rpm
+$ sudo rpm -ivh jdk-8u144-linux-x64.rpm
 
-$ sudo ln -s /usr/java/jdk1.8.0_131/ /usr/java/java
+$ sudo ln -s /usr/java/jdk1.8.0_144/ /usr/java/java
 
-$ sudo vi /etc/profile
+$ sudo vi .bashrc
 export JAVA_HOME=/usr/java/java
 export JRE_HOME=$JAVA_HOME/jre
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib/rt.jar
-export PATH=$PATH:$JAVA_HOME/bin
+export PATH=$JAVA_HOME/bin:$PATH
 
 $ java -version
-java version "1.8.0_131"
-Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
-Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
+java version "1.8.0_144"
+Java(TM) SE Runtime Environment (build 1.8.0_144-b01)
+Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)
 
-===============================================================
-install Python
+---
+## install Python
 $ wget <python>
 
 $ tar xf <python>.tar.xz
@@ -197,8 +265,8 @@ $ export PYTHON_PIP_VERSION=9.0.1
 $ python3 /tmp/get-pip.py "pip==$PYTHON_PIP_VERSION"
 $ pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERSION"
 
-===============================================================
-install Anaconda (python3.6.1)
+---
+## install Anaconda (python3.6.1)
 https://www.continuum.io/downloads
 
 $ wget https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh
@@ -217,8 +285,8 @@ $ source .bashrc
 $ python --version
 Python 3.6.1 :: Anaconda 4.4.0 (64-bit)
 
-===============================================================
-install Redis
+---
+## install Redis
 https://redis.io/download
 
 $ wget http://download.redis.io/releases/redis-3.2.9.tar.gz
@@ -230,8 +298,8 @@ $ make
 terminal1 $ src/redis-server
 terminal2 $ src/redis-cli
 
-===============================================================
-install scala
+---
+## install scala
 
 1.到官方網站下載scala-SDK.xxx.tar.gz後
 
@@ -242,54 +310,94 @@ $ vi .bashrc
 export scala_HOME="/home/tony/scala-2.12.2"
 export PATH=$scala_HOME/bin:$PATH 
 
-===============================================================
-install git (CentOS7預設有git, 但是版本是1.8.x版)
-https://www.digitalocean.com/community/tutorials/how-to-install-git-on-centos-7#set-up-git
+---
+## Git (CentOS7預設有git, 但是版本是1.8.x版)
+- 2017/09/23
+- [How To Install Git on CentOS 7](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-centos-7)
+- 
 
-安裝相依性套件
+1. CentOS7原本就有Git, 但是版本老舊
+```
+$ git --version
+git version 1.8.3.1
+```
+
+2. 安裝相依性套件
+```
 $ sudo yum groupinstall "Development Tools"
-$ sudo yum install gettext-devel openssl-devel perl-CPAN perl-devel zlib-devel
+$ sudo yum install -y gettext-devel openssl-devel perl-CPAN perl-devel zlib-devel
+```
 
-到這邊 https://github.com/git/git/releases 可以看要下載的版本
-$ wget https://github.com/git/git/archive/v2.13.2.tar.gz -O git.tar.gz
+3. 決定要裝哪種版本
+
+    [查看想下載的版本](https://github.com/git/git/releases)
+
+4. 開始下載&&編譯 ( 以2.14.1版為例 )
+```
+$ wget https://github.com/git/git/archive/v2.14.1.tar.gz -O git.tar.gz
 
 $ tar -zxf git.tar.gz
 
-$ cd git-*
+$ cd cd git-2.14.1/
 
 $ make configure
+GIT_VERSION = 2.14.1
+    GEN configure
+```
 
+```
 說明文件中, 遺漏了重要的 "--with-curl"會導致無法上傳下載, 在此補上
-$ sudo yum install curl-devel
+
+$ sudo yum -y install curl-devel
+
 $ ./configure --prefix=/usr/local --with-curl
 
 $ sudo make install
 
+重新啟動terminal後
 $ git --version
 git version 2.13.2
-===============================================================
-PostgreSQL9.6
-https://www.postgresql.org/download/linux/redhat/
+```
 
-安裝Repo
+5. 安裝完後的疑問
+
+    原本的```git version 1.8.3.1```, 好像還沒被刪除耶...
+
+    改天再來找找它究竟被安裝在哪邊@___@
+
+
+---
+## PostgreSQL9.6 (安裝的不是很成功)
+- 2017/07/??
+- [PostgreSQL官方網站](https://www.postgresql.org/download/linux/redhat/)
+
+1. 安裝Repo
+```
 $ yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
 
-主程式
 $ sudo yum install -y postgresql96
 $ sudo yum install -y postgresql96-server
 
-啟動叢集
+```
+
+2. 啟動叢集
+```
 $ /usr/pgsql-9.6/bin/postgresql96-setup initdb
+```
 
-允許重開機後自動啟動服務
-$ systemctl enable postgresql-9.6.service
+3. 啟動服務
+```
+# systemctl enable postgresql-9.6
+# systemctl start postgresql-9.6
+# systemctl status postgresql-9.6.service
+```
 
-立即啟動服務
-$ systemctl start postgresql-9.6.service
-===============================================================
-安裝GeoDjango (非常大一包= =)(###失敗收場###)
-https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/
-
+---
+## GeoDjango (非常大一包.... __安裝失敗__)
+- 2017/07/??
+- [官方教學 - GeoDjango Installation]
+(https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/)
+```
 1.安裝python and Django
 2.安裝Spatial libraries
 3.安裝Geospatial database
@@ -339,9 +447,6 @@ $ make # Go get some coffee, this takes a while.
 $ sudo make install
 $ cd ..
 
-- 安裝PostgreSQL (底下是安裝9.2版, 2017/7, 最新版為9.6, 10.0beta出來了)
-===============================================================
-
 
 - 安裝PostGIS
 $ sudo yum -y install libxml2-devel
@@ -353,33 +458,10 @@ $ tar zxf postgis-2.3.4dev.tar.gz
 $ ./configure --with-pgconfig=/usr/pgsql-9.4/bin/pg_config
 
 
-
 登入PL-SQL
 $ sudo su - postgres / sudo -u postgres -i
+```
 
-
-
-===============================================================
-===============================================================
-sshd無法啟動的原因
-1.sshd未安裝
-2.sshd未啟動
-3.防火牆
-
-1.安裝sshd
-$ sudo yum -y install openssh-server
-$ service sshd restart
-
-2.檢查看看(應該要有下面兩個)
-$ ps -e | grep ssh
-xxxx ? 00:00:00 ssh-agent
-xxxx ? 00:00:00 sshd
-
-3.若出現下列狀況
-$ ssh localhost
-ssh: connect to host localhost port 22: Connection refused
-請先依照第2點的說明查看是否有啟動ssh-agent及sshd才可以ssh localhost,
-所以只要
-$ service sshd restart
-$ systemctl enable sshd(這個還不是非常確定是否可行)
+---
+最近更新日期 2017/09/23, by TonyCJ
 
