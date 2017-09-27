@@ -10,10 +10,19 @@ Command: gnome-terminal
 再點選所要設定的熱鍵
 ```
 
+## - chown
+```sh
+改變檔案的擁有者
+$ sudo chown <owner>:<group> <fileName>
+
+改變資料夾的擁有者
+$ sudo chown -R <owner>:<group> <dirName>
+```
+
 
 ---
 ## - ps相關指令
-```
+```sh
 僅列出與自己相關的bash相關程序
 $ ps
   PID TTY          TIME CMD
