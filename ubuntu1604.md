@@ -22,3 +22,23 @@ sudo service mysql stop
 sudo service mysql start
 
 ```
+
+---
+
+## MongoDB3.4
+[官方教學](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#install-mongodb-community-edition)
+
+安裝
+```sh
+1. 加入官方public key
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+
+2. 建立16.04版的list file (這啥鬼...)
+echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+
+3. update
+sudo apt-get update
+
+4. 安裝
+sudo sudo apt-get install -y mongodb
+```
