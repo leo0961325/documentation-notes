@@ -159,3 +159,9 @@
     $ git rebase master
     ```
 
+- 回到過去
+	強制移動master指向從HEAD往上數的第3個parent commit
+	```sh
+	$ git branch -f master HEAD~3
+	```
+
