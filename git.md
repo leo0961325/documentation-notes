@@ -6,59 +6,128 @@
 - [Git中文化電子書](https://git-scm.com/book/zh-tw/v2)
 - [Git視覺化遊戲](http://learngitbranching.js.org/)
 
----
+<br />
 
-## 概念
+
+
+# 示意圖
+
+## 狀態週期
+![GitCommit03](img/gitCommit03.jpg)
+
+## 遞交流程
+![GitFlow](img/gitFlow.jpg)
 
 1. 還沒經過add後 -> unstage
 2. 經過add但尚未commit -> stage
 
-===
+# 概念備註 
 
-## 設定指令
+origin | master
+--- | ---
+遠端repo的預設名稱 | 本地端分支的預設名稱
 
-- 設定commit訊息
-    ```sh
-    $ git config --global user.name "TonyCJ"
-    $ git config --global user.email "cool21540125@gmail.com"
-    $ git config --list
-        user.name=TonyCJ
-        user.email=cool21540125@gmail.com
-    ```
+## 層級
+層級 | 指令 | 說明
+--- | --- | ---
+儲存庫層級 |  | 只對目前的repo有效(default)
+使用者層級 | --global | 對目前使用者有效
+系統層級 | --system | 對所有使用者/儲存庫都有效
 
-- 設定指令別名(偷懶@@)
-    ```sh
-    $ git config --global alias.st status
-    $ git config --global alias.co commit
-    ```
+<br />
 
-- 忽略「空白」所造成的影響(ex:Ruby)
 
-    Git會主動忽略空白造成的影響
-    ```sh
-    $ git config --global apply.whitespace nowarn
-    ```
 
-- 增加Git輸出時的顏色
-    ```sh
-    $ git config --global color.ui true
-    ```
+# 設定指令
 
-- 遠端連線設定
-    Client端設定(windows)
-    ```sh
-    $ ssh-keygen -t rsa -C 'cool21540125@gmail.com'
-    ```
+## - 設定commit訊息
+### 標準指令
+```sh
+$ git config --global alias.st status
+$ git config --global alias.co commit
+```
 
-    Note: -C 是指讓識別碼以email為識別值, 而非預設的「帳號@遠端主機位址」
+### 範例
+```
+$ git config --global user.name "TonyCJ"
+$ git config --global user.email "cool21540125@gmail.com"
+$ git config --list
+    user.name=TonyCJ
+    user.email=cool21540125@gmail.com
+```
+---
 
-    (如果要設定git server, 繼續看下面...)
-    把剛剛產生的id_rsa.pub寄給git server管理者
-    ```sh
-    $ cd ~/.ssh
-    $ scp id_rsa.pub <遠端機器>:/tmp/id_rsa.user1.pub 
-    ```
-- Git環境 組態參數
+
+
+## - 設定指令別名
+### 標準指令
+```sh
+$ git config <層級> alias.<別名的名稱> '<你的git命令>'
+```
+
+### 範例
+```
+# 想在bash(純文字介面)底下看到log狀態, 可以打
+$ git log
+
+# 或者, 想要以樹狀結構看log, 可以打下面這這行...
+$ git log --graph --decorate --pretty=oneline --abbrev-commit
+
+# 因為實在太囉唆了, 把他設別名
+$ git config --global alias.tree 'log --graph --decorate --pretty=oneline --abbrev-commit'
+
+# 如此一來, git log樹狀結構便可以用簡短指令查看了
+$ git tree
+```
+---
+
+
+
+## - 忽略「空白」所造成的影響(ex:Ruby)
+### 標準指令
+    
+```sh
+# Git會主動忽略空白造成的影響
+$ git config --global apply.whitespace nowarn
+```
+
+
+---
+## - 增加Git輸出時的顏色
+### 標準指令
+```sh
+# git輸出的時候, 能有漂漂亮亮的顏色
+$ git config --global color.ui true
+```
+---
+
+
+
+## - 遠端連線設定
+
+### 標準指令
+```sh
+# Client端設定(windows)
+$ ssh-keygen -t rsa -C '<e-mail>'
+# -C 是指讓識別碼以email為識別值, 而非預設的「帳號@遠端主機位址」
+```
+
+### 範例
+```sh
+$ ssh-keygen -t rsa -C 'cool21540125@gmail.com'
+
+# 如果要設定git server, 繼續往下作...
+# 把剛剛產生的id_rsa.pub寄給git server管理者
+
+$ cd ~/.ssh
+$ scp id_rsa.pub <遠端機器>:/tmp/id_rsa.user1.pub 
+# 最後一行沒試過, 有待查證
+```
+---
+
+
+
+## - Git環境 組態參數
 
     組態檔可能存在於3個地方
 
@@ -66,8 +135,9 @@
     b. ~/.gitconfig、~/.config/git/config
     c. 專案裏頭的.git/config
 
---- 
-## 指令彙整
+## --- 
+
+# 指令彙整
 
 ```$ git config <para>```
 | para | 說明 |

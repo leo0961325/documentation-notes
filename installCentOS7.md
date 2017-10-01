@@ -41,24 +41,24 @@ gpgkey=https://dl.google.com/linux/linux_signing_key.pub
 - [Linux 技術手札](https://www.phpini.com/linux/rhel-centos-7-install-docker)
 
 1. 安裝Docker
-```
+```sh
 $ sudo yum -y update 
 $ sudo yum -y install docker docker-registry 
 ```
 
 2. 設定目前使用者, 對Docker具有Power User的權限
-```
+```sh
 $ cat /etc/group | grep docker
 dockerroot:x:983:
 
 $ sudo groupadd docker
-
 $ sudo usermod -aG docker $USERNAME
 
 $ cat /etc/group | grep docker
 dockerroot:x:983:
 docker:x:1001:tony                 <-已經讓目前的使用者加到docker的群組了
 ```
+
 3. 設定docker服務
 ```
 $ systemctl start docker           <-立刻啟用
@@ -76,7 +76,23 @@ $ docker --version
 Docker version 1.12.6, build c4618fb/1.12.6
 ```
 
+---
+## MySql 5.7 (有問題! 別用)
+[Linux 技術手札 - 安裝MySQL 5.7](https://www.phpini.com/linux/rhel-centos-fedora-install-mysql-5-7)
 
+1. 安裝MySQL
+```sh
+wget http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+sudo yum install -y mysql57-community-release-el7-7.noarch.rpm
+sudo yum install -y mysql-community-server
+```
+
+2. MySQL服務
+```sh
+systemctl status mysqld
+systemctl enable mysqld
+systemctl start mysqld
+```
 
 ---
 ## MySql 5.6
@@ -95,9 +111,9 @@ $ sudo yum -y install mysql-community-server
 
 3. 啟動MySQL服務
 ```
-# systemctl enable mysqld 
-# systemctl start mysqld 
-# systemctl status mysql.service 
+systemctl enable mysqld 
+systemctl start mysqld 
+systemctl status mysql.service 
 ```
 
 4. 其他備註
@@ -111,8 +127,6 @@ $ sudo yum -y install mysql-community-server
 賦予讀取權限
 > GRANT ALL PRIVILEGES ON newdatabase.* TO '<new-user>'@'localhost';
 ```
-
-
 
 ---
 ## net-tools in docker
@@ -130,32 +144,39 @@ bash: ifconfig: command not found
 
 ---
 ## docker-mysql
-https://severalnines.com/blog/mysql-docker-containers-understanding-basics
+- 2017/10/01
+- 前提, 已經下載並安裝好
+	1. Docker
+	2. MySQL
 
-1. docker-mysql
-$ docker pull mysql
+[Severalnines Blog - MySQL Docker Container](https://severalnines.com/blog/mysql-docker-containers-understanding-basics)
 
-本地端要先有mysql-client才能登入
-$ sudo yum install -y mysql
 
-docker image 建立 container (背景執行)
-$ docker run -d --name=<container's name> --env="MYSQL_ROOT_PASSWORD=<password>" mysql 
+1. 下載及安裝MySQL image, 建立Container, 設定root密碼
+```sh
+$ docker run -d --name=<containerName> --env="MYSQL_ROOT_PASSWORD=<password>" mysql 
+```
 
-看mysql啟動的Log
-$ docker logs test-mysql
+2. 看mysql啟動的Log
+```sh
+$ docker logs <containerName>
+```
 
-可以直接取得每次啟動的docker ip
-$ docker inspect test-mysql | grep IPAddress
+3. 取得每次啟動的docker ip
+```sh
+$ docker inspect <containerName> | grep IPAddress
+```
 
-連進去Container囉!!
+4. 連進去Container囉!!
+```sh
 $ mysql -u <user> -p <password> -h <ip> -P <port>
+```
 
-來開時
-> exit
-$ docker stop mysql-test
+5. 關閉MySQL Container
+$ docker stop <containerName>
 
-將來再進去(Container要在, 只是還沒被啟動 docker ps -a要有)
-$ docker start <container's name>
+6. 將來再進去(Container要在, 只是還沒被啟動 docker ps -a要有)
+$ docker start <containerName>
 
 ---
 ## mongoDB in docker
@@ -271,13 +292,13 @@ https://www.continuum.io/downloads
 
 $ wget https://repo.continuum.io/archive/Anaconda3-4.4.0-Linux-x86_64.sh
 
-$ bash ./Anaconda3-4.4.0-Linux-x86_64.sh
+$ su bash ./Anaconda3-4.4.0-Linux-x86_64.sh
 
 $ cd 
 
 加入環境變數
 $ vi .bashrc
-export anaconda_HOME="/home/tony/anaconda3/"
+export anaconda_HOME="/opt/anaconda3/"
 export PATH=$anaconda_HOME/bin:$PATH
 
 $ source .bashrc
@@ -338,7 +359,7 @@ $ wget https://github.com/git/git/archive/v2.14.1.tar.gz -O git.tar.gz
 
 $ tar -zxf git.tar.gz
 
-$ cd cd git-2.14.1/
+$ cd git-2.14.1/
 
 $ make configure
 GIT_VERSION = 2.14.1
