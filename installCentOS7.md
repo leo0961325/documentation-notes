@@ -209,7 +209,7 @@ enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-3.2.asc
 
 
-$ sudo yum install mongodb-org
+$ sudo yum install -y mongodb-org
 
 啟動mongoDB
 $ systemctl start mongod.service
@@ -412,6 +412,21 @@ $ /usr/pgsql-9.6/bin/postgresql96-setup initdb
 # systemctl start postgresql-9.6
 # systemctl status postgresql-9.6.service
 ```
+
+---
+## install VLC
+- 2017/11/26
+> 看影片用
+[How To Install VLC On CentOS 7](https://www.unixmen.com/install-vlc-centos-7/)
+
+```sh
+sudo rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
+
+sudo yum install vlc
+```
+
+
+
 
 ---
 ## GeoDjango (非常大一包.... __安裝失敗__)

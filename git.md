@@ -100,8 +100,16 @@ $ git config --global apply.whitespace nowarn
 $ git config --global color.ui true
 ```
 ---
+## 分支
 
+-f 選項直接讓分支指向另一個 commit
 
+```sh
+git branch -f master HEAD~3
+
+```
+
+---
 
 ## - 遠端連線設定
 
@@ -123,6 +131,10 @@ $ cd ~/.ssh
 $ scp id_rsa.pub <遠端機器>:/tmp/id_rsa.user1.pub 
 # 最後一行沒試過, 有待查證
 ```
+
+---
+
+
 ---
 
 
