@@ -1,7 +1,47 @@
-# Linux相關指令
+# Linux
+- 相關指令
+- 知識概念備註
+
+
+---
+## EPEL
+> [What is EPEL](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
+
+Extra Packages for Enterprise Linux
+
+Linux在安裝許多軟體的時候(ex: yum), 會有軟體相依行的問題, 若發現相依軟體尚未被安裝, yum會自己去 repository裡頭有記載遠端 repo去下載, 而 EPEL就是專門 for CentOS的套件庫, 裡頭有許多CentOS的核心套件.
 
 
 
+---
+## 解除yum lock
+
+1. 底下這邊不是程式碼, 是說明情境
+```
+$ sudo yum install -y mongodb-org
+Loaded plugins: fastestmirror, langpacks
+Existing lock /var/run/yum.pid: another copy is running as pid 7629.
+Another app is currently holding the yum lock; waiting for it to exit...
+  The other application is: PackageKit
+    Memory : 300 M RSS (1.7 GB VSZ)
+    Started: Sun Nov 26 13:05:36 2017 - 00:19 ago
+    State  : Running, pid: 7629
+Another app is currently holding the yum lock; waiting for it to exit...
+  The other application is: PackageKit
+    Memory : 353 M RSS (1.7 GB VSZ)
+    Started: Sun Nov 26 13:05:36 2017 - 00:21 ago
+    State  : Running, pid: 7629
+...
+```
+
+2. 如何解決
+```
+
+```
+
+
+
+---
 ## - 設定terminal的熱鍵
 ```
 畫面右上角功能表 > 設定 > 鍵盤 > 快捷鍵 > 自訂捷徑列 > +
@@ -15,7 +55,7 @@ Command: gnome-terminal
 改變檔案的擁有者
 $ sudo chown <owner>:<group> <fileName>
 
-改變資料夾的擁有者
+改變資料夾的擁有者(及裡頭的東西)
 $ sudo chown -R <owner>:<group> <dirName>
 ```
 
