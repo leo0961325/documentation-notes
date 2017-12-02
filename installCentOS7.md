@@ -432,6 +432,25 @@ Try `vlc --help' for more information
 
 
 
+---
+## 7zip
+- 2017/11/26
+> [e Learning](http://elearning.wsldp.com/pcmagazine/extract-7zip-centos-7/)
+
+1. Dependancy && Install
+```
+$ sudo yum install -y epel-release
+
+$ sudo yum install -y p7zip
+```
+
+2. Unzip
+```
+$ 7za x <fileName>
+<password>
+```
+
+
 
 ---
 ## install scala (不完整)
