@@ -4,12 +4,12 @@
 
 
 ---
-## EPEL
+## EPEL (有一點點非常重要阿~~~)
 > [What is EPEL](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
 
 Extra Packages for Enterprise Linux
 
-Linux在安裝許多軟體的時候(ex: yum), 會有軟體相依行的問題, 若發現相依軟體尚未被安裝, yum會自己去 repository裡頭有記載遠端 repo去下載, 而 EPEL就是專門 for CentOS的套件庫, 裡頭有許多CentOS的核心套件.
+Linux在安裝許多軟體的時候(ex: yum install ...), 會有軟體相依性的問題, 若發現相依軟體尚未被安裝, yum會自己去`本地 repository`裡頭找有記載的`遠端 repository`去下載相依套件. 而 EPEL就是專門 for CentOS的套件庫, 裡頭有許多CentOS的核心套件.
 
 
 
@@ -50,6 +50,28 @@ Command: gnome-terminal
 再點選所要設定的熱鍵
 ```
 
+## - shebang on Linux
+[run python script directly from command line](https://stackoverflow.com/questions/20318158/run-python-script-directly-from-command-line)
+> Linux系統底下, 可在任何.py檔的第一行使用 `#!/usr/bin/python` ( 依照使用的 python位置而定 ), 執行此腳本時, 可以藉由下列方式來執行.
+```sh
+$ python pp.py
+$ ./pp.py
+```
+
+> 若出現 `Permission denyed`, 則要改變執行者對此檔案的權限
+```sh
+$ ll
+-rw-rw-r--. 1 ...(略)... pp.py
+
+$ chmod u+x pp.py
+$ ll
+drwxrwxr-x. 1 ...(略)... pp.py
+```
+
+> windows系統下, 若要使用同 shebang的功能, 再去google `cygwin`.
+
+
+
 ## - chown
 ```sh
 改變檔案的擁有者
@@ -59,6 +81,12 @@ $ sudo chown <owner>:<group> <fileName>
 $ sudo chown -R <owner>:<group> <dirName>
 ```
 
+## -chmod
+
+```sh
+讓 pp.py可以被擁有者執行
+$ chmod u+x pp.py
+```
 
 ---
 ## - ps相關指令
