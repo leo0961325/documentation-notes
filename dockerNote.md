@@ -1,7 +1,7 @@
 
 # Docker 筆記
 
-- [2017/12/07進度](https://docs.docker.com/get-started/part2/#share-your-image)
+- [2017/12/08進度](https://docs.docker.com/get-started/part3/)
 
 
 ```sh
@@ -12,7 +12,7 @@ Docker version 17.09.0-ce, build afdb6d4
 參考如下
 - [官方網站 Docker reference](https://docs.docker.com/engine/reference/builder/)
 - [Git Book - 從入門到實踐](https://philipzheng.gitbooks.io/docker_practice/content/)
-
+- [全面易懂的Docker指令大全](https://www.gitbook.com/book/joshhu/dockercommands/details)
 
 
 # 1. Docker Command
@@ -25,6 +25,7 @@ pull | 下載某個repo的image
 ## 結尾
 語法 | 說明
 --- | --- 
+-a | 包含**執行中** && **非執行中**的 container
 -t | 別名 
 -d | 背景執行
 
@@ -75,6 +76,14 @@ hello-world         latest              f2a91732366c        2 weeks ago         
 python              2.7-slim            b0259cf63993        4 weeks ago         138MB
 ```
 
+### 刪除所有
+
+```sh
+$ docker container rm $(docker container ls -a -q) # 刪除所有 container
+
+$ docker image rm $(docker image ls -a -q) # 刪除所有 images
+```
+
 ### 使用 Docker image 建立並執行 Container
 
 ```sh
@@ -96,6 +105,56 @@ $ docker container ls
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                  NAMES
 9d0c3e3c8c28        friendlyhello       "python app.py"     6 minutes ago       Up 6 minutes        0.0.0.0:4000->80/tcp   elated_meitner
 ```
+
+### docker login
+```sh
+$ docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: cool21540125
+Password: 
+Login success
+```
+
+### docker tag ( 必先 docker login )
+> 語法: `docker tag image <使用者名稱>/<repo名字>:<tag>`
+
+> 如果此 image打算上傳到dockerHub, 則`<使用者名稱>`必輸使用 `login的 username`
+```sh
+$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+friendlyhello       latest              7aab4420b729        24 hours ago        148MB
+python              2.7-slim            b0259cf63993        4 weeks ago         138MB
+
+$ docker tag friendlyhello cool21540125/firstrepo:1.0 # 把其中一個 image增加 tag
+
+$ docker images
+REPOSITORY                    TAG                 IMAGE ID            CREATED             SIZE
+cool21540125/firstrepo        1.0                 7aab4420b729        24 hours ago        148MB
+friendlyhello                 latest              7aab4420b729        24 hours ago        148MB
+python                        2.7-slim            b0259cf63993        4 weeks ago         138MB
+```
+
+### docker push ( 必先 docker tag )
+
+```sh
+$ docker push cool21540125/firstrepo:1.0       # 開始進入漫長的上傳...
+The push refers to a repository [docker.io/cool21540125/firstrepo]
+a6c3a2a51e62: Pushing [=====>                                             ]  1.094MB/9.946MB
+7929c66d0dcb: Pushing [==================================================>]  5.632kB
+582f8397321c: Pushing  1.536kB
+c07634f99a74: Pushing [====>                                              ]  626.7kB/6.5MB
+76b9dc677e20: Pushing [=>                                                 ]  967.7kB/45.88MB
+b7aadc98f208: Waiting
+29d71372a492: Waiting
+```
+
+### docker pull
+
+```sh
+
+```
+
+
 
 
 # 2. Dockerfile
@@ -149,6 +208,8 @@ CMD ["python", "app.py"]
 
 # 4. 備註
 
+> 如果在 `run`和`build` images的時候, 沒有明確指名 `tag`, 則會視為`latest`
+
 ```
 1. --links
 可以讓本地端與Container內作安全的傳輸
@@ -164,3 +225,6 @@ $ sudo docker run -d -P --name web --link db:db training/webapp python app.py
 ```cmd
 > docker container stop <Container NAME or ID>
 ```
+
+## 名詞
+> Docker Trusted Registry, 此為 Docker私有雲服務, 簡稱 DTR.
