@@ -134,18 +134,19 @@ friendlyhello                 latest              7aab4420b729        24 hours a
 python                        2.7-slim            b0259cf63993        4 weeks ago         138MB
 ```
 
-### docker push ( 必先 docker tag )
+### docker push ( 建議先 docker tag )
 
 ```sh
 $ docker push cool21540125/firstrepo:1.0       # 開始進入漫長的上傳...
 The push refers to a repository [docker.io/cool21540125/firstrepo]
-a6c3a2a51e62: Pushing [=====>                                             ]  1.094MB/9.946MB
-7929c66d0dcb: Pushing [==================================================>]  5.632kB
-582f8397321c: Pushing  1.536kB
-c07634f99a74: Pushing [====>                                              ]  626.7kB/6.5MB
-76b9dc677e20: Pushing [=>                                                 ]  967.7kB/45.88MB
-b7aadc98f208: Waiting
-29d71372a492: Waiting
+a6c3a2a51e62: Pushed
+7929c66d0dcb: Pushed
+582f8397321c: Pushed
+c07634f99a74: Pushed
+76b9dc677e20: Pushed
+b7aadc98f208: Pushed
+29d71372a492: Pushed
+1.0: digest: sha256:657a118e922ab870421cefda27e72f459a7ce6fa476bc140d56f5c5899c8f269 size: 1787
 ```
 
 ### docker pull

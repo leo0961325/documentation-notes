@@ -88,6 +88,13 @@ $ sudo chown -R <owner>:<group> <dirName>
 $ chmod u+x pp.py
 ```
 
+## -shutdown
+```sh
+$ sudo shutdown -h +10 # 10分鐘後關機
+
+$ sudo shutdown -r +15 # 15分鐘後重新開機
+```
+
 ---
 ## - ps相關指令
 ```sh
