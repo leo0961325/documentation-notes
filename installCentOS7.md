@@ -432,6 +432,19 @@ Try `vlc --help' for more information
 
 
 
+## teamviewer
+- 2017/12/09
+
+> [How to Install TeamViewer on CentOS 7 / RHEL 7](http://www.itzgeek.com/how-tos/linux/centos-how-tos/how-to-install-teamviewer-on-centos-7-rhel-7.html)
+```
+$ sudo yum -y install glibc alsa-lib freetype libICE libSM libX11 libXau libXdamage libXext libXfixes libXi libXrandr libXrender libXtst libgcc libuuid libxcb zlib
+
+$ # 手動到官網下載 rpm
+
+$ yum -y install teamviewer_13.0.5693.x86_64.rpm
+```
+
+
 ---
 ## 7zip
 - 2017/11/26

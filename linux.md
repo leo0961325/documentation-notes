@@ -4,7 +4,7 @@
 
 
 ---
-## EPEL (有一點點非常重要阿~~~)
+## EPEL (非常重要阿~~~)
 > [What is EPEL](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
 
 Extra Packages for Enterprise Linux
@@ -12,6 +12,38 @@ Extra Packages for Enterprise Linux
 Linux在安裝許多軟體的時候(ex: yum install ...), 會有軟體相依性的問題, 若發現相依軟體尚未被安裝, yum會自己去`本地 repository`裡頭找有記載的`遠端 repository`去下載相依套件. 而 EPEL就是專門 for CentOS的套件庫, 裡頭有許多CentOS的核心套件.
 
 
+
+---
+
+
+
+## Linux的軟體管理員
+
+### rpm vs dpkg
+distribution 代表 | 軟體管理機制 | 使用指令 | 線上升級機制(指令)
+--- | --- | --- | ---
+Red Hat/Fedora | RPM | rpm, rpmbuild | YUM (yum)
+Debian/Ubuntu | DPKG | dpkg | APT (apt-get)
+
+
+### rpm vs srpm
+檔案格式 | 檔名格式 | 直接安裝與否 | 內含程式類型 | 可否修改參數並編譯
+--- | --- | --- | --- | ---
+RPM | xxx.rpm | 可 | 已編譯 | 不可
+SRPM | xxx.src.rpm | 不可 | 未編譯之原始碼 | 可
+
+### 指令差異
+指令 | 說明
+--- | ---
+-Uvh | 後面接的軟體即使沒有安裝過，則系統將予以直接安裝；<br />若後面接的軟體有安裝過舊版，則系統自動更新至新版；
+-Fvh | 如果後面接的軟體並未安裝到你的 Linux 系統上，則該軟體不會被安裝；<br />亦即只有已安裝至你 Linux 系統內的軟體會被『升級』！
+
+```
+$ rpm -ivh xxx.rpm
+-i ：install 的意思
+-v ：察看更細部的安裝資訊畫面
+-h ：以安裝資訊列顯示安裝進度
+```
 
 ---
 ## 解除yum lock
@@ -38,6 +70,7 @@ Another app is currently holding the yum lock; waiting for it to exit...
 ```
 
 ```
+
 
 
 
@@ -125,15 +158,15 @@ $ ps aux
 
 | top後操作指令 | 說明 |
 | --- | --- |
-| h	| Help |
-| P	| 依據CPU使用時間排序 |
-| M	| 依據記憶體使用量排序 |
-| T	| 依據執行時間排序 |
-| N	| 依據PID大小排序 |
-| u	| 只列出該帳號的程序 |
-| k	| 刪除 |
-| d	| 更新秒數 |
-| q	| 離開 |
+| h | Help |
+| P | 依據CPU使用時間排序 |
+| M | 依據記憶體使用量排序 |
+| T | 依據執行時間排序 |
+| N | 依據PID大小排序 |
+| u | 只列出該帳號的程序 |
+| k | 刪除 |
+| d | 更新秒數 |
+| q | 離開 |
 
 
 
@@ -156,7 +189,7 @@ $ systemctl disable <service>
 ## - kill 殺程序
 ```
 點選視窗後,就可以把相關程序殺掉
-$ xkill			
+$ xkill   
 
 殺掉8888的程序
 $ kill 8888
@@ -242,4 +275,4 @@ $ systemctl enable sshd(這個還不是非常確定是否可行)
 ```
 
 ---
-最近更新日期 2017/09/23, by TonyCJ
+
