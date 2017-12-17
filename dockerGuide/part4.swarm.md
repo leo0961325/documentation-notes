@@ -124,7 +124,7 @@ d0z2empg8l9mgwp4tj9zea3ba     myvm2       Ready       Active
 > 語法: `docker-machine env <VM Name>`, 取得 < VM Name> 的組態命令
 
 ```sh
-# 取得 myvm1的組態指令
+# 取得「讓 shell配置為與 myvm1溝通的狀態」的命令
 $ docker-machine env myvm1
 export DOCKER_TLS_VERIFY="1"
 export DOCKER_HOST="tcp://192.168.99.100:2376"
@@ -133,9 +133,17 @@ export DOCKER_MACHINE_NAME="myvm1"
 # Run this command to configure your shell:
 # eval $(docker-machine env myvm1)
 
-# 下這行指令完後, 以後下的 Bash Script都是針對此 docker VM
-$ eval $(docker-machine env myvm1)
+# 使用前
+$ docker-machine ls
+NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+myvm1   -        virtualbox   Running   tcp://192.168.99.100:2376           v17.09.1-ce
+myvm2   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.09.1-ce
 
+# 執行此後, 表示已將 shell配置為可與 myvm1溝通的狀態了
+$ eval $(docker-machine env myvm1)
+# 離開的話使用 eval $(docker-machine env -u)
+
+#使用後
 $ docker-machine ls
 NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
 myvm1   *        virtualbox   Running   tcp://192.168.99.100:2376           v17.09.1-ce
@@ -143,7 +151,14 @@ myvm2   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.
 # *為下此指令的機器
 ```
 
-[2017/12/17進度到這](https://docs.docker.com/get-started/part4/#deploy-the-app-on-the-swarm-manager)
+### Deploy the app on the swarm manager
+
+```sh
+# 在 Swarm Manager內, 使用本地已配置好的 compose.yml來套用至 cluster
+$ docker stack deploy -c docker-compose.yml getstartedlab
+
+
+```
 
 
 
@@ -154,16 +169,19 @@ myvm2   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.
 指令備註
 
 ```sh
-$ docker-machine create --driver virtualbox <Machine Name>      # 建立 docker VM
+$ docker-machine create --driver virtualbox <Machine Name>        # 建立 docker VM
 
-$ docker-machine ls                                             # 列出所有 docker VM及其相關資訊
+$ docker-machine ls                                              # 列出所有 docker VM及其相關資訊
 
-$ docker-machine rm <VM Name>                                   # 移除 docker VM
+$ docker-machine ssh <VM Name> "<指令>"                           # 指定<VM Name>, 執行<指令>
+$ docker-machine ssh <VM Name> "docker node ls"                   # 查看<VM Name>這台Swarm Manager裡的 Swarm Nodes
 
-$ docker-machine ssh <VM Name> "docker node ls"                 # 查看<VM Name>這台Swarm Manager裡的 Swarm Nodes
+$ docker-machine start <VM Name>                                  # 啟動 stopping的 VM
+$ docker-machine rm <VM Name>                                     # 移除 docker VM
+$ docker-machine stop $(docker-machine ls -q)                      # 停止所有 running的 VMs
+$ docker-machine rm $(docker-machine ls -q)                       # 關閉所有 VMs
 
-$ docker-machine ssh <VM Name> "<指令>"                         # 指定<VM Name>, 執行<指令>
-
-$ docker-machine env <VM Name>                                  # 
+$ eval $(docker-machine env <要進入命令環境的 docker VM Name>)      # 進入 docker VM命令環境
+$ eval $(docker-machine env -u)                                   # 離開 docker VM命令環境
 
 ```

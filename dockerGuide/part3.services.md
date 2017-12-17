@@ -126,8 +126,8 @@ $ curl -4 http://localhost
 
 指令備註
 ```sh
-$ docker stack ls                               # 列出 所有的 stack or app
-$ docker service ls                             # 列出 所有執行中的 stack or app
+$ docker stack ls                               # 列出 所有的 stack or app(Swarm Manager的指令)
+$ docker service ls                             # 列出 所有執行中的 stack or app(Swarm Manager的指令)
 
 $ docker service ps <Service ID>                # 例出 某個服務底下的 tasks
 
