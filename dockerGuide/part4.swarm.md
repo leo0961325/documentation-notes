@@ -1,6 +1,5 @@
-# Part4 - Swarms
-- [Swarms](https://docs.docker.com/get-started/part4/)
-- 2017/12/16
+# [Part4 - Swarms](https://docs.docker.com/get-started/part4/)
+- 2017/12/29
 
 ##### 1. Orientation 
 ##### 2. Containers 
@@ -10,6 +9,16 @@
 ##### 6. Deploy your app
 
 ---
+
+### Prerequest:
+- 安裝好 Docker
+- 安裝好 Docker Compose
+- 安裝好 Docker Machine
+- 以讀完 part1~part3
+- 如 part2, 已經建立好 Docker image - friendlyhello, 且以上傳到 Registry
+- 如 part2, 正在執行剛建好的 Container, 執行指令備註: `docker run -p 80:80 cool21540125/firstrepo:1.0`
+- 如 part3, 已經建立好 docker-compose.yml
+
 
 本章, 要開始談 Service這鬼東西, 另外會舉例用 docker實作 load-balance
 
@@ -120,7 +129,7 @@ d0z2empg8l9mgwp4tj9zea3ba     myvm2       Ready       Active
 
 `docker-machine ssh <VM Name>` `"<寫死的指令字串>"`
 
-有點不方便, 而我們可以利用另一種方法來對 swarm下指令!!
+有點不方便, 而我們可以利用另一種方法來對 swarm下指令!! (這裡看不太懂阿@@~~~)
 > 語法: `docker-machine env <VM Name>`, 取得 < VM Name> 的組態命令
 
 ```sh
@@ -143,21 +152,41 @@ myvm2   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.
 $ eval $(docker-machine env myvm1)
 # 離開的話使用 eval $(docker-machine env -u)
 
-#使用後
+# 此時, 已經進入 myvm1這台虛擬機的 shell操作環境了
 $ docker-machine ls
 NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
 myvm1   *        virtualbox   Running   tcp://192.168.99.100:2376           v17.09.1-ce
 myvm2   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.09.1-ce
-# *為下此指令的機器
+# *為下此指令的機器, 同時也是 swarm manager
 ```
 
 ### Deploy the app on the swarm manager
 
 ```sh
-# 在 Swarm Manager內, 使用本地已配置好的 compose.yml來套用至 cluster
+# 接續上步, 在 Swarm Manager內, 使用本地已配置好的 compose.yml來套用至 在 VM內部署 cluster
 $ docker stack deploy -c docker-compose.yml getstartedlab
+Creating network getstartedlab_webnet
+Creating service getstartedlab_web
+# 依照先前在本地端定義好的 yml, 於 myvm1及 myvm2內, 建立服務
 
+$ docker-machine ssh myvm1 'docker container ls'
+CONTAINER ID    IMAGE                        COMMAND           CREATED          STATUS           PORTS     NAMES
+5595ad860113    cool21540125/firstrepo:1.0   "python app.py"   10 minutes ago   Up 10 minutes    80/tcp    getstartedlab_web.2.qf...(略)...h4h
+0e204d428004    cool21540125/firstrepo:1.0   "python app.py"   10 minutes ago   Up 10 minutes    80/tcp    getstartedlab_web.4.hp...(略)...al3
+d97d17dcb83b    cool21540125/firstrepo:1.0   "python app.py"   10 minutes ago   Up 10 minutes    80/tcp    getstartedlab_web.5.70...(略)...ewc
 
+$ docker-machine ssh myvm2 'docker container ls'
+CONTAINER ID    IMAGE                        COMMAND           CREATED          STATUS           PORTS     NAMES
+4a29169e783e    cool21540125/firstrepo:1.0   "python app.py"   10 minutes ago   Up 10 minutes    80/tcp    getstartedlab_web.3.1n...(略)...7ah
+89829c936d16    cool21540125/firstrepo:1.0   "python app.py"   10 minutes ago   Up 10 minutes    80/tcp    getstartedlab_web.1.wl...(略)...loc
+# 可以很清楚的看出來, 我們把服務部屬到2台 VM內了, 且這些 VM分別做好 load-balance
+
+$ docker-machine ls
+NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+myvm1   *        virtualbox   Running   tcp://192.168.99.100:2376           v17.09.1-ce
+myvm2   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.09.1-ce
+# 我們可以在本地端, 打開瀏覽器, 只要輸入「192.168.99.100」or「192.168.99.101」, 就可以看到網頁囉~~
+# 為什麼不用打 port呢? 因為 port已經榜定 80:80了
 ```
 
 
@@ -166,22 +195,65 @@ $ docker stack deploy -c docker-compose.yml getstartedlab
 
 ---
 
+目前在不同 VM內做好了 load-balance, 如果其中一台 VM離開 swarm呢?
+```sh
+$ docker-machine ssh myvm2 "docker swarm leave"
+Node left the swarm.
+# 告知 myvm2已經離開 swarm
+
+$ docker-machine ls
+NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+myvm1   *        virtualbox   Running   tcp://192.168.99.100:2376           v17.09.1-ce
+myvm2   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.09.1-ce
+# 在複習一下, 這個指令試看 VM的啟動狀況, 和 swarm沒有關係!
+
+$ docker-machine ssh myvm2 'docker container ls'
+CONTAINER ID   IMAGE                        COMMAND           CREATED          STATUS          PORTS    NAMES
+# myvm2已經離開 swarm了, 理當裡頭沒有"任何的(也沒有未啟動的)" container
+
+$ docker-machine ssh myvm1 'docker container ls'
+CONTAINER ID   IMAGE                        COMMAND           CREATED          STATUS          PORTS    NAMES
+d3c4a64c630b   cool21540125/firstrepo:1.0   "python app.py"   15 seconds ago   Up 6 seconds    80/tcp   getstartedlab_web.3.bd...(略)...sq0
+614e0883ebe4   cool21540125/firstrepo:1.0   "python app.py"   15 seconds ago   Up 6 seconds    80/tcp   getstartedlab_web.1.tb...(略)...lch
+5595ad860113   cool21540125/firstrepo:1.0   "python app.py"   23 minutes ago   Up 23 minutes   80/tcp   getstartedlab_web.2.qf...(略)...h4h
+0e204d428004   cool21540125/firstrepo:1.0   "python app.py"   23 minutes ago   Up 23 minutes   80/tcp   getstartedlab_web.4.hp...(略)...al3
+d97d17dcb83b   cool21540125/firstrepo:1.0   "python app.py"   23 minutes ago   Up 23 minutes   80/tcp   getstartedlab_web.5.70...(略)...ewc
+# 神奇的是發生了!! 模擬 swarm cluster中, 有機器掛掉之後, 服務會自己把 container維持在一開始 yml檔定好的數量
+
+# 接著, 再把剛剛脫離 swarm的 node加進來
+$ docker-machine ssh myvm1 'docker swarm join-token manager'
+To add a manager to this swarm, run the following command:
+    docker swarm join --token SWMTKN-1-3x34nxl3s7ljrq8z30ppgfdf5kzjowuq5u696gsqlb9ya3bce0-7owodb8nv75ob3m7d0qrhfdjl 192.168.99.100:2377
+
+$ docker-machine ssh myvm2 'docker swarm join --token SWMTKN-1-3x34nxl3s7ljrq8z30ppgfdf5kzjowuq5u696gsqlb9ya3bce0-7owodb8nv75ob3m7d0qrhfdjl 192.168.99.100:2377'
+This node joined a swarm as a manager.
+
+$ 
+```
+
 指令備註
 
 ```sh
 $ docker-machine create --driver virtualbox <Machine Name>        # 建立 docker VM
 
-$ docker-machine ls                                              # 列出所有 docker VM及其相關資訊
+$ docker-machine ls                                                         # 列出所有 docker VM及其相關資訊
+           
+$ docker-machine scp <file> <machine>:~                                     # 可跨 VM之間傳輸檔案
+           
+$ docker-machine ssh <VM Name> "<指令>"                                     # 指定<VM Name>, 執行<指令>
+$ docker-machine ssh <VM Name> "docker node ls"                             # 查看<VM Name>這台Swarm Manager裡的 Swarm Nodes
+           
+$ docker-machine start <VM Name>                                            # 啟動 stopping的 VM
+$ docker-machine rm <VM Name>                                               # 移除 docker VM
+$ docker-machine stop $(docker-machine ls -q)                               # 停止所有 running的 VMs
+$ docker-machine rm $(docker-machine ls -q)                                 # 關閉所有 VMs
+           
+$ docker-machine ssh <Swarm Worker> "docker swarm leave"                    # Swarm Worker自行離開 swarm
+$ docker-machine ssh <Swarm Manager> "docker swarm leave --force"           # Swarm Manager解散 Swarm Cluster
 
-$ docker-machine ssh <VM Name> "<指令>"                           # 指定<VM Name>, 執行<指令>
-$ docker-machine ssh <VM Name> "docker node ls"                   # 查看<VM Name>這台Swarm Manager裡的 Swarm Nodes
 
-$ docker-machine start <VM Name>                                  # 啟動 stopping的 VM
-$ docker-machine rm <VM Name>                                     # 移除 docker VM
-$ docker-machine stop $(docker-machine ls -q)                      # 停止所有 running的 VMs
-$ docker-machine rm $(docker-machine ls -q)                       # 關閉所有 VMs
+$ eval $(docker-machine env <要進入命令環境的 docker VM Name>)              # 進入 docker VM命令環境
+$ eval $(docker-machine env -u)                                             # 離開 docker VM命令環境
 
-$ eval $(docker-machine env <要進入命令環境的 docker VM Name>)      # 進入 docker VM命令環境
-$ eval $(docker-machine env -u)                                   # 離開 docker VM命令環境
-
+$ eval $(docker-machine env -u)                                           # 解除 docker-machine env
 ```
