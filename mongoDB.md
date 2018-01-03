@@ -153,9 +153,8 @@ qry = db.logmsg.find({host: host._id}).toArray();
 ### Two-Way Referencing
 兩邊資料都剖大, 有可能雙向查找
 
-> 優點: 查找容易
-
-> 缺點: 更新時, 需要一次更新兩個地方, `必須手動同步關聯狀態`.
+> 優點: 查找容易<br />
+  缺點: 更新時, 需要一次更新兩個地方, `必須手動同步關聯狀態`.
 ```js
 // 模擬資料 使用者 對應 工單
 db.person.insertOne({_id:"ObjectID('AAF1')",name:"KateMonster",tasks:["ObjectID('ADF9')","ObjectID('AE02')","ObjectID('AE73')"]})
@@ -176,3 +175,46 @@ part_ids = product.parts.map( function(doc) { return doc.id } );
 product_parts = db.parts.find({_id: { $in : part_ids } } ).toArray();
 ```
 
+### aggregate + update
+- [Aggregation with update in mongoDB](https://stackoverflow.com/questions/19384871/aggregation-with-update-in-mongodb)
+- 2017/12/13
+
+```js
+// 1. 
+> db.agg.insertMany([{ 
+    "_id": ObjectId("525c22348771ebd7b179add8"), 
+    "cust_id": "A1234", 
+    "score": 500, 
+    "status": "A",
+    "clear": "No"
+},{ 
+    "_id": ObjectId("525c22348771ebd7b179add9"), 
+    "cust_id": "A1234", 
+    "score": 1600, 
+    "status": "B",
+    "clear": "No"
+}]);
+
+// 2.
+> db.agg.find();
+{ "_id" : ObjectId("525c22348771ebd7b179add8"), "cust_id" : "A1234", "score" : 500, "status" : "A", "clear" : "No" }
+{ "_id" : ObjectId("525c22348771ebd7b179add9"), "cust_id" : "A1234", "score" : 1600, "status" : "B", "clear" : "No" }
+
+// 3a.
+var gg = db.agg.aggregate([
+    {'$match': { '$or': [{'status': 'A'}, {'status': 'B'}]}},
+    {'$group': {'_id': '$cust_id', 'total': {'$sum': '$score'}}},
+    {'$match': {'total': {'$gt': 2000}}}
+]);
+
+// 3b.
+gg.forEach(function(x) {
+        db.agg.update({'cust_id': x._id}, {'$set': {'clear': 'YES'}}, {'multi': true});
+    }
+);
+
+// result
+> db.agg.find();
+{ "_id" : ObjectId("525c22348771ebd7b179add8"), "cust_id" : "A1234", "score" : 500, "status" : "A", "clear" : "YES" }
+{ "_id" : ObjectId("525c22348771ebd7b179add9"), "cust_id" : "A1234", "score" : 1600, "status" : "B", "clear" : "YES" }
+```
