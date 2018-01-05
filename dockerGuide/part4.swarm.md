@@ -13,7 +13,7 @@
 ### Prerequest:
 - 安裝好 Docker
 - 安裝好 Docker Compose
-- 安裝好 Docker Machine
+- 安裝好 [Docker Machine](./dockerMachine.md)
 - 以讀完 part1~part3
 - 如 part2, 已經建立好 Docker image - friendlyhello, 且以上傳到 Registry
 - 如 part2, 正在執行剛建好的 Container, 執行指令備註: `docker run -p 80:80 cool21540125/firstrepo:1.0`
