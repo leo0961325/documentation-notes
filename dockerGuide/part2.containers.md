@@ -1,14 +1,13 @@
-# Part2 - Containers
-- [Official Containers](https://docs.docker.com/get-started/part2/)
+# [Part2 - Containers](https://docs.docker.com/get-started/part2/)
 - 2017/12/15
 
 ---
-##### 1. Orientation 
-## 2. Containers 
-##### 3. Services
-##### 4. Swarms 
-##### 5. Stacks 
-##### 6. Deploy your app
+##### 1. [Orientation ](./part1.orientation.md)
+### 2. [Containers](./part2.containers.md)
+##### 3. [Services](./part3.services.md)
+##### 4. [Swarms](./part4.swarm.md)
+##### 5. [Stacks](./part5.stacks.md) 
+##### 6. [Deploy your app](./part6.deploy.md)
 
 ---
 
@@ -21,6 +20,8 @@
 ## Part A
 
 `dockerfile` 內容如下
+
+`dockerfile`也可命名為 `DOCKERFILE` or `Dockerfile`
 
 ```
 # 使用Python官方的 image
@@ -47,9 +48,10 @@ ENV NAME World
 CMD ["python", "app.py"]
 ```
 
-> 如果被__代理伺服器__(Proxy Server) 擋住, 則在 dockerfile內加入:
+> 如果被<b>代理伺服器</b>(Proxy Server) 擋住, 則在 dockerfile內加入(實際怎麼用, 我也不懂, 官方沒寫明...):
 > ```
 > ENV http_proxy host:port
+> or
 > ENV https_proxy host:port
 >```
 
@@ -94,7 +96,7 @@ app.py  dockerfile  requirements.txt
 
 # 此指令會依照目前目錄底下已有的 dockerfile(不分大小寫)來建立 image, 並命名為 friendlyhello
 $ docker build -t friendlyhello .
-# -t 用來標記名稱
+# -t 用來幫即將要建立的 Docker Image命名
 
 # 查看 docker建立了多少個 image
 $ docker images

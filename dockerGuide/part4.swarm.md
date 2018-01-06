@@ -1,12 +1,12 @@
 # [Part4 - Swarms](https://docs.docker.com/get-started/part4/)
 - 2017/12/29
 
-##### 1. Orientation 
-##### 2. Containers 
-##### 3. Services
-## 4. Swarms 
-##### 5. Stacks 
-##### 6. Deploy your app
+##### 1. [Orientation ](./part1.orientation.md)
+##### 2. [Containers](./part2.containers.md)
+##### 3. [Services](./part3.services.md)
+### 4. [Swarms](./part4.swarm.md)
+##### 5. [Stacks](./part5.stacks.md) 
+##### 6. [Deploy your app](./part6.deploy.md)
 
 ---
 
