@@ -16,3 +16,6 @@ $ source activate ve
 # 離開許你環境
 $ source deactivate ve
 ```
+
+---
+Python中, 任何資料夾內如果有包含`__init__.py`的話, 這個資料夾就被視為是一個`package`, 如此一來就可以被 import
