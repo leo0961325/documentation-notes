@@ -3,7 +3,7 @@
 - 官方估計閱讀時間 6分鐘, 林北看了 3小時, 乾~
 
 
-`圖1`<br> 本章目標, 要把 Container的網路服務弄成這架構
+`圖1`<br> 本章目標, 要把 Container的網路服務弄成這架構<br>
 ![圖1](./../img/bridge3.jpg)
 
 ## Prerequest
