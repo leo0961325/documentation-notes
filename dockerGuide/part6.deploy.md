@@ -1,4 +1,4 @@
-# [Part 6: Deploy your app](https://docs.docker.com/get-started/part6/)
+# [Part 6: Deploy your app](https://docs.docker.com/v17.09/get-started/part6/)
 - 2018/01/06
 
 ##### 1. [Orientation ](./part1.orientation.md)
