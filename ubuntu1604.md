@@ -42,3 +42,41 @@ sudo apt-get update
 4. 安裝
 sudo sudo apt-get install -y mongodb
 ```
+
+## Docker
+- 2018/01/30
+
+[官方教學](https://docs.docker.com/install/linux/docker-ce/ubuntu/#os-requirements)
+
+```sh
+$ sudo apt-get update
+
+$ sudo apt-get install docker-ce
+
+$ apt-cache madison docker-ce
+# 生產環境底下, 避免永遠都預設使用最新版
+
+$ sudo apt-get install docker-ce=<VERSION>
+
+$ sudo usermod -aG docker <userName>
+# 使目前使用者能使用 Docker ((重新登入!!))
+```
+
+## vim
+-2018/01/30
+
+[Linux 安裝 vim](https://www.phpini.com/linux/linux-install-vim)
+
+把 vim想像成有顏色的 vi
+```sh
+$ sudo apt -y install vim
+
+$ cd
+
+$ vi .vimrc
+```
+[參考這篇](https://askubuntu.com/questions/296385/backspace-in-insert-mode-in-vi-doesnt-erase-the-character), 在 `.vimrc` 加入這幾行
+```
+set nocompatible
+set backspace=2
+```

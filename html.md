@@ -11,3 +11,10 @@ meta的妙用: 每隔30秒頁面重新刷新
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 ```
+
+
+[歷史包袱-與IE的相容模式](http://blog.darkthread.net/post-2016-05-26-x-ua-compatible-setting.aspx)
+讓網頁與IE Edge相容
+```html
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+```

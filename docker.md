@@ -48,12 +48,12 @@ ow28d93snd8m   getstartedlab_web   replicated   5/5        cool21540125/firstrep
 - 每個運行在 service內的單一 container, 都稱為 **task**, 且每個 task都有專屬的 **task id** 
 ```sh
 $ docker ps -a    
-CONTAINER ID   IMAGE                        COMMAND           CREATED              STATUS              PORTS    NAMES
-e7d33737b65f   cool21540125/firstrepo:1.0   "python app.py"   About a minute ago   Up About a minute   80/tcp   getstartedlab_web.5.ive1q82h833clyhl0tjmh5wlg
-e0008228c4f9   cool21540125/firstrepo:1.0   "python app.py"   About a minute ago   Up About a minute   80/tcp   getstartedlab_web.2.7tu39tkc62is3iftreffht930
-1e61d9e996b0   cool21540125/firstrepo:1.0   "python app.py"   About a minute ago   Up About a minute   80/tcp   getstartedlab_web.3.0hx1m0yjy5oe3d7yodakfpfpo
-dc42c0ebc7af   cool21540125/firstrepo:1.0   "python app.py"   About a minute ago   Up About a minute   80/tcp   getstartedlab_web.4.o81z67upbv042yweithlph5wl
-f93397cceb7b   cool21540125/firstrepo:1.0   "python app.py"   About a minute ago   Up About a minute   80/tcp   getstartedlab_web.1.tiu4mfbf9d9is46imcxzowxxm
+CONTAINER ID   IMAGE                        COMMAND           CREATED    STATUS    PORTS    NAMES
+e7d33737b65f   cool21540125/firstrepo:1.0   "python app.py"   ...        ....      80/tcp   getstartedlab_web.5.ive1q82h833clyhl0tjmh5wlg
+e0008228c4f9   cool21540125/firstrepo:1.0   "python app.py"   ...        ....      80/tcp   getstartedlab_web.2.7tu39tkc62is3iftreffht930
+1e61d9e996b0   cool21540125/firstrepo:1.0   "python app.py"   ...        ....      80/tcp   getstartedlab_web.3.0hx1m0yjy5oe3d7yodakfpfpo
+dc42c0ebc7af   cool21540125/firstrepo:1.0   "python app.py"   ...        ....      80/tcp   getstartedlab_web.4.o81z67upbv042yweithlph5wl
+f93397cceb7b   cool21540125/firstrepo:1.0   "python app.py"   ...        ....      80/tcp   getstartedlab_web.1.tiu4mfbf9d9is46imcxzowxxm
 ```
 
 ```
@@ -114,6 +114,8 @@ Node left the swarm.
 
 
 # 2. Dockerfile
+- [官方教學](https://docs.docker.com/engine/reference/builder/#usage)
+
  起手式 | 範例 | 說明 |
  --- | --- | --- |
  ADD | ADD . /app | 把本地目前資料夾底下的東西, 複製到指定 container的 /app內 |  
@@ -131,6 +133,9 @@ Node left the swarm.
  WORKDIR | 進入Container後的起始路徑<br /> 對於`RUN`, `CMD`, `ENTRYPOINT`, `COPY`, `ADD`皆有效 <br /> 可以設定絕對/相對路徑 |
 
 
+> `docker run 的參數` 可覆寫 DOCKERFILE的 `CMD`
+
+> `docker run --entrypoint XXX` 可覆寫DOCKERFILE的 `ENTRYPOINT`
 
 
 
@@ -141,30 +146,183 @@ Node left the swarm.
 
 # 3. Dockerfile Examples
 
-### [Officical Example](https://docs.docker.com/get-started/part2/#dockerfile)
+#### 範例 - Flask起 Server
+- [官方範例](https://docs.docker.com/get-started/part2/#dockerfile)
 - 2017/12/07
+
+> 先建立 3個檔案, 再建立 Image
+
+1. dockerfile
 ```dockerfile
-# Use an official Python runtime as a parent image
 FROM python:2.7-slim
-
-# Set the working directory to /app
 WORKDIR /app
-
-# Copy the current directory contents into the container at /app
 ADD . /app
-
-# Install any needed packages specified in requirements.txt
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
-
-# Make port 80 available to the world outside this container
 EXPOSE 80
-
-# Define environment variable
 ENV NAME World
-
-# Run app.py when the container launches
 CMD ["python", "app.py"]
 ```
+
+2. requirement.txt
+```
+Flask
+Redis
+```
+
+3. app.py
+```py
+from flask import Flask
+from redis import Redis, RedisError
+import os
+import socket
+
+# Connect to Redis
+redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    try:
+        visits = redis.incr("counter")
+    except RedisError:
+        visits = "<i>cannot connect to Redis, counter disabled</i>"
+
+    html = "<h3>Hello {name}!</h3>" \
+           "<b>Hostname:</b> {hostname}<br/>" \
+           "<b>Visits:</b> {visits}"
+    return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(), visits=visits)
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80)
+```
+
+4. run
+```sh
+$ ls
+app.py  requirements.txt  dockerfile
+
+$ docker build .
+
+$ docker images
+REPOSITORY    TAG         IMAGE ID        CREATED           SIZE
+<none>        <none>      c8d0def6863d    28 seconds ago    148MB
+python        2.7-slim    4fd30fc83117    7 weeks ago       138MB
+# 因為並沒有指定建立的 Image的名稱..., 所以只有 Image ID
+
+$ docker run -p 4000:80 c8d0
+```
+
+
+#### 範例 - ENTRYPOINT
+- 2018/01/30 
+
+1. dockerfile
+```dockerfile
+FROM ubuntu:14.04
+ENTRYPOINT ["/bin/echo"]
+
+# 或者
+# FROM ubuntu:14.04
+# CMD ["/bin/echo" , "Hi Docker !"]
+```
+2. run
+```sh
+$ docker build .
+
+$ docker images
+REPOSITORY     TAG       IMAGE ID        CREATED          SIZE
+<none>         <none>    ac41d98ae2f5    3 minutes ago    222MB
+ubuntu         14.04     dc4491992653    4 days ago       222MB
+
+$ docker run ac41 HIII~~
+HIII~~
+
+$ docker ps -a
+CONTAINER ID    IMAGE    COMMAND               CREATED    STATUS    PORTS    NAMES
+d13e1f5a3f72    ac41     "/bin/echo HIII~~"    ...        ...                stoic_johnson
+# 每次 RUN Image, 都會啟動新的 Container, 然後再關掉
+```
+
+#### 範例 - CMD
+- 2018/01/30 
+
+1. dockerfile
+```dockerfile
+FROM ubuntu:14.04
+CMD ["/bin/echo" , "Hi Docker !"]
+```
+
+2. run
+```sh
+$  docker build .
+
+$ docker images
+REPOSITORY    TAG       IMAGE ID        CREATED           SIZE
+<none>        <none>    2d0610d94311    17 seconds ago    222MB
+ubuntu        14.04     dc4491992653    4 days ago        222MB
+
+$ docker run 2d06 /bin/date
+Tue Jan 30 07:06:40 UTC 2018
+
+$ docker container ls -a
+CONTAINER ID    IMAGE    COMMAND        CREATED          STATUS    PORTS    NAMES
+00f8e0ace3e5    2d06     "/bin/date"    7 seconds ago    ...                distracted_brattain
+```
+
+
+#### 範例 - 
+- 2018/01/30
+
+1. dockerfile
+```dockerfile
+FROM ubuntu:14.04
+RUN apt-get update
+RUN apt-get install -y python
+RUN apt-get install -y python-pip
+RUN apt-get clean all
+RUN pip install flask
+
+ADD hello.py /tmp/hello.py
+EXPOSE 6000
+cmd ["python", "/tmp/hello.py"]
+```
+
+2. hello.py
+```py
+from flask import Flask
+app = Flask(__name__)
+@app.route('/hi')
+def hello_world():
+  return 'Hello World!'
+if __name__ == '__main__':
+  app.run(host='0.0.0.0', port=6000)
+```
+
+3. run
+```sh
+$ ls
+dockerfile  hello.py
+
+$ docker build -t flask .
+# 使用本地 dockerfile 建立 tag為 flask的 docker image
+
+$ docker images
+REPOSITORY     TAG         IMAGE ID        CREATED           SIZE
+flask          latest      ac9445327790    39 seconds ago    397MB
+flask_image    latest      76ab99223787    24 hours ago      707MB
+python         2.7-slim    4fd30fc83117    7 weeks ago       138MB
+
+$ docker run -d -P flask
+27829ed44e8a82e465380368d6241356669ced08d9563e11a3195af84c482818
+
+$ docker ps
+CONTAINER ID    IMAGE    COMMAND                  CREATED    STATUS    PORTS                     NAMES
+27829ed44e8a    flask    "python /tmp/hello.py"   ...        ...       0.0.0.0:32768->6000/tcp   epic_ptolemy
+# 可透過 localhost:32768/hi 訪問 flask
+```
+
+
 
 ---
 ---

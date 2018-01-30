@@ -276,3 +276,20 @@ $ systemctl enable sshd(這個還不是非常確定是否可行)
 
 ---
 
+## 建立使用者
+
+> 指令: `adduser <userName>`
+
+```sh
+$ adduser tony
+# 然後就開始輸入密碼那堆東西~
+
+$ groups tony
+tony : tony 
+
+$ sudo usermod -aG sudo tony
+# 把使用者加入 root群組
+
+$ groups tony
+tony : tony sudo
+```
