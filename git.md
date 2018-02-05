@@ -90,18 +90,18 @@ $ git merge B
 ## git merge 「fast-forward merge」
 讓 master分支, 沿著分支快轉前進(不會產生新的節點)
 ```sh
-#  O bug/123分支
-#  |
-#  O
-#   \
-#    O master分支
+#    O bug/123分支(new)
+#    |
+#    O
+#   /
+#  O master分支(old)
 $ git checkout master
 $ git merge bug/123
-#  O master, bug/123分支
-#  |
-#  O
-#   \
-#    O 
+#    O master, bug/123分支(new)
+#    |
+#    O
+#   /
+#  O(old) 
 ```
 
 
@@ -109,20 +109,20 @@ $ git merge bug/123
 ## git merge 「3-way merge」
 讓 master, 沿著依照分支合併, 但留下歷史紀錄
 ```sh
-#  O bug/123分支
-#  |
-#  O
-#   \
-#    O master分支
+#    O bug/123分支(new)
+#    |
+#    O
+#   /
+#  O master分支(old) 
 $ git checkout master
 $ git merge --no-ff bug/123
-#    O 4df9f67 (HEAD -> master)
-#   /|
-#  O | (bug/123分支)
+#  O   4df9f67 (HEAD -> master)(new)
+#  |\
+#  | O (bug/123分支)
 #  | |
-#  O |
-#   \|
-#    O 5223fd5(過去的master)
+#  | O
+#  |/
+#  O   5223fd5(過去的master)(old) 
 ```
 
 
@@ -148,6 +148,9 @@ $ git cherry-pick commit <節點標籤>
 執行合併後, 產生衝突, 打算放棄此合併, 則會回到未執行合併前的狀態
 ```sh
 $ git merge --abort
+
+$ git rebase --abort        # rebase分兩段, 第一段結束後, 要放棄 rebase
+$ # git rebase --continue   # 解決完第一段 rebase衝突後
 
 $ git cherry-pick --abort
 ```
@@ -193,7 +196,7 @@ $ git config --global alias.tree2 "log --graph --oneline --all --decorate"
 ```
 $ git config --global user.name "TonyCJ"
 $ git config --global user.email "cool21540125@gmail.com"
-$ git config --list
+$ git config -l --global
     user.name=TonyCJ
     user.email=cool21540125@gmail.com
 ```
@@ -246,6 +249,26 @@ $ git config --global color.ui true
 ```sh
 $ vi .gitignore     # 把檔名加入.gitignore即可
 ```
+
+
+---
+## 更改 remote repo
+```sh
+$ git remote -v
+origin  git@github.com:USERNAME/REPOSITORY.git (fetch)
+origin  git@github.com:USERNAME/REPOSITORY.git (push)
+
+$ git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
+Verify that the remote URL has changed.
+
+$ git remote -v
+origin  https://github.com/USERNAME/REPOSITORY.git (fetch)
+origin  https://github.com/USERNAME/REPOSITORY.git (push)
+```
+
+
+
+
 
 
 # C. 指令彙整
@@ -338,7 +361,24 @@ N/A          | (預設) 會用比較快速的方式檢查&&清理
 --auto       | Git自動判斷是否需要清理, 情況良好則不動作
 --no-prune   | 不要清除repo, 而是用整了的方式
 
+## 查詢歷史紀錄
+> 語法: `git reflog <branchName>` , 查詢任何分支變動的歷史紀錄<br>
+  若只有打 `git reflog` or `git reflog HEAD`, 則表示列出 HEAD變動的歷史紀錄
+```sh
+$ git reflog HEAD
+5fc27fb (HEAD -> master, origin/master, origin/HEAD) HEAD@{0}: commit: fix git.md
+b333f91 HEAD@{1}: commit: modify docker, i18n, html, linux, ubuntu1604
+65251ea HEAD@{2}: commit: ADD html.md
+a41e99a HEAD@{3}: commit: sql.md
+ac69d3f HEAD@{4}: pull: Merge made by the 'recursive' strategy.
+# 上頭的 : commit:, 表示是 commit所導致的變動, 另外還有 rebase, pull, ...等
 
+# 若要回到以前的狀態 ac69d3f
+$ git reset --hard HEAD@{4}
+# 慎用 --hard
+```
+
+---
 # E. 其他
 ## 這幹嘛的我忘了...
 ```sh
