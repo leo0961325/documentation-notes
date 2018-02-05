@@ -296,6 +296,13 @@ $ git init --bare
 
 
 ---
+## 修改 Commit訊息
+```sh
+$ git commit --amend -m "<Commit String>"
+```
+
+
+---
 ## 鎖定遠端repo、遠端repo追蹤
 ```sh
 $ git init
