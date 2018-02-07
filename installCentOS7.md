@@ -433,15 +433,23 @@ Try `vlc --help' for more information
 
 
 ## teamviewer
-- 2017/12/09
+- 2018/02/07
 
-> [How to Install TeamViewer on CentOS 7 / RHEL 7](http://www.itzgeek.com/how-tos/linux/centos-how-tos/how-to-install-teamviewer-on-centos-7-rhel-7.html)
-```
-$ sudo yum -y install glibc alsa-lib freetype libICE libSM libX11 libXau libXdamage libXext libXfixes libXi libXrandr libXrender libXtst libgcc libuuid libxcb zlib
+> [Install TeamViewer on CentOS 7 / RHEL 7](https://community.teamviewer.com/t5/Knowledge-Base/How-to-install-TeamViewer-Host-for-Linux/ta-p/6318?_ga=2.2833328.1279667713.1518017393-1552891207.1518017393)
 
-$ # 手動到官網下載 rpm
+```sh
+$ wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
-$ yum -y install teamviewer_13.0.5693.x86_64.rpm
+$ sudo yum install /tmp/epel-release-latest-7.noarch.rpm
+
+$ wget https://download.teamviewer.com/download/linux/teamviewer.i686.rpm       # 32bits
+$ wget https://download.teamviewer.com/download/linux/teamviewer.x86_64.rpm     # 64bits
+
+$ sudo yum install teamviewer_13.0.6634.i686.rpm
+# 不知道未啥... 我的無法安裝x86_64... 只好安裝這個32位元的
+
+$ uname -m
+x86_64
 ```
 
 
