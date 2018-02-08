@@ -78,11 +78,10 @@ $ git show HEAD
 # 目前位於 branch A
 # 打算合併 branch B
 $ git merge B
-#  B   A
-#   \  |
-#    \ |
-#     \|
-#      A
+#  B  A
+#   \ |
+#    \|
+#     A
 ```
 
 
@@ -90,39 +89,57 @@ $ git merge B
 ## git merge 「fast-forward merge」
 讓 master分支, 沿著分支快轉前進(不會產生新的節點)
 ```sh
-#    O bug/123分支(new)
+# 底下, 每個「O」代表每次 commit
+#
+#  O master
+#   \
+#    O 
 #    |
-#    O
-#   /
-#  O master分支(old)
+#    O bug/123
+
+# Case1 - 合併 master與 bug/123 (合併後, 沒有留下合併的歷史紀錄)
 $ git checkout master
 $ git merge bug/123
-#    O master, bug/123分支(new)
+#  O
+#   \
+#    O 
 #    |
-#    O
-#   /
-#  O(old) 
+#    O master, bug/123
+
+# Case2 - 合併 master與 bug/123, 使用「--no-ff」 (合併後, 留下歷史紀錄)
+$ git checkout master
+$ git merge --no-ff bug/123
+#  O
+#  |\
+#  | |
+#  | O   <--合併的歷史被保留下來
+#  | |
+#  |/
+#  O master, bug/123
 ```
 
 
 ---
 ## git merge 「3-way merge」
-讓 master, 沿著依照分支合併, 但留下歷史紀錄
+因為分支與 master 都有各自 commit了, 導致彼此的歷史沒有重疊
 ```sh
-#    O bug/123分支(new)
-#    |
-#    O
-#   /
-#  O master分支(old) 
+#         O 
+#         |\
+#         | |
+#         O | 
+#         | O bug/123
+#  master O
 $ git checkout master
-$ git merge --no-ff bug/123
-#  O   4df9f67 (HEAD -> master)(new)
-#  |\
-#  | O (bug/123分支)
-#  | |
-#  | O
-#  |/
-#  O   5223fd5(過去的master)(old) 
+$ git merge bug/123
+#         O 
+#         |\
+#         | |
+#         O | 
+#         | O bug/123
+#         O |
+#         | |
+#         |/
+#         O master
 ```
 
 
