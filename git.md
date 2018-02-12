@@ -89,14 +89,13 @@ $ git merge B
 ## git merge 「fast-forward merge」
 讓 master分支, 沿著分支快轉前進(不會產生新的節點)
 ```sh
-# 「O」代表每次 commit, (越下面的 commit表示越新,)
-# 「*」代表目前所在分支
+# 底下, 每個「O」代表每次 commit
 #
-#  O master (較舊)
+#  O master
 #   \
 #    O 
 #    |
-#    O bug/123* (最新)
+#    O bug/123
 
 # Case1 - 合併 master與 bug/123 (合併後, 沒有留下合併的歷史紀錄)
 $ git checkout master
@@ -105,18 +104,18 @@ $ git merge bug/123
 #   \
 #    O 
 #    |
-#    O bug/123, master*
+#    O master, bug/123
 
 # Case2 - 合併 master與 bug/123, 使用「--no-ff」 (合併後, 留下歷史紀錄)
 $ git checkout master
-$ git merge bug/123 --no-ff 
+$ git merge --no-ff bug/123
 #  O
 #  |\
 #  | |
-#  | O bug/123
+#  | O   <--合併的歷史被保留下來
 #  | |
 #  |/
-#  O master*
+#  O master, bug/123
 ```
 
 
@@ -126,18 +125,21 @@ $ git merge bug/123 --no-ff
 ```sh
 #         O 
 #         |\
+#         | |
 #         O | 
-#         | O bug/123*
+#         | O bug/123
 #  master O
 $ git checkout master
 $ git merge bug/123
 #         O 
 #         |\
+#         | |
 #         O | 
 #         | O bug/123
 #         O |
+#         | |
 #         |/
-#         O master*
+#         O master
 ```
 
 

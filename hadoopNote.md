@@ -10,32 +10,39 @@ ADD FILE xxx.csv
 
 
 
----------------------------------------
+---
 $ hadoop fs -put <localPathFile> <hdfsPathFile>
 
 $ hadoop fs -get <hdfsPathFile>
 
-----------------------------------------
+---
 
-使用SparkSQL
-1.用IdeaProjects包完tar檔,放在/home/tony/IdeaProjects/spark_sql/out/artifacts/spark_sql
+```sh
+# 使用SparkSQL
+# 1.用IdeaProjects包完tar檔,放在/home/tony/IdeaProjects/spark_sql/out/artifacts/spark_sql
 
-2.啟動spark
+# 2.啟動spark
 $ /opt/spark/sbin/start-all.sh
 
-3.使用spark-submit啟動執行指令
+# 3.使用spark-submit啟動執行指令
 $ spark-submit --master spark://quickstart.cloudera:7077 ~/Desktop/spark_sql_101/data/people.json
+```
 
+---
 
--------------
 使用貼上多行程式碼模式於互動式模式
+
+```sh
 scala> :paste
 xxx
 xxx
 xxx
-Ctrl+d結束, 開始執行貼上的指令
--------------
+# Ctrl+d結束, 開始執行貼上的指令
+```
+---
 
 Spark SQL使用Hive
+```sh
 $ spark-shell --master spark://quickstart.cloudera:7077 --jars <filePath1.jar>, <filePath2.jar> --files <filePath>
+```
 將來可使用Hive定義好的腳本(放在jar內)
