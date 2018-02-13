@@ -78,11 +78,10 @@ $ git show HEAD
 # 目前位於 branch A
 # 打算合併 branch B
 $ git merge B
-#  B   A
-#   \  |
-#    \ |
-#     \|
-#      A
+#  B  A
+#   \ |
+#    \|
+#     A
 ```
 
 
@@ -90,39 +89,55 @@ $ git merge B
 ## git merge 「fast-forward merge」
 讓 master分支, 沿著分支快轉前進(不會產生新的節點)
 ```sh
-#    O bug/123分支(new)
+# 「O」代表每次 commit, (越下面的 commit表示越新,)
+# 「*」代表目前所在分支
+#
+#  O master (較舊)
+#   \
+#    O 
 #    |
-#    O
-#   /
-#  O master分支(old)
+#    O bug/123* (最新)
+
+# Case1 - 合併 master與 bug/123 (合併後, 沒有留下合併的歷史紀錄)
 $ git checkout master
 $ git merge bug/123
-#    O master, bug/123分支(new)
+#  O
+#   \
+#    O 
 #    |
-#    O
-#   /
-#  O(old) 
+#    O bug/123, master*
+
+# Case2 - 合併 master與 bug/123, 使用「--no-ff」 (合併後, 留下歷史紀錄)
+$ git checkout master
+$ git merge bug/123 --no-ff 
+#  O
+#  |\
+#  | |
+#  | O bug/123
+#  | |
+#  |/
+#  O master*
 ```
 
 
 ---
 ## git merge 「3-way merge」
-讓 master, 沿著依照分支合併, 但留下歷史紀錄
+因為分支與 master 都有各自 commit了, 導致彼此的歷史沒有重疊
 ```sh
-#    O bug/123分支(new)
-#    |
-#    O
-#   /
-#  O master分支(old) 
+#         O 
+#         |\
+#         O | 
+#         | O bug/123*
+#  master O
 $ git checkout master
-$ git merge --no-ff bug/123
-#  O   4df9f67 (HEAD -> master)(new)
-#  |\
-#  | O (bug/123分支)
-#  | |
-#  | O
-#  |/
-#  O   5223fd5(過去的master)(old) 
+$ git merge bug/123
+#         O 
+#         |\
+#         O | 
+#         | O bug/123
+#         O |
+#         |/
+#         O master*
 ```
 
 
@@ -154,6 +169,11 @@ $ # git rebase --continue   # 解決完第一段 rebase衝突後
 
 $ git cherry-pick --abort
 ```
+
+
+---
+## git reflog(小烏龜)
+Reflow是 HEAD變動的歷史紀錄
 
 
 ---
@@ -285,6 +305,14 @@ origin  https://github.com/USERNAME/REPOSITORY.git (push)
  --blob |                |
  --f    |                |
  --list | 顯示組態設定值  | 
+
+
+## git reset 改變範圍
+param   | data in repo | git index | file in dir
+------- |:------------:|:---------:|:------------:
+--soft  | v            |           | 
+--mixed | v            | v         | 
+-- hard | v            | v         | v
 
 # D. 操作指令
 ## 建立新的git repo
