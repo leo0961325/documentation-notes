@@ -12,6 +12,7 @@ root                  *  /opt/anaconda3
 
 # 進入虛擬環境
 $ source activate ve
+$ source vemt/bin/activate
 
 # 離開許你環境
 $ source deactivate ve
