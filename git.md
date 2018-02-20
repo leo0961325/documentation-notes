@@ -343,6 +343,16 @@ $ git push -u origin master
 
 ---
 ## 加入至stage狀態
+[git add 差異說明](https://stackoverflow.com/questions/572549/difference-between-git-add-a-and-git-add)
+
+> ※ 以下 `不保證完全正確`, 因為有版本問題...
+
+script | New Files | Modified Files | Deleted Files | Sub-Folder Files
+--- |:---:|:---:|:---:|:---:
+git add -A | V | V | V | V
+git add . | V | V | **`X`** | **`X`**
+git add -u | **`X`** | V | V | ?
+
 ```sh
 $ git add -i    # 建議使用互動式模式來加入檔案到stage狀態
 $ git add .     # (不建議使用, 請用上者來代替)

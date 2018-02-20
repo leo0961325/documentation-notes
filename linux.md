@@ -293,3 +293,49 @@ $ sudo usermod -aG sudo tony
 $ groups tony
 tony : tony sudo
 ```
+
+
+---
+
+## 開啟 port並設定防火牆
+- 2018/02/19
+- [CentOS 7 設定防火牆允許特定 PORT 連線](https://blog.yowko.com/2017/09/centos-7-firewall.html?m=1)
+
+> 語法: `firewall-cmd --zone=public --add-port=3333/tcp --permanent`  對外永久開放 3333 port, 支援 TCP連線
+
+> `firewall-cmd --reload` 重新讀取 firewall設定 
+
+```sh
+$ firewall-cmd --zone=public --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: wlp2s0
+  sources: 
+  services: dhcpv6-client ssh
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  sourceports: 
+  icmp-blocks: 
+  rich rules: 
+	firewall-cmd --zone=dmz --add-port=3333/tcp
+$ firewall-cmd --zone=public --add-port=3333/tcp
+success
+
+$ firewall-cmd --zone=public --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: wlp2s0
+  sources: 
+  services: dhcpv6-client ssh
+  ports: 3333/tcp                  # <--- 對外開放了
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  sourceports: 
+  icmp-blocks: 
+  rich rules:
+```
