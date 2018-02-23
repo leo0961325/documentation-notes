@@ -339,3 +339,81 @@ public (active)
   icmp-blocks: 
   rich rules:
 ```
+
+## 目前使用者
+[Get current user name in bash]https://stackoverflow.com/questions/19306771/get-current-users-username-in-bash
+```sh
+$ echo $USER
+tonynb
+
+$ whoami
+tonynb
+
+$ logname
+tonynb
+
+$ id
+uid=1000(tonynb) gid=1000(tonynb) groups=1000(tonynb),10(wheel),983(docker) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+$ id -u
+1000
+
+$ id -u -n
+tonynb
+```
+
+呼叫目前使用者群組 user group
+```sh
+$ id -g -n
+tonynb
+```
+
+## ls的妙用
+```sh
+$ ls
+
+$ ls -l   # 等同於 ll
+
+$ ls -a   # 包含顯示隱藏的檔案
+
+$ ls -R   # recursively顯示
+
+$ ls | ^l # 只顯示軟連結
+```
+
+## source 與 bash
+- [鳥哥 - bash 與 source](http://linux.vbird.org/linux_basic/0340bashshell-scripts.php#script_run)
+
+1. 建立一個檔案, 名為 urname.sh, 內容如下 :
+```sh
+#!/bin/bash
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
+
+read -p "Your name : " name      # 提示使用者輸入
+read -p "Your age :  " age       # 提示使用者輸入
+echo -e "Your full name and age : ${name} ${age}" # 結果由螢幕輸出
+```
+
+2. 執行看看~
+```sh
+# 使用 sh 執行
+$ echo ${name} ${age}
+                                # 因為沒有這個環境變數, 所以啥都沒有, 這很正常
+$ sh urname.sh  # 方法一
+Your name : tony                     # <--- 輸入
+Your age :  30                       # <--- 輸入
+Your full name and age : tony 30     # 輸出結果
+
+$ echo ${firstname} ${age}
+                                # 一樣是空的哦~~~啥都沒有!! 因為剛剛的執行環境是 子bash
+
+# 使用 source 執行
+$ source urname.sh  # 方法二
+Your name : tony
+Your age :  30
+Your full name and age : tony 30
+
+$ echo ${firstname} ${age}
+tony 30                         # 東西出現啦~~~~  只要此 terminal沒關, 這環境變數會一直存在
+```
