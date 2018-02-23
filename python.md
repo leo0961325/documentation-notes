@@ -31,6 +31,17 @@ Python中, 任何資料夾內如果有包含`__init__.py`的話, 這個資料夾
 
 ```
 
+### pip
+```sh
+$ pip freeze
+
+$ pip freeze -l     # 只顯示目前環境安裝的套件
+
+$ pip freeze > requirement.txt
+
+$ pip install -r requirement.txt
+```
+
 ### 函式範例
 ```py
 >>> a = 1

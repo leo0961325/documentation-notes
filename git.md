@@ -6,6 +6,11 @@
 - [Git中文化電子書](https://git-scm.com/book/zh-tw/v2)
 - [Git視覺化遊戲](http://learngitbranching.js.org/)
 
+```sh
+$ git --version
+git version 2.14.3
+```
+
 # A. 概念
 ## 名詞定義
 branch | 說明
