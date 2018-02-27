@@ -1,4 +1,35 @@
 
+
+### Install python by tar ball
+- 2018/02/23
+```sh
+$ wget https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tar.xz
+
+$ tar xf Python-3.5.2.tar.xz
+
+# 編譯及安裝
+$ ./configure --prefix=/opt/python352
+$ make
+$ sudo make install 
+
+# 改變擁有者
+$ sudo chown -R tonynb:tonynb /opt/python352
+
+# 建立呼叫指令
+$ mkdir ~/bin
+$ ln -s /opt/python352/bin/python3.5 ~/bin/py
+
+# 環境變數
+$ echo 'alias py="/opt/python352/bin/python3.5"' >> ~/.bashrc
+# or
+$ echo 'export python_home=~/bin/' >> ~/.bashrc
+$ echo 'export PATH=$python_home:$PATH' >> ~/.bashrc
+
+```
+
+
+
+
 [Anaconda多环境多版本python配置指导](https://www.jianshu.com/p/d2e15200ee9b)
 
 進入虛擬環境 (安裝完anaconda後)
