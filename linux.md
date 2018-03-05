@@ -53,36 +53,38 @@ $ rpm -ivh xxx.rpm
 /bin/      # 可執行檔
 /sbin/     # 系統管理員 用的 工具or指令or執行檔. ex: ifconfig, mke2fs
 /usr/      # Linux系統安裝過程中必要的 packages
-    bin/      # 一般使用者 用的 工具or指令or執行檔
-    sbin/     # 系統管理員 用的 工具or指令or執行檔
+    bin/            # 一般使用者 用的 工具or指令or執行檔
+    sbin/           # 系統管理員 用的 工具or指令or執行檔
     src/
-        linux/    # 系統核心原始碼
-    share/     
-        doc/      # 系統文件
-        man/      # 線上操作手冊
+        linux/                # 系統核心原始碼
+    share/                
+        doc/                  # 系統文件
+        man/                  # 線上操作手冊
+        zoneinfo              # 時區檔案
 /etc/      # 系統設定檔. ex: inittab, resolv.conf, fstab, rc.d
+    localtime/      # 系統時間
 /boot/     # 開機時使用的核心檔案目錄.
 /lib/      # 系統的共用函式庫檔案
 /opt/      # 非 Linux預設安裝的外來軟體
 /var/      # 變動行 & 系統待排隊處例的檔案
-    log/      # 紀錄檔
-        dmesg     # 開機時偵測硬體與啟動服務的紀錄
-        messages  # 開機紀錄
-        secure    # 安全紀錄
-    db/
-        mysql/    # mysql檔案
-    spool/
-        mail/     # 等待寄出的 email
+    log/            # 紀錄檔
+        dmesg                 # 開機時偵測硬體與啟動服務的紀錄
+        messages              # 開機紀錄
+        secure                # 安全紀錄
+    db/           
+        mysql/                # mysql檔案
+    spool/            
+        mail/                 # 等待寄出的 email
 /tmp/      # 重開機後會清除
 /proc/     # 行程資訊目錄, 
 /media/    # 移動式磁碟or光碟 掛載目錄
 /mnt/      # 暫時性檔案系統 掛載目錄
 /dev/      # 系統設備目錄
-    hda/      # IDE硬碟
-    sd1/      # SCSI硬碟
-    cdrom/    # 光碟機
-    fd0/      # 軟碟機
-    lp0/      # 印表機
+    hda/            # IDE硬碟
+    sd1/            # SCSI硬碟
+    cdrom/          # 光碟機
+    fd0/            # 軟碟機
+    lp0/            # 印表機
 ```
 
 
@@ -433,22 +435,90 @@ $ systemctl disable <service>
 ---
 ## - 壓縮/解壓縮
 
-1. zip
+- gzip
+```sh
+$ touch aa
+$ ll
+aa
 
+# 使用 gzip壓縮(取代原始檔案)
+$ gzip aa
+$ ll
+aa.gz
+
+# 使用 gunzip解壓縮(取代原始檔案)
+$ gunzip aa.gz
+$ ll
+aa
 ```
-將a1, a2, a3壓縮為FF.zip, 並設定密碼
-$ zip -er FF.zip a1 a2 a3
-(下一行再輸入密碼)
 
-把QQ.zip裡面的檔案全部解壓縮出來
+- zip
+Case1
+```sh
+$ ll
+aa
+
+# 使用 zip壓縮
+$ zip -r qq.zip aa
+  adding: aa (stored 0%)
+
+$ ll
+aa  qq.zip
+
+$ rm aa
+$ unzip qq.zip
+Archive:  qq.zip
+ extracting: aa     
+
+$ ls
+aa  qq.zip
+```
+
+Case2
+```sh
+# 將a1, a2, a3壓縮為FF.zip, 並設定密碼
+$ zip -er FF.zip a1 a2 a3
+# (下一行再輸入密碼)
+
+# 把QQ.zip裡面的檔案全部解壓縮出來
 $ unzip QQ.zip
 
-把QQ.zip(解壓縮密碼為1234)解壓縮
+# 把QQ.zip(解壓縮密碼為1234)解壓縮
 $ unzip -P QQ.zip
-(下一行在輸入密碼)
+# (下一行在輸入密碼)
 ```
 
-2. (待續)
+- tar
+> 把多的檔案包成一包, 方便 gzip壓縮, 語法: `tar -<選項> <檔名> <要打包的東西>`
+
+> `-c 產生新的包裹檔案` <br> `-v 觀看指令進度` <br> `-f 指定包裹檔案的名稱` <br> `-x 解開已打包的檔案` (解壓縮的概念)
+```sh
+$ ls 
+a  b  c
+
+$ tar -cvf qq.tar a b c
+a
+b
+c
+
+$ rm a b c
+$ ls
+qq.tar
+```
+
+- tgz (tar ball)
+> tar + gz的合體, 語法: `tar -<選項> <tar ball檔名> <要打包的東西們> ...`
+```sh
+$ ls
+a  b  c
+$ tar -czvf qq.tgz a b c
+a
+b
+c
+
+$ ls
+a  b  c  qq.tgz
+```
 
 ---
 ## find相關
