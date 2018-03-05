@@ -34,6 +34,9 @@ $ echo 'export PATH=$python_home:$PATH' >> ~/.bashrc
 
 進入虛擬環境 (安裝完anaconda後)
 ```
+$ conda create --name <env name>
+# 建立虛擬環境
+
 # 印出所有的虛擬環境
 $ conda info --envs
 # conda environments:

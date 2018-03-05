@@ -129,9 +129,10 @@ $ mysql -uroot -p
 
 5. 移除密碼複雜性驗證 && 更改密碼 && 建立使用者
 ```
-> uninstall plugin validate_password;
 
 > ALTER USER 'root'@'localhost' IDENTIFIED BY '<new password>';
+
+> uninstall plugin validate_password;
 
 > CREATE USER 'tony'@'%' IDENTIFIED BY '<password>';
 
@@ -496,6 +497,23 @@ $ vi .bashrc
 export scala_HOME="/home/tony/scala-2.12.4"
 export PATH=$scala_HOME/bin:$PATH 
 ```
+
+---
+## install Apache
+- 2018/02/27
+- [安裝Apache, MySQL, PHP](https://www.phpini.com/linux/redhat-centos-7-setup-apache-mariadb-php)
+```sh
+$ sudo yum install -y httpd
+
+$ sudo systemctl start httpd
+$ sudo systemctl enable httpd
+
+$ httpd -v
+Server version: Apache/2.4.6 (CentOS)
+Server built:   Oct 19 2017 20:39:16
+```
+進入瀏覽器, 「localhost」就可以看到網頁了~
+
 
 
 
