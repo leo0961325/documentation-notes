@@ -329,6 +329,21 @@ $ git init --bare
 
 
 ---
+## 遠端分支
+> 
+```sh
+$ git config -l | grep master
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+
+$ git branch -a
+* develop
+  logging
+  master
+  remotes/origin/logging
+  remotes/origin/master
+```
+---
 ## 修改 Commit訊息
 ```sh
 $ git commit --amend -m "<Commit String>"
