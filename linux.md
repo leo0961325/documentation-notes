@@ -72,7 +72,15 @@ Another app is currently holding the yum lock; waiting for it to exit...
 ```
 
 
+## - 測試硬碟讀取效能
+```sh
+$ sudo hdparm -Tt /dev/sda
+[sudo] password for tony:
 
+/dev/sda:
+ Timing cached reads:   19792 MB in  1.99 seconds = 9923.34 MB/sec
+ Timing buffered disk reads: 324 MB in  3.01 seconds = 107.80 MB/sec
+```
 
 ---
 ## - 設定terminal的熱鍵
@@ -416,4 +424,24 @@ Your full name and age : tony 30
 
 $ echo ${firstname} ${age}
 tony 30                         # 東西出現啦~~~~  只要此 terminal沒關, 這環境變數會一直存在
+```
+
+
+## jobs 工作管理 && fg
+> jobs參數, `l: 顯示 PID`, `r: running process`, `s: stopped process`
+> 預設, Ctrl+z後, 都會暫停此 process
+```sh
+$ vi ~/.bashrc        # Ctrl + z
+[1]+  Stopped                 vi .bashrc
+
+$ mysql -uroot -p     # Ctrl + z
+[2]+  Stopped                 mysql -uroot -p
+
+$ jobs -lrs
+[1]- 19499 Stopped                 mysql -uroot -p  (wd: /home/tony)
+[2]+ 19504 Stopped                 vi .bashrc
+
+$ fg              # 可以回到上面有「+」的那個 process
+
+$ fg %1           # 可以回到第1個 process
 ```
