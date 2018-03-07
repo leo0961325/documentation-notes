@@ -121,9 +121,9 @@ Another app is currently holding the yum lock; waiting for it to exit...
 ...
 ```
 
-2. 如何解決
+2. 如何解決 - 找出 pid, 砍掉
 ```
-
+$ ps aux | grep yum
 ```
 
 
