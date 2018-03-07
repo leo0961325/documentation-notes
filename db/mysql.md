@@ -1,83 +1,70 @@
 # MySQL 5.7 on CentOS7
 
+我的環境
+```sh
+$ 
+CentOS7
+```
+
 > DB目錄: /var/lib/mysql/
 
-> 組態目錄: /etc/mysql/mysql.cnf
+> (Ubuntu16.04)組態目錄: /etc/mysql/mysql.cnf<br>
+> (CentOS7.3)組態目錄: /etc/my.cnf
 
+## 模擬資料
+```sql
+drop database tt;
+create database tt;
+use tt;
+create table t1(xid int primary key auto_increment, xname varchar(30) not null, xscore int default 0);
+insert into t1(xname, xscore) values ('andy', 88), ('josh', 77), ('howr', 90), ('tony', 99);
 
-## backup
-```sh
-$ mysqladmin -uroot -p flush-logs
-
-$ mysqldump <DB Name> -uroot -p --opt     >       <備份的文檔名稱.sql>
+insert into t1(xname, xscore) values ('yk', 66), ('john', 75);
 ```
+## backup
+
+pyhsical | logical
+-------- | --------
+快 | 慢
+企業級 | -
+無法 backup Memory中資料 | 可
+mysqlbackup | mysqldump
+會有 Engine問題 | 可跨 Engine
+可能需要關服務, backup比較不會有問題 | 可以暖備份
+
+### 1. 工具函式 mysqldump
+> 將 transaction flush到檔案, 語法: `mysqladmin -uroot -p flush-logs` 
+
+> 資料庫備份, 語法: `mysqldump <DB Name> -uroot -p --opt > <備份的文檔名稱.sql>`
+
+> 對於 InnoDB, 執行 non-lock online backup `mysqldump--single-transaction`
+```sh
+# full backup 'tt資料庫' 到 tt.sql
+$ mysqldump --user=root -p tt > ttbck.sql
+$ ll
+-rw-rw-r--  1 tony tony    0  三   6 10:16 tt.sql
+
+# 依照時間做備份紀錄
+$ mysqldump --user=root -p tt > 
+```
+
+### 2. LVM快照備份
+```sh
+$ mysql>FLUSH TABLES WITHREAD LOCK
+
+
+```
+
 
 ## restore
+> 依備份檔還原資料庫, 語法: `mysql [DB Name] -uroot -p < [備份的文檔名稱.sql]`
 ```sh
-$ mysql <DB Name> -uroot -p    <      <備份的文檔名稱.sql>
+# 還原前, 關閉二進位日誌
+$ mysql > set sql_log_bin=0;
+
+$ mysql tt -uroot -p < ttbck.sql
+
+$ mysql > set sql_log_bin=1;
 ```
 
 
-Backup的 Script檔
-```sh
-#!/bin/sh
-#    Note: This script just only backup one database!
-
-# 1. 參數
-DBNAME="phpbb2" # Database name
-DBUSER="root"   # Database admin's name
-DBPASS="password"   # Database admin's password
-BINPATH="/usr/bin"  # MySQL command's path  (default: /usr/bin)
-BAKDATE=`date +%w`  # Backup date format
-BAKPATH="/usr/backup/phpbb" # Path for backup files save to
-TMPDIR="tmp.db_bak".$BAKDATE    # Temp directory's name
-BAKDIR="$DBNAME"_$BAKDATE   # Backup files's directory 
-TABLST="tables_list"    # Database tables list files name
-BAKTYPE="0" # Backup Type, 0: All tables in one dump file ; 1: Pre table in one dump file
-
-# 2. Script Start
-# 建立 backup站存區
-cd /tmp
-rm -rf $TMPDIR
-mkdir $TMPDIR
-cd $TMPDIR
-mkdir $BAKDIR
-cd $BAKDIR
-
-# 建立 DB table list
-$BINPATH/mysql $DBNAME -u$DBUSER -p$DBPASS -N -e "show tables" > $TABLST
-
-# dump前, Flush DB LOG
-$BINPATH/mysqladmin -u$DBUSER -p$DBPASS flush-logs
-
-# Choice one type to dump datebase
-case $BAKTYPE in
-0)
- #
- # Dump database all table in one file
- #
- $BINPATH/mysqldump $DBNAME -u$DBUSER -p$DBPASS --opt > $DBNAME.sql
-;;
-1)
- #
- # Dump database pre table in one file
- #
- awk '{ print BINPATH"/mysqldump "DBNAME" -u"DBUSER" -p"DBPASS" \
-      --opt " $1 " > " $1".sql" }' \
-      BINPATH="$BINPATH" DBNAME="$DBNAME" DBUSER="$DBUSER" DBPASS="$DBPASS" \
-      $TABLST \
-      | /bin/sh
-;;
-*);;
-esac
-
-cd ..
-
-# 壓縮 backup files
-tar cfz $BAKDIR.tgz $BAKDIR
-mv $BAKDIR.tgz $BAKPATH 
-cd ..
-rm -rf $TMPDIR
-
-# Script End
-```
