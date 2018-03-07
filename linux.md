@@ -2,107 +2,303 @@
 - 相關指令
 - 知識概念備註
 
-
----
-## EPEL (非常重要阿~~~)
-> [What is EPEL](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
-
-Extra Packages for Enterprise Linux
-
-Linux在安裝許多軟體的時候(ex: yum install ...), 會有軟體相依性的問題, 若發現相依軟體尚未被安裝, yum會自己去`本地 repository`裡頭找有記載的`遠端 repository`去下載相依套件. 而 EPEL就是專門 for CentOS的套件庫, 裡頭有許多CentOS的核心套件.
+```sh
+# 此篇指令及概念, 主要都作用在 CentOS 7.3
+$ cat /etc/centos-release
+CentOS Linux release 7.3.1611 (Core)
+```
 
 
 
 ---
+## EPEL(Extra Packages for Enterprise Linux)
+> Linux在安裝許多軟體的時候(ex: yum install ...), 會有軟體相依性的問題, 若發現相依軟體尚未被安裝, yum會自己去`本地 repository`裡頭找有記載的`遠端 repository`去下載相依套件. 而 EPEL就是專門 for CentOS的套件庫, 裡頭有許多CentOS的核心套件. <br>查看補充說明: 
+[What is EPEL](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
+```sh
+$ sudo yum install -y epel
+```
 
 
 
-## Linux的軟體管理員
-
-### rpm vs dpkg
+---
+## Linux的軟體管理員 - rpm
+### - rpm vs dpkg
 distribution 代表 | 軟體管理機制 | 使用指令 | 線上升級機制(指令)
 --- | --- | --- | ---
 Red Hat/Fedora | RPM | rpm, rpmbuild | YUM (yum)
 Debian/Ubuntu | DPKG | dpkg | APT (apt-get)
 
-
-### rpm vs srpm
+### - rpm vs srpm
 檔案格式 | 檔名格式 | 直接安裝與否 | 內含程式類型 | 可否修改參數並編譯
 --- | --- | --- | --- | ---
 RPM | xxx.rpm | 可 | 已編譯 | 不可
 SRPM | xxx.src.rpm | 不可 | 未編譯之原始碼 | 可
 
-### 指令差異
-指令 | 說明
---- | ---
--Uvh | 後面接的軟體即使沒有安裝過，則系統將予以直接安裝；<br />若後面接的軟體有安裝過舊版，則系統自動更新至新版；
--Fvh | 如果後面接的軟體並未安裝到你的 Linux 系統上，則該軟體不會被安裝；<br />亦即只有已安裝至你 Linux 系統內的軟體會被『升級』！
+> rpm套件管理的語法: `rpm -<options> <xxx.rpm>`
 
+### - options
+options     | description
+----------- | ------------
+-i          | 安裝套件
+-v          | 安裝時, 顯示細部的安裝資訊
+-h          | 安裝時, 顯示安裝進度
+-e          | 移除套件
+-U          | 更新套件
+-q          | 查詢套件資訊
+-qa         | - 已安裝套件清單
+-qi         | - 特定套件安裝資訊
+-ql         | - 套件安裝了哪些東西
+-qf         | - 某個東西是被哪個套件安裝的 (與 -ql相反)
+
+```sh
+# 可以反查某個檔案的安裝套件
+$ rpm -qf /etc/fstab
+setup-2.8.71-7.el7.noarch
+
+##### 底下是範例程式及說明 #####
+setup-2.8.71-4.el7.noarch   <---安裝包
+  套件名稱: setup
+  版本: 2.8.71
+  修訂: 4, 修正 bug錯誤第4版
+  適用發行版: el7, RedHat Enterprise Linux 7
+  適用平台: noarch
 ```
-$ rpm -ivh xxx.rpm
--i ：install 的意思
--v ：察看更細部的安裝資訊畫面
--h ：以安裝資訊列顯示安裝進度
+
+### - sub options
+sub options | description
+----------- | ------------
+--test      | 僅測試模擬安裝過程, 不會真正安裝`(移除時, 可嘗試用此搭配)`
+--nodeps    | 忽略安裝前的相依性檢查
+--force     | 強制安裝(若已安裝, 會覆蓋掉前次安裝)
+
+### 常用選項
+options     | description
+----------- | ------------
+-Uvh        | if 未安裝, then 直接安裝<br />if 安裝過舊版, then 版本升級
+-Fvh        | if 未安裝, then 不動作<br />if 安裝過舊版, then 版本升級
+-ivh        | 最常用的安裝方式, 安裝時, 顯示安裝資訊
+
+
+
+---
+## Linux的軟體管理員 - yum
+> 解決 rpm安裝時, 套件相依性的問題
+
+```sh
+$ yum install <套件名稱>
+
+$ yum update <套件名稱>
+
+$ yum remove <套件名稱>
+
+$ yum searcn <套件名稱>
+# 搜尋 YUM Server上的特定套件
+
+$ yum list
+# 列出 YUM Server上的所有套件資訊, 套件名稱, 版本, 是否已經安裝...
+
+# 列出 yum套件庫 紀錄的 remote repository
+$ yum repolist
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: ftp.isu.edu.tw
+ * elrepo: dfw.mirror.rackspace.com
+ * epel: ftp.cuhk.edu.hk
+ * extras: ftp.isu.edu.tw
+ * updates: ftp.isu.edu.tw
+repo id                         repo name                                        status
+base/7/x86_64                   CentOS-7 - Base                                   9,591
+code                            Visual Studio Code                                   29
+docker-ce-stable/x86_64         Docker CE Stable - x86_64                            13
+epel/x86_64                     Extra Packages for Enterprise Linux 7 - x86_64   12,382
+extras/7/x86_64                 CentOS-7 - Extras                                   392
+google-chrome                   google-chrome                                         3
+mysql-tools-community/x86_64    MySQL Tools Community                                59
+mysql57-community/x86_64        MySQL 5.7 Community Server                          247
+updates/7/x86_64                CentOS-7 - Updates                                1,962
+repolist: 24,950
 ```
+
+
+---
+## Linux安裝軟體方式 - 原始碼編譯 && 安裝
+1. 取得原始碼
+  - 大多為 `tar.gz`, 可用 `tar zxvf`解開
+2. 觀看 README 與 INSTALL
+  - README: 軟體的介紹
+  - INSTALL: 編譯與安裝的方法及步驟
+3. 設定組態
+  - 使用 `./configure`, 並給予必要參數及選項
+  - 產生 `Makefile`編譯腳本
+4. 編譯與安裝
+  - 使用 `make`進行編譯
+  - 無誤後, 使用 `sudo make install`開始安裝
+
+
+
 
 ---
 ## 主要目錄
-
-
 ```sh
 /bin/      # 可執行檔
 /sbin/     # 系統管理員 用的 工具or指令or執行檔. ex: ifconfig, mke2fs
 /usr/      # Linux系統安裝過程中必要的 packages
-    bin/            # 一般使用者 用的 工具or指令or執行檔
-    sbin/           # 系統管理員 用的 工具or指令or執行檔
-    src/
-        linux/                # 系統核心原始碼
-    share/                
-        doc/                  # 系統文件
-        man/                  # 線上操作手冊
-        zoneinfo              # 時區檔案
+/usr/bin/            # 一般使用者 用的 工具or指令or執行檔
+/usr/sbin/           # 系統專用的 工具/指令/執行檔
+/usr/src/
+/usr/src/linux/                # 系統核心原始碼
+/usr/share/                
+/usr/share/doc                   # 系統文件
+/usr/share/man                   # 線上操作手冊
+/usr/share/zoneinfo              # 時區檔案
 /etc/      # 系統設定檔. ex: inittab, resolv.conf, fstab, rc.d
-    localtime/      # 系統時間
+/etc/localtime/      # 系統時間
+/etc/crontab         # 排程工作
+/etc/hosts           # ip與 dns對照
 /boot/     # 開機時使用的核心檔案目錄.
 /lib/      # 系統的共用函式庫檔案
 /opt/      # 非 Linux預設安裝的外來軟體
 /var/      # 變動行 & 系統待排隊處例的檔案
-    log/            # 紀錄檔
-        dmesg                 # 開機時偵測硬體與啟動服務的紀錄
-        messages              # 開機紀錄
-        secure                # 安全紀錄
-    db/           
-        mysql/                # mysql檔案
-    spool/            
-        mail/                 # 等待寄出的 email
+/var/log/            # 紀錄檔
+/var/log/dmesg                 # 開機時偵測硬體與啟動服務的紀錄
+/var/log/messages              # 開機紀錄
+/var/log/secure                # 安全紀錄
+/var/lib/           
+/var/lib/mysql/                # mysql資料庫的資料儲存位置
+/var/spool/            
+/var/spool/mail/                 # 等待寄出的 email
 /tmp/      # 重開機後會清除
 /proc/     # 行程資訊目錄, 
 /media/    # 移動式磁碟or光碟 掛載目錄
 /mnt/      # 暫時性檔案系統 掛載目錄
 /dev/      # 系統設備目錄
-    hda/            # IDE硬碟
-    sd1/            # SCSI硬碟
-    cdrom/          # 光碟機
-    fd0/            # 軟碟機
-    lp0/            # 印表機
+/dev/hda/            # IDE硬碟
+/dev/sd1/            # SCSI硬碟
+/dev/cdrom/          # 光碟機
+/dev/fd0/            # 軟碟機
+/dev/lp0/            # 印表機
 ```
 
 
+
 ---
-## 檔案詳細資訊
+## 網路介面卡 && ifconfig
+> CentOS7前: 網路介面卡名稱, eth0, eth1, ... 分別代表第1張網卡, 第2張網卡, ...; 名稱由 **開機時核心偵測的時機** 決定, 故可能因為更換硬體設備而異動. 網卡名稱變動可能造成防火牆錯誤.
 
-type | desc
---- | ---
-- | 檔案
-d | 目錄
-l | 連結
-b | 區塊類(硬碟, 光碟機, 週邊設備)
-c | 字元類(序列埠, 終端機, 磁帶, 印表機)
+> CentOS7: 裝置名稱改為 `p1p1, p2p1, p3p1`等 BIOS名稱, 目的是為了維持設備名稱的一致性, 並以 **名稱得知網路卡在主機板上插槽的位置**. 
 
+```sh
+$ ifconfig enp1s0
+enp1s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.124.73  netmask 255.255.255.0  broadcast 192.168.124.255
+        inet6 fe80::be4e:db5a:2ead:fc61  prefixlen 64  scopeid 0x20<link>
+        ether c8:5b:76:7e:4d:8e  txqueuelen 1000  (Ethernet)
+        RX packets 84842  bytes 6617933 (6.3 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 3073  bytes 507757 (495.8 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+$ ifconfig enp1s0 up          # 開啟 enp1s0網路卡
+$ ifconfig enp1s0 down        # 關閉 enp1s0網路卡 (別白痴到在 ssh時使用阿XD )
+
+# 重新手動指定 ip
+$ ifconfig enp1s0 <new IP>   
+
+# 重新手動指定 ip及 mask
+$ ifconfig enp1s0 <new IP> netmask <new Mask>
+
+$ ip address show   # 
+
+$ ip link show      # 類似 ip address show, 但省略 ip位址資訊
+```
+> `ip`指令可以拿來作 **變更網路組態**, **增刪改特定設備的 ip位址**.... 遇到再 google
+
+
+---
+## NetworkManager服務 與 network服務(比較傳統的方式)
+> NetworkManager服務(NM) 專門設計用來給 `移動設備(ex: NB)`使用, 可以在各種場合切換連線方式. 所以像是 Server或是一般桌電, 大都不使用 NM, 而是使用 network服務. **兩者則一啟用即可**.
+
+```sh
+$ systemctl status NetworkManager.service
+● NetworkManager.service - Network Manager
+   Loaded: loaded (/usr/lib/systemd/system/NetworkManager.service; enabled; vendor preset: enabled)
+   Active: active (running) since 三 2018-03-07 09:09:49 CST; 14h ago    ### 啟動中!!
+     Docs: man:NetworkManager(8)
+ Main PID: 850 (NetworkManager)
+   Memory: 21.3M
+   CGroup: /system.slice/NetworkManager.service
+           ├─  850 /usr/sbin/NetworkManager --no-daemon
+           └─12031 /sbin/dhclient -d -q -sf /usr/libexec/nm-dhcp-helper -pf /var/run/dhclient-enp1s0.pid -lf /var/lib/NetworkManager/dhclient-1e1bba3e...
+(還有超多...略...)
+
+$ systemctl status network.service
+● network.service - LSB: Bring up/down networking
+   Loaded: loaded (/etc/rc.d/init.d/network; bad; vendor preset: disabled)
+   Active: active (exited) since 三 2018-03-07 09:09:55 CST; 14h ago     ### 存在, 但沒啟用
+     Docs: man:systemd-sysv-generator(8)
+  Process: 957 ExecStart=/etc/rc.d/init.d/network start (code=exited, status=0/SUCCESS)
+   Memory: 0B
+```
+
+> 由於多數 Linux Server都是使用 `network service`, 所以底下開始說明 `network service`的組態
+```sh
+# 服務程式位置
+/etc/init.d/network   
+
+# network服務會讀取 「系統網路組態目錄」內的設定檔, 並配置所有網路的組態
+$ ls /etc/sysconfig/network-scripts/
+ifcfg-andy.lee  ifcfg-enp1s0    ifcfg-lo        ifcfg-wha  # (還有很多很多)
+
+# 網路卡的設定檔
+$ cat ifcfg-enp1s0
+TYPE=Ethernet
+BOOTPROTO=dhcp      # [dhcp, static, none], 若設定其他者, 還要有 'IPADDR=<ip>', 'NETMASK=<sub-net mask>', 'GATEWAY=<gateway>'
+DEFROUTE=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes        # 是否支援 ipv6
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=enp1s0
+UUID=1e1bba3e-ea82-4b79-9071-b64b659bd9fe
+DEVICE=enp1s0       # 設備名稱
+ONBOOT=no           # 開機是否啟用此網路卡
+# USERCTL           # 使用者是否有權限控制此網路卡
+# NM CONTROLLED     # 是否交由 NetworkManager工具來管理此網路卡
+
+### 以上都可以直接編輯後, 重新啟動 network.service即可作用 ###
+```
+
+
+
+---
+## 查詢主機上的網路連線資訊 && port的使用 - netstat
+> 語法: `netstat <options>`
+```sh
+$ netstat -ntp
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 192.168.124.73:55186    64.233.189.188:443      ESTABLISHED 8605/chrome
+```
+options | descrption
+------- | ------------------
+-n      | 不使用名稱, 改用 port, ex: 將 ssh 改為 22
+-t      | 列出 TCP封包的連線資訊
+-u      | 列出 UDP封包的連線資訊
+-l      | 列出 正在傾聽的連線資訊, 大部分都是 server
+-p      | 列出 每個連線由哪個 process處理, 顯示 PID與 程式名稱
+
+> Note: 可以使用 `netstat -ntp` 與 `netstat -tp` 比較後, 就可以知道 `service對應的 port`
 
 ---
 ## 解除yum lock
-
 1. 底下這邊不是程式碼, 是說明情境
 ```
 $ sudo yum install -y mongodb-org
@@ -127,12 +323,6 @@ $ ps aux | grep yum
 ```
 
 
-## tail 追蹤
-> 語法: `tail -n <int> <追蹤的 log路徑>`
-```sh
-# 顯示最後5行, 並持續監看
-$ tail -n 5 -f /var/log/messages
-```
 
 ---
 ## - 設定terminal的熱鍵
@@ -143,13 +333,6 @@ Command: gnome-terminal
 再點選所要設定的熱鍵
 ```
 
-## - shebang on Linux
-[run python script directly from command line](https://stackoverflow.com/questions/20318158/run-python-script-directly-from-command-line)
-> Linux系統底下, 可在任何.py檔的第一行使用 `#!/usr/bin/python` ( 依照使用的 python位置而定 ), 執行此腳本時, 可以藉由下列方式來執行.
-```sh
-$ python pp.py
-$ ./pp.py
-```
 
 
 ---
@@ -164,12 +347,33 @@ $ ll
 drwxrwxr-x. 1 ...(略)... pp.py
 ```
 
+
+
+---
+## - shebang on Linux
+[run python script directly from command line](https://stackoverflow.com/questions/20318158/run-python-script-directly-from-command-line)
+> Linux系統底下, 可在任何.py檔的第一行使用 `#!/usr/bin/python` ( 依照使用的 python位置而定 ), 執行此腳本時, 可以藉由下列方式來執行.<br>
 > windows系統下, 若要使用同 shebang的功能, 再去google `cygwin`.
+```sh
+$ python pp.py
+$ ./pp.py
+```
 
 
+---
+## 常見系統環境變數
+env variables  | description
+-------------- | -----------------
+$HOME          | /home/tony
+$PATH          | ...(一大堆)...
+$USER          | tony
+$UID           | 1000
+$LANG          | en_US.UTF-8
+$RANDOM        | 0~32767整數亂數
+$?             | 上次指令結束後的狀態碼(0:true, 1:false)
 
+---
 ## shell內
-
 hotkey | description
 ------ | -----------
 Ctrl+C | 中斷目前工作
@@ -178,6 +382,65 @@ Ctrl+Z | 暫停目前工作, 利用 `fg`指令, 可以取得暫停的工作
 
 
 
+---
+## - 測試硬碟讀取效能
+```sh
+# 檢測硬碟讀取效能
+$ sudo hdparm -Tt /dev/sda
+[sudo] password for tony:
+
+/dev/sda:
+ Timing cached reads:   14942 MB in  2.00 seconds = 7478.28 MB/sec
+ Timing buffered disk reads: 344 MB in  3.01 seconds = 114.20 MB/sec
+# 至於, 這數字實際代表意義是啥... 我目前沒概念= =
+```
+
+
+
+---
+## date
+```sh
+$ date
+公曆 20十八年 三月 六日 週二 十一時39分廿四秒
+
+$ date +%Y%m%d
+20180306
+
+# 依照時間來命名檔案
+$ touch bck_`date +\%H\%M`.sql
+$ ls
+bck_1608.sql
+```
+
+script | desc
+------ | ----
+%Y     | 年
+%m     | 月
+%d     | 日
+%H     | 時
+%M     | 分
+%S     | 秒
+
+
+
+---
+## crontab 排程(crond服務)
+> 指定特定時間執行特定的工作, 時間為: `分、時、日、月、週`<br>
+  1為週一, 2為週二, ..., **週日為 0 or 7都可**
+```sh
+$ ll /etc | grep crontab
+-rw-r--r--   1 root root     722  四   6  2016 crontab
+
+$ vi /etc/crontab
+* * * * * root mysqldump -u'root' -p'pome' tt > /root/test_crontab/bck_`date +\%m\%d\%H\%M`.sql
+# 29 9 15 8 *   # 8/15 09:29
+# 0 17 10 * *   # 每月10日, 17:00
+# 0 4 * * 6     # 每週六 04:00
+```
+
+
+
+---
 ## 誰在線上
 
 ```sh
@@ -196,6 +459,9 @@ tony     pts/2    :0               14:06   18:13   0.26s  0.12s bash
 # 可以多看使用者停頓時間, 佔用CPU運算資源時間, 正在執行的工作名稱...
 ```
 
+
+
+---
 ## 軟連結 soft link
 > 語法: `ln -s <目標對象> <連結名稱>`
 ```sh
@@ -205,9 +471,12 @@ $ ll | grep py
 lrwxrwxrwx. 1 root root   26  3月  2 14:10 py -> /opt/anaconda3/bin/python3
 ```
 
+
+
+---
 ## 硬碟空間
 ```sh
-# 查看系統盛多少容量( -h表以KB, MB, GB表示)
+# 查看系統剩多少容量( -h表以KB, MB, GB表示)
 $ df -h
 檔案系統             容量  已用  可用 已用% 掛載點
 /dev/mapper/cl-root   80G  8.2G   72G   11% /
@@ -229,19 +498,30 @@ $ du -h ~/doc/illu | more
 0	/home/tony/doc/illu/.git/refs/tags
 4.0K	/home/tony/doc/illu/.git/refs/remotes/origin
 ...
+
+# --max-depth=1, 查看 /var下, 最多到第一層子目錄的空間使用情形
+# -h, 以 KB, MB, GB表示
+$ du /var -h --max-depth=1
+3.1G    ./lib
+4.0K    ./metrics
+5.0M    ./backups
+173M    ./cache
+12K     ./www
+4.0K    ./mail
+52K     ./spool
+4.0K    ./opt
+27M     ./crash
+2.8M    ./log
+76K     ./tmp
+4.0K    ./local
+4.0K    ./snap
+3.3G    .
 ```
 
 
-```sh
-$ ls -l /dev | more
-# more只能往下頁
 
-$ ls -l /dev | less
-# less可搜尋, 到第幾行, 往上頁, 往下頁 
-```
-
-
-
+---
+## chown
 ```sh
 # 改變檔案的擁有者
 $ sudo chown <owner>:<group> <fileName>
@@ -271,7 +551,7 @@ $ kill -9 8888
 $ killall httpd
 
 # 只顯示軟連結(-R為 recursive)
-$ ls -R <path> | grep "\->"
+$ ll -R <path> | grep "\->"
 
 # 搜尋 PATH內的執行檔 (完整檔名)
 $ which python
@@ -290,6 +570,8 @@ $ sudo updatedb &
 # 到 /var/lib/mlocate/mlocate.db 查詢 (片段檔名)
 $ locate ifconf # 要查詢的東西, 檔名可以不完整
 ```
+
+
 
 ---
 ## - 行程狀態 相關指令
@@ -392,6 +674,7 @@ F   UID   PID  PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
 [參考自鳥哥](http://linux.vbird.org/linux_basic/0440processcontrol/0440processcontrol-fc4.php#top)
 
 內容大致如下（上半部：Resource資訊,下半部：Process資訊)
+
 <img src="img/top.jpg" style="width:480px; height:320px;" />
 
 ```
@@ -401,41 +684,38 @@ up 3:47                                         累積開機時間
 load average: 0.84, 0.82, 0.70                  系統每 1, 5, 15分鐘平均執行的行程數
 ```
 
-| top後操作指令 | 說明 |
-| --- | --- |
-| h | Help |
-| P | 依據CPU使用時間排序 |
-| M | 依據記憶體使用量排序 |
-| T | 依據執行時間排序 |
-| N | 依據PID大小排序 |
-| u | 只列出該帳號的程序 |
-| k | 刪除 |
-| d | 更新秒數 |
-| q | 離開 |
+top後操作指令 | 說明 |
+--- | --- |
+h | Help |
+P | 依據CPU使用時間排序 |
+M | 依據記憶體使用量排序 |
+T | 依據執行時間排序 |
+N | 依據PID大小排序 |
+u | 只列出該帳號的程序 |
+k | 刪除 |
+d | 更新秒數 |
+q | 離開 |
 
 
 
 ---
 ## - CentOS7服務相關指令
-```
-啟動與關閉<service>
+```sh
+# 啟動與關閉<service>
 $ systemctl start <service>
 $ systemctl stop <service>
 $ systemctl restart <service>
 
-重新開機後生效<service>
+# 重新開機後生效<service>
 $ systemctl enable <service>
 $ systemctl disable <service>
-
-(以上看狀況加sudo)
 ```
 
----
+
 
 ---
 ## - 壓縮/解壓縮
-
-- gzip
+### - gzip
 ```sh
 $ touch aa
 $ ll
@@ -452,8 +732,8 @@ $ ll
 aa
 ```
 
-- zip
-Case1
+### - zip
+#### Case1
 ```sh
 $ ll
 aa
@@ -470,11 +750,11 @@ $ unzip qq.zip
 Archive:  qq.zip
  extracting: aa     
 
-$ ls
+$ ll
 aa  qq.zip
 ```
 
-Case2
+#### Case2
 ```sh
 # 將a1, a2, a3壓縮為FF.zip, 並設定密碼
 $ zip -er FF.zip a1 a2 a3
@@ -488,12 +768,12 @@ $ unzip -P QQ.zip
 # (下一行在輸入密碼)
 ```
 
-- tar
+### - tar
 > 把多的檔案包成一包, 方便 gzip壓縮, 語法: `tar -<選項> <檔名> <要打包的東西>`
 
 > `-c 產生新的包裹檔案` <br> `-v 觀看指令進度` <br> `-f 指定包裹檔案的名稱` <br> `-x 解開已打包的檔案` (解壓縮的概念)
 ```sh
-$ ls 
+$ ll
 a  b  c
 
 $ tar -cvf qq.tar a b c
@@ -502,51 +782,51 @@ b
 c
 
 $ rm a b c
-$ ls
+$ ll
 qq.tar
 ```
 
-- tgz (tar ball)
+### - tgz (tar ball)
 > tar + gz的合體, 語法: `tar -<選項> <tar ball檔名> <要打包的東西們> ...`
 ```sh
-$ ls
+$ ll
 a  b  c
 $ tar -czvf qq.tgz a b c
 a
 b
 c
 
-$ ls
+$ ll
 a  b  c  qq.tgz
 ```
 
+
 ---
 ## find相關
-
 [參考自網路blog](https://blog.gtwang.org/linux/unix-linux-find-command-examples/)
-
-```
-在目前dir底下,忽略大小寫找出所有xx.txt
+```sh
+# 在目前dir底下,忽略大小寫找出所有xx.txt
 $ find . -iname xx.txt
 
--perm:尋找特定權限的檔案
+# -perm:尋找特定權限的檔案
 $ find . -type f ! -perm 777
 
-列出唯獨的檔案
+# 列出唯獨的檔案
 $ find . -perm /u=r
 
-列出可執行的檔案
+# 列出可執行的檔案
 $ find . -perm /a=x
 ```
 
-```$ find . -type <代碼> -name xx```
-| <代碼> | 說明 |
-| --- | --- |
-| d | 目錄 |
-| p | 具名的pipe(FIFO) |
-| f | 一般檔案 |
-| l | 連結檔 |
-| s | socket檔案 |
+> 尋找語法: `$ find <路徑> -type <code> -name <要找的名稱>`
+
+\<code> | description 
+------- | ------------------ 
+d       | 目錄 
+p       | 具名的pipe(FIFO) 
+f       | 一般檔案 
+l       | 連結檔 
+s       | socket檔案 
 
 
 
@@ -579,12 +859,12 @@ $ service sshd restart
 $ systemctl enable sshd(這個還不是非常確定是否可行)
 ```
 
+
+
+
 ---
-
 ## 建立使用者
-
 > 指令: `adduser <userName>`
-
 ```sh
 $ adduser tony
 # 然後就開始輸入密碼那堆東西~
@@ -600,8 +880,8 @@ tony : tony sudo
 ```
 
 
----
 
+---
 ## 開啟 port並設定防火牆
 - 2018/02/19
 - [CentOS 7 設定防火牆允許特定 PORT 連線](https://blog.yowko.com/2017/09/centos-7-firewall.html?m=1)
@@ -609,7 +889,6 @@ tony : tony sudo
 > 語法: `firewall-cmd --zone=public --add-port=3333/tcp --permanent`  對外永久開放 3333 port, 支援 TCP連線
 
 > `firewall-cmd --reload` 重新讀取 firewall設定 
-
 ```sh
 # 看看 FirewallD是否執行中
 $ firewall-cmd --state
@@ -678,7 +957,6 @@ ser | zone名稱 | desc
 2   | block    | 阻擋所有 incoming的封包, 並以 `icmp`回覆對方, 只有從本機發出的連線是被允許的
 
 > 永久套用設定的語法: `firewall-cmd --permanent --zone=dmz --change-interface=ens0s3`
-
 ```sh
 $ firewall-cmd --get-active-zone
 public
@@ -743,6 +1021,7 @@ public (active)
 ```
 
 
+
 ---
 ## 目前使用者
 [Get current user name in bash](https://stackoverflow.com/questions/19306771/get-current-users-username-in-bash)
@@ -773,6 +1052,7 @@ tonynb
 ```
 
 
+---
 ## source 與 bash
 - [鳥哥 - bash 與 source](http://linux.vbird.org/linux_basic/0340bashshell-scripts.php#script_run)
 
@@ -811,6 +1091,25 @@ tony 30                         # 東西出現啦~~~~  只要此 terminal沒關,
 ```
 
 
+
+---
+## jobs 工作管理 && fg
+> jobs參數, `l: 顯示 PID`, `r: running process`, `s: stopped process`
+> 預設, Ctrl+z後, 都會暫停此 process
+```sh
+$ vi ~/.bashrc        # Ctrl + z
+[1]+  Stopped                 vi .bashrc
+
+$ mysql -uroot -p     # Ctrl + z
+[2]+  Stopped                 mysql -uroot -p
+
+$ jobs -lrs
+[1]- 19499 Stopped                 mysql -uroot -p  (wd: /home/tony)
+[2]+ 19504 Stopped                 vi .bashrc
+
+$ fg              # 可以回到上面有「+」的那個 process
+
+$ fg %1           # 可以回到第1個 process
 ---
 ## 虛擬檔案
 > `/proc`內的檔案, 都是虛擬檔案, 是系統讓使用者查看系統內部狀況的窗口
@@ -826,9 +1125,82 @@ $ cat /proc/partitions
 $ cat /proc/cpuinfo
 ```
 
----
 
+---
+## 寫 shell script / bash script
+範例1
+```sh
+# 寫 script
+$ vi ex1.sh
+n1=10
+n2=15
+test $n1 -eq $n2
+
+$ chmod +x ex1.sh
+$ ./ex1.sh
+$ echo $?
+1
+```
+
+範例2
+```sh
+# 寫 script
+$ vi ex2.sh
+n1=$1       # 第一個參數
+n2=$2       # 第二個參數
+echo $n1 -eq $n2
+
+$ chmod +x ex2.sh
+$ ./ex2.sh 30 40    # 給參數
+$ echo $?
+1
+
+$ ./ex2.sh 40 40    # 給參數
+$ echo $?
+0
+```
+
+範例3
+```sh
+$ vi ex3.sh
+n1=$1
+n2=$2
+if test $n1 -gt $n2   # if 參數1 > 參數2 
+  then
+    echo "n1:$n1 is bigger than n2:$n2"
+  else
+    echo "n1:$n1 is not bigger than n2:$n2"
+fi
+
+$ chmod +x ex3.sh
+$ ./ex3.sh 30 40
+n1:30 is not bigger than n2:40
+```
+
+範例4
+```sh
+$ vi ex4.sh
+for n in `seq 1 3`  # 重音符號「``」內, 優先執行
+do
+  echo $n
+done
+# (後略)
+```
+
+範例5
+```sh
+$ vi ex5.sh
+for n in `ls`
+do
+  echo $n
+done
+# (後略)
+```
+
+
+---
 ## 其他不知道怎嚜分類
+### crond
 > 系統排程服務`crond`, 每分鐘會檢查 `/etc/crontab`, 並在適當時機執行檔案內指令的排程工作
 
 > `/proc`內部幾乎都是虛擬檔案(唯獨), 少數系統設定值可修改
@@ -840,3 +1212,247 @@ $ echo "tonynb" > /proc/sys/kernel/hostname     # 要進到 su才可, 無法 sud
 # 此檔案權限為 -rw-r--r--. 1 root root 0
 # 更改主機名稱就會變成 tonynb
 ```
+
+### less 與 more
+```sh
+$ ll /dev | more
+# more只能往下頁
+
+$ ll /dev | less
+# less可搜尋, 到第幾行, 往上頁, 往下頁 
+```
+
+### 計數(word count) - wc
+```sh
+$ wc .bashrc
+118  520 3809 .bashrc
+# 檔案內有 118行, 520個英文字節數, 3809 bytes
+# 分別可用 -l -w -c來控制想要的輸出
+
+$ wc -w .bashrc
+520 .bashrc
+```
+
+### 取代/刪除字元 - tr
+```sh
+$ echo "ABCDEFG"
+ABCDEFG
+
+$ echo "ABCDEFG" | tr ABC xyz
+xyzDEFG
+
+$ echo "ABCDEFG" | tr [:upper:] [:lower:]
+abcdefg
+
+$ echo "ABC" | tr -d 'A'
+BC
+```
+
+### 跨主機複製 - scp
+> 語法1: `scp <要複製的檔案> <要放置的id>@<要放置的host>:<放在哪邊>`<br>
+  語法2: `scp <要複製的來源id>@<來源host>:<檔案絕對路徑> <放置位置>`
+```sh
+$ scp requirement.txt pome@192.168.124.81:/home/pome/tmp
+# 把 requirement.txt 丟到 pome@192.168.124.81的 /home/pome/tmp裏頭
+
+$ scp pome@192.168.124.81:/home/pome/tmp/requirement.txt .
+# 把 pome@192.168.124.81 內的 /home/pome/tmp/requirement.txt 複製到目前目錄底下
+```
+
+### 產生序列數字 - seq
+```sh
+$ seq 1 2 7
+1
+3
+5
+7
+
+# 補上「0」讓它們等寬
+$ seq -w 1 2 7
+01
+03
+05
+07
+```
+
+### 排序 - sort
+```sh
+$ cat doc1
+031
+2
+1345
+001
+
+# 預設逐字依照 ascii排序
+$ sort doc1
+001
+031
+1345
+2
+
+# -g: 嘗試以數字排序
+$ sort -g doc1
+001
+2
+031
+1345
+```
+
+### 過濾重複 - uniq
+> 將檔案中, `相鄰且重複`的多行資料, 取 set, 確保唯一 <br>
+> 搭配 `sort`, 語法: `sort <檔案> | uniq`
+
+
+### 擷取子字串 - cut
+> 預設處理以「tab分隔」的檔案, 用 `-d` 指定分隔符號, `-f` 指定要取出的欄位
+```sh
+$ cat doc2
+tom,22,31000
+jack,21,29500
+eric,18,42000
+
+$ cut -d',' -f2 doc2
+22
+21
+18
+```
+
+### 請求主機回應 - ping
+> ping指令, 送出 `icmp protocal的 ECHO_REQUEST`封包至特定主機, 主機在同樣以 `icmp回傳封包`
+```sh
+# ping 1次
+$ ping -c 1 168.95.1.1
+64 bytes from 168.95.1.1: icmp_seq=1 ttl=241 time=3.97 ms
+
+# 3.97 ms為 伺服氣宇該主機之間的連線回應狀況
+```
+
+### 追蹤網路主機路徑 - traceroute
+> 網路主機路徑追蹤工具, 找出 icmp封包到目的主機的路徑(中途節點, 可能因為安全性考量, 而無法回應)
+```sh
+$ traceroute 168.95.1.1
+# 168.95.1.1 : 中華電信 Hinet IP
+```
+
+### 主機名稱 - hostname
+> 設定主機名稱, 重新登入後開始生效, 語法: `set-hostname <新的 hostname名稱>`
+```sh
+$ hostname
+tony
+
+$ hostnamectl
+
+```
+
+### 別名 - alias
+> 底下的設定, 登出後就無效了, 因此可將別名設到 `.bashrc` 或 `/etc/profile(不建議)` 之中.
+```sh
+$ alias
+alias ll='ls -alF'
+alias ls='ls --color=auto'
+...(很多別名)...
+
+$ alias dv='du -sh /var'
+# 自行設定別名
+
+$ unalias dv
+# 刪除別名
+```
+
+### echo
+```sh
+$ echo "L1\nL2\nL3"
+L1\nL2\nL3
+
+# 讓特殊字元作用
+$ echo -e "L1\nL2\nL3"
+L1
+L2
+L3
+```
+
+### 互動式 input - read
+```sh
+$ read n
+88   # 自行輸入
+
+$ echo $n
+88
+```
+
+### ls
+[ls查看目錄內容](http://blog.xuite.net/altohorn/linux/17259902-ls+%E5%88%97%E5%87%BA%E7%9B%AE%E9%8C%84%E5%85%A7%E5%AE%B9)
+> 語法: `ls [options] <檔案or資料夾>`
+
+options | description
+------- | ----------------------
+-l | 詳細資訊
+-a | 包含隱藏檔
+-i | 列出 inode
+-s | 列出檔案大小
+-R | Recursive
+-- | ----------
+-h | 檔案內容以 KB, MB, GB顯示
+-d | 只顯示 directory
+-- | ----------
+-r | 反向列出
+-t | 依時間排序
+-S | 依檔案大小排序
+
+
+> `ls -l`, 出現的東西的第一個字
+
+type | desc
+---  | ---
+-    | 檔案
+d    | 目錄
+l    | 連結
+b    | 區塊類(硬碟, 光碟機, 週邊設備)
+c    | 字元類(序列埠, 終端機, 磁帶, 印表機)
+
+### 追蹤 - tail
+> 語法: `tail -n <int> <追蹤的 log路徑>`
+```sh
+# 顯示最後5行, 並持續監看
+$ tail -n 5 -f /var/log/messages
+```
+
+### 測試 - test
+> 測試, 語法: `test <option> <filename>`<br>
+```sh
+$ touch file1
+
+$ test -d file1 # 是否為 dir
+$ echo $?
+1
+
+$ test -e file1 # 是否存在
+$ echo $?
+0
+
+$ test -r file1 # readable
+$ echo $?
+0
+```
+option         | description
+-------------- | -------------
+file           | 
+  -d           | 為 dir
+  -e           | 存在
+  -s           | 大小 >0
+  -r           | readable
+  -w           | writable
+  -x           | executable
+  -L           | 為連結
+string         | 
+-n \<str>      | 長度 >0
+-z \<str>      | 是否 =0
+\<str>==\<str> | 字串相等
+\<str>!=\<str> | 字串不相等
+number         | 
+n1 -eq n2      | n1 == n2
+-ne, -gt, ...  | (略)
+
+
+
+---
