@@ -69,8 +69,8 @@ flag    | Description
 
 - -v, 由3個部分所組成(有先後順序, 但用意不明顯), 用「:」分隔
     -
-    - 第 1個欄位, 對於 *named volume*, 是它的名稱; 對於 *anonymous volume*, 此欄位省略, 同 `source`
-    - 第 2個欄位, Container 作 mount對應的位置, 同 `target`
+    - 第 1個欄位, 對於 *named volume*, 是它的名稱; 對於 *anonymous volume*, 此欄位省略 ((同 `source`))
+    - 第 2個欄位, Container 作 mount對應的位置 ((同 `target`))
     - 第 3個欄位, (optional), CSV格式
 
 - --mount, \<key>=\<value>表示, 
@@ -119,8 +119,43 @@ $ docker volume inspect my-vol
 ]
 
 # 建立 Container, 並指定 volume位置 (下面 2者相同)
-$ docker run -itd --name devtest --mount source=myvol2, target=/app nginx:latest
+$ docker run -itd --name devtest --mount source=myvol2,target=/app nginx:latest
 $ docker run -itd --name devtest -v myvol2:/app nginx:latest
 
-$ 
+# ((同上, 但為 readonly))
+$ docker run -itd --name devtest --mount source=myvol2,target=/app,readonly nginx:latest    # 使用 readonly
+$ docker run -itd --name devtest -v myvol2:/app:ro nginx:latest # 使用 ro
+
+$ docker inspect devtest
+"Mounts": [
+    {
+        "Type": "volume",       # mount為 Volume
+        "Name": "myvol2",
+        "Source": "/var/lib/docker/volumes/myvol2/_data",
+        "Destination": "/app",
+        "Driver": "local",
+        "Mode": "",
+        "RW": true,             # mount為可讀寫
+        # "RW": false,          # mount為唯獨
+        "Propagation": ""
+    }
+    #... 超大一包....(略)
+],
 ```
+
+### Start a service with volumes
+```sh
+# 起始 swarm
+$ docker swarm init
+
+# 起始服務
+$ docker service create -d \
+    --replicas=4 \                      # 4個副本
+    --name devtest-service \            # Container name
+    --mount source=myvol2,target=/app \ # 使用本地 myvol2的 Volume, mount的本地位址
+    nginx:latest
+```
+
+- 2018/3/12 讀到
+[Initial set-up](https://docs.docker.com/v17.09/engine/admin/volumes/volumes/#initial-set-up)
+

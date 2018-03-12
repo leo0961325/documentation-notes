@@ -1,72 +1,42 @@
 # git相關知識
 
-- [Git 建立共用repo](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/03.md)
+- [Learning git in 30 days](https://github.com/doggy8088/Learn-Git-in-30-days/tree/master/zh-tw)
 - [Git branch的操作](https://blog.gogojimmy.net/2012/01/21/how-to-use-git-2-basic-usage-and-worflow/)
 - [Git初學者心得分享](http://www.mrmu.com.tw/2011/05/06/git-tutorial-for-beginner/)
 - [Git中文化電子書](https://git-scm.com/book/zh-tw/v2)
 - [Git視覺化遊戲](http://learngitbranching.js.org/)
 
 ```sh
+# 作業環境
+$ uname -a
+Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 
+
+# 版本
 $ git --version
 git version 2.14.3
 ```
 
 # A. 概念
-## 名詞定義
-branch | 說明
------- | ------
-master | 本地端分支的預設名稱
-origin | 遠端repo的預設名稱
+> Git為 `分散式版本控管系統(Distributed Version Control System)`. 
+## 示意圖
+![Git0](img/git01.jpg)
 
+![Git1](img/git02.jpg)
+```
+add : 將 檔案 加入版本控管
 
----
-## 遞交流程
-![GitFlow](img/gitFlow.jpg)
-
-
----
-## 層級
-層級       | 指令     | 說明
---------- | -------- | ---
-儲存庫層級 | --local  | 只對目前的repo有效(default)
-使用者層級 | --global | 對目前使用者有效
-系統層級   | --system | 對所有使用者/儲存庫都有效
-
-
----
-## Merge 與 Rebase
-> Merge: `合併後, 分支仍然存在`
-```sh
-$ git branch
-* master
-  tony
-
-$ git merge tony
-...(一堆log)...
 ```
 
-> Rebase: `合併後, 分支與 master在相同 index`
-```sh
-$ git branch tony
-  master
-* tony
-
-$ git rebase master         # 把 tony搬到 master的下一個階段
-...(一堆log)...
-
-$ git checkout master
-
-$ git rebase tony           # 把 (落後的)master, 合併到 tony
-```
+# B. 名詞定義
+## 分支名稱
+Name   | Description
+------ | ----------------------------------
+master | Local repository Default Name
+origin | Remote repository Default Name
 
 
----
-## 組態檔的位置
-層級 | 位置
---- | ---
-system | /etc/gitconfig
-user   | ~/.gitconfig、~/.config/git/config
-local  | 專案裏頭的.git/config
+
+
 
 ---
 ## HEAD節點標籤
@@ -189,10 +159,41 @@ Reflow是 HEAD變動的歷史紀錄
 
 
 
-# B. Git 組態
+# C. Git 組態
 
-## 設定別名
-> 指令: `git config --<層級> alias.<縮寫名稱> <原始指令>`
+## 層級
+LEVEL  | option   | Path           | Description
+------ | -------- | -------------- | -------------------------
+Local  | --local  | .git/config    | 只對目前的repo有效(預設)
+User   | --global | ~/.gitconfig   | 對目前使用者有效
+System | --system | /etc/gitconfig | 對所有使用者/儲存庫都有效
+
+
+## 查詢、設定、移除
+```sh
+# 查詢組態
+$ git config -l
+$ git config -l --system
+$ git config -l --global
+$ git config -l --local
+$ git config  <Config_Section.Config_Name> # 顯示特定組態
+
+# 設定組態
+$ git config --global user.name "TonyCJ"
+$ git config --global user.email "cool21540125@gmail.com"
+
+# 忽略「空白」所造成的影響
+$ git config --global apply.whitespace nowarn
+
+# 增加Git輸出時的顏色
+$ git config --global color.ui true
+```
+
+
+## 查詢、設定、移除 別名
+> *設定別名* : `git config --<層級> alias.<縮寫名稱> <原始指令>`
+
+> *移除別名* : `git config --<層級> --unset alias.<已建立的別名>`
 ```sh
 $ git config --global alias.cm "commit -m"
 # 將來可用 git cm "..." 來代替 git commit -m "..."
@@ -212,67 +213,10 @@ $ git config --global alias.tree2 "log --graph --oneline --all --decorate"
 
 
 ---
-## 移除別名
-> 指令 : `git config --<層級> --unset alias.<已建立的別名>`
-
-
----
-## 必用
+## .gitignore - 取消追蹤
 ```
-$ git config --global user.name "TonyCJ"
-$ git config --global user.email "cool21540125@gmail.com"
-$ git config -l --global
-    user.name=TonyCJ
-    user.email=cool21540125@gmail.com
-```
-
-
----
-## 忽略「空白」所造成的影響
-```sh
-$ git config --global apply.whitespace nowarn
-```
-
-
----
-## 增加Git輸出時的顏色
-```sh
-$ git config --global color.ui true
-```
-
-
----
-## 遠端連線設定 (For Windows)
-```sh
-> ssh-keygen -t rsa -C '<e-mail>'
-# -C 是指讓識別碼以email為識別值, 而非預設的「帳號@遠端主機位址」
-```
-
-
----
-## 顯示所有組態
-```sh
-> git config -l
-
-> git config --system -l  # 系統層級
-
-> git config --global -l  # 使用者層級
-```
-
-
----
-## .gitignore
-```git
 *.txt        # 不要追蹤所有 txt檔
 !note.txt    # 但是排除 note.txt(要追蹤)
-```
-
-
----
-## 取消追蹤特定檔案
-將檔名加到 `.gitignore`即可
-```sh
-$ vi .gitignore     # 把檔名加入.gitignore即可
 ```
 
 
@@ -280,15 +224,15 @@ $ vi .gitignore     # 把檔名加入.gitignore即可
 ## 更改 remote repo
 ```sh
 $ git remote -v
-origin  git@github.com:USERNAME/REPOSITORY.git (fetch)
-origin  git@github.com:USERNAME/REPOSITORY.git (push)
+origin  https://github.com/cool21540125/illu.git (fetch)
+origin  https://github.com/cool21540125/illu.git (push)
 
-$ git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
+$ git remote set-url origin git@github.com:cool21540125/documentation-notes.git
 Verify that the remote URL has changed.
 
 $ git remote -v
-origin  https://github.com/USERNAME/REPOSITORY.git (fetch)
-origin  https://github.com/USERNAME/REPOSITORY.git (push)
+origin  git@github.com:cool21540125/documentation-notes.git (fetch)
+origin  git@github.com:cool21540125/documentation-notes.git (push)
 ```
 
 
@@ -296,7 +240,7 @@ origin  https://github.com/USERNAME/REPOSITORY.git (push)
 
 
 
-# C. 指令彙整
+# D. 操作指令
 ## 選項
 選項 | 說明 | 範例 
 --- | --- | ---
@@ -304,22 +248,40 @@ origin  https://github.com/USERNAME/REPOSITORY.git (push)
 
 
 ---
-## 參數
- 參數   |      說明       | 範例
- ------ | -------------- | ---
- --blob |                |
- --f    |                |
- --list | 顯示組態設定值  | 
+## Merge 與 Rebase
+> Merge: `合併後, 分支仍然存在`
+```sh
+$ git branch
+* master
+  tony
+
+$ git merge tony
+...(一堆log)...
+```
+
+> Rebase: `合併後, 分支與 master在相同 index`
+```sh
+$ git branch tony
+  master
+* tony
+
+$ git rebase master         # 把 tony搬到 master的下一個階段
+...(一堆log)...
+
+$ git checkout master
+
+$ git rebase tony           # 把 (落後的)master, 合併到 tony
+```
 
 
+
+---
 ## git reset 改變範圍
 param   | data in repo | git index | file in dir
 ------- |:------------:|:---------:|:------------:
 --soft  | v            |           | 
 --mixed | v            | v         | 
 -- hard | v            | v         | v
-
-# D. 操作指令
 ## 建立新的git repo
 > 參考: [共用儲存庫](https://ithelp.ithome.com.tw/articles/10132804)
 ```sh
@@ -335,7 +297,11 @@ $ git init --bare
 $ git config -l | grep master
 branch.master.remote=origin
 branch.master.merge=refs/heads/master
+```
 
+
+```sh
+# 查看本地/遠端分支
 $ git branch -a
 * develop
   logging
@@ -352,11 +318,26 @@ $ git commit --amend -m "<Commit String>"
 
 ---
 ## 鎖定遠端repo、遠端repo追蹤
+> 加入 remote repository, 語法: `git remote add origin <遠端repo>`
+
+script                             | Description
+---------------------------------- | ------------
+`git push origin <branch name>`    | 把指定分支的最新狀態, 推送到 remote repo
+`git push -u origin <branch name>`<br>( `-u` 可改成 `--set-upstream` ) | (同上), <br>且會在設定檔內紀錄「本地 repo分支」與「遠端 repo分支」的對應關係
+
 ```sh
 $ git init
 $ git add README.md
 $ git commit -m 'xxx'
-$ git remote add origin https://github.com/cool21540125/illu.git
+$ git remote -v
+#(沒東西)
+
+$ git remote add origin https://github.com/cool21540125/tttt.git
+
+$ git remote -v
+remote.origin.url=https://github.com/cool21540125/tttt.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+
 $ git push -u origin master
 ```
 
@@ -444,12 +425,16 @@ $ git reset --hard HEAD@{4}
 ```
 
 ---
-# E. 其他
-## 這幹嘛的我忘了...
+# E. 其他零碎片段
+
+> `沒有工作目錄的儲藏庫`(no working tree / no working directory), 為 「bare repository」
+
+> `index` 的目的: 用來記錄「那些檔案即將被提交到下一個 Commit版本中」
+
 ```sh
-$ git branch -f master HEAD~3
+# 把被改壞的檔案, 還原回它當時在此 branch的狀態, 如此可避免使用「git reset --hard」
+$ git checkout <branch> <fileName>
+
 # -f 選項直接讓分支指向另一個 commit
+$ git branch -f master HEAD~3
 ```
-
-
----
