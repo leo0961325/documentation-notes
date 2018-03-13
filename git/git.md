@@ -276,6 +276,15 @@ $ git rebase tony           # 把 (落後的)master, 合併到 tony
 
 
 ---
+## git stash 暫存版
+- `git stash` 已追蹤 的檔案 建立暫存版 (同 `git stash save`)
+- `git stash -u`　已追蹤 + 未追蹤 的檔案 建立暫存版 
+
+- [參考這邊](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/13.md)
+- [保證簡單好懂得範例](./stash_example.txt)
+
+
+---
 ## git reset 改變範圍
 param   | data in repo | git index | file in dir
 ------- |:------------:|:---------:|:------------:
@@ -288,6 +297,7 @@ param   | data in repo | git index | file in dir
 $ git init
 $ git init --bare
 ```
+
 
 
 ---
