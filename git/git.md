@@ -19,9 +19,9 @@ git version 2.14.3
 # A. 概念
 > Git為 `分散式版本控管系統(Distributed Version Control System)`. 
 ## 示意圖
-![Git0](img/git01.jpg)
+![Git0](../img/git01.jpg)
 
-![Git1](img/git02.jpg)
+![Git1](../img/git02.jpg)
 ```
 add : 將 檔案 加入版本控管
 
