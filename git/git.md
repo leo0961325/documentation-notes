@@ -35,10 +35,29 @@ master | Local repository Default Name
 origin | Remote repository Default Name
 
 
+## 分支概念(有遠端儲藏庫的話, 可區分為下列 4種)
+1. 遠端追蹤分支
+2. 本地追蹤分支
+3. 本地分支
+4. 遠端分支
+> `追蹤分支` 主要用來跟 `遠端的分支做對應`. 不應在這之上, 建立版本. 而是把這些「本地追蹤分支」當成 read only.
+
+```sh
+# 顯示所有「本地分支」(又稱 'Topic Branch' or 'Development Branch')
+$ git branch
+* master
+
+# 顯示所有「本地分支」、「本地追蹤分支」
+$ git branch -a
+* master
+  remotes/origin/master
 
 
 
----
+```
+
+
+-----------------------------------------
 ## HEAD節點標籤
 此節點標籤, 永遠代表最新的 commit
 ```sh
@@ -46,7 +65,9 @@ $ git show HEAD
 # 顯示最新 commit的詳細資料
 ```
 
----
+
+
+-----------------------------------------
 ## git merge
 把指定的分支, 合併到目前的分支
 ```sh
@@ -60,7 +81,7 @@ $ git merge B
 ```
 
 
----
+-----------------------------------------
 ## git merge 「fast-forward merge」
 讓 master分支, 沿著分支快轉前進(不會產生新的節點)
 ```sh
@@ -95,7 +116,7 @@ $ git merge bug/123 --no-ff
 ```
 
 
----
+-----------------------------------------
 ## git merge 「3-way merge」
 因為分支與 master 都有各自 commit了, 導致彼此的歷史沒有重疊
 ```sh
@@ -116,24 +137,55 @@ $ git merge bug/123
 ```
 
 
----
+-----------------------------------------
 ## git reset 取消提交
 將 git檔案庫回復到某一個舊節點的狀態.
-取消最近一次的合併動作
+- 取消最近一次的合併動作
+- **無法對 remote branch作用!!!!**
+> `git reset HEAD^ --hard`, --hard, 表示資料夾中的檔案也要一起回復
 ```sh
-$ git reset HEAD^ --hard
-# --hard, 表示資料夾中的檔案也要一起回復
+# O C0               (old)
+# |
+# O C1
+# |
+# O C2 <-master      (new)
+
+$ git reset HEAD^    # 把分支參考點退回上一個 commit (重寫歷史的概念)
+# O C0
+# |
+# O C1 <-master
 ```
 
 
-## cherry-pick (有點高段, 不好使用...)
+-----------------------------------------
+## git revert 取消提交 (保有 git commit的實作方式)
+
+```sh
+# O C0               (old)
+# |
+# O C1  
+# |
+# O C2 <-master      (new)
+
+$ git revert HEAD   
+# O C0
+# |
+# O C1  
+# |
+# O C2  
+# |
+# O C2' <-master
+```
+
+
+## cherry-pick (這...我不是很懂)
 把某一個 commit節點的檔案版本, 合併到資料夾的檔案
 ```sh
 $ git cherry-pick commit <節點標籤>
 ```
 
 
----
+-----------------------------------------
 ## 放棄合併衝突
 執行合併後, 產生衝突, 打算放棄此合併, 則會回到未執行合併前的狀態
 ```sh
@@ -146,12 +198,15 @@ $ git cherry-pick --abort
 ```
 
 
----
-## git reflog(小烏龜)
-Reflow是 HEAD變動的歷史紀錄
+-----------------------------------------
+## git reflog
+> 任何透過指令修改的`參照(ref)的內容` or `更任何分支的 HEAD 參照內容`, 都會建立歷史紀錄. ex: commit, checkout, pull, push, merge, ...
+```sh
 
+```
 
----
+-----------------------------------------
+
 ## git rebase
 ```sh
 
@@ -212,7 +267,7 @@ $ git config --global alias.tree2 "log --graph --oneline --all --decorate"
 ```
 
 
----
+-----------------------------------------
 ## .gitignore - 取消追蹤
 ```
 *.txt        # 不要追蹤所有 txt檔
@@ -220,7 +275,7 @@ $ git config --global alias.tree2 "log --graph --oneline --all --decorate"
 ```
 
 
----
+-----------------------------------------
 ## 更改 remote repo
 ```sh
 $ git remote -v
@@ -237,6 +292,17 @@ origin  git@github.com:cool21540125/documentation-notes.git (push)
 
 
 
+-----------------------------------------
+## 改變追蹤遠端分支
+
+建立一個新的 foo branch, 並追蹤 origin/master
+```sh
+# 法一: 藉由參考到 remote branch來 checkout 新的 branch
+$ git checkout -b foo origin/master
+
+# 法二: 使用 git branch -u
+$ git branch -u origin/master foo
+```
 
 
 
@@ -247,7 +313,7 @@ origin  git@github.com:cool21540125/documentation-notes.git (push)
 -s | 簡易資訊 | git status -s
 
 
----
+-----------------------------------------
 ## Merge 與 Rebase
 > Merge: `合併後, 分支仍然存在`
 ```sh
@@ -275,7 +341,7 @@ $ git rebase tony           # 把 (落後的)master, 合併到 tony
 
 
 
----
+-----------------------------------------
 ## git stash 暫存版
 - `git stash` 已追蹤 的檔案 建立暫存版 (同 `git stash save`)
 - `git stash -u`　已追蹤 + 未追蹤 的檔案 建立暫存版 
@@ -284,7 +350,7 @@ $ git rebase tony           # 把 (落後的)master, 合併到 tony
 - [保證簡單好懂得範例](./stash_example.txt)
 
 
----
+-----------------------------------------
 ## git reset 改變範圍
 param   | data in repo | git index | file in dir
 ------- |:------------:|:---------:|:------------:
@@ -300,7 +366,7 @@ $ git init --bare
 
 
 
----
+-----------------------------------------
 ## 遠端分支
 > 
 ```sh
@@ -319,21 +385,23 @@ $ git branch -a
   remotes/origin/logging
   remotes/origin/master
 ```
----
+-----------------------------------------
 ## 修改 Commit訊息
 ```sh
 $ git commit --amend -m "<Commit String>"
 ```
 
 
----
+-----------------------------------------
 ## 鎖定遠端repo、遠端repo追蹤
 > 加入 remote repository, 語法: `git remote add origin <遠端repo>`
 
-script                             | Description
----------------------------------- | ------------
-`git push origin <branch name>`    | 把指定分支的最新狀態, 推送到 remote repo
-`git push -u origin <branch name>`<br>( `-u` 可改成 `--set-upstream` ) | (同上), <br>且會在設定檔內紀錄「本地 repo分支」與「遠端 repo分支」的對應關係
+script                                | Description
+------------------------------------- | ------------
+`git push <remote> <branch name>`     | 把指定分支的最新狀態, 推送到 remote repo
+`git push -u <remote> <branch name>`<br>( `-u` 可改成 `--set-upstream` ) | (同上), <br>且會在設定檔內紀錄「本地 repo分支」與「遠端 repo分支」的對應關係
+
+> 重要概念: `git push origin master`的意思是「先到我的 repo 找出所有 "master branch" commit紀錄, 與 **origin**這個 remote 的 "master branch"的 commit 紀錄比對是否相同, 若相同, 就更新」
 
 ```sh
 $ git init
@@ -352,7 +420,8 @@ $ git push -u origin master
 ```
 
 
----
+
+-----------------------------------------
 ## 加入至stage狀態
 [git add 差異說明](https://stackoverflow.com/questions/572549/difference-between-git-add-a-and-git-add)
 
@@ -377,15 +446,20 @@ $
 ```
 
 
----
+-----------------------------------------
 ## 回到過去
+- 使用 `^`向上移動一個 commit
+- 使用`~<num>`向上移動多個 commit
 ```sh
 $ git branch -f master HEAD~3
-# 強制移動master指向從HEAD往上數的第3個parent commit
+# 強制移動master指向從HEAD往上數的第3個 parent commit (改變 branch指向的 commit)
+
+# ex: master^^  , 找到 master的前兩個 parent commit
+# 上式, 等同於 master~2
 ```
 
 
----
+-----------------------------------------
 ## 刪除分支
 ```sh
 $ git branch -d <要刪除的分支名稱>
@@ -396,14 +470,14 @@ $ git branch -D <要刪除的分支名稱>
 ```
 
 
----
+-----------------------------------------
 ## 重新命名分支
 ```sh
 $ git branch -m <新的分支名稱>
 ```
 
 
----
+-----------------------------------------
 ## 清理檔案庫
 Git經過一段時間之後, .git的資料夾會變得無比的巨大, 可以使用下列指令來清理此檔案庫, 指令為
 ```sh
@@ -434,7 +508,7 @@ $ git reset --hard HEAD@{4}
 # 慎用 --hard
 ```
 
----
+-----------------------------------------
 # E. 其他零碎片段
 
 > `沒有工作目錄的儲藏庫`(no working tree / no working directory), 為 「bare repository」
@@ -447,4 +521,6 @@ $ git checkout <branch> <fileName>
 
 # -f 選項直接讓分支指向另一個 commit
 $ git branch -f master HEAD~3
+
+$ git checkout HEAD~1
 ```
