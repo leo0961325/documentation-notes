@@ -7,7 +7,7 @@
 ---
 
 ## Docker 體系結構
-![dd](https://docs.docker.com/v17.09/engine/article-img/architecture.svg)
+![dd](./../img/architecture.svg)
 Docker Client 與 Docker Daemon透過 REST API與 `UNIX sockets` 或 `a network interface` 溝通
 
 ---
@@ -40,3 +40,6 @@ Docker在 Linux使用的 namespaces如下:
 
 ## Container format
 Docker Engine結合 `namespaces`, `control groups`, `UnionFS`到一個包裹物件, 此包裹物件稱為 `Container format`. 預設的 'Container format' 為 `libcontainer`
+
+## dockerfile
+> 由一系列的 `Layers`所組成. 每一層都是由 dockerfile中的每行指令所創建.

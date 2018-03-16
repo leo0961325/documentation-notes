@@ -79,7 +79,7 @@ flag    | Description
     - `source` 或 `src` , 對於 *named volume*為 Volume Name ; 對於 *anonymous volume*, 此欄位省略
     - `destination` 或 `dst` 或 `target`, 被 mount到 Container內的 檔案 or 資料夾
     - `readonly`, 此欄位為 無值特性(僅需要加上 readonly)
-    - `volume-opt`
+    - `volume-opt`, key-value pair(可使用多次)
 
 <hr>
 
