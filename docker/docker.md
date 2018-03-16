@@ -18,6 +18,10 @@ Docker version 17.09.0-ce, build afdb6d4
 ---
 ---
 
+![Container Layer](https://docs.docker.com/v17.09/engine/userguide/storagedriver/images/container-layers.jpg)
+
+> Docker 使用 `storage drivers` 來管理 `image layers` 及 `writable container layer` 的內容. 然而各種 `drivers` 實作方式不同, 但都使用 `stackable image layers` 及 `copy-on-write(CoW)策略`.
+
 # 1. Docker Command
 
 ## 指令
@@ -390,3 +394,11 @@ networks:
 > swarm: A swarm is a group of machines that are running Docker and joined into a cluster. 每台加入 swarm的機器, 都稱為 nodes.
 
 > hypervisor: 虛擬機器監控裝置
+
+
+```sh
+# 查看 「運行中 Container」的大小, ['size', 'virtual size']
+$ docker ps -s
+
+
+```
