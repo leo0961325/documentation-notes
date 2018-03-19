@@ -13,8 +13,8 @@
 ## IMAP 與 POP 比較
 > IMAP 和 POP 都可讓您透過其他電子郵件程式讀取 Gmail 郵件。
 
-Protocol | IMAP | POP
---- | --- | ---
+Protocol             | IMAP           | POP
+-------------------- | -------------- | ---------------------------
 Device               | 多裝置         | 單一裝置
 async                | 即時同步       | 非即時同步, 採用郵件下載方式
 Incoming Mail Server | imap.gmail.com | pop.gmail.com

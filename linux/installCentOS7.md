@@ -475,6 +475,69 @@ $ 7za x <fileName>
 
 
 ---
+## install nginx
+- 2018/03/19
+- [Official](http://nginx.org/en/linux_packages.html#stable)
+- [參考這邊](https://dotblogs.com.tw/grayyin/2017/05/18/183117)
+
+1. 增加 yum repo
+```sh
+$ sudo vi /etc/yum.repos.d/nginx.repo
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/7/$basearch/
+gpgcheck=1
+enabled=1
+```
+2. 到 [這邊](http://nginx.org/keys/nginx_signing.key) 把 GPG-keys Copy
+```sh
+$ vi nginx_signing.key
+# 把 keys內容貼上
+
+$ sudo rpm --import nginx_signing.key
+```
+3. 安裝~
+```sh
+$ sudo yum install -y nginx
+
+$ sudo systemctl start nginx
+
+$ sudo systemctl enable nginx
+```
+
+4. 其他補充及設定
+```sh
+$ nginx -v
+nginx version: nginx/1.13.9
+
+# 設定檔位置
+$ sudo vi /etc/nginx/nginx.conf
+
+# 預設主機配置  
+$ sudo vi /etc/nginx/conf.d/default.conf
+```
+
+
+---
+## install Apache
+- 2018/02/27
+- [安裝Apache, MySQL, PHP](https://www.phpini.com/linux/redhat-centos-7-setup-apache-mariadb-php)
+```sh
+$ sudo yum install -y httpd
+
+$ sudo systemctl start httpd
+$ sudo systemctl enable httpd
+
+$ httpd -v
+Server version: Apache/2.4.6 (CentOS)
+Server built:   Oct 19 2017 20:39:16
+```
+進入瀏覽器, 「localhost」就可以看到網頁了~
+
+
+
+
+---
 ## install scala (不完整)
 - 2017/06/??
 
@@ -498,27 +561,12 @@ export scala_HOME="/home/tony/scala-2.12.4"
 export PATH=$scala_HOME/bin:$PATH 
 ```
 
----
-## install Apache
-- 2018/02/27
-- [安裝Apache, MySQL, PHP](https://www.phpini.com/linux/redhat-centos-7-setup-apache-mariadb-php)
-```sh
-$ sudo yum install -y httpd
-
-$ sudo systemctl start httpd
-$ sudo systemctl enable httpd
-
-$ httpd -v
-Server version: Apache/2.4.6 (CentOS)
-Server built:   Oct 19 2017 20:39:16
-```
-進入瀏覽器, 「localhost」就可以看到網頁了~
-
 
 
 
 ---
 ## install Python (不完整)
+```sh
 $ wget <python>
 
 $ tar xf <python>.tar.xz
@@ -530,16 +578,19 @@ $ ./configure --enable-loadable-sqlite-extensions \
 $ make
 $ sudo make install
 $ ldconfig
+```
 
 安裝完後,開始設定環境變數（略）
 
 底下開始安裝python3的pip
+```sh
 $ wget -0 /tmp/get-pip.py "https://bootstrap.pypa.io/get-pip.py"
 $ export PYTHON_PIP_VERSION=9.0.1
 $ python3 /tmp/get-pip.py "pip==$PYTHON_PIP_VERSION"
 $ pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERSION"
+```
 
----
+
 
 
 ---
