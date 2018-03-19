@@ -34,6 +34,9 @@ $ echo 'export PATH=$python_home:$PATH' >> ~/.bashrc
 
 進入虛擬環境 (安裝完anaconda後)
 ```
+$ conda create --name <env name>
+# 建立虛擬環境
+
 # 印出所有的虛擬環境
 $ conda info --envs
 # conda environments:
@@ -60,6 +63,17 @@ Python中, 任何資料夾內如果有包含`__init__.py`的話, 這個資料夾
 #! /usr/bin/python
 # coding: utf-8
 
+```
+
+### pip
+```sh
+$ pip freeze
+
+$ pip freeze -l     # 只顯示目前環境安裝的套件
+
+$ pip freeze > requirement.txt
+
+$ pip install -r requirement.txt
 ```
 
 ### 函式範例
