@@ -21,40 +21,49 @@ Docker version 17.09.0-ce, build afdb6d4
 # 1. Docker Command
 
 ## 指令
-語法 | 說明 
---- | --- 
-pull | 下載某個repo的image 
-
-## 結尾
-語法 | 說明
---- | --- 
--a | 包含**執行中** && **非執行中**的 container
--t | 標記名稱 
--d | 背景執行 
-
-
-3. 查看 docker service啟動狀況
-- 本地單一服務堆疊了 5個 container instance
-- NAME 會依照第2步給的, 在加上_web
-- 以下訊息為 web container吐出來的
 
 ```sh
-$ docker service ls
-ID             NAME                MODE         REPLICAS   IMAGE                        PORTS
-ow28d93snd8m   getstartedlab_web   replicated   5/5        cool21540125/firstrepo:1.0   *:80->80/tcp
+$ docker run -d --name nginx nginx
+
+# 查看 Container內的 IP Address
+$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' nginx
+172.17.0.2
+
+# 用 Image: busybox 建立 Container: foo, 指定他的 host為 foobar, 並執行 "sleep 300"的指令
+$ docker run -d --name foo -h foobar busybox sleep 300
+
+# 查看 運行中的 Container: foo, 並查看他的 foobar這個 host的 相關資訊
+$ docker exec -it foo cat /etc/hosts | grep foobar
+172.17.0.2	foobar
+
+# 依照本地的 dockerfile建立名為 flask 的 image
+$ docker build -t flask .
+
+# 查看 foobar Container的 5000 port資訊
+$ docker port foobar 5000
+0.0.0.0:32768
+
+# 建立並執行 Container: nginx, 並且查看本機端的 iptables
+$ docker run -d -p 5000/tcp -p 53/udp --name nginx nginx
+$ sudo iptables -L
+...(一堆)...
+Chain DOCKER (2 references)
+target    prot opt source      destination    
+ACCEPT    tcp  --  anywhere    172.17.0.2     tcp dpt:commplex-main
+ACCEPT    udp  --  anywhere    172.17.0.2     udp dpt:domain
+...(一堆)...
 ```
 
-4. 查看 container (瞬間啟動了 5個 container)
+
+> `docker run -d --name <Container Name> -h <Host Name> <Image Name> <其他指令>` 使用 Image建立 Container, 並指定 hostname, 然後執行相關指令
+
+
+
+
+
+
+
 - 每個運行在 service內的單一 container, 都稱為 **task**, 且每個 task都有專屬的 **task id** 
-```sh
-$ docker ps -a    
-CONTAINER ID   IMAGE                        COMMAND           CREATED    STATUS    PORTS    NAMES
-e7d33737b65f   cool21540125/firstrepo:1.0   "python app.py"   ...        ....      80/tcp   getstartedlab_web.5.ive1q82h833clyhl0tjmh5wlg
-e0008228c4f9   cool21540125/firstrepo:1.0   "python app.py"   ...        ....      80/tcp   getstartedlab_web.2.7tu39tkc62is3iftreffht930
-1e61d9e996b0   cool21540125/firstrepo:1.0   "python app.py"   ...        ....      80/tcp   getstartedlab_web.3.0hx1m0yjy5oe3d7yodakfpfpo
-dc42c0ebc7af   cool21540125/firstrepo:1.0   "python app.py"   ...        ....      80/tcp   getstartedlab_web.4.o81z67upbv042yweithlph5wl
-f93397cceb7b   cool21540125/firstrepo:1.0   "python app.py"   ...        ....      80/tcp   getstartedlab_web.1.tiu4mfbf9d9is46imcxzowxxm
-```
 
 ```
 

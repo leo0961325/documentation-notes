@@ -515,6 +515,31 @@ Server built:   Oct 19 2017 20:39:16
 進入瀏覽器, 「localhost」就可以看到網頁了~
 
 
+---
+## install nginx
+- 2018/03/13
+- [安裝 Nginx](http://nginx.org/en/linux_packages.html#stable)
+
+```sh
+# 1. 建立 repo
+$ sudo vi /etc/yum.repos.d/nginx.repo
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/7/$basearch/         
+# baseurl=http://nginx.org/packages/OS/OSRELEASE/$basearch/   # 看官方說明吧
+gpgcheck=1
+enabled=1
+
+# 2. 增加 RPM package的 數位簽章
+# 到這 Copy~~ 
+# http://nginx.org/keys/nginx_signing.key
+$ vi nginx_signing.key
+# 貼上去, 在執行匯入
+$ sudo rpm --import nginx_signing.key
+
+# 3. 安裝
+$ sudo yum install -y nginx
+```
 
 
 ---
