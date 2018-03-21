@@ -847,6 +847,8 @@ s       | socket檔案
 2. sshd未啟動
 3. 防火牆
 
+> 產生ssh公私金鑰, 語法: `ssh-keygen -t rsa -b 4096 -C "<id>@<mail host>"`
+
 1. 安裝sshd
 ```
 $ sudo yum -y install openssh-server
@@ -1232,6 +1234,17 @@ $ ll /dev | more
 $ ll /dev | less
 # less可搜尋, 到第幾行, 往上頁, 往下頁 
 ```
+> 語法: `less <options> <file>`
+
+options | description
+------- | --------------
+-m      | 顯示類似 more的百分比
+-N      | 顯示 line number
+/\<str> | 搜尋特定文字(向下找)
+n       | 使用 / 後, 向下找
+N       | 使用 / 後, 向上找
+h       | 顯示 help介面       
+
 
 ### 計數(word count) - wc
 ```sh

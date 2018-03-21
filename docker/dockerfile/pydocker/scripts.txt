@@ -1,6 +1,0 @@
-# 佈署python-docker環境, docker image命名為pycrawler
-docker build -t pycrawler pydocker/
-
-# 
-
-

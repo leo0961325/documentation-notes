@@ -535,6 +535,31 @@ Server built:   Oct 19 2017 20:39:16
 進入瀏覽器, 「localhost」就可以看到網頁了~
 
 
+---
+## install nginx
+- 2018/03/13
+- [安裝 Nginx](http://nginx.org/en/linux_packages.html#stable)
+
+```sh
+# 1. 建立 repo
+$ sudo vi /etc/yum.repos.d/nginx.repo
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/7/$basearch/         
+# baseurl=http://nginx.org/packages/OS/OSRELEASE/$basearch/   # 看官方說明吧
+gpgcheck=1
+enabled=1
+
+# 2. 增加 RPM package的 數位簽章
+# 到這 Copy~~ 
+# http://nginx.org/keys/nginx_signing.key
+$ vi nginx_signing.key
+# 貼上去, 在執行匯入
+$ sudo rpm --import nginx_signing.key
+
+# 3. 安裝
+$ sudo yum install -y nginx
+```
 
 
 ---
@@ -594,28 +619,31 @@ $ pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERS
 
 
 ---
-## jdk1.8 (不完整)
-- 2017/11/26
+## Install jdk1.8 
+- 2018/03/21
 > [Official Orical jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
-1. Donwload && Install
-```
-$ wget http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.rpm
 
-$ sudo rpm -ivh jdk-8u151-linux-x64.rpm
-```
+1. 移除 open-jdk...!!?? 網路上有阿貓阿狗會教, 把 open-jdk移除後, 再來安裝 oracle-jdk, 但是這樣會把 libore-office的依賴套件也一併移除(沒辦法使用 Linux的 Excel了QAQ). 所以我不這麼作. 因此, 第一步, 啥都不用作!
 
-```
-$ sudo ln -s /usr/java/jdk1.8.0_151/ /usr/java/java
+2. Donwload && Install
+```sh
+$ wget http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/jdk-8u161-linux-x64.tar.gz
 
-$ sudo vi .bashrc
-export JAVA_HOME=/usr/java/java
-export JRE_HOME=$JAVA_HOME/jre
-export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib/rt.jar
-export PATH=$JAVA_HOME/bin:$PATH
+$ tar -zxf jdk-8u161-linux-x64.tar.gz
+$ sudo mv jdk1.8.0_161/ /opt/jdk1.8
+$ echo 'export java_HOME="/opt/jdk1.8/"' >> ~/.bashrc
+$ echo 'export PATH=$java_HOME/bin:$PATH' >> ~/.bashrc
+
+# 重起 terminal後
+$ which java
+/opt/jdk1.8/bin/java
+
+$ which javac
+/opt/jdk1.8/bin/javac
 
 $ java -version
-java version "1.8.0_144"
-Java(TM) SE Runtime Environment (build 1.8.0_144-b01)
-Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)
+java version "1.8.0_161"
+Java(TM) SE Runtime Environment (build 1.8.0_161-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.161-b12, mixed mode)
 ```
