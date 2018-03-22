@@ -31,8 +31,8 @@ add : 將 檔案 加入版本控管
 ## 分支名稱
 Name   | Description
 ------ | ----------------------------------
-master | Local repository Default Name
-origin | Remote repository Default Name
+master | `本地端分支`的預設名稱
+origin | `遠端儲存庫`的預設名稱
 
 
 ## 分支概念(有遠端儲藏庫的話, 可區分為下列 4種)
@@ -264,6 +264,9 @@ $ git config --global alias.tree "log --graph --decorate --pretty=oneline --abbr
 
 $ git config --global alias.tree2 "log --graph --oneline --all --decorate"
 # 將來可用 git tree2 來漂亮的看提交紀錄
+
+$ git config --global push.followTags true  # ※ 好像沒有用處!!?? ※
+# git push時, 連同 tag一起推送, git tag 
 ```
 
 
@@ -312,6 +315,27 @@ $ git branch -u origin/master foo
 --- | --- | ---
 -s | 簡易資訊 | git status -s
 
+
+
+
+-----------------------------------------
+## Git tag
+[推送 tag問題](https://stackoverflow.com/questions/5195859/how-to-push-a-tag-to-a-remote-repository-using-git)
+> 推送 tag到遠端, 語法: `git push <遠端名稱> <tag name>`
+
+```sh
+# 作「v1.0」的標籤
+$ git tag v1.0
+
+# 推送 「v1.0」的 tag到遠端
+$ git push origin v1.0
+
+# 刪除 「v1.0」的 tag
+$ git tag -d v1.0
+
+# 連同
+$ git push --follow-tags
+```
 
 -----------------------------------------
 ## Merge 與 Rebase
@@ -394,7 +418,14 @@ $ git commit --amend -m "<Commit String>"
 
 -----------------------------------------
 ## 鎖定遠端repo、遠端repo追蹤
-> 加入 remote repository, 語法: `git remote add origin <遠端repo>`
+> 加入 remote repository, 語法: `git remote add <遠端名稱> <網址>`
+```sh
+# 追蹤遠端分支
+$ git remote add origin https://github.com/test21540125/illu.git
+
+# 追蹤遠端分支的來源(通常 upstream用來指最原始的儲存庫位址)
+$ git remote add upstream https://github.com/cool21540125/illu.git
+```
 
 script                                | Description
 ------------------------------------- | ------------
@@ -523,4 +554,6 @@ $ git checkout <branch> <fileName>
 $ git branch -f master HEAD~3
 
 $ git checkout HEAD~1
+
+$ ssh-keygen -t rsa -b 4096 -C "tony@tonynb"
 ```
