@@ -156,7 +156,6 @@ git log --graph --oneline
 
 ### Terminal - Joshua
 ```sh
-# Joshua此時想看看目前專案長什麼樣子, 結果它似乎嚇到了, 為什麼 2.1版會長到那邊?
 cat Idiot.java
 git pull
 cat Idiot.java
