@@ -450,6 +450,21 @@ remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 $ git push -u origin master
 ```
 
+#### 取消追蹤遠端分支
+[參考這裡](https://stackoverflow.com/questions/3046436/how-do-you-stop-tracking-a-remote-branch-in-git)
+```sh
+$ git branch -vv
+  develop         d999afd aaa
+* develop-reading 287b263 [origin/develop-reading: behind 1] bbb
+  master          d999afd [origin/master: behind 11] ccc
+
+$ git branch --unset-upstream
+
+$ git branch -vv
+  develop         d999afd aaa
+* develop-reading 287b263 bbb         # 取消追蹤遠端 origin 的 develop-reading 分支
+  master          d999afd [origin/master: behind 11] ccc
+```
 
 
 -----------------------------------------

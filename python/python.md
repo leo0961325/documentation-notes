@@ -1,6 +1,6 @@
 
 
-### Install python by tar ball
+# Install python by tar ball
 - 2018/02/23
 ```sh
 $ wget https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tar.xz
@@ -58,14 +58,14 @@ Python中, 任何資料夾內如果有包含`__init__.py`的話, 這個資料夾
 
 ---
 
-### shebang
+# shebang
 ```py
 #! /usr/bin/python
 # coding: utf-8
 
 ```
 
-### pip
+# pip
 ```sh
 $ pip freeze
 
@@ -76,7 +76,7 @@ $ pip freeze > requirement.txt
 $ pip install -r requirement.txt
 ```
 
-### 函式範例
+# 函式範例
 ```py
 >>> a = 1
 >>> type(a)
@@ -89,4 +89,39 @@ True
 {'h': 2, 'e': 2, 'l': 2, 'o': 2}
 
 >>> 
+```
+
+# configureParser
+
+- configureParser.py
+```py
+import configparser
+
+# 讀取外部組態檔
+def getConfig(iniPath):
+    config = configparser.ConfigParser()
+    config.read(iniPath)
+    dbhost = config.get('Section_A', 'sql_dbhost')
+    user = config.get('Section_A', 'sql_id')
+    passwd = config.get('Section_A', 'sql_pd')
+    return dbhost, user, passwd
+#
+
+def mainFunction():
+    iniPath = './house.ini'
+    dbhost, user, passwd = getConfig(iniPath)
+#
+```
+
+- house.ini
+```ini
+[Section_A]
+sql_dbhost=localhost
+sql_pport=3306
+sql_id=tony
+sql_pd=12345687
+
+
+[Section_B]
+# 放其他的...
 ```
