@@ -454,16 +454,34 @@ $ git push -u origin master
 [參考這裡](https://stackoverflow.com/questions/3046436/how-do-you-stop-tracking-a-remote-branch-in-git)
 ```sh
 $ git branch -vv
-  develop         d999afd aaa
-* develop-reading 287b263 [origin/develop-reading: behind 1] bbb
+* develop 287b263 [origin/develop: behind 1] bbb
   master          d999afd [origin/master: behind 11] ccc
 
+# 取消追蹤目前分支的遠端追蹤
 $ git branch --unset-upstream
 
 $ git branch -vv
-  develop         d999afd aaa
-* develop-reading 287b263 bbb         # 取消追蹤遠端 origin 的 develop-reading 分支
+* develop 287b263 bbb         # 取消追蹤遠端 origin 的 develop 分支
   master          d999afd [origin/master: behind 11] ccc
+```
+
+> 取消追蹤遠端分支, 語法`git branch -d -r origin/<remote branch name>`
+```sh
+$ git tree
+*   d3de22d (HEAD -> master, origin/master)  修改了XXX
+|\
+| | 287b263 (origin/develop) 這邊這邊~~~~
+...
+
+# 取消追蹤 origin 這個 remote 的 develop 分支
+$ git branch -d -r origin/develop
+Deleted remote-tracking branch origin/develop (was 287b263).
+
+$ git tree
+*   d3de22d (HEAD -> master, origin/master)  修改了XXX
+|\
+| | 287b263 這邊這邊~~~~
+...
 ```
 
 
