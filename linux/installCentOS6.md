@@ -1,12 +1,17 @@
-CentOS6.9
-這個有點舊了, 2017/05 以前的東西, 將來「若吃飽太閒」, 再回來整裡
+# CentOS6.9 安裝備註
+- 這個有點舊了, 2017/05 以前的東西, 將來「若吃飽太閒」, 再回來整裡
+
+```sh
 $ cat /etc/redhat-release
 CentOS release 6.9 (Final)
 
 $ uname -a
 Linux tony 2.6.32-696.1.1.el6.x86_64 #1 SMP Tue Apr 11 17:13:24 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+```
+
 --------------------------------------------
 讓使用者成為pu
+```
 $ su
 # chmod u+w /etc/sudoers
 # vim /etc/sudoers
@@ -15,6 +20,7 @@ $ su
 :wq
 # chmod u-w /etc/sudoers
 重新登入terminal即可
+```
 --------------------------------------------
 安裝git
 https://www.liquidweb.com/kb/how-to-install-git-on-centos-6/
