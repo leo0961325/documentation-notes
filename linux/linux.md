@@ -97,7 +97,7 @@ $ yum searcn <套件名稱>
 $ yum list
 # 列出 YUM Server上的所有套件資訊, 套件名稱, 版本, 是否已經安裝...
 
-# 列出 yum套件庫 紀錄的 remote repository
+# 列出 系統可用的 yum套件庫
 $ yum repolist
 Loaded plugins: fastestmirror, langpacks
 Loading mirror speeds from cached hostfile
