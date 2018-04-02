@@ -3,6 +3,7 @@
 - [Learning git in 30 days](https://github.com/doggy8088/Learn-Git-in-30-days/tree/master/zh-tw)
 - [Git branch的操作](https://blog.gogojimmy.net/2012/01/21/how-to-use-git-2-basic-usage-and-worflow/)
 - [Git初學者心得分享](http://www.mrmu.com.tw/2011/05/06/git-tutorial-for-beginner/)
+- [為你自己學Git](https://gitbook.tw/chapters/config/user-config.html)
 - [Git中文化電子書](https://git-scm.com/book/zh-tw/v2)
 - [Git視覺化遊戲](http://learngitbranching.js.org/)
 
