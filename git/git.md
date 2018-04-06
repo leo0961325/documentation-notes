@@ -3,6 +3,7 @@
 - [Learning git in 30 days](https://github.com/doggy8088/Learn-Git-in-30-days/tree/master/zh-tw)
 - [Git branch的操作](https://blog.gogojimmy.net/2012/01/21/how-to-use-git-2-basic-usage-and-worflow/)
 - [Git初學者心得分享](http://www.mrmu.com.tw/2011/05/06/git-tutorial-for-beginner/)
+- [為你自己學Git](https://gitbook.tw/chapters/config/user-config.html)
 - [Git中文化電子書](https://git-scm.com/book/zh-tw/v2)
 - [Git視覺化遊戲](http://learngitbranching.js.org/)
 
@@ -450,6 +451,39 @@ remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 $ git push -u origin master
 ```
 
+#### 取消追蹤遠端分支
+[參考這裡](https://stackoverflow.com/questions/3046436/how-do-you-stop-tracking-a-remote-branch-in-git)
+```sh
+$ git branch -vv
+* develop 287b263 [origin/develop: behind 1] bbb
+  master          d999afd [origin/master: behind 11] ccc
+
+# 取消追蹤目前分支的遠端追蹤
+$ git branch --unset-upstream
+
+$ git branch -vv
+* develop 287b263 bbb         # 取消追蹤遠端 origin 的 develop 分支
+  master          d999afd [origin/master: behind 11] ccc
+```
+
+> 取消追蹤遠端分支, 語法`git branch -d -r origin/<remote branch name>`
+```sh
+$ git tree
+*   d3de22d (HEAD -> master, origin/master)  修改了XXX
+|\
+| | 287b263 (origin/develop) 這邊這邊~~~~
+...
+
+# 取消追蹤 origin 這個 remote 的 develop 分支
+$ git branch -d -r origin/develop
+Deleted remote-tracking branch origin/develop (was 287b263).
+
+$ git tree
+*   d3de22d (HEAD -> master, origin/master)  修改了XXX
+|\
+| | 287b263 這邊這邊~~~~
+...
+```
 
 
 -----------------------------------------
