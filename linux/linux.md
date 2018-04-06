@@ -79,6 +79,114 @@ options     | description
 -ivh        | 最常用的安裝方式, 安裝時, 顯示安裝資訊
 
 
+### 主機 host
+
+```sh
+# 查看主機名稱資訊
+$ hostnamectl
+Static hostname: tonynb
+         Icon name: computer-laptop
+           Chassis: laptop
+        Machine ID: e5c76287078c4e5fb54034d3d8b26e76
+           Boot ID: 6d9919d9a79a4636b7e1da1d0c060cde
+  Operating System: CentOS Linux 7 (Core)
+       CPE OS Name: cpe:/o:centos:centos:7
+            Kernel: Linux 3.10.0-514.el7.x86_64
+      Architecture: x86-64
+
+# 設定新的主機名稱
+$ hostnamectl set-hostname <new host name>
+```
+
+
+---
+## systemd 系統服務管理
+### - Linux 新舊時代的 `系統服務管理`
+systemd                             | SysV init
+----------------------------------- | ------------------------
+新一代的系統服務管理                | 舊有的服務管理
+由「Unit 服務」「Target 標的」構成  | ????
+
+### - 常見服務及說明
+Service Name             | Description
+------------------------ | -----------------------------
+atd.service              | 一次行排程
+crond.service            | 週期性排程
+NetworkManager.service   | 動態網路連線設定管理器
+network.target           | 固定式網路管理服務
+sysinit.target           | 系統服務
+quotacheck.service       | 硬碟配額檢查服務
+syslog.service           | 系統日誌管理服務
+sendmail.service         | 電子郵件伺服器服務
+smartd.service           | 硬碟健康狀態回報服務
+sshd.service             | 加密的遠端登入服務
+httpd.service            | 網頁伺服器服務
+cups.socket              | 列印伺服器服務
+
+### 服務的分類
+.service                 | .socket
+------------------------ | ------------------------
+背景執行並等待           | 通訊埠有客戶端連線才啟動
+快速, 耗資源             | 速度慢, 適合少量服務, 有 socket連線時才啟動
+
+- 每個`服務`都是一個 Unit
+- Target 代表一個`階段標的`, 訂定在某個階段需要啟動什麼 Unit
+- 服務的啟動是依照系統啟動的「runlevel 執行階段」訂定的
+- `systemd 的 Target` 取代 `init 的 runlevel`
+
+### systemd 服務 ( Unit , Target )
+#### Unit 服務 - 標準文字檔紀錄服務資訊
+```sh
+# 查看系統「一次行排程服務 atd」
+$ cat /etc/systemd/system/multi-user.target.wants/atd.service
+[Unit]
+Description=Job spooling tools                          #
+After=syslog.target systemd-user-sessions.service       # 在哪個服務之後啟動
+
+[Service]
+EnvironmentFile=/etc/sysconfig/atd                      # 執行環境檔
+ExecStart=/usr/sbin/atd -f $OPTS                        # 執行時的指令
+IgnoreSIGPIPE=no                                        # 
+  
+[Install]
+WantedBy=multi-user.target                              # 在多人模式時啟動
+### 每個 Unit描述檔, 都一定會有上面3個段落
+```
+
+#### Target (階段)標的 - 在某個階段時, 需啟動什麼服務
+系統重要的 target
+Series | target name       | Description
+:-----:|:-----------------:| ---------------------------
+1      | sysinit.target    | 確保系統檔案完整啟動
+2      | basic.target      | 系統啟動後自動進入的模式, *multi-user.target*的依賴模式
+3      | multi-user.target | 多人文字模式, 同 init 的 runlevel3
+4      | graphical.target  | 圖形界面, 同 init 的 runlevel5
+5      | default.target    | 系統預設的模式(連結符號), 大都連結到 *multi-user* 或 *graphical*
+
+
+```sh
+# 查看系統的 default.target -> graphical.target
+$ cat /etc/systemd/system/default.target
+[Unit]
+Description=Graphical Interface                                               # 說明
+Documentation=man:systemd.special(7)                                          # 標的文件
+Requires=multi-user.target                                                    # 執行前依賴對象, 若此對象被停止, 則本項目也會停止
+Wants=display-manager.service                                                 # 若本項目被啟動, 則 Wants的對象也會啟動
+Conflicts=rescue.service rescue.target                                        # 本階段標的與 rescue.target不相容
+After=multi-user.target rescue.service rescue.target display-manager.service  # 圖形界面階段之前, 應先進入多人模式階段
+AllowIsolate=yes                                                              # 此項目可否在 systemctl isolate之後使用(類似舊有的 init runlevel)
+```
+
+```sh
+# 馬上切換到 runlevel3 (多人命令模式)
+$ sudo systemctl isolate multi-user.target
+
+# 馬上切換到 runlevel5 (圖形界面)
+$ sudo systemctl isolate graphical.target
+```
+
+
+
 
 ---
 ## Linux的軟體管理員 - yum
@@ -141,42 +249,43 @@ repolist: 24,950
 ## 主要目錄
 ```sh
 /bin/      # 可執行檔
+/boot/     # 開機時使用的核心檔案目錄.
+/etc/      # 系統設定檔. ex: inittab, resolv.conf, fstab, rc.d
+/etc/crontab          # 排程工作
+/etc/hosts            # ip與 dns對照
+/etc/init.d/          # 系統服務執行檔目錄
+/etc/localtime/       # 系統時間
+/dev/      # 系統設備目錄
+/dev/hda/             # IDE硬碟
+/dev/sd1/             # SCSI硬碟
+/dev/cdrom/           # 光碟機
+/dev/fd0/             # 軟碟機
+/dev/lp0/             # 印表機
+/lib/      # 系統的共用函式庫檔案
+/media/    # 移動式磁碟or光碟 掛載目錄
+/mnt/      # 暫時性檔案系統 掛載目錄
+/opt/      # 非 Linux預設安裝的外來軟體
+/proc/     # 行程資訊目錄, 
 /sbin/     # 系統管理員 用的 工具or指令or執行檔. ex: ifconfig, mke2fs
+/tmp/      # 重開機後會清除
 /usr/      # Linux系統安裝過程中必要的 packages
-/usr/bin/            # 一般使用者 用的 工具or指令or執行檔
-/usr/sbin/           # 系統專用的 工具/指令/執行檔
-/usr/src/
-/usr/src/linux/                # 系統核心原始碼
+/usr/bin/             # 一般使用者 用的 工具or指令or執行檔
+/usr/sbin/            # 系統專用的 工具/指令/執行檔
 /usr/share/                
 /usr/share/doc                   # 系統文件
 /usr/share/man                   # 線上操作手冊
 /usr/share/zoneinfo              # 時區檔案
-/etc/      # 系統設定檔. ex: inittab, resolv.conf, fstab, rc.d
-/etc/localtime/      # 系統時間
-/etc/crontab         # 排程工作
-/etc/hosts           # ip與 dns對照
-/boot/     # 開機時使用的核心檔案目錄.
-/lib/      # 系統的共用函式庫檔案
-/opt/      # 非 Linux預設安裝的外來軟體
+/usr/src/
+/usr/src/linux/                # 系統核心原始碼
 /var/      # 變動行 & 系統待排隊處例的檔案
-/var/log/            # 紀錄檔
-/var/log/dmesg                 # 開機時偵測硬體與啟動服務的紀錄
-/var/log/messages              # 開機紀錄
-/var/log/secure                # 安全紀錄
-/var/lib/           
-/var/lib/mysql/                # mysql資料庫的資料儲存位置
+/var/log/             # 紀錄檔
+/var/log/dmesg                  # 開機時偵測硬體與啟動服務的紀錄
+/var/log/messages               # 開機紀錄
+/var/log/secure                 # 安全紀錄
+/var/lib/             # 
+/var/lib/mysql/                 # mysql資料庫的資料儲存位置
 /var/spool/            
-/var/spool/mail/                 # 等待寄出的 email
-/tmp/      # 重開機後會清除
-/proc/     # 行程資訊目錄, 
-/media/    # 移動式磁碟or光碟 掛載目錄
-/mnt/      # 暫時性檔案系統 掛載目錄
-/dev/      # 系統設備目錄
-/dev/hda/            # IDE硬碟
-/dev/sd1/            # SCSI硬碟
-/dev/cdrom/          # 光碟機
-/dev/fd0/            # 軟碟機
-/dev/lp0/            # 印表機
+/var/spool/mail/                # 等待寄出的 email
 ```
 
 
@@ -331,6 +440,8 @@ Another app is currently holding the yum lock; waiting for it to exit...
 2. 如何解決 - 找出 pid, 砍掉
 ```
 $ ps aux | grep yum
+
+$ sudo kill -9 <pid>
 ```
 
 
@@ -686,7 +797,7 @@ F   UID   PID  PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
 
 內容大致如下（上半部：Resource資訊,下半部：Process資訊)
 
-<img src="img/top.jpg" style="width:480px; height:320px;" />
+<img src="../img/top.jpg" style="width:480px; height:320px;" />
 
 ```
 # 第一行
@@ -1012,6 +1123,9 @@ public (active)
   services: dhcpv6-client ssh
   ...(略)...
   
+# 防火牆允許 http服務(永久)
+$ firewall-cmd --permanent --add-service=http
+
 # ex: 某主機是公司的 DNS Server, 則應在 zone中加入 dns service
 $ firewall-cmd --zone=public --add-service=dns
 success
