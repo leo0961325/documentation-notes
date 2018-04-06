@@ -47,7 +47,49 @@ Probing for supported NVIDIA devices...
 This device requires the current 390.25 NVIDIA driver kmod-nvidia
 [8086:5916] Intel Corporation Device 5916
 An Intel display controller was also detected
+
+# 新增 一開機後, 系統不要載入的相關模組
+$ sudo vim /etc/modprobe.d/blacklist.conf  
+blacklist nouveau
+options nouveau modeset=0
+
+# 修改 Boot Loader預設組態
+$ sudo vi /etc/default/grub
+GRUB_CMDLINE_LINUX="crashkernel=auto rd.lvm.lv=cl/root rd.lvm.lv=cl/swap rhgb quiet rd.driver.blacklist=nouveau nouveau.modeset=0"
+# 在原本的 grub內, 加上「rd.driver.blacklist=nouveau nouveau.modeset=0」
+
+# 重建 grub.cfg(grub2的 主設定檔)
+$ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-3.10.0-514.el7.x86_64
+Found initrd image: /boot/initramfs-3.10.0-514.el7.x86_64.img
+Found linux image: /boot/vmlinuz-0-rescue-e5c76287078c4e5fb54034d3d8b26e76
+Found initrd image: /boot/initramfs-0-rescue-e5c76287078c4e5fb54034d3d8b26e76.img
+done
+# 建立完成後, 重新開機, 系統就不會載入 nouveau模組了
+
+$ sudo reboot
+
+# 重開機後
+$ lsmod | grep nouveau
+# (~~空的~~)
+
+# 不重開機的情況下, 切換為 純文字模式(關掉圖形介面)
+$ sudo systemctl isolate multi-user.target
+
+# (文字界面, 開始安裝顯卡驅動)
+$ sudo sh ./NVIDIA-Linux-x86_64-390.25.run
+
+# 之後~~~
+# Accept
+# 安裝 32-bit 相容 library
+# 讓程式主動去修改 xorg.conf
+
+# 最後, 進行驅動程式升級檢查
+$ nvidia-installer --update
+
 ```
+
 
 
 ----------------------------------------------------------------------------------
