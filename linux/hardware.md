@@ -15,10 +15,13 @@
 > CentOS7預設使用 `nouveau`這個顯示晶片的驅動程式, 若要安裝像是 Nvidia顯卡驅動的話, 得先下載好相對應的驅動程式, 關閉 `nouveau`, 然後關閉 `圖形界面(runlevel=3)` 的狀態下重新開機, 開始安裝 顯卡驅動, 然後重新設定 `runlevel=5`, 重新開機後, 應該就沒問題了^_^凸
 
 ```sh
-# 查出電腦是用哪款的 NVIDIA顯卡
+### 底下3個... 生產環境慎思阿~~~
+$ sudo yum update
+$ sudo groupinstall -y "Development Tools"
+$ sudo yum install -y kernel-devel kernel-headers
 
-# 法1 從 PCI上查看
-# 顯示目前主機上面的各個 PCI 介面的裝置
+# 查出電腦是用哪款的 NVIDIA顯卡, 有 2種方法
+# 法1 從 PCI上查看, 顯示目前主機上面的各個 PCI 介面的裝置
 $ lspci
 00:00.0 Host bridge: Intel Corporation Device 5904 (rev 02)
 00:02.0 VGA compatible controller: Intel Corporation Device 5916 (rev 02)
@@ -44,10 +47,56 @@ $ sudo yum -y install nvidia-detect
 $ nvidia-detect -v
 Probing for supported NVIDIA devices...
 [10de:134f] NVIDIA Corporation GM108M [GeForce 920MX]       ### 找到型號了!!
-This device requires the current 390.25 NVIDIA driver kmod-nvidia
+This device requires the current 390.25 NVIDIA driver kmod-nvidia   ### 系統說需要「390.25 NVIDIA driver」
 [8086:5916] Intel Corporation Device 5916
 An Intel display controller was also detected
+
+### ~~到官方網站下載顯卡驅動程式~~
+
+# 開機後, 系統不要載入的相關模組
+$ sudo vim /etc/modprobe.d/blacklist.conf  
+blacklist nouveau
+options nouveau modeset=0
+
+# 修改 Boot Loader預設組態
+$ sudo vi /etc/default/grub
+GRUB_CMDLINE_LINUX="crashkernel=auto rd.lvm.lv=cl/root rd.lvm.lv=cl/swap rhgb quiet rd.driver.blacklist=nouveau nouveau.modeset=0"
+# 在原本的 grub內, 加上「rd.driver.blacklist=nouveau nouveau.modeset=0」
+
+# 重建 grub.cfg(grub2的 主設定檔)
+$ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-3.10.0-514.el7.x86_64
+Found initrd image: /boot/initramfs-3.10.0-514.el7.x86_64.img
+Found linux image: /boot/vmlinuz-0-rescue-e5c76287078c4e5fb54034d3d8b26e76
+Found initrd image: /boot/initramfs-0-rescue-e5c76287078c4e5fb54034d3d8b26e76.img
+done
+# 建立完成後, 重新開機, 系統就不會載入 nouveau模組了
+
+$ sudo reboot
+
+# 重開機後
+$ lsmod | grep nouveau
+# (~~空的~~)
+
+# 不重開機的情況下, 切換為 純文字模式(關掉圖形介面)
+$ sudo systemctl isolate multi-user.target
+
+# (文字界面, 開始安裝顯卡驅動)
+$ sudo sh ./NVIDIA-Linux-x86_64-390.25.run
+
+# 之後~~~
+# Accept
+# 安裝 32-bit 相容 library
+# 讓程式主動去修改 xorg.conf
+
+# 最後, 進行驅動程式升級檢查
+$ nvidia-installer --update
+
+# 回到圖形介面
+$ sudo systemctl isolate graphical.target
 ```
+
 
 
 ----------------------------------------------------------------------------------

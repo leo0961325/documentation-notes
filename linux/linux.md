@@ -101,7 +101,7 @@ $ hostnamectl set-hostname <new host name>
 
 ---
 ## systemd 系統服務管理
-### - Linux 新舊時代的 `系統服務管理`
+### - Linux 新舊時代的 `systemV 系統服務管理`
 systemd                             | SysV init
 ----------------------------------- | ------------------------
 新一代的系統服務管理                | 舊有的服務管理
@@ -124,10 +124,19 @@ httpd.service            | 網頁伺服器服務
 cups.socket              | 列印伺服器服務
 
 ### 服務的分類
-.service                 | .socket
------------------------- | ------------------------
-背景執行並等待           | 通訊埠有客戶端連線才啟動
-快速, 耗資源             | 速度慢, 適合少量服務, 有 socket連線時才啟動
+
+
+systemd定義所有的服務為 `一個服務單位(unit)`, 並將該 `unit` 歸類到不同的 `類型(type)`
+init(old)    | systemd(new)   | Description
+------------ | -------------- | --------------
+stand alone  | -              | 
+super daemon | -              | 
+-            | service        | 背景執行並等待<br> 快速, 耗資源
+-            | socket         | 通訊埠有客戶端連線才啟動<br> 速度慢, 適合少量服務, 有 socket連線時才啟動
+-            | target         | 
+-            | path           | 
+-            | snapshot       | 
+-            | timer          | 
 
 - 每個`服務`都是一個 Unit
 - Target 代表一個`階段標的`, 訂定在某個階段需要啟動什麼 Unit
@@ -253,7 +262,7 @@ repolist: 24,950
 /etc/      # 系統設定檔. ex: inittab, resolv.conf, fstab, rc.d
 /etc/crontab          # 排程工作
 /etc/hosts            # ip與 dns對照
-/etc/init.d/          # 系統服務執行檔目錄
+/etc/init.d/          # 所有的服務啟動腳本都在這
 /etc/localtime/       # 系統時間
 /dev/      # 系統設備目錄
 /dev/hda/             # IDE硬碟
