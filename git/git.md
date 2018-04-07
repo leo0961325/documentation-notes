@@ -3,6 +3,7 @@
 - [Learning git in 30 days](https://github.com/doggy8088/Learn-Git-in-30-days/tree/master/zh-tw)
 - [Git branch的操作](https://blog.gogojimmy.net/2012/01/21/how-to-use-git-2-basic-usage-and-worflow/)
 - [Git初學者心得分享](http://www.mrmu.com.tw/2011/05/06/git-tutorial-for-beginner/)
+- [為你自己學Git](https://gitbook.tw/chapters/config/user-config.html)
 - [Git中文化電子書](https://git-scm.com/book/zh-tw/v2)
 - [Git視覺化遊戲](http://learngitbranching.js.org/)
 
@@ -431,6 +432,15 @@ script                                | Description
 ------------------------------------- | ------------
 `git push <remote> <branch name>`     | 把指定分支的最新狀態, 推送到 remote repo
 `git push -u <remote> <branch name>`<br>( `-u` 可改成 `--set-upstream` ) | (同上), <br>且會在設定檔內紀錄「本地 repo分支」與「遠端 repo分支」的對應關係
+
+```sh
+# terminal A - 推送到遠端分支
+$ git push --set-upstream origin develop
+
+# terminal B - 追蹤遠端分支
+$ git branch --set-upstream-to=origin/develop develop
+git pull
+```
 
 > 重要概念: `git push origin master`的意思是「先到我的 repo 找出所有 "master branch" commit紀錄, 與 **origin**這個 remote 的 "master branch"的 commit 紀錄比對是否相同, 若相同, 就更新」
 

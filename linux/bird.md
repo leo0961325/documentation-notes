@@ -2,6 +2,7 @@
 
 [第十七章、區網控制者： Proxy 伺服器](http://linux.vbird.org/linux_server/0420squid.php#theory)
 
+(準備把這個廢了)
 
 章節 | 閱讀日期
 --- | ---
