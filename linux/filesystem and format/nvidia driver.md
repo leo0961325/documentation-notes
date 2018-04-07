@@ -1,23 +1,33 @@
-# CentOS7 硬體部份
-
-## 開機管理程式 grub
-
-早期: `grub1`, `LILO`, `spfdisk(台灣很多人用)`
-
-近期: `grub2`
-
-
--------------------------------------------------------------------
-## 在 CentOS7 安裝 NVIDIA 顯示卡驅動程式 (尚未完成)
+# 在 CentOS7 安裝 NVIDIA 顯示卡驅動程式 (有問題!)
 - 2018/03/24 
 - [Installing Nvidia GPU Driver with Nvidia Detect](https://www.youtube.com/watch?v=C9Yf71qh0i4)
+- [Please Help with NVIDIA Driver installation on Centos 7](https://www.centos.org/forums/viewtopic.php?t=61162)
+- [鳥哥-顯卡驅動](http://linux.vbird.org/linux_basic/0590xwindow.php#nvidia)
+
+```sh
+$ uname -a
+Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+
+# 2018/04/07 下完 yum update後
+$ uname -a
+Linux tonynb 3.10.0-693.21.1.el7.x86_64 #1 SMP Wed Mar 7 19:03:37 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+
+### 硬體規格
+Lenovo ideapad 310
+i5 7th Generation
+NVIDIA GEFORCE 920MX (2GB)
+```
+
 
 > CentOS7預設使用 `nouveau`這個顯示晶片的驅動程式, 若要安裝像是 Nvidia顯卡驅動的話, 得先下載好相對應的驅動程式, 關閉 `nouveau`, 然後關閉 `圖形界面(runlevel=3)` 的狀態下重新開機, 開始安裝 顯卡驅動, 然後重新設定 `runlevel=5`, 重新開機後, 應該就沒問題了^_^凸
+
+> 但是!!!!!! 對於桌機來講, 應該可以正常使用, 但我電腦是NB... 網路上我看不太懂的東西說我這台比電有另一個顯示晶片, 弄玩後會發生一堆會錯, 所以暫時放棄!!!!!!
+
 
 ```sh
 ### 底下3個... 生產環境慎思阿~~~
 $ sudo yum update
-$ sudo groupinstall -y "Development Tools"
+$ sudo groupinstall "Development Tools"
 $ sudo yum install -y kernel-devel kernel-headers
 
 # 查出電腦是用哪款的 NVIDIA顯卡, 有 2種方法
@@ -54,7 +64,7 @@ An Intel display controller was also detected
 ### ~~到官方網站下載顯卡驅動程式~~
 
 # 開機後, 系統不要載入的相關模組
-$ sudo vim /etc/modprobe.d/blacklist.conf  
+$ sudo vi /etc/modprobe.d/blacklist.conf  
 blacklist nouveau
 options nouveau modeset=0
 
@@ -95,58 +105,10 @@ $ nvidia-installer --update
 
 # 回到圖形介面
 $ sudo systemctl isolate graphical.target
-```
 
+### 然後我的電腦就GG了 QAQ ..................................
 
-
-----------------------------------------------------------------------------------
-# Linux硬梆梆的東東(比較底層的東西)
-- 顯卡
-- 檔案系統
-- 硬體
-
-```sh
-# lsmod: 查看核心模組
-$ lsmod | grep nouveau
-nouveau              1527946  0 
-mxm_wmi                13021  1 nouveau
-ttm                    93908  1 nouveau
-i2c_algo_bit           13413  2 i915,nouveau
-drm_kms_helper        146456  2 i915,nouveau
-drm                   372540  4 ttm,i915,drm_kms_helper,nouveau
-wmi                    19070  2 mxm_wmi,nouveau
-video                  24400  2 i915,nouveau
-i2c_core               40756  8 drm,i915,i2c_i801,i2c_hid,drm_kms_helper,i2c_algo_bit,nouveau,videodev
-```
-
-----------------------------------------------------------------------------------
-# 未分類
-> 在 Linux中, 每個裝置都被當成一個**檔案**來對待
-
-
-## 常見的硬體裝置, 在 Linux中的檔名
-裝置 | Linux內的檔名
---- | ----------------------
-SCSI / SATA / USB | `/dev/sd[a-p]` <br> ex: `/dev/sda`, `/dev/sda1`, `/dev/sda2`
-IDE硬碟 | `/dev/hd[a-d]` (舊有系統), 但也有部分的 IDE硬碟, 被偽裝成了 `/dev/sd[a-d]`
-印表機 | `/dev/usb/lp[0-15]` (USB介面) <br> `/dev/lp[0-2]` (25針腳印表機)
-滑鼠 | `/dev/input/mouse[0-15]` (通用) <br> `/dev/psaux` (PS/2介面)
-CDROM/DVDROM | `/dev/cdrom` (當前CDROM, 指向`/dev/sr0` )  <br> `/dev/sr[0-1]` (通用, CentOS比較常見) <br> ex: `/dev/sr0`
-Virtual I/O介面 | `/dev/vd[a-p]` (用於虛擬機器內)
-
-
-
-## 磁碟分割表的格式
-> 整顆磁碟的`第一個磁區`記錄了整顆磁碟的重要資訊, 早期第一個磁區的重要資訊, 稱之為 MBR(Master Boot Record), 但隨著磁碟容量不斷擴大, 新一代的磁碟分割格式, 稱之為 GPT(GUID partition table)
-
-MBR分割表, 第一個磁區(512 bytes), 內有:
-1. 主要開機區(Master boot record, MBR) - 446 byes
-2. 分割表(partition table) - 64 bytes
-
-```sh
-# 列出所有儲存裝置
-$ lsblk
-NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
-sda      8:0    0 931.5G  0 disk
-└─sda1   8:1    0 931.5G  0 part /
+# 移除 NVIDIA driver
+$ sudo systemctl isolate multi-user.target
+$ sudo nvidia-uninstall
 ```

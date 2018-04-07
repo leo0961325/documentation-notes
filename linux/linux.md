@@ -605,53 +605,6 @@ lrwxrwxrwx. 1 root root   26  3月  2 14:10 py -> /opt/anaconda3/bin/python3
 
 
 ---
-## 硬碟空間
-```sh
-# 查看系統剩多少容量( -h表以KB, MB, GB表示)
-$ df -h
-檔案系統             容量  已用  可用 已用% 掛載點
-/dev/mapper/cl-root   80G  8.2G   72G   11% /
-devtmpfs             1.8G     0  1.8G    0% /dev
-tmpfs                1.9G   13M  1.8G    1% /dev/shm
-tmpfs                1.9G  9.1M  1.8G    1% /run
-tmpfs                1.9G     0  1.9G    0% /sys/fs/cgroup
-/dev/sda1           1014M  175M  840M   18% /boot
-/dev/mapper/cl-home   80G  1.3G   79G    2% /home
-/dev/mapper/cl-var    50G  604M   50G    2% /var
-tmpfs                370M   12K  370M    1% /run/user/1000
-
-# 可看目標目錄(recursive)的已用空間
-$ du -h ~/doc/illu | more
-0	/home/tony/doc/illu/.git/branches
-44K	/home/tony/doc/illu/.git/hooks
-4.0K	/home/tony/doc/illu/.git/info
-4.0K	/home/tony/doc/illu/.git/refs/heads
-0	/home/tony/doc/illu/.git/refs/tags
-4.0K	/home/tony/doc/illu/.git/refs/remotes/origin
-...
-
-# --max-depth=1, 查看 /var下, 最多到第一層子目錄的空間使用情形
-# -h, 以 KB, MB, GB表示
-$ du /var -h --max-depth=1
-3.1G    ./lib
-4.0K    ./metrics
-5.0M    ./backups
-173M    ./cache
-12K     ./www
-4.0K    ./mail
-52K     ./spool
-4.0K    ./opt
-27M     ./crash
-2.8M    ./log
-76K     ./tmp
-4.0K    ./local
-4.0K    ./snap
-3.3G    .
-```
-
-
-
----
 ## chown
 ```sh
 # 改變檔案的擁有者
