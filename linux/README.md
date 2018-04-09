@@ -23,6 +23,15 @@ $ rpm --query centos-release
 centos-release-7-3.1611.el7.centos.x86_64
 ```
 
+
+> `os6`: CentOS6(含)以前
+
+> `os7`: CentOS7以後用法
+
+
+
+## 大概不負責任地說一下這裡頭的東西
+
 File Name            | Description
 -------------------- | ------------------------------------------
 installCentOS7.md    | 安裝一大堆有的沒的的說明
