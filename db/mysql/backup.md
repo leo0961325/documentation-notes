@@ -15,6 +15,12 @@ $ mysqldump -u '<id>' -p '<pd>'
 ```
 
 
+* 累積備份(Incremental backup)
+    * 第 t 天都與第 t-1 天相比較, 作差異備份
+* 差異備份(Differential backup)
+    * 第 t 天都與第 1 天相比較, 作差異備份
+    
+
 pyhsical                           | logical
 ---------------------------------- | --------
 快                                 | 慢
