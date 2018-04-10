@@ -1,7 +1,8 @@
 ﻿# Docker Machine
-- 此篇 for CentOS7
+- 此篇 for CentOS7 及 Mac
 - 2018/01/02
 
+## For CentOS7
 ### Prerequest:
 - 安裝好 Docker
 - 安裝好 Virtual Box
@@ -14,6 +15,8 @@ $ docker-machine version
 docker-machine version 0.13.0, build 9ba6da9
 ```
 
+## For Mac
+### 安裝 virtual box會發生的問題額外備註
 ```sh
 ## Install VirtualBox on Mac
 # First, install Homebrew
