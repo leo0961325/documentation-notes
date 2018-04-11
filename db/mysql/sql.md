@@ -1,17 +1,5 @@
 # MySQL 5.7 指令備註
 
-
-> DB目錄: 
-
-
-
-OS          | ini dir                                       | db dir
------------ | --------------------------------------------- | ------------------
-Ubuntu16.04 | /etc/mysql/mysql.cnf                          | /var/lib/mysql/
-CentOS7.3   | /etc/my.cnf                                   | ?
-Win10       | C:\ProgramData\MySQL\MySQL Server 5.7\my.ini  | ?
-
-
 ## DML
 ```sql
 drop database tt;

@@ -28,6 +28,10 @@ $ echo 'export PATH=$python_home:$PATH' >> ~/.bashrc
 ```
 
 
+```sh
+$ pip install --upgrade setuptools
+```
+
 
 
 [Anaconda多环境多版本python配置指导](https://www.jianshu.com/p/d2e15200ee9b)

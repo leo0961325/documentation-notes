@@ -1386,6 +1386,13 @@ pome    192.168.124.94
 ```
 
 
+### ncftpget ncftpput
+
+```sh
+ncftpput -u <帳號> -p <密碼> <host>:~/ upload <標的檔案>
+```
+
+
 ### 測試 - test
 > 測試, 語法: `test <option> <filename>`<br>
 ```sh
