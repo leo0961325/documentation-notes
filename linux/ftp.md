@@ -32,3 +32,33 @@ Connected to 192.168.124.80.
 $ sftp> ls
 home      mysqlbck
 ```
+
+----------------------------------------
+
+## 使用 sftp登入後, 再互動式上傳
+```sh
+sftp <id>@<host>
+put <file>
+```
+
+
+## 使用 scp上傳(但要手動打密碼)
+```sh
+scp <file> <id>@<host>
+```
+
+
+## 使用強大的 ncftp上傳
+> sudo yum install ncftp
+
+> sudo apt-get install ncftp
+#### 1. 互動式上傳
+```sh
+ncftp -u <id> -p <passwd> <host>
+put <file>
+```
+
+#### 2. 一口氣上傳(腳本)
+```sh
+ncftpput -u <id> -p <passwd> <host> <target folder> <file>
+```
