@@ -1,0 +1,10 @@
+
+.hidden {
+    /* 完全消失 */
+    display: none;
+    display: block;
+
+    /* 隱藏(留空間) */
+    visibility: hidden;
+    visibility: visible;
+}

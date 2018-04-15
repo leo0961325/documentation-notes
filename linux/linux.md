@@ -262,7 +262,7 @@ repolist: 24,950
 /etc/      # 系統設定檔. ex: inittab, resolv.conf, fstab, rc.d
 /etc/crontab          # 排程工作
 /etc/hosts            # ip與 dns對照
-/etc/init.d/          # 所有的服務啟動腳本都在這
+/etc/init.d/          # CentOS6(含)以前, 所有的服務啟動腳本都在這
 /etc/localtime/       # 系統時間
 /dev/      # 系統設備目錄
 /dev/hda/             # IDE硬碟
@@ -1357,12 +1357,41 @@ l    | 連結
 b    | 區塊類(硬碟, 光碟機, 週邊設備)
 c    | 字元類(序列埠, 終端機, 磁帶, 印表機)
 
+
 ### 追蹤 - tail
 > 語法: `tail -n <int> <追蹤的 log路徑>`
 ```sh
 # 顯示最後5行, 並持續監看
 $ tail -n 5 -f /var/log/messages
 ```
+
+
+## 好用的資料處理工具(分欄位) - awk
+> 語法: `awk '條件1{動作1} 條件2{動作2} ...' <filename>`; 欄位分隔符號預設為「空白鍵」or「tab鍵」
+
+```sh
+$ last -n 5
+pome     pts/10       192.168.124.94   Mon Apr  9 20:59   still logged in
+pome     pts/11       192.168.124.88   Mon Apr  9 20:11 - 20:12  (00:01)
+pome     pts/10       192.168.124.94   Mon Apr  9 19:37 - 20:51  (01:14)
+pome     pts/9        192.168.124.94   Mon Apr  9 17:02   still logged in
+pome     pts/9        192.168.124.94   Mon Apr  9 10:35 - 16:58  (06:23)
+
+$ last -n 5 | awk '{print $1 "\t" $3}'
+pome    192.168.124.94
+pome    192.168.124.88
+pome    192.168.124.94
+pome    192.168.124.94
+pome    192.168.124.94
+```
+
+
+### ncftpget ncftpput
+
+```sh
+ncftpput -u <帳號> -p <密碼> <host>:~/ upload <標的檔案>
+```
+
 
 ### 測試 - test
 > 測試, 語法: `test <option> <filename>`<br>

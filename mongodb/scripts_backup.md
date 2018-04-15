@@ -1,5 +1,14 @@
 # MongoDB 語法備註
 ```js
+cursor = db.test.find()
+
+while (cursor.hasNext()) {
+    x = cursor.next()
+    print(x._id)
+}
+```
+
+```js
 
 // 更改舊 document, 新增 kv到 sub-document
 // { "_id": 1, "people": {"name": "tony" } }
