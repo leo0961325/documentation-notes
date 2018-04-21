@@ -1,4 +1,12 @@
-# CentOS7 為主
+# CentOS7
+
+安裝的 iso說明: 自從 CentOS7開始, `版本命名依據` 就跟 `發表日` 有關
+    「CentOS-7-x86_64-Everything-1503-01.iso」
+    CentOS-7 表示 7.x版
+    x86_64 為 64位原
+    Everything 為 包山包海的版本
+    1503 表示此版本在 2015/03 發表
+    01.iso 為 CentOS7.1版
 
 我的電腦環境如下
 ```sh
