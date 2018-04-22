@@ -264,6 +264,7 @@ repolist: 24,950
 /etc/hosts            # ip與 dns對照
 /etc/init.d/          # CentOS6(含)以前, 所有的服務啟動腳本都在這
 /etc/localtime/       # 系統時間
+/etc/inittab          # (舊有的 xwindow服務, os7以後, 已經被 ooo.target 所取代)
 /dev/      # 系統設備目錄
 /dev/hda/             # IDE硬碟
 /dev/sd1/             # SCSI硬碟
@@ -1432,3 +1433,22 @@ n1 -eq n2      | n1 == n2
 
 
 ---
+## Locale 語系
+
+```sh
+$ locale
+LANG="zh_TW.utf8"           # 語言語系的輸出
+LC_CTYPE="zh_TW.utf8"
+...(很多)...
+LC_ALL=
+
+# 改變語系吧@@+
+$ LANG=en_US.utf8
+$ export LC_ALL=$LANG
+
+$ locale
+LANG="en_US.utf8"
+LC_CTYPE="en_US.utf8"
+...(很多)...
+LC_ALL="en_US.utf8"
+```

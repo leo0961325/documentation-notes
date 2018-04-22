@@ -3,9 +3,7 @@
 - 目的: `Storage Driver` 可控制 `Docker host` 如何來管理 `Docker images` 及 `Docker Containers`
 
 
-## `Docker CE` 的 `Storage Driver` 還不是很穩定!
-
-官方原稿如下:
+## `Docker CE` 的 `Storage Driver` 還不是很穩定!(應該吧@@?  原文看下面)
 ```
 Expectations for non-recommended storage drivers: Commercial support is not available for Docker CE, and you can technically use any storage driver that is available for your platform. For instance, you can use btrfs with Docker CE, even though it is not recommended on any platform for Docker CE, and you do so at your own risk.
 
