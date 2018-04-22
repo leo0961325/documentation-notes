@@ -8,7 +8,8 @@
     1503 表示此版本在 2015/03 發表
     01.iso 為 CentOS7.1版
 
-我的電腦環境如下
+
+## 我的電腦環境如下
 ```sh
 $ uname -a
 Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
@@ -32,14 +33,7 @@ centos-release-7-3.1611.el7.centos.x86_64
 ```
 
 
-> `os6`: CentOS6(含)以前
-
-> `os7`: CentOS7以後用法
-
-
-
-## 大概不負責任地說一下這裡頭的東西
-
+## 不負責任地說一下這裡頭的東西
 File Name            | Description
 -------------------- | ------------------------------------------
 installCentOS7.md    | 安裝一大堆有的沒的的說明
@@ -53,7 +47,5 @@ other/ubuntu16.04.md | 好久以前寫的...
 (陸續維護中...)
 
 
-
----------------------------------------------
 ## 一堆專有名詞
 - Berkeley Software Distribution(BSD)
