@@ -10,7 +10,7 @@
 
 ```py
 def query(name):
-    return db.status.find({'name': name})
+    return db.coll.find({'name': name})
     """ return <pymongo.cursor.Cursor>
         <pymongo.cursor.Cursor>.count() 得知查詢的筆數
 
@@ -23,6 +23,18 @@ def query(name):
     """
 ```
 
+```py
+def query(name):
+    return db.coll.aggregate([
+        {'$match': {'name': name}},
+        {'$unwind': 'array_column'},
+        {'$project': {'_id': 0, 'status': '$lightTable.status', 'light': '$lightTable.light', 'color': '$lightTable.color'}},
+    ])
+    """ return <pymongo.command_cursor.CommandCursor>
+
+    """ 
+```
+
 
 ### 增 insert
 
@@ -32,7 +44,7 @@ def query(name):
 
 ```py
 def insert(name):
-    return db.status.insert_one({'name': name})
+    return db.coll.insert_one({'name': name})
     """ return <pymongo.results.InsertOneResult>
         <pymongo.results.InsertOneResult>.inserted_id 得知新增資料的 _id
 
@@ -50,7 +62,7 @@ def insert(name):
 
 ```py
 def update(name, new_name):
-    return db.status.update_one({'name': name}, {'$set': {'name': new_name}})
+    return db.coll.update_one({'name': name}, {'$set': {'name': new_name}})
     """ return <pymongo.results.UpdateResult>
         <pymongo.results.UpdateResult>.modified_count 得知更新筆數
 
@@ -67,7 +79,7 @@ def update(name, new_name):
 
 ```py
 def remove(name):
-    return db.status.remove({'name': name})
+    return db.coll.remove({'name': name})
     """ return <dict>
         <dict>.get('n') 得知移除筆數
 
