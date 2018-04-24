@@ -1,5 +1,38 @@
 # Ubuntu16.04
 
+
+## apt 無法執行動作 (被lock住的解法)
+- [更新套件被占用](http://hep1.phys.ntu.edu.tw/~phchen/apfel/linux/install/problem-solving.txt)
+- 2018/04/23
+
+更新套件庫或安裝套件遇到「無法將 /var/lib/dpkg/lock 鎖定」 解法
+```sh
+# 若出現 /var/lib/dpkg/lock 鎖定 - open (11: 資源暫時無法取得)
+# 原因是使用 apt-get, aptitude, synaptic, software-center …等等的程式還沒有關閉
+
+# 如果忘記是那個程式沒關的話，可使用 lsof(list open files) 找出是那個程序佔用檔案, 再用手動關閉或是使用指令的方法, 殺掉正在執行程序
+
+# 1. 用 lsof 找出目前是那個程序在使用 /var/lib/dpkg/lock
+
+$ sudo lsof /var/lib/dpkg/lock
+# 從訊息可看出目前是 aptitude 在佔用 /var/lib/dpkg/lock, 可以找找看是不是剛使用 aptitude, 如果有的話等程式跑完應該就可 更新/安裝了
+
+COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF    NODE NAME
+aptitude 8891 root    4uW  REG   6,47        0 248214 /var/lib/dpkg/lock
+
+# 2. 若找出來的程序是己經沒在執行又遺忘在那開啟的話, 直 kill~. 而這裡是 aptitude 它的 PID 為 8891, 殺掉就能正常使用
+
+$ sudo kill 8891
+
+# 如果出現
+E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem. 
+
+# 就輸入
+$ sudo dpkg --configure -a
+```
+
+
+
 ## install mysql5.7
 [MySQL官方教學](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install)
 
