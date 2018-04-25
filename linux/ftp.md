@@ -62,3 +62,48 @@ put <file>
 ```sh
 ncftpput -u <id> -p <passwd> <host> <target folder> <file>
 ```
+
+
+
+---------------------------------------------------------------------------------------------------
+
+
+## 跨站複製
+[帶密碼的 scp](https://stackoverflow.com/questions/50096/how-to-pass-password-to-scp?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+
+```sh
+# sshpass -p "password" scp -r user@example.com:/some/remote/path /some/local/path
+
+# sshpass -f "/path/to/passwordfile" scp -r user@example.com:/some/remote/path /some/local/path
+```
+
+1. sftp - OK
+```sh 
+# 參考: http://linux.vbird.org/linux_server/0310telnetssh.php#sftp
+sftp swrd@192.168.124.80
+cd /bck
+put 20180413_1730.tar.gz
+# 完成備份 - sftp指令不能帶密碼, 無法自動化!
+```
+
+2. scp - OK
+```sh
+# 參考: http://linux.vbird.org/linux_server/0310telnetssh.php#sftp
+scp 20180413_1730.tar.gz swrd@192.168.124.80:
+# 完成備份 - scp無法帶密碼, 無法自動化!
+```
+
+3. ncftp
+> sudo apt install -y ncftp
+```sh
+ncftp -u swrd -p <密碼> 192.168.124.80
+cd home
+put 20180413_1730.tar.gz
+bye
+# 完成備份 - 分階段上傳
+```
+
+```sh
+# ncftp 帶密碼 - OK
+ncftpput -u swrd -p <密碼> 192.168.124.80 home <要上傳的檔案>
+```

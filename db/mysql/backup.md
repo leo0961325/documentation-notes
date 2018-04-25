@@ -65,3 +65,9 @@ $ mysql > set sql_log_bin=1;
 [LVM快照備份](https://ithelp.ithome.com.tw/articles/10081811)
 
 
+
+
+```sh
+# 依照目前時間做完整備份, 產出ex: full_backup_1036.sql
+$ mysqldump -u '<id>' -p '<pd>' --single-transaction --flush-logs --master-data=2 --all-databases --delete-master-logs > <PATH>/full_backup_`date +\%H\%M`.sql
+```

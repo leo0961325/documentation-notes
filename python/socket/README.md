@@ -1,5 +1,24 @@
 # socket
 
+## socket coding 流程
+
+###### server
+```
+s.bind()
+s.listen()
+s.accept()
+s.recv()
+s.send()
+s.close()
+```
+
+###### client
+```
+s.connect()
+s.send()
+s.recv()
+```
+
 
 
 ## 範例1 - [Python] Simple Socket Server

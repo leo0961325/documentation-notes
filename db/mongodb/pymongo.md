@@ -16,9 +16,8 @@ def query(name):
 
         list( <pymongo.cursor.Cursor> )
         [
-            { 
-                'name': xxx, ...
-            }, ...
+            { 'name': xxx, ...}, 
+            ...
         ]
     """
 ```
@@ -31,7 +30,11 @@ def query(name):
         {'$project': {'_id': 0, 'status': '$lightTable.status', 'light': '$lightTable.light', 'color': '$lightTable.color'}},
     ])
     """ return <pymongo.command_cursor.CommandCursor>
-
+        list( <pymongo.command_cursor.CommandCursor> ) 可得
+        [
+            { 'name': xxx, ...}, 
+            ...
+        ]
     """ 
 ```
 
