@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+	</head>
+	
+	<body>
+		<ul id="l"></ul>
+	</body>
+
+	<script>
+		var l = document.getElementById('l');
+
+		var log = function(m) {	
+			var i = document.createElement('li');
+    
+			i.innerText = new Date().toISOString() + ' ' + m;
+    		l.appendChild(i);
+		}
+
+		log('opening socket.io connection');
+
+		var s = io();
+
+		s.on('connect_error', function(m) {
+			log('error');
+		});
+
+		s.on('connect', function(m) {
+			log('socket.io connection open');
+		});
+
+		s.on('message', function(m) {
+			log(m);
+		});
+	</script>
+</html>

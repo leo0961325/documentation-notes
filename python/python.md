@@ -38,7 +38,8 @@ $ pip install --upgrade setuptools
 
 進入虛擬環境 (安裝完anaconda後)
 ```
-$ conda create --name <env name>
+$ conda create --name <Env Name>
+$ python -m venv <Env Name>
 # 建立虛擬環境
 
 # 印出所有的虛擬環境
