@@ -1,0 +1,42 @@
+
+<!--
+  http://www.chartjs.org/samples/latest/charts/bar/vertical.html
+  chartJS - Bar Chart
+  2017/11/08(二) 11:30
+  js端隨機模擬秒數, 更新圖表
+  templates/chartjs_barChart.html
+  static/js/chartjs_barChart.js
+-->
+
+
+<html>
+  <head>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script> <!-- Chart.js -->
+
+    <!-- 自寫 -->
+    <script src="chartjs_barChart.js"></script>
+    <!-- <script src="{{ url_for('static', filename="js/chartjs_barChart.js") }}"></script>  -->
+    
+    <style>
+        div.chart_div {
+            border: 1px solid black;
+            height: 200px;
+            width: 400px;
+        }
+
+
+    </style>
+  </head>
+
+  <body>
+    <div class="chart_div">
+        <canvas id="timeSpan"></canvas>
+    </div>
+
+    <div class="chart_div">
+        <canvas id="productCumulate"></canvas>
+    </div>
+  </body>
+</html>
