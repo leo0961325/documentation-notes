@@ -24,3 +24,14 @@
 2. `虛擬交換器`只屬於單一服務區域
 
 之後~~, `虛擬交換器` 與 `虛擬路由器` 連線, 就可以與外部網路傳輸資料了.
+
+
+## 其他
+VM從 Volume 上開機, 稱為 `EBS Boot` or `Boot from Volume`
+
+
+## 專有名詞對照
+Termonology        |  OpenStack                     | AWS
+------------------ | ------------------------------ | --------------------------
+區塊儲存空間        |  Open Stack Block Volume       | Elastic Block Store(EBS)
+物件儲存空間        | ?                              | S3 Bucket
