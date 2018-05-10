@@ -20,3 +20,17 @@ select * from t1;
 update t1 set xname='michael' where xid=6;
 select * from t1;
 ```
+
+
+## 查看編碼
+```sql
+mysql> select @@character_set_database, @@collation_database;
+
+mysql> show variables LIKE 'character%';
+```
+
+## 執行外部腳本
+> 語法: ``
+```sql
+mysql> source d:\dbinit.sql
+```
