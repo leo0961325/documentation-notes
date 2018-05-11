@@ -6,6 +6,9 @@
 > CREATE USER '<帳號>'@'<HOST>' IDENTIFIED BY '<密碼>';
 
 > GRANT ALL ON <DB>.<Table> TO '<帳號>'@'<HOST>';
+
+# create user 'qq'@'localhost' identified by '1234';
+# grant all on *.* to 'qq'@'localhost';
 ```
 
 
@@ -18,4 +21,29 @@
 ## 查詢使用者資訊
 ```sql
 > SELECT User, Host FROM mysql.user;
+```
+
+
+
+### 範例
+```sql
+drop database ww;
+create database ww character set utf8;
+use ww;
+create table ee (
+    `id`        int         primary key auto_increment,
+    `datetime`  datetime    NOT NULL,
+    `value`     varchar(5)  NOT NULL,
+    `source`    varchar(20) NOT NULL
+);
+delete from ee where `source` = 'tl01';
+insert into ee (`datetime`, `value`, `source`) values
+    (CURRENT_TIMESTAMP+0, '001', 't01'),
+    (CURRENT_TIMESTAMP+1, '001', 't01'),
+    (CURRENT_TIMESTAMP+2, '001', 't01'),
+    (CURRENT_TIMESTAMP+3, '011', 't01'),
+    (CURRENT_TIMESTAMP+4, '011', 't01'),
+    (CURRENT_TIMESTAMP+5, '011', 't01'),
+    (CURRENT_TIMESTAMP+6, '001', 't01');
+select * from ee;
 ```
