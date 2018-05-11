@@ -4,6 +4,10 @@ $  mysql --version
 mysql  Ver 14.14 Distrib 5.7.21, for Linux (x86_64) using  EditLine wrapper
 ```
 
+- `mysql_demo_data.sql`: `subquery.md` 裏頭使用的範例
+
+
+
 ## For Ubuntu 16.04
 ini dir: /etc/mysql/my.cnf
 db dir: /var/lib/mysql/
