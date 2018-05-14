@@ -1,14 +1,21 @@
 # MYSQL user permission(使用者權限 )
 - 2018/01/23
 
+
+
 ## 建立 user
 ```sql
 > CREATE USER '<帳號>'@'<HOST>' IDENTIFIED BY '<密碼>';
+# <HOST> 只能用 'localhost', 無法使用'127.0.0.1'...
 
 > GRANT ALL ON <DB>.<Table> TO '<帳號>'@'<HOST>';
+```
 
-# create user 'qq'@'localhost' identified by '1234';
-# grant all on *.* to 'qq'@'localhost';
+
+
+移除使用者
+```sql
+DROP USER '<帳號>'@'<HOST>';
 ```
 
 

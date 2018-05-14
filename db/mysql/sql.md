@@ -34,3 +34,22 @@ mysql> show variables LIKE 'character%';
 ```sql
 mysql> source d:\dbinit.sql
 ```
+
+
+## COMMAND LINE編碼
+- [Change default code page of Windows console to UTF-8](https://superuser.com/questions/269818/change-default-code-page-of-windows-console-to-utf-8?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+```
+chcp 65001
+```
+
+## 分隔符號
+- [只談MySQL (第16天) Stored Procedure及Function](https://ithelp.ithome.com.tw/articles/10032363)
+MySQL預設以「;」為分隔符號, 可使用「delimiter //」, 就可把分隔符號改為「//」了.
+
+
+## 毫秒、微秒 欄位
+- [milliseconds](https://stackoverflow.com/questions/13344994/mysql-5-6-datetime-doesnt-accept-milliseconds-microseconds?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+
+DATETIME(3) -> 毫秒
+
+DATETIME(6) -> 微秒

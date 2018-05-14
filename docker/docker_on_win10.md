@@ -36,3 +36,27 @@ Unable to create: 執行中的命令已停止，因為喜好設定變數 "ErrorA
 -----------------------------
 
 > 辛苦的弄了半個小時, 其實我真的沒動到什麼, 只是用 `系統管理員權限` 去開啟 `Hyper-V` 及 `Docker`, 然後忘了在什麼條件底下, 原本 **虛擬交換器管理員** 只有一個「預設切換」, 但偶然間出現 「DockerNAT」, 重開後又消失了!! 然後 Docker就成功啟動了... (幹!!  沙小...).  只是 `Docker`啟動成功後, 在開啟 `Hyper-V`, 就看不到 「DockerNAT」了.
+
+
+----------------------------
+
+> 就在幾天後, 我又執行 Docker > Switch to Windows Containers..., 不一會兒又爆錯了
+```
+Unable to create: 執行中的命令已停止，因為喜好設定變數 "ErrorActionPreference" 或一般參數設定為 Stop: Hyper-V 找不到名為 "DockerNAT" 的虛擬交換器。
+位於 New-Switch，<無檔案>: 第 117 行
+位於 <ScriptBlock>，<無檔案>: 第 394 行
+   於 Docker.Core.Pipe.NamedPipeClient.Send(String action, Object[] parameters) 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Core\pipe\NamedPipeClient.cs: 行 36
+   於 Docker.Actions.<>c__DisplayClass23_0.<SwitchDaemon>b__0() 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Windows\Actions.cs: 行 262
+   於 Docker.WPF.TaskQueue.<>c__DisplayClass19_0.<.ctor>b__1() 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.WPF\TaskQueue.cs: 行 59
+```
+
+> 點選還原回原始設定後, 錯誤訊息又不太一樣...orz
+```
+Unable to create: 執行中的命令已停止，因為喜好設定變數 "ErrorActionPreference" 或一般參數設定為 Stop: Hyper-V 找不到名為 "DockerNAT" 的虛擬交換器。
+位於 New-Switch，<無檔案>: 第 117 行
+位於 <ScriptBlock>，<無檔案>: 第 394 行
+   於 Docker.Core.Pipe.NamedPipeClient.Send(String action, Object[] parameters) 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Core\pipe\NamedPipeClient.cs: 行 36
+   於 Docker.Actions.DoStart(SynchronizationContext syncCtx, Boolean showWelcomeWindow, Boolean executeAfterStartCleanup) 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Windows\Actions.cs: 行 67
+   於 Docker.Actions.<>c__DisplayClass16_0.<ResetToDefault>b__0() 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Windows\Actions.cs: 行 124
+   於 Docker.WPF.TaskQueue.<>c__DisplayClass19_0.<.ctor>b__1() 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.WPF\TaskQueue.cs: 行 59
+```
