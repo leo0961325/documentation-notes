@@ -314,12 +314,15 @@ Python 3.6.3 :: Anaconda, Inc.
 
 ---
 ## Redis
-- 2017/11/26
-
-> [Official Redis](https://redis.io/download)
+- 2017/11/26 (2018/05/15 update)
+- [Official Redis](https://redis.io/download)
+- [cc not found 解法1](https://stackoverflow.com/questions/35634795/no-acceptable-c-compiler-found-in-path-while-installing-the-c-compiler)
+- [cc not found 解法2](https://unix.stackexchange.com/questions/287913/cc-command-not-found-when-compiling-a-pam-module-on-centos?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+- [jemalloc not found 的解說1](https://blog.csdn.net/bugall/article/details/45914867)
+- [jemalloc not found 的解說2](http://www.ywnds.com/?p=6957)
 
 1. Download && Install
-```
+```sh
 $ wget http://download.redis.io/releases/redis-4.0.2.tar.gz
 
 $ tar xzf redis-4.0.2.tar.gz
@@ -329,15 +332,31 @@ $ mv redis-4.0.2.tar.gz ~/.
 $ ~/cd redis-4.0.2
 
 $ make
+
+# 如果 make 有問題, 再往下看---------------
+# *** 如果出現「cc not found」
+# 我直接把超大一包的'Development Tools'裝近來(殺雞用牛刀, 但可用!)
+$ sudo yum groupinstall 'Development Tools'
+
+# *** 如果出現「jemalloc/jemalloc.h: No such file or directory」
+# 解法: 
+# 1. 編譯時, 使用「make MALLOC=libc」來迫使 Redis使用 libc(比起 jemalloc 不那麼有效率) 取代 Redis預設的 jemalloc(應該是 記憶體管理的模組)
+# 2. 安裝 jemalloc 
+
+# 底下採用 解法2 -> 安裝 jemalloc
+$ # a. 安裝 EPEL
+$ # b. 安裝 jemalloc
+$ # c. 完成後, 再執行 「make MALLOC=/usr/local/jemalloc/lib」編譯. (不曉得為何 make test 依然發生錯誤), 不過可正常使用了
+# -------------------------------------------
 ```
 
 2. Create redis-server - Terminal 1
-```
+```sh
 $ src/redis-server
 ```
 
 3. Run redis-client - Terminal 2
-```
+```sh
 $ src/redis-cli
 ```
 
@@ -416,7 +435,7 @@ success!
 1. Install EPEL
 ```
 $ wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-$ rpm -ivh epel-release-latest-7.noarch.rpm
+$ sudo rpm -ivh epel-release-latest-7.noarch.rpm
 ```
 
 2. Install
@@ -672,4 +691,23 @@ $ sudo systemctl start libvirtd
 
 # 開始使用^O^
 $ sudo virt-manager
+```
+
+
+---
+## Install wget
+- 2018/05/15
+安裝最輕量化的 CentOS7, 沒有 `wget`這東西
+
+```sh
+$ sudo yum install wget
+```
+
+
+## Install gcc
+- 2018/05/15
+- [cc: Command not found](https://unix.stackexchange.com/questions/287913/cc-command-not-found-when-compiling-a-pam-module-on-centos?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+```sh
+# 不知道這是不是一個好的解法... 一口氣安裝超級大一包
+
 ```

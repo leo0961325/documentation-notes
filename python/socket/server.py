@@ -13,7 +13,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         while True:
             data = conn.recv(1024)	# client中斷連線的話, data為空值
             if not data: 
-		print(data)
-		print(type(data))
-		break
+                print(data)
+                print(type(data))
+                break
             conn.sendall(data)
