@@ -11,3 +11,7 @@ build environment:
     distarch: x86_64
     target_arch: x86_64
 ```
+
+```sh
+$ mongo <host>:<port>/<db name> -u <id> -p <pd>
+```
