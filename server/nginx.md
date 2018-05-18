@@ -2,6 +2,8 @@
 - [官方 Beginner’s Guide](http://nginx.org/en/docs/beginners_guide.html)
 - [nginx 基礎設定教學](https://blog.hellojcc.tw/2015/12/07/nginx-beginner-tutorial/)
 
+
+
 ```sh
 $ uname -r
 3.10.0-693.21.1 el7.x86_64
@@ -11,6 +13,8 @@ nginx version: nginx/1.12.2
 built by gcc 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC)
 built with OpenSSL 1.0.2k-fips 26 Jan 2017
 ```
+
+
 
 ## 主要設定檔 /etc/nginx/nginx.conf
 
@@ -55,4 +59,6 @@ http {
   }
 }
 ```
+
+
 最內層的 `block directive` 只會有2種：**http** 及 **event**, 稱之為 `main context` (不懂這句話...)
