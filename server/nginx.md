@@ -1,8 +1,7 @@
 # Nginx
 - [官方 Beginner’s Guide](http://nginx.org/en/docs/beginners_guide.html)
 - [nginx 基礎設定教學](https://blog.hellojcc.tw/2015/12/07/nginx-beginner-tutorial/)
-
-
+- [Nginx應用場景(簡單明瞭的範例)](http://www.raye.wang/2017/02/24/quan-mian-liao-jie-nginxdao-di-neng-zuo-shi-yao/)
 
 ```sh
 $ uname -r
@@ -16,9 +15,26 @@ built with OpenSSL 1.0.2k-fips 26 Jan 2017
 
 
 
-## 主要設定檔 /etc/nginx/nginx.conf
+# 組態的最基本寫法
 
-初始內容如下:
+組態檔的撰寫方式, 由一系列的 **directive** 所組成. 而此 **directive** 分為2類:
+- `simple directive` : **分號結尾**
+- `block directive`  : 會有一組 `{}` 把東西包起來, 而裡面可以含有 `simple directive` 及 `block directive`
+
+最內層的 `block directive` 只會有2種：**http** 及 **event**, 稱之為 `main context`
+
+```conf
+http {
+  server {
+    location {}
+  }
+}
+```
+
+
+
+# 主要設定檔 /etc/nginx/nginx.conf
+
 ```conf
 user  nginx;  
 worker_processes  1;
@@ -45,20 +61,78 @@ http {
 }
 ```
 
-此組態檔的撰寫方式, 是由一系列的 **directive** 所組成. 而此 **directive** 分為2類:
-- simple directive: 分號結尾
-- block directive: 會有一組 `{}` 把東西包起來, 而裡面可以含有 `simple directive` 及 `block directive`
 
-ex:
+
+# 範例
+## 靜態資源服務
+
 ```conf
-http {
-  # server 一定在 http 裡面
-  server {
-    # location 一定在 server 裡面
-    location {}
-  }
+server {
+    listen       80;                                                         
+    server_name  localhost;                                               
+    client_max_body_size 1024M;
+
+    location / {
+        root   e:\wwwroot;  # 若訪問到 url, 則回傳 Host端 e:\wwwroot2 底下的東西
+        index  index.html;  # 設定首頁
+    }
 }
 ```
 
 
-最內層的 `block directive` 只會有2種：**http** 及 **event**, 稱之為 `main context` (不懂這句話...)
+
+## Load-Balance
+```conf
+# 作 Load-balance 到兩個 Node
+upstream test {
+    server localhost:8080;
+    server localhost:8081;
+}
+
+server {  
+    # 監聽 本地 80 port 的請求
+    listen       80;                                                         
+    server_name  localhost;   
+
+    # request body 上限大小                                            
+    client_max_body_size 1024M;
+
+    location / {
+        # 代理 localhost:8080
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host $host:$server_port;
+    }
+}
+```
+
+
+### weight
+設定訪問比重(不同 Server, 效能不一樣)
+
+```conf
+upstream test {
+    server 192.168.10.10:8080 weight=5; 
+    server 192.168.10.11:8080 weight=2;
+}
+```
+
+
+### ip_hash
+因為上述的 Load-balance, 會有 `登入後, 資料存在 session`, 再發送請求時, 跳到不同 Server的情況(需要重新登入阿), 所以`要限定同 Client, 訪問同 Server` → 製作 `ip_hash`
+
+```conf
+upstream test {
+    ip_hash;
+    server 192.168.10.10:8080 weight=9; # 訪問比重
+    server 192.168.10.11:8081 weight=1; # 訪問比重
+}
+```
+
+
+# 零碎概念
+
+Nginx支援 `熱啟動`, 所以改完組態檔後, **不用重啟服務**, 重讀組態即可!!
+```sh
+# 重讀組態
+$ nginx -s reload  
+```
