@@ -62,3 +62,16 @@ http {
 
 
 最內層的 `block directive` 只會有2種：**http** 及 **event**, 稱之為 `main context` (不懂這句話...)
+
+
+## 代理模式
+```conf
+server {
+  listen 80;      # 把 proxy server 掛在 本地端 80 port
+  server_name _;  # external address
+
+  location / {
+    proxy_pass http://127.0.0.1:8000;   # Nginx設定為 "代理模式" , 代理本地 8000 port, 後便可透過 public network訪問 Flask web app了
+  }
+}
+```
