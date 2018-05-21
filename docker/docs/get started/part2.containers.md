@@ -23,7 +23,7 @@
 
 `dockerfile`也可命名為 `DOCKERFILE` or `Dockerfile`
 
-```
+```dockerfile
 # 使用Python官方的 image
 FROM python:2.7-slim
 
@@ -48,12 +48,15 @@ ENV NAME World
 CMD ["python", "app.py"]
 ```
 
-> 如果被<b>代理伺服器</b>(Proxy Server) 擋住, 則在 dockerfile內加入(實際怎麼用, 我也不懂, 官方沒寫明...):
-> ```
-> ENV http_proxy host:port
-> or
-> ENV https_proxy host:port
->```
+
+```sh
+# 如果被 代理伺服器(Proxy Server) 擋住, 則在 dockerfile內加入 :
+ENV http_proxy host:port
+# or
+ENV https_proxy host:port
+
+# (↑看不懂這邊要講什麼)
+```
 
 `requirements.txt` 內容如下:
 ```
