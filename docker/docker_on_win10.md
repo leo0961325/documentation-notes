@@ -69,3 +69,9 @@ Docker for Windows service is not running
 
 
 > 安裝完 Docker on Windows後, 使用 Hyper-V (而非VirtualBox), 看似正常安裝了, 但是 Hyper-V裏頭, 卻沒有 `MobyLinuxVM`, *Virtual Switch Manager*裏頭, 也沒有 `DockerNAT`. 估計是這邊不曉得哪裡有問題, 因而 docker一直無法正常運作. 2018/05/21
+
+
+## Issue
+- [Security warning appearing when building a Docker image from Windows against a non-Windows Docker host](https://github.com/moby/moby/issues/20397)
+
+> Build Image from Dockerfile之後, 會看到 `Successfully tagged mt:latestSECURITY WARNING: You are building a Docker image from Windows against a non-Windows Docker host. All files and directories added to build context will have '-rwxr-xr-x' permissions. It is recommended to double check and reset permissions for sensitive files and directories.`. 這是因為 Windows裏頭, 並不存在 *executable*, 所以這些訊息都會經由 stdout 輸出, 並且無法透過設定將它關閉提醒(17.04版以前, 此為 stderr).
