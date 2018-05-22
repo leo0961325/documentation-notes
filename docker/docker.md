@@ -26,6 +26,10 @@ Docker version 17.09.0-ce, build afdb6d4
 
 ## 指令
 
+> **依照 Dockerfile, 建立 Image**. 語法: `docker build -t <要建立的 Images名稱> <Dockerfile位置>`
+
+> **執行 Image(建立 Container)**. 語法: `docker run -it <Image名稱> <依照啥指令執行此 Image>` 
+
 ```sh
 $ docker run -d --name nginx nginx
 
