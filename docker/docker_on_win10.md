@@ -66,3 +66,6 @@ Docker for Windows service is not running
    於 Docker.Actions.<>c__DisplayClass14_0.<Start>b__0() 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Windows\Actions.cs: 行 51
    於 Docker.WPF.TaskQueue.<>c__DisplayClass19_0.<.ctor>b__1() 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.WPF\TaskQueue.cs: 行 59
 ```
+
+
+> 安裝完 Docker on Windows後, 使用 Hyper-V (而非VirtualBox), 看似正常安裝了, 但是 Hyper-V裏頭, 卻沒有 `MobyLinuxVM`, *Virtual Switch Manager*裏頭, 也沒有 `DockerNAT`. 估計是這邊不曉得哪裡有問題, 因而 docker一直無法正常運作. 2018/05/21

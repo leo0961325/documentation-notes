@@ -4,13 +4,37 @@
 
 
 ```powershell
+# 啟動 Hyper-V - https://docs.microsoft.com/zh-tw/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
+> Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+```
+
+```powershell
 # 查詢虛擬交換器
 > Get-VMSwitch
+Name              SwitchType NetAdapterInterfaceDescription
+----              ---------- ------------------------------
+Private Network   Private
+Default Switch    Internal
 
-Name            SwitchType NetAdapterInterfaceDescription
-----            ---------- ------------------------------
-Private Network Private
-預設切換        Internal
+
+# 查詢 網卡
+> Get-NetAdapter
+Name                        InterfaceDescription               ifIndex  Status       MacAddress   LinkSpeed
+----                        --------------------               -------  ------       ----------   ---------
+vEthernet (Default Switch)  Hyper-V Virtual Ethernet Adapter        14  Disconnected (pass)       10 Gbps
+Ethernet                    Realtek PCIe GBE Family Controller       2  Up           (pass)       100 Mbps
+Wi-Fi                       Intel(R) Dual Band Wireless-AC 8260     17  Disconnected (pass)       6 Mbps
+
+
+# 查詢 虛擬機器
+> Get-VM
+Name State   CPUUsage(%) MemoryAssigned(M) Uptime           Status   Version
+---- -----   ----------- ----------------- ------           ------   -------
+v01  Running 16          1238              00:11:52.2810    正常運作 8.2
+
+# https://www.bountysource.com/issues/40110135-hyper-v-was-unable-to-find-a-virtual-switch-with-name-dockernat
+> powershell -ExecutionPolicy ByPass -File "C:\Program Files\Docker\Docker\resources\MobyLinux.ps1" -create
+
 ```
 
 
