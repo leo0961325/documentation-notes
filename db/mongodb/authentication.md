@@ -13,30 +13,100 @@
 管理權限的 Database `admin`, 一開始需要在裡面創建一個使用者(名字應該隨便吧@@?), 要賦予 `userAdmin` or `userAdminAnyDatabase` 的權限. 如此一來, This user can administrate user and roles such as: create users, grant or revoke roles from users, and create or modify customs roles.
 
 
-幾個關鍵性的名詞
-- roles
+幾個讓我感覺非常哭腰的名詞
 - users
+- roles
+- privileges
 - resources
+- actions
 - databases
 
 
 ## Roles - 分為 2 類
-### 1. ~~User-Defined Roles~~ (pass)
+1. User-Defined Role
+2. [Built-In Roles](https://docs.mongodb.com/v3.4/reference/built-in-roles/)
 
-### 2. [Built-In Roles](https://docs.mongodb.com/v3.4/reference/built-in-roles/)
-- userAdmin
-- userAdminAnyDatabase - 只能管控 users 和 roles, 無法作 collection 的 CRUD
-- manageOpRole
+```js
+// 首次建立 user
+> db.createUser(
+    { 
+        user: "root", 
+        pwd: "root_pd", 
+        roles: [{ 
+            role: "root", 
+            db: "admin" 
+        }]
+    }
+);
+// return
+Successfully added user: {
+    "user" : "root",
+    "roles" : [
+        {
+            "role" : "root",
+            "db" : "admin"
+        }
+    ]
+}
+```
 
+```js
+// 查看 db 的 role
+> db.runCommand({
+    rolesInfo: {
+        db: 'reporting', 
+        role: 'readWrite'
+    }
+});
+// return
+{
+    "roles" : [
+        {
+            "role" : "readWrite",
+            "db" : "reporting",
+            "isBuiltin" : true,
+            "roles" : [ ],
+            "inheritedRoles" : [ ]
+        }
+    ],
+    "ok" : 1
+}
 ```
-+ Database User Roles
-+ Database Admin Roles
-+ Cluster Admin Roles
-+ BackupandRestoration Roles
-+ All-DB Roles
-+ Superior-Roles
-+ Internal Roles
+
+
+```js
+// 授權 role 給 user
+> db.grantRolesToUser( "admin", [ 
+    { 
+        role: "readWrite", 
+        db: "test_emc" 
+    } 
+]);
+// 啥都沒回傳...
 ```
+
+
+```js
+// 建立 role
+db.createRole(
+    {
+        role : "<Role Name>",
+        privileges: [ {
+                actions: [ 
+                    "<Action1>", "<Action2>"
+                ],
+                resource: { 
+                    db: "<Database Name>", 
+                    collection: "<Collection Name>" 
+                }
+            }
+        ],
+        roles: []
+    }
+)
+```
+
+
 
 
 
@@ -195,4 +265,40 @@ $ mongo 192.168.124.81:27017/admin -u root -p
 $ mongo -u root -p --authenticationDatabase admin
 
 $ db.createUser({user: 'admin', pwd: 'admin_pwd', roles: [{ role: 'dbOwner', db: 'db2'}]})
+```
+
+
+# 其他
+## 關於該死的 roles (還沒認真整理)
+- userAdmin
+- userAdminAnyDatabase 
+    - 只能管控 users 和 roles, 無法作 collection 的 CRUD
+- manageOpRole 
+    - 只能作 2 件事情
+        - db.currentOp()
+        - db.killOp()
+- mongostatRole
+    - 只能作 `mongostat()`
+- read
+    - 唯讀
+- readWrite
+    - 讀寫權限
+- clusterMonitor
+    - 能作 `db.currentOp()`
+- hostManager
+    - 能作 `db.killOp()`
+
+```
++ Database User Roles
++ Database Admin Roles
++ Cluster Admin Roles (Database: 'admin')
+    - clusterAdmin
+    - clusterManager
+    - clusterMonitor
+    - hostManager
+
++ BackupandRestoration Roles
++ All-DB Roles
++ Superior-Roles
++ Internal Roles
 ```
