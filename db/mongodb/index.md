@@ -14,6 +14,6 @@ db.coll.getIndexes();
 		"_id" : 1
 	},
 	"name" : "_id_",
-	"ns" : "pome.status"
+	"ns" : "db_name.status"
 }
 ```

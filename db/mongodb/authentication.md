@@ -26,6 +26,9 @@
 1. User-Defined Role
 2. [Built-In Roles](https://docs.mongodb.com/v3.4/reference/built-in-roles/)
 
+
+## 相關語法備註
+
 ```js
 // 首次建立 user
 > db.createUser(
@@ -82,6 +85,16 @@ Successfully added user: {
         db: "test_emc" 
     } 
 ]);
+
+
+
+db.runCommand({
+    rolesInfo: {
+        db: 'test_emc', 
+        role: 'admin'
+    }
+});
+
 // 啥都沒回傳...
 ```
 
@@ -106,7 +119,18 @@ db.createRole(
 )
 ```
 
+### 遠端登入
+1. 遠端連線
+```sh
+$ mongo --host <server ip> --port <server port>
+```
 
+2. 驗證
+```js
+> db.auth('<帳號>', '<密碼>');
+// return
+1
+```
 
 
 
@@ -251,6 +275,14 @@ db.createUser({ user: "root", pwd: "root_pd", roles: [{ role: "root", db: "admin
 // 建立 帳號為 root 的使用者, 設定密碼, 對 db2 擁有 dbOwner (系統預設)的權限
 use db2;
 db.createUser({ user: "admin", pwd: "admin_pwd", roles: [{ role: "dbOwner", db: "db2" }] });
+
+db.createUser({ user: "admin", pwd: "pome", roles: [{ role: "dbOwner", db: "test_emc" }] });
+```
+
+
+```js
+// 拔掉權限
+db.runCommand({ revokeRolesFromUser: 'admin', roles: [ { role: 'readWrite', db: 'test_emc' } ]})
 ```
 
 一旦建立完權限機制之後, 往後使用 mongoDB, 都得打帳號密碼了 QQ
@@ -290,7 +322,14 @@ $ db.createUser({user: 'admin', pwd: 'admin_pwd', roles: [{ role: 'dbOwner', db:
 
 ```
 + Database User Roles
+    - read
+    - readWrite
+
 + Database Admin Roles
+    - dbOwner : 可對DB做任何事
+    - userAdmin : 對 特定DB 安排 user, role/privilege
+    - dbAdmin : 不具備 對於 非系統Collection 完整的read 權限
+
 + Cluster Admin Roles (Database: 'admin')
     - clusterAdmin
     - clusterManager
@@ -298,7 +337,18 @@ $ db.createUser({user: 'admin', pwd: 'admin_pwd', roles: [{ role: 'dbOwner', db:
     - hostManager
 
 + BackupandRestoration Roles
+    - backup
+    - restore
+
 + All-DB Roles
+    - readAnyDatabase : 在 admin 內設定. 可作 local、config DB以外的資料庫 唯讀
+    - readWriteAnyDatabase : 在 admin 內設定. 可作 local、config DB以外的資料庫 讀寫
+    - userAdminAnyDatabase : 當成 userAdmin 的概念來理解(對幾乎所有 DB)
+    - dbAdminAnyDatabase : 當成 dbAdmin 的概念來理解(對幾乎所有 DB)
+
 + Superior-Roles
+    - root : 擁有了 readWriteAnyDatabase , userAdminAnyDatabase , dbAdminAnyDatabase , clusterAdmin , restore , backup 的權限, 超級 op
+
 + Internal Roles
+    - (讀不懂... 暫時不鳥它)
 ```

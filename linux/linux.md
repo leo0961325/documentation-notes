@@ -564,10 +564,11 @@ $ ll /etc | grep crontab
 -rw-r--r--   1 root root     722  四   6  2016 crontab
 
 $ vi /etc/crontab
-* * * * * root mysqldump -u'root' -p'pome' tt > /root/test_crontab/bck_`date +\%m\%d\%H\%M`.sql
+* * * * * root mysqldump -u'root' -p'root_password' tt > /root/test_crontab/bck_`date +\%m\%d\%H\%M`.sql
 # 29 9 15 8 *   # 8/15 09:29
 # 0 17 10 * *   # 每月10日, 17:00
 # 0 4 * * 6     # 每週六 04:00
+# 0 */1 * * *   # 每小時
 ```
 
 

@@ -26,7 +26,7 @@ def charts():
     host = '127.0.0.1'
     port = 27017
     host = 'mongodb://' + host + '/' + user
-    db = MongoClient(host).pome
+    db = MongoClient(host).db_name
     cursor = db.dataNode.find().sort('_id', pymongo.DESCENDING).limit(1)
     cursor = db.randTime.find().sort('_id', pymongo.DESCENDING).limit(1)
     y = []
