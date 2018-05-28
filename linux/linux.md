@@ -3,9 +3,20 @@
 - 知識概念備註
 
 ```sh
-# 此篇指令及概念, 主要都作用在 CentOS 7.3
+# 此篇指令及概念, 主要都作用在 CentOS 7  (半年前是 7.3版, N 個月前下了 yum update 後, 升級成 7.4了...)
 $ cat /etc/centos-release
-CentOS Linux release 7.3.1611 (Core)
+CentOS Linux release 7.4.1708 (Core)
+
+$ uname -a
+Linux tonynb 3.10.0-693.21.1.el7.x86_64 #1 SMP Wed Mar 7 19:03:37 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+
+# 這東西需要額外安裝 yum install redhat-lsb
+$ lsb_release -a
+LSB Version:    :core-4.1-amd64:core-4.1-noarch
+Distributor ID: CentOS
+Description:    CentOS Linux release 7.4.1708 (Core)
+Release:        7.4.1708
+Codename:       Core
 ```
 
 
@@ -251,52 +262,6 @@ repolist: 24,950
   - 使用 `make`進行編譯
   - 無誤後, 使用 `sudo make install`開始安裝
 
-
-
-
----
-## 主要目錄
-```sh
-/bin/      # 可執行檔
-/boot/     # 開機時使用的核心檔案目錄.
-/etc/      # 系統設定檔. ex: inittab, resolv.conf, fstab, rc.d
-/etc/crontab          # 排程工作
-/etc/hosts            # ip與 dns對照
-/etc/init.d/          # CentOS6(含)以前, 所有的服務啟動腳本都在這
-/etc/localtime/       # 系統時間
-/etc/inittab          # (舊有的 xwindow服務, os7以後, 已經被 ooo.target 所取代)
-/dev/      # 系統設備目錄
-/dev/hda/             # IDE硬碟
-/dev/sd1/             # SCSI硬碟
-/dev/cdrom/           # 光碟機
-/dev/fd0/             # 軟碟機
-/dev/lp0/             # 印表機
-/lib/      # 系統的共用函式庫檔案
-/media/    # 移動式磁碟or光碟 掛載目錄
-/mnt/      # 暫時性檔案系統 掛載目錄
-/opt/      # 非 Linux預設安裝的外來軟體
-/proc/     # 行程資訊目錄, 
-/sbin/     # 系統管理員 用的 工具or指令or執行檔. ex: ifconfig, mke2fs
-/tmp/      # 重開機後會清除
-/usr/      # Linux系統安裝過程中必要的 packages
-/usr/bin/             # 一般使用者 用的 工具or指令or執行檔
-/usr/sbin/            # 系統專用的 工具/指令/執行檔
-/usr/share/                
-/usr/share/doc                   # 系統文件
-/usr/share/man                   # 線上操作手冊
-/usr/share/zoneinfo              # 時區檔案
-/usr/src/
-/usr/src/linux/                # 系統核心原始碼
-/var/      # 變動行 & 系統待排隊處例的檔案
-/var/log/             # 紀錄檔
-/var/log/dmesg                  # 開機時偵測硬體與啟動服務的紀錄
-/var/log/messages               # 開機紀錄
-/var/log/secure                 # 安全紀錄
-/var/lib/             # 
-/var/lib/mysql/                 # mysql資料庫的資料儲存位置
-/var/spool/            
-/var/spool/mail/                # 等待寄出的 email
-```
 
 
 

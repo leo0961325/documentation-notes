@@ -48,4 +48,7 @@ other/ubuntu16.04.md | 好久以前寫的...
 
 
 ## 一堆專有名詞
-- Berkeley Software Distribution(BSD)
+
+Berkeley Software Distribution(BSD)
+
+Network File System (NFS)
