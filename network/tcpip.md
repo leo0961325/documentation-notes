@@ -63,3 +63,34 @@ AND    --------
 
 所以 Network Number 為 255.255.128.0
 ```
+
+ip subnetting
+- 等量(長)切割法)(RFC 1812) -> 切割後的每個 subnet 可用IP數量相同 -> subnet mask值相同
+
+步驟
+1. 把 `Network Number` 與 `原 Subnet Mask` 轉二進位, 找出 `原Network ID` 與 `原 Host ID` 各用那些 bits
+2. 將原 `Host ID` 用的 bits, 由左而右, 取 **n個 bit(s)** 作為 `Subnet ID` 使用的 bit(s) -> 得到新的 `Host ID` 用那些 bits
+
+> 2^n >= 所需的 Subnet數. 若 n 取 *符合條件的最小值*, 可讓切出的 Subnet 擁有最多可用 `Host IP`
+
+3. 將 `Subnet ID` 所用的 bits 的各種組合寫出(會有多個), 前方串上 `原 Network ID`, 即得到每個 `Subnet` 的新 `Network ID`.
+4. `Host ID`全為 2進位的 0即為 `Network Number`; 1即為 `Subnet 的 Subnet Broadcast`.
+
+```
+----- Question -----
+把 131.210.0.0 劃分成 6個子網路, 求
+A. 子網路遮罩
+B. 各個子望路可分配的主機數量
+C. 各個子網路的範圍
+
+----- Answer -----
+沒多說的話, 就是屬於 class B, Default Mask就是 255.255.0.0
+
+切個成6個子網路, 那就得借用 2^n >= 6, n >= 3 bits
+即為 11100000 => 224
+所以, 切割後的 子網路遮罩 為 255.255.224.0
+
+剩餘的 5+8個位元, 可用來分配給 Host ID, 則可配置 2^13 - 2 = 8190台
+
+
+```
