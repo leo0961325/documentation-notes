@@ -13,6 +13,9 @@
 - WSGI : `python web 框架` 需邀遵照的協議 (基本上, web service開發人員不用理這個...)
 - uwsgi: `python base Web Server` 與 `Reverse Proxy Server(Nginx)` 溝通的協定 (應該吧!?)
 
+![比較表](../../img/wsgi.jpg)
+[圖片來源在這 - 我覺得他寫的很棒~](https://www.rapospectre.com/blog/31)
+
 ---------------------------
 ## WSGI
 
@@ -23,3 +26,4 @@
 3. 等到請求後, 呼叫 `WSGI Application`, 開始一系列處理, 並 send request
 4. back to Loop
 5. repeat 2-4 到死
+
