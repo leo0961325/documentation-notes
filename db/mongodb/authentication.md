@@ -140,7 +140,8 @@ $ mongo --host <server ip> --port <server port>
 ```sh
 # 這底下的資料夾盡量是空的, 玩壞了以後, 可以整個刪除XD
 # 當然, 服務得先關掉
-$ mongod --port 27017 --dbpath /tmp/qq
+$ mongod --port 27017 --dbpath /tmp/qq --bind_ip 0.0.0.0
+# 預設只有 localhost 能存取
 ```
 
 2. 進入 mongodb
