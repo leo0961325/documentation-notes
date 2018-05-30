@@ -77,3 +77,10 @@ SeTimeZonePrivilege           變更時區           已停用
 
 使用者宣告未知。
 ```
+
+
+```powershell
+# And運算
+> 1 -and 1
+True
+```

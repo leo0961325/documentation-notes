@@ -1360,6 +1360,14 @@ ncftpput -u <帳號> -p <密碼> <host>:~/ upload <標的檔案>
 ```
 
 
+### substring
+```sh
+$ a='12345678'
+$ echo ${a:2:3}
+345
+```
+
+
 ### 測試 - test
 > 測試, 語法: `test <option> <filename>`<br>
 ```sh

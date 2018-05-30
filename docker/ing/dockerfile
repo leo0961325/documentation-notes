@@ -1,13 +1,39 @@
-# 2018/05/22
-FROM sky46821/centos7-python3.6
-COPY . /opt/mt/
-WORKDIR /opt/mt
+# https://github.com/quozd/docker-centos7-python36/blob/master/Dockerfile
+# 2018/05/29 - docker-centos7-python36 Dockerfile
 
-# VOLUME D:/mt /opt/mt/
-# RUN yum update -y
+# cd d:/illu/docker/ing/
+# docker build docker/ing/.
+# docker run -it 99a4 /bin/bash
+
+FROM centos:7
+
+ENV PYTHON_VERSION "3.6.4"
+
+RUN yum install -y \
+    wget \
+    gcc make \
+    zlib-dev openssl-devel sqlite-devel bzip2-devel
+
+RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz \
+    && tar xvf Python-${PYTHON_VERSION}.tgz \
+    && cd Python-${PYTHON_VERSION} \
+    && ./configure --prefix=/usr/local \
+    && make \
+    && make altinstall \
+    && cd / \
+    && rm -rf Python-${PYTHON_VERSION}*
+
+RUN ln -s /usr/local/bin/python${PYTHON_VERSION:0:3} /usr/local/bin/python3
+
+WORKDIR /root
 RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 RUN python3 get-pip.py
-RUN pip3 install -r requirement.txt
+
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+
+EXPOSE 80
+
 
 # CMD ["python3", "manage.py", "runserver", "--host", "0.0.0.0"]
 # python manage.py runserver --host 0.0.0.0
