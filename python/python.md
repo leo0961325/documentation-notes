@@ -57,6 +57,29 @@ $ source vemt/bin/activate
 $ source deactivate ve
 ```
 
+
+## 使用 python3 的 virtualenv 及 virtualenvwrapper
+```sh
+# 進入 su
+apt-get install -y python3-pip python3-dev		# 抓 python3用的 pip
+pip3 install --upgrade pip						# 升級 pip3
+pip3 install virtualenv virtualenvwrapper		# 用 pip3 安裝 虛擬環境
+# 請確定安裝後, 最後面有出現「Successfully installed ...」的字樣
+```
+
+### 2. 設定
+```sh
+# 進入 su
+echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
+echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bashrc
+echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+source ~/.bashrc
+mkvirtualenv -p /usr/bin/python3 bis
+mkdir bis
+cd bis
+setvirtualenvproject .
+```
+
 ---
 Python中, 任何資料夾內如果有包含`__init__.py`的話, 這個資料夾就被視為是一個`package`, 如此一來就可以被 import
 

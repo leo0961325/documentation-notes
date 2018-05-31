@@ -4,6 +4,7 @@
 - [Does Gunicorn run on Windows(從2013年以後, 好像可以了!?)
 ](https://stackoverflow.com/questions/11087682/does-gunicorn-run-on-windows?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
 - [python gunicorn 官方](https://pypi.org/project/gunicorn/)
+- [這篇寫得不錯](https://jiayi.space/post/flask-gunicorn-nginx-bu-shu)
 - 人稱它為 `Green Unicorn` 綠色獨角獸 (這好像不是很重要...)
 
 > Gunicorn 'Green Unicorn' is a Python WSGI HTTP Server for UNIX. It's a pre-fork worker model. The Gunicorn server is broadly compatible with various web frameworks, simply implemented, light on server resources, and fairly speedy.

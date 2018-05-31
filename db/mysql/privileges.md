@@ -1,4 +1,4 @@
-# MYSQL user permission(使用者權限 )
+# MYSQL user privileges(使用者權限 )
 - 2018/01/23
 
 
@@ -53,4 +53,14 @@ insert into ee (`datetime`, `value`, `source`) values
     (CURRENT_TIMESTAMP+5, '011', 't01'),
     (CURRENT_TIMESTAMP+6, '001', 't01');
 select * from ee;
+```
+
+```sql
+> SHOW GRANTS FOR CURRENT_USER;
++---------------------------------------------------------------------+
+| Grants for root@localhost                                           |
++---------------------------------------------------------------------+
+| GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION |
+| GRANT PROXY ON ''@'' TO 'root'@'localhost' WITH GRANT OPTION        |
++---------------------------------------------------------------------+
 ```
