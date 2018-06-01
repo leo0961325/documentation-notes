@@ -1,0 +1,24 @@
+# https://hub.docker.com/r/centos/python-36-centos7/
+# docker pull centos/python-36-centos7
+# 2018/06/02
+# 可用
+# 
+# 1. 依照此份 dockerfile 建立 mt image
+# docker build -t mt D:\illu\docker\ok\.
+# 2. 執行, 開放對應窗口
+# docker run -p 8000:8000 mt
+
+
+FROM centos/python-36-centos7
+
+WORKDIR /app
+
+ADD . /app
+
+RUN pip3 install -r app/requirements.txt
+
+CMD ["python3", "app/manage.py"]
+
+EXPOSE 80
+
+
