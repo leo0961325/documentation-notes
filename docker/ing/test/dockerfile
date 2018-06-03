@@ -1,0 +1,26 @@
+# docker build -t flasky D:\illu\docker\ing\test\.
+# docker run -it flasky /bin/bash
+# docker run -p 4000:80 flasky
+
+# 使用Python官方的 image
+FROM python:2.7-slim
+
+# 把目前目錄的東西, copy到 image內
+
+# 設定工作目錄為 /app
+WORKDIR /app
+
+# 把 ./app內的東西 copy到 container內
+ADD . /app
+
+# 執行 container後, 開始執行 pip install
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+# 開放 container內的 80 port給外部使用
+EXPOSE 80
+
+# 設定 container內的環境變數, NAME=World
+ENV NAME World
+
+# 一進入 container後, 就執行 python app.py
+CMD ["python", "app.py"]
