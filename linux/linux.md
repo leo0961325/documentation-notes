@@ -21,6 +21,8 @@ Codename:       Core
 
 
 
+
+
 ---
 ## EPEL(Extra Packages for Enterprise Linux)
 > Linux在安裝許多軟體的時候(ex: yum install ...), 會有軟體相依性的問題, 若發現相依軟體尚未被安裝, yum會自己去`本地 repository`裡頭找有記載的`遠端 repository`去下載相依套件. 而 EPEL就是專門 for CentOS的套件庫, 裡頭有許多CentOS的核心套件. <br>查看補充說明: 
@@ -443,6 +445,9 @@ $ chmod u+x pp.py
 $ ll
 drwxrwxr-x. 1 ...(略)... pp.py
 ```
+
+特殊權限(SUID, SGID, SBIT), 參考 security.md
+
 
 
 
@@ -1298,31 +1303,32 @@ $ echo $n
 [ls查看目錄內容](http://blog.xuite.net/altohorn/linux/17259902-ls+%E5%88%97%E5%87%BA%E7%9B%AE%E9%8C%84%E5%85%A7%E5%AE%B9)
 > 語法: `ls [options] <檔案or資料夾>`
 
-options | description
-------- | ----------------------
--l | 詳細資訊
--a | 包含隱藏檔
--i | 列出 inode
--s | 列出檔案大小
--R | Recursive
--- | ----------
--h | 檔案內容以 KB, MB, GB顯示
--d | 只顯示 directory
--- | ----------
--r | 反向列出
--t | 依時間排序
--S | 依檔案大小排序
+```sh
+$ ls -i     # 列出 inode
+$ ls -s     # 列出檔案大小
+$ ls -R     # Recursive
+$ ls -h     # 檔案內容以 KB, MB, GB顯示
+$ ls -d     # 只顯示 directory
+$ ls -r     # 反向列出
+$ ls -t     # 依時間排序
+$ ls -S     # 依檔案大小排序
+$ ls -F     # 附加資料結構, *: 可執行檔; /: 目錄; =: socket檔案; |: FIFO檔案;
+$ ls -n     # 列出 UID 及 GID
 
+$ ls -l     # 詳細資訊
+drwxr-xr-x. 2 tony tony     6  5月 30 17:58 desktop
+...(略)...
 
-> `ls -l`, 出現的東西的第一個字
+# 第 1 個字
+# - : 檔案
+# d : 目錄
+# l : 連結
+# b : 區塊類(硬碟, 光碟機, 週邊設備)
+# c : 字元類(序列埠, 終端機, 磁帶, 印表機)
 
-type | desc
----  | ---
--    | 檔案
-d    | 目錄
-l    | 連結
-b    | 區塊類(硬碟, 光碟機, 週邊設備)
-c    | 字元類(序列埠, 終端機, 磁帶, 印表機)
+$ ls --full-time  # 列出 詳細時間
+$ ls --time={atime, ctime}  # 列出 {access時間 , 改變權限屬性時間 }
+```
 
 
 ### 追蹤 - tail
@@ -1425,4 +1431,58 @@ LANG="en_US.utf8"
 LC_CTYPE="en_US.utf8"
 ...(很多)...
 LC_ALL="en_US.utf8"
+```
+
+
+```sh
+# 取得檔名
+$ basename /etc/nginx/nginx.conf
+nginx.conf
+
+# 取得目錄名
+$ dirname /etc/nginx/nginx.conf
+/etc/nginx
+
+# 列出內容(包含行號)
+$ nl /etc/nginx/nginx.conf
+     1  user  nginx;
+     2  worker_processes  1;
+...(略)...
+
+# 列出檔案內容(用來查看二進制檔案)
+$ sudo od /usr/bin/passwd
+
+$ 
+```
+
+
+```sh
+# umask : 讓目前使用者 建立 檔案 or 目錄 時的權限設定值
+# 預設上, 檔案 最多應為 666
+# 預設上, 目錄 最多可為 777
+# umask 的分數指 該預設值需要檢調的權限!! 
+# 適用情境: 不同使用者, 要各自登入 linux, 要共同合作開發某資料夾下的專案, 可先改好 umask後, 便可方便將來合作
+
+
+$ umask
+0002    # 第 1 碼為特殊用途; 後面分別為 user, group, other
+
+$ umask -S    # 以符號類型的方式, 顯示(如上例, umask 0002)
+u=rwx,g=rwx,o=rx
+```
+
+
+### 觀察檔案類型: file
+```
+$ file ~/.bashrc
+/home/tony/.bashrc: ASCII text
+# 此為一般 ASCII 文檔
+
+$ file /usr/bin/passwd
+/usr/bin/passwd: setuid ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=1e5735bf7b317e60bcb907f1989951f6abd50e8d, stripped
+# 此為 &^%#@ 不單純的檔案(二進制吧!?)
+
+$ sudo file /var/lib/mlocate/mlocate.db
+/var/lib/mlocate/mlocate.db: data
+# 此為 data檔
 ```

@@ -68,7 +68,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /var/mail/                                    # 個人電子郵件信箱的目錄. 這目錄也被放置到 /var/spool/mail/, 與之互為連結
 /var/lock/                                    # 某些裝置或檔案, 一次只能一人使用, 使用中會上鎖. (連結至 /run/lock/)
 /var/run/                                     # 早期 系統開機後所產生的各項資訊. (連結至 /run/)
-/var/spool/                                   # 通常用來放 佇列(排隊等待其他程式來使用)資料. ex: 系統收到新信, 會放到 /var/spool/mail/ , 但使用者收下信件後, 會從此刪除
+/var/spool/                                   # 通常用來放 佇列(排隊等待其他程式來使用)資料(理解成 快取目錄). ex: 系統收到新信, 會放到 /var/spool/mail/ , 但使用者收下信件後, 會從此刪除
 /var/spool/cron/                                      # 工作排成資料
 /var/spool/mail/                                      # 系通收到新信, 會放到這; 等待寄出的 email
 /var/spool/mqueue/                                    # 信件寄不出去, 會塞到這
