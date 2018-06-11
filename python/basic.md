@@ -73,3 +73,36 @@ __qq
 _qq
 範疇內的私有名稱(僅慣例, Python compilor沒要求)
 ```
+
+# *args 與 **params
+
+## 1. *args 用法
+
+args : 可以是 `list` 及 `tuple`
+
+```py
+a = [1, 2, 3]
+b = (5, 6, 7)
+
+def ss(*nums):
+    tt = 0
+    for i in nums:
+        tt += i
+    return tt
+
+ss(*a)
+ss(*b)
+```
+
+## 2. **params 用法
+
+params : 只可以是 `dict`
+
+```py
+a = {'name': 'tony', 'age': 18}
+
+def pp(**params):
+    print(params)
+
+pp(**a)
+```
