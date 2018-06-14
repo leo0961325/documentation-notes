@@ -308,7 +308,32 @@ F: 192.168.2.3
 - 若 `192.168.1.1` 送出 ip封包 -> `255.255.255.255`, 則 **B~F** 都會收 `Limited broadcast`
 - 若 `192.168.1.1` 送出 ip封包 -> `192.168.2.255`  , 則 **D~F** 都會收 `Subnet broadcast`
 
+# 網卡
 
+1. 我家 CentOS7 顯示的所有網卡
+
+> On Linux, 顯示網卡資訊, 語法: `ip addr show` / `ip addr` / `ip a` , 此指令幾乎等於 `ifconfig`; 若只顯示 IPv4, 則使用 `ip -4 addr`
+
+```sh
+$ ip -4 addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: enp1s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    inet 192.168.124.73/24 brd 192.168.124.255 scope global dynamic enp1s0
+       valid_lft 859057sec preferred_lft 859057sec
+4: virbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN qlen 1000
+    inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
+       valid_lft forever preferred_lft forever
+6: docker_gwbridge: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN
+    inet 172.18.0.1/16 brd 172.18.255.255 scope global docker_gwbridge
+       valid_lft forever preferred_lft forever
+7: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+
+# docker_gwbridge 是 Docker的 local bridge network, 在特定情況下, 自行建立的.
+```
 
 # 零星片段 && 名詞
 - 應用程式協定的標準(Application Protocol Standards) `Socket API`

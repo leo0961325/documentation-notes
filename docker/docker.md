@@ -63,6 +63,21 @@ ACCEPT    udp  --  anywhere    172.17.0.2     udp dpt:domain
 ```
 
 
+
+## 操作 Container 
+```sh
+# 啟動睡著的 Container
+$ docker start <ContainerName>
+
+# 進入 Container(running container)
+$ docker attach <ContainerName>
+
+# 快速離開 Container (但不結束)
+# <Ctrl+p> + <Ctrl+q>
+```
+
+
+
 > `docker run -d --name <Container Name> -h <Host Name> <Image Name> <其他指令>` 使用 Image建立 Container, 並指定 hostname, 然後執行相關指令
 
 
@@ -350,7 +365,7 @@ CONTAINER ID    IMAGE    COMMAND                  CREATED    STATUS    PORTS    
 > 如果在 `run`和`build` images的時候, 沒有明確指名 `tag`, 則會視為`latest`
 
 ```
-1. --links
+1. --links (早期版本的作法, 已經不建議使用)
 可以讓本地端與Container內作安全的傳輸
 
 建立新的container

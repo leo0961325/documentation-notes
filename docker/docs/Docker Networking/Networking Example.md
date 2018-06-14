@@ -27,7 +27,7 @@ Network Driver    | Description
 ----------------- | ---------------------------------------
 bridge(預設)      | 只能使用在單一本地端(single host)<br>**A bridge network is limited to a single host running Docker Engine.**
 overlay(進階)     | 可以包含多數本地端(multiple host)<br>**An overlay network can include multiple hosts and is a more advanced topic.**
-(其他自行實作)     | 超級高深... 不討論
+其他自行實作      | (比較進階, 略)
 
 ---------------------------------------------------------------------
 

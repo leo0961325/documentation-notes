@@ -1,5 +1,8 @@
 # [Docker Network](https://docs.docker.com/network/#network-drivers)
 - 2018/05
+- 範例以 18.03版 作說明
+
+> Docker 從 [v17.09](https://docs.docker.com/v17.09/engine/userguide/networking/) -> [v17.12](https://docs.docker.com/v17.12/network/#network-drivers), 把 Networking 的部分幾乎是作了翻盤式的修改(我也不清楚啦! 但說明文件看起來變很多就是了XD), 而 17.12 -> 18.03, 應該是差不多吧@@? 先暫時把他們當成一樣了.
 
 ```sh
 $ docker --version
@@ -30,6 +33,51 @@ Docker version 18.03.0-ce, build 0520e24
     * 關閉 Container 內的 Networking
 
 6. Third-party-plugin
+
+
+
+## Network
+
+> Note: `Class B 的私有IP位址區間 : 172.16.0.1 ~ 172.31.255.254`
+
+```sh
+$ ip addr show
+docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN
+    link/ether 02:42:8d:79:3e:79 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+        valid_lft forever preferred_lft forever
+```
+
+> The default `docker0` bridge network supports the use of port mapping and `docker run --link` to allow communications among containers in the `docker0` network (**NOT RECOMMENDED**) . Where possible, you should use user-defined bridge networks instead. [default-bridge-network v17.09](https://docs.docker.com/v17.09/engine/userguide/networking/#the-default-bridge-network)
+
+```sh
+# 查看「bridge 網卡」的資訊
+# docker network inspect <NetworkName>
+$ docker network inspect bridge
+[
+    {
+        "Name": "bridge",
+        "Scope": "local",
+        "Driver": "bridge",
+        "IPAM": {
+            "Config": [{
+                "Subnet": "172.17.0.0/16",
+                "Gateway": "172.17.0.1"
+        }]},
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "Containers": { # <--- 套用 bridge Network 的 Containers都放在這邊
+            "43375482b76e9a9c7ece4af0b6a3ce2d7c63502a70b50825bccd28f390608d58": {
+                    "Name": "container1",
+                    "IPv4Address": "172.17.0.2/16",
+            }, {}, ...
+        }
+    }
+]
+# 僅節錄部分資訊
+```
+
 
 
 # [1.Bridge Network](https://docs.docker.com/network/bridge/)
@@ -79,7 +127,24 @@ $ docker create --name my-nginx --network my-net --publish 8080:80 nginx:latest
 
 要使用 IPv6 的話, [看這邊](https://docs.docker.com/network/bridge/#use-ipv6), 筆記略...
 
+
+## [docker_gwbridge](https://docs.docker.com/v17.09/engine/userguide/networking/#the-docker_gwbridge-network)
+
+> Docker 安裝後, 在特定情境下, 會自動建立的 Network 之一 - `docker_gwbridge` . 情境1: initialize 或 join 到 swarm後, 便會自動建立; 情境2: 當所有的 container's networks 都無法提供 外部連接, Docker Container 便透過 `docker_gwbridge network` 來與外部作連接.
+
+```sh
+# Docker network - docker_gwbridge 也可以先自行建立(不讓系統預設建立)
+$ docker network create --subnet 172.30.0.0/16 \
+                        --opt com.docker.network.bridge.name=docker_gwbridge \
+			--opt com.docker.network.bridge.enable_icc=false \
+			docker_gwbridge
+# 如果 Docker host 有在使用 overlay network 時, docker_gwbridge network 都會出現(這邊我看不懂-.-)
+```
+
+
 # [2.Overlay Network](https://docs.docker.com/network/overlay/)
+
+TODO: 2018/06/14 - https://docs.docker.com/v17.09/engine/userguide/networking/#overlay-networks-in-swarm-mode
 
 
 
@@ -95,3 +160,5 @@ NETWORK ID          NAME                DRIVER              SCOPE
 # [4.Macvlan Networks](https://docs.docker.com/network/macvlan/)
 
 # 
+# TODO: 2018/06/14 看到這 - Docker container networking - User-defined-networks
+[2018/06/14 看到這](https://docs.docker.com/v17.09/engine/userguide/networking/#user-defined-networks)
