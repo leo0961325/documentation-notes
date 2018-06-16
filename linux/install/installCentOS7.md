@@ -379,7 +379,7 @@ $ wget https://github.com/git/git/archive/v2.14.3.tar.gz
 
 3. Install
 ```
-$ tar zxf git-2.14.3.tar.gz
+$ tar zxf v2.14.3.tar.gz
 
 $ cd git-2.14.3/
 
@@ -399,7 +399,28 @@ $ git --version
 git version 2.14.3
 ```
 
+### 額外備註
 
+> 在 `centos:7` 的 docker image內, 編譯 git 時, 因為缺乏許多套件, 發生下列錯誤
+
+```sh
+$ make 
+    * new build flags
+    CC credential-store.o
+In file included from credential-store.c:1:0:
+cache.h:42:18: fatal error: zlib.h: No such file or directory
+ #include <zlib.h>
+                  ^
+compilation terminated.
+make: *** [credential-store.o] Error 1
+```
+
+解法: [Install Git](https://tecadmin.net/install-git-2-0-on-centos-rhel-fedora/)
+
+```sh
+$ sudo yum install zlib-devel 
+# 之後即可正常 make
+```
 
 
 
@@ -710,4 +731,32 @@ $ sudo yum install wget
 ```sh
 # 不知道這是不是一個好的解法... 一口氣安裝超級大一包
 
+```
+
+
+# make
+- 2018/06/16
+- [bash - make command not found](https://stackoverflow.com/questions/21700755/bash-make-command-not-found)
+> 發生 `bash make command not found` ==> 無法編譯 tarball 阿~~~
+
+```sh
+$ sudo yum groupinstall "Development Tools"
+
+# Note : "Development Tools" => yum CentOS
+# Note : "build-essential" => apt Ubuntu
+```
+
+
+
+# 解壓縮
+- [Linux 解壓縮 rar](https://www.phpini.com/linux/linux-extract-rar-file)
+- 2018/06/16
+
+```sh
+$ sudo yum install unrar
+
+$ unrar e <file.rar>    # 解壓縮到當前目錄
+$ unrar l <file.rar>    # 列出壓縮黨內的目錄
+$ unrar t <file.rar>    # 測試壓縮檔是否完整
+# 有密碼的話, 後面在接著輸入
 ```

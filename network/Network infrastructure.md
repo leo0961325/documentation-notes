@@ -86,6 +86,11 @@ IEEE 802.15  | Wireless PAN (藍芽)
     - ex: LAN data frame 1.5k ; WAN data frame 0.5k
 - 路由(Routing) : 透過 `路由表(Routing Table)`, 來為封包選擇傳遞時可以行走的路徑, 指出網路資料的傳遞方向, 以及為它找出最佳的傳遞路線而予以送出.
 
+```sh
+# 查看路由過程
+$ traceroute <ip>
+```
+
 ## 6. 閘道器(Gateway)
 - 屬於 OSI `傳輸層(以上)` 的運作
 - 讓 不同網路協定 的資料可以相互傳輸 (講不同語言的人互相溝通的翻譯人員啦!!)
