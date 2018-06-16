@@ -237,3 +237,9 @@ Source: https://www.jannet.hk/content/public/upload/igmp/01.png
 ## 其他
 - 查看封包的好用軟體 `Wireshark`, 使用 `packet driver` 來擷取訊框
 - DHCP: 為 bootp 的進化版
+
+
+# Web Service
+> Dynamic Host Configuration Protocol, DHCP (RFC-1541, 1542) : 讓管理者集中管理 DHCP Client IP 相關設定, 讓 DHCP Client 自動取得合適的 IP.
+
+- Client/Server , 藉由 UDP Protocal 由 Client 68 Port 藉由 Broadcast 至 67 Port
