@@ -291,6 +291,7 @@ $ git remote -v
 origin  https://github.com/cool21540125/illu.git (fetch)
 origin  https://github.com/cool21540125/illu.git (push)
 
+# 改用 ssh協定
 $ git remote set-url origin git@github.com:cool21540125/documentation-notes.git
 Verify that the remote URL has changed.
 
