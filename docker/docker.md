@@ -81,10 +81,17 @@ $ docker attach <ContainerName>
 > `docker run -d --name <Container Name> -h <Host Name> <Image Name> <其他指令>` 使用 Image建立 Container, 並指定 hostname, 然後執行相關指令
 
 
+--------------------------------------
 
+## [dockerd 組態](https://docs.docker.com/engine/reference/commandline/dockerd/)
+- 2018/06/19
 
+os      | default config file path
+------- | -----------
+Windows | %programdata%\docker\config\daemon.json
+Linux   | /etc/docker/daemon.json
 
-
+--------------------------------------
 
 - 每個運行在 service內的單一 container, 都稱為 **task**, 且每個 task都有專屬的 **task id** 
 

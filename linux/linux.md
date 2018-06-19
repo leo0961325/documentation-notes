@@ -1239,7 +1239,7 @@ $ cut -d',' -f2 doc2
 ### 請求主機回應 - ping
 > ping指令, 送出 `icmp protocal的 ECHO_REQUEST`封包至特定主機, 主機在同樣以 `icmp回傳封包`
 ```sh
-# ping 1次
+# ping 1次 (Windows 無法使用 -c)
 $ ping -c 1 168.95.1.1
 64 bytes from 168.95.1.1: icmp_seq=1 ttl=241 time=3.97 ms
 
