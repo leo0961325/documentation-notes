@@ -245,6 +245,11 @@ $ git config --global apply.whitespace nowarn
 $ git config --global color.ui true
 ```
 
+```sh
+# 查看 分支 及 遠端追蹤情形
+$ cat .git/config 
+```
+
 
 ## 查詢、設定、移除 別名
 > *設定別名* : `git config --<層級> alias.<縮寫名稱> <原始指令>`
@@ -286,6 +291,7 @@ $ git remote -v
 origin  https://github.com/cool21540125/illu.git (fetch)
 origin  https://github.com/cool21540125/illu.git (push)
 
+# 改用 ssh協定
 $ git remote set-url origin git@github.com:cool21540125/documentation-notes.git
 Verify that the remote URL has changed.
 
@@ -463,6 +469,16 @@ remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 $ git push -u origin master
 ```
 
+- [git --track vs --set-upstream vs --set-upstream-to](https://gist.github.com/miku/613ccf7a7030a6f32df1)
+
+```sh
+# 兩者好像相同效果
+# --set-upstream 已被 Deprecated了! 改用 --set-upstream-to
+[any]$ git checkout -b dev origin/dev
+[dev]$ git branch --set-upstream-to origin/dev
+```
+
+
 #### 取消追蹤遠端分支
 [參考這裡](https://stackoverflow.com/questions/3046436/how-do-you-stop-tracking-a-remote-branch-in-git)
 ```sh
@@ -603,3 +619,4 @@ $ git checkout HEAD~1
 
 $ ssh-keygen -t rsa -b 4096 -C "tony@tonynb"
 ```
+

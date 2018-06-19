@@ -86,6 +86,11 @@ IEEE 802.15  | Wireless PAN (藍芽)
     - ex: LAN data frame 1.5k ; WAN data frame 0.5k
 - 路由(Routing) : 透過 `路由表(Routing Table)`, 來為封包選擇傳遞時可以行走的路徑, 指出網路資料的傳遞方向, 以及為它找出最佳的傳遞路線而予以送出.
 
+```sh
+# 查看路由過程
+$ traceroute <ip>
+```
+
 ## 6. 閘道器(Gateway)
 - 屬於 OSI `傳輸層(以上)` 的運作
 - 讓 不同網路協定 的資料可以相互傳輸 (講不同語言的人互相溝通的翻譯人員啦!!)
@@ -232,3 +237,9 @@ Source: https://www.jannet.hk/content/public/upload/igmp/01.png
 ## 其他
 - 查看封包的好用軟體 `Wireshark`, 使用 `packet driver` 來擷取訊框
 - DHCP: 為 bootp 的進化版
+
+
+# Web Service
+> Dynamic Host Configuration Protocol, DHCP (RFC-1541, 1542) : 讓管理者集中管理 DHCP Client IP 相關設定, 讓 DHCP Client 自動取得合適的 IP.
+
+- Client/Server , 藉由 UDP Protocal 由 Client 68 Port 藉由 Broadcast 至 67 Port

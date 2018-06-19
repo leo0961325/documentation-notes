@@ -13,7 +13,7 @@ Docker version 18.03.0-ce, build 0520e24
 - 底下寫得非常~~~~的夢幻, 建議去看原文(但我相信看了會覺得更加夢幻)
 
 1. Bridge(default)
-    需要多個 Container相互溝通, 預設是使用這個
+    * 需要多個 Container相互溝通, 預設是使用這個
 
 2. Host
     * 直接使用 Docker Host端的 Networking
@@ -22,7 +22,7 @@ Docker version 18.03.0-ce, build 0520e24
 
 3. Overlay
     * 讓 Swarm 與 Container 之間溝通
-    * 若需要 Containers在不同的 Docker Hosts 之間相互溝通, or 多個 Application 在 Swarm Services之間相互溝通, 就用這個(鬼看得懂, 去問他)
+    * 若需要 Containers在不同的 Docker Hosts 之間相互溝通, or 多個 Application 在 Swarm Services之間相互溝通, 就用這個
 
 4. Macvlan
     * 可在 Container內, 安排 Mac Address (我不知道這啥...)
