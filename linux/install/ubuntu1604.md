@@ -32,6 +32,12 @@ $ sudo dpkg --configure -a
 ```
 
 
+### 無網路服務時
+- [Docker - Ubuntu - bash: ping: command not found](https://stackoverflow.com/questions/39901311/docker-ubuntu-bash-ping-command-not-found)
+```sh
+$ apt update
+$ apt install iputils-ping
+```
 
 ## install mysql5.7
 [MySQL官方教學](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install)
@@ -113,3 +119,80 @@ $ vi .vimrc
 set nocompatible
 set backspace=2
 ```
+
+# 安裝 git
+- 2018/06/19
+- [git 官方查看自己要的版本 (Branch: master那邊)](https://github.com/git/git)
+
+> Docker Image : ubuntu:16.04, 安裝 `非 apt預設版本的 git`
+
+```sh
+# 進入 Docker Container 後
+$ apt update
+$ apt install -y git
+$ git --version
+git version 2.7.4
+# ↑ 2018/06 都已經出到 2.18rc 了, 2.7版 有點老舊... 
+
+$ apt remove -y git
+# 所以把它砍了, 自己來編譯~~~
+```
+
+所以改抓 `tarball` 自行編譯
+
+```sh
+$ cd /opt
+$ apt -y update
+$ apt -y install wget
+$ wget https://github.com/git/git/archive/v2.14.4.tar.gz
+
+# 編譯時會用到的東西 (200多 MB  公司網路速度超慢... ㄇㄉ~)
+$ apt install -y make autoconf gcc zlib1g-dev tcl-dev libssl-dev gettext
+
+$ tar zxf v2.14.4.tar.gz
+$ cd git-2.14.4/
+
+$ make configure
+GIT_VERSION = 2.14.4
+    GEN configure
+
+$ ./configure --prefix=/usr/local
+# 注意看看有沒有 error 等錯誤字眼
+
+$ make
+$ make prefix=/usr/local install
+$ git --version
+git version 2.14.4  # 成功!
+
+# 完成後
+$ cd ..
+$ rm v2.14.4.tar.gz
+```
+
+# Install python3
+- 2018/06/19
+- [How do I install Python 3.6 using apt-get?](https://askubuntu.com/questions/865554/how-do-i-install-python-3-6-using-apt-get)
+
+> Docker Image : ubuntu:16.04(預設裏頭沒有 python), 自行安裝 `python3`
+
+```sh
+# 同上範例的 git, 安裝 gcc, zlib1g-dev 那堆編譯的東西...
+
+$ wget https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tgz
+$ tar zxf Python-3.6.1.tgz
+$ cd Python-3.6.1
+
+$ ./configure --enable-optimizations
+$ make # 要等一陣子~~
+$ make install  # 乾~~ 這個等更久
+
+$ python3 --version
+Python 3.6.1
+
+$ which python3
+/usr/local/bin/python3
+
+$ which pip3
+/usr/local/bin/pip3
+```
+

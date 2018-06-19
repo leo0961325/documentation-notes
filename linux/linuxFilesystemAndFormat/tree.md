@@ -48,8 +48,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /usr/include/                                 # c++ 的 header 與 include 放置處; 使用 tarball 方式安裝軟體時, 會用到裡面超多東西
 /usr/lib/                                     # 系統的共用函式庫檔案
 /usr/libexec/                                 # 大部分的 X window 的操作指令都放這. (不被使用這慣用的執行檔or腳本)
-/usr/local/                                   # sys admin 在畚箕自行安裝的軟體, 建議放這邊
-/usr/local/sbin/                                      # 畚箕自行安裝的軟體所產生的系統執行檔(system binary), ex: fdisk, fsck, ifconfig, mkfs 等
+/usr/local/                                   # sys admin 在本機自行安裝的軟體, 建議放這邊
+/usr/local/sbin/                                      # 本機自行安裝的軟體所產生的系統執行檔(system binary), ex: fdisk, fsck, ifconfig, mkfs 等
 /usr/sbin/                                    # 系統專用的 工具/指令/執行檔, ex: 某些伺服器軟體程式的東西
 /usr/share/                                   # 唯讀架構的資料檔案; 共享文件; 幾乎都是文字檔
 /usr/share/doc                                        # 系統文件

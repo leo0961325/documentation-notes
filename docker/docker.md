@@ -413,6 +413,17 @@ networks:
 ```
 
 
+## docker cp
+- [Copying files from Docker container to host](https://stackoverflow.com/questions/22049212/copying-files-from-docker-container-to-host#)
+
+> 複製 Container 內的檔案到 Host, 語法: `docker cp <Container ID>:<path> <host path>`
+
+```sh
+# 把 463d2b6f28cf 這個 Container 裡的 /root/.ssh 複製出來到 Host 的 目前位置
+$ docker cp 463d2b6f28cf:/root/.ssh/ .
+```
+
+
 
 ## 名詞
 > Docker Trusted Registry, 此為 Docker私有雲服務, 簡稱 DTR.
@@ -427,6 +438,5 @@ networks:
 ```sh
 # 查看 「運行中 Container」的大小, ['size', 'virtual size']
 $ docker ps -s
-
-
 ```
+

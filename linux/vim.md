@@ -52,6 +52,9 @@ u           undo最後的修改(最後的修改的定義不清楚, 別亂用@@)
 Ctrl+r      redo
 .           重複上一個動作
 %           移動到相對應的(), [], {}等符號
+
+V           選取整行
+v           自訂選取範圍
 ```
 
 
@@ -76,6 +79,16 @@ $ vi .vimrc
 :retab			將文中所有tab換成空白
 :.retab			將目前這行的tab換成空白
 ```
+
+# Ubuntu 改變 vim 設定
+
+```sh
+$ vi ~/.vimrc
+set nocompatible
+set backspace=2
+```
+
+
 
 ---
 更新日期: 2017/09/23, TonyCJ

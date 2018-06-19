@@ -41,6 +41,8 @@ $ docker push cool21540125/devos7:1.0
 
 完成後前往 Docker Hub, 東西救上去了
 
+> 執行 Container 語法 : `docker run -it --name <Container名稱> <Image來源:版本> <執行語法>`
+
 ```sh
 # 執行~
 $ docker run -it --name tonyos7 cool21540125/devos7:1.0 /bin/bash
