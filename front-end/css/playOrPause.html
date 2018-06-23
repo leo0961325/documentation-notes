@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            @keyframes slide{
+                from {
+                    margin-left: 0%;
+                }
+                to {
+                    margin-left: 80%;
+                }
+            }
+
+            #gg {
+                width: 180px;
+                height: 300px;
+                animation: slide .5s infinite alternate;
+                animation-play-state: paused;
+            }
+
+            button {
+                font-size: x-large;
+            }
+        </style>
+        
+        <title>Animation--play or pause</title>
+    </head>
+    <body>
+        <img id="gg" src="a.jpg" alt="圖片掛了但沒關係, 我還能動">
+        <hr>
+        <p>
+            <button id="playButton">Play</button>
+            <button id="pauseButton">Pause</button>
+        </p>
+    </body>    
+</html>
+
+<script>
+    function doFirst() {
+        // 先跟HTML畫面物件產生關聯
+        // 變數前加入var, 表示區域變數, 取消為全域變數
+        img = document.getElementById('gg');
+        playButton = document.getElementById('playButton');
+        pauseButton = document.getElementById('pauseButton');
+
+        //建立EventListener
+        playButton.addEventListener('click', imgPlay, false);
+        pauseButton.addEventListener('click', imgPause, false);
+    }
+
+    function imgPlay() {
+        // alert('go');
+        img.style.animationPlayState = "running";
+    }
+
+    function imgPause() {
+        // alert('stop');
+        img.style.animationPlayState = "paused";
+        
+    }
+
+    window.addEventListener('load', doFirst, false);
+</script>

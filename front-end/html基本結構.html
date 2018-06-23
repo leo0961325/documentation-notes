@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="style.css" rel="stylesheet">
+
+        <!--
+            將main與sidebar改為並列
+            並且設定寬度
+            float屬性將會使元素無法依循網頁版面規劃中的位置安排，導致float無法照原有方式放在最尾端
+            為了避免這種情況，所以要用clear屬性告訴#footer區塊，旁邊不能有人
+
+        -->
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                color: #000;
+                background: yellow;
+            }
+
+            #wrap {
+                width: 750px;
+                margin: 0 auto; /* 左右auto */
+                background: #99c;
+            }
+
+            #header {
+                background: #ddd;
+            }
+
+            #nav {
+                background: #c99;
+            }
+
+            #main {
+                background: #9c9;
+
+                /*※  重點在這裡  並列*/
+                float: left;        
+                width: 500px;
+            }
+
+            #sidebar {
+                background: #c9c;
+
+                /*※  重點在這裡  並列*/
+                float: right;       
+                width: 250px;
+            }
+
+            #footer {
+                background: #cc9;
+
+                /*※  重點在這裡*/
+                clear: both;
+            }            
+        </style>
+    </head>
+    <body>
+    
+        <div id="wrap">
+            <div id="header"><h1>文件title</h1></div>
+            <div id="nav">
+                <ul>
+                    <li><a href="#">option1</a></li>
+                    <li><a href="#">option2</a></li>
+                </ul>
+            </div>
+            <div id="main"><h2>第1欄</h2><p>第1欄內容如下.........</p></div>
+            <div id="sidebar">
+                <h2>第2欄</h2>
+                <p>第2欄內容如下..........</p>
+                <ul>
+                    <li><a href="#">Link-1</a></li>
+                    <li><a href="#">Link-2</a></li>
+                </ul>
+            </div>
+            <div id="footer">頁尾</div>
+        </div>
+    </body>
+</html>
