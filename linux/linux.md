@@ -1,6 +1,8 @@
 # Linux
 - 相關指令
 - 知識概念備註
+- [Ubuntu16.04的pdf](http://arbas.assam.gov.in/resources/pdf/ubuntu_16.04.pdf)
+- [還蠻初階的語法教學](https://www.puritys.me/docs-blog/article-357-Linux-%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E6%95%99%E5%AD%B8.html)
 
 ```sh
 # 此篇指令及概念, 主要都作用在 CentOS 7  (半年前是 7.3版, N 個月前下了 yum update 後, 升級成 7.4了...)
@@ -600,7 +602,7 @@ $ xkill
 # 使用預設的 15訊號, 讓 terminal結束訊號
 $ kill 8888
 
-# 使用系統的 9訊號(KILL訊號), 強制結束
+# 使用系統的 9訊號(KILL訊號), 強制結束(強制關閉 強制終止)
 $ kill -9 8888
 
 # 刪除所有 httpd服務
@@ -743,6 +745,9 @@ a  b  c  qq.tgz
 ## find相關
 [參考自網路blog](https://blog.gtwang.org/linux/unix-linux-find-command-examples/)
 ```sh
+# 速查檔案位置
+$ find [path] -name <要查的檔案名稱> #(可用 * )
+
 # 在目前dir底下,忽略大小寫找出所有xx.txt
 $ find . -iname xx.txt
 
