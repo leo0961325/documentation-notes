@@ -13,6 +13,9 @@ Docker version 18.03.0-ce, build 0520e24
 
 1. [bridge Networks](https://docs.docker.com/network/bridge/) (預設)
     * 需要多個 Container相互溝通, 預設是使用這個
+    * 只能在 Single Docker Host 玩自己的
+    * 外界無法存取
+    * Docker Host 需要使用 --publish 才能訪問
 
 2. [host Network](https://docs.docker.com/network/host/)
     * 直接使用 Docker Host 端的 Networking
@@ -21,7 +24,8 @@ Docker version 18.03.0-ce, build 0520e24
 
 3. [overlay Networks](https://docs.docker.com/network/overlay/)
     * 讓 Swarm 與 Container 之間溝通
-    * 若需要 Containers在不同的 Docker Hosts 之間相互溝通, or 多個 Application 在 Swarm Services之間相互溝通, 就用這個
+    * 可以跨 Multi-Docker Host 相互溝通
+    * 可讓多個 Application 在 Docker Swarm Services 相互溝通
 
 4. [macvlan Networks](https://docs.docker.com/network/macvlan/)
     * 可在 Container內, 安排 Mac Address (我不知道這啥...)
@@ -35,9 +39,7 @@ Docker version 18.03.0-ce, build 0520e24
 6. Third-party-plugin
     - 無...
 
----------------------------------------------------------
----------------------------------------------------------
----------------------------------------------------------
+
 
 # Network
 
@@ -116,48 +118,35 @@ $ docker network inspect bridge
 # [1.bridge network driver](https://docs.docker.com/network/bridge/)
 - 2018/06/03
 
+> `Bridge Network` 屬於 `Link Layer device`. 它隔離了網路區段之間的 資料傳輸 (藉由設定相同的 Bridge, Containers 之間可相互溝通). 在 *Docker Host*, **bridge driver** 會被自動安裝. `Docker Container` 預設上會自動使用「bridge」的 bridge network, 它會自動開放所有 ports 給所有套用相同 Network 的 Container, 且可以 **`share 彼此的環境變數`**, 但它 <font color="lightgreen">不對外開放</font> . <br>
+    使用 `bridge` 的 Containers 之間透過 IP Address 相互溝通, <font color="lightgreen">老舊時期的做法, 則是使用 「--link」(但現在已經不建議)</font>
+
 ```sh
-# 如果啟用 Container 時, 沒有使用「--network <Name>」指定網卡的話, 預設會使用下面這張~
+# 啟用 Container 時, 預設會使用下面這個 network~
 > docker network ls
-NETWORK ID          NAME                DRIVER              SCOPE
-5bdb7fd05ba8        bridge              bridge              local
+NETWORK ID      NAME      DRIVER    SCOPE
+5bdb7fd05ba8    bridge    bridge    local
 ```
 
-> `Bridge Network` 屬於 `Link Layer device`. 它隔離了網路區段之間的 資料傳輸 (藉由設定相同的 Bridge, Containers 之間可相互溝通). 在 *Docker Host*, **bridge driver** 會被自動安裝. `Docker Container` 預設上會自動使用「bridge」的 bridge network, 它會自動開放所有 ports 給所有套用相同 Network 的 Container, 且可以 **`share 彼此的環境變數`**, 但它 <font color="lightgreen">不對外開放</font> . `bridge` Containers 之間透過 IP Address 相互溝通, 老舊時期的做法, 則是使用 「--link」
+## Default bridge network
+> `bridge` 預設無法讓 Container 傳遞資訊到 外界(outside world), 例如: 不同 Docker Host 之間的 Container 要相互溝通的話, 有2種解法:
 
-## Default Bridge Network (以下簡稱 BRIDGE) (( Production 別用這個!! ))
-> `BRIDGE` 預設無法讓 Container 傳遞資訊到 外界(outside world), 例如: 不同 Docker Host 之間的 Container 要相互溝通的話, 有2種解法:
+### 法一: 
+作底下 2 個設定
 
 ```sh
-# Container 附加網卡
-$ docker network connect <Network Name> <Container Name>
-
-# Container 拔掉網卡
-$ docker network disconnect <Network Name> <Container Name>
-```
-
-
-### 法一: 作底下 2 個設定
-
-1. 在 `OS Level` 設定 routing
-```sh
-# ex: 讓Linux kernel 允許 IP routing
+# 1. 在 `OS Level` 設定 routing
 $ sysctl net.ipv4.conf.all.forwarding=1
-```
+# ex: 讓 Linux kernel 允許 IP routing
 
-2. 設定「iptables FORWARD policy」為 ACCEPT(原為 DROP)
-```sh
+# 2. 設定「iptables FORWARD policy」為 ACCEPT(原為 DROP)
 $ sudo iptables -P FORWARD ACCEPT
 ```
 
-### 法二: 改用 `Overlay Network` 
+### 法二: 
+改用 `overlay network` 
 
 ```sh
-$ docker network   create       <Network Name>      # 建立 Network
-$ docker network   rm           <Network Name>      # 移除 Network
-$ docker network   connect      <Network Name>      # 附加 Network 到 running Container
-$ docker network   disconnect   <Network Name>      # 拔掉 Network
-
 # 語法: 指定 Network, 並且開放 Port號 映射, 建立 Container
 $ docker create --name <Container Name> --network <Network Name> --publish <Host Port>:<Container Port>
 
@@ -170,12 +159,18 @@ $ docker create --name my-nginx --network my-net --publish 8080:80 nginx:latest
 要使用 IPv6 的話, [看這邊](https://docs.docker.com/network/bridge/#use-ipv6), 筆記略...
 
 ## [User-defined bridge network 使用者自訂網卡](https://docs.docker.com/network/network-tutorial-standalone/#use-user-defined-bridge-networks)
-- 2018/06/19
 
-- `user-defined bridge` 已經自動做好了 **automatic service discovery**, 也就是說, Containers 之間可以 `ping ip` 也可 `ping ContainerName` ; 而 `default bridge` 則只能 `ping ip`
+> user-defined bridge 已經自動做好了 `automatic service discovery`, 也就是說, <br> 
+    `user-defined bridge` containers 之間可以 `ping ip` 也可 `ping ContainerName` <br>
+    `default bridge` containers 則只能 `ping ip`
 
 ```sh
 $ docker network create --driver bridge alpine-net
+# 或
+$ docker network creae -d bridge alpine-net
+# 或
+$ docker network creae alpine-net
+
 
 $ docker network inspect alpine-net
 [
@@ -215,6 +210,9 @@ $ docker run -dit --name alpine2 --network alpine-net alpine ash    # alpine2 �
 $ docker run -dit --name alpine3 alpine ash                         # alpine2 不指定網卡 (預設採用 bridge)
 $ docker run -dit --name alpine4 --network alpine-net alpine ash    # alpine4 指定 alpine-net 網卡
 $ docker network connect bridge alpine4                             # alpine4 額外附加 bridge 網卡
+# 使用 ash (而非 bash) 來作為執行的程式
+# 使用 alpine image 建立 Containers
+# 預設上, 都會附加 bridge network
 
 $ docker container ls
 CONTAINER ID    IMAGE     COMMAND    CREATED    STATUS    PORTS    NAMES
@@ -229,28 +227,116 @@ e5f58da319fa    alpine    "ash"      (pass)     (pass)    alpine4           # 17
 ```
 
 
-## 範例
-
-```sh
-$ docker network ls
-NETWORK ID      NAME               DRIVER    SCOPE
-eada4c9a1c64    bridge             bridge    local  # 此次的主角
-dc201b36ce6d    host               host      local
-1d7619669ced    none               null      local
-
-$ docker run -dit --name alpine1 alpine ash
-$ docker run -dit --name alpine2 alpine ash
-# 使用 ash (而非 bash) 來作為執行的程式
-# 使用 alpine image 建立名為 alpine1, alpine2 的 Container
-# 預設上, 都會附加 bridge network
-
-$ 
-
-```
 
 # [2.Overlay Network](https://docs.docker.com/network/overlay/)
+- 2018/06/24
+- ㄇㄉ~ 官方寫說約讀 21分鐘, 林北讀了快4小時, 乾~ 我真是北七...
 
-TODO: 2018/06/14 - https://docs.docker.com/v17.09/engine/userguide/networking/#overlay-networks-in-swarm-mode
+> `initialize a swarm` 或 `join a Docker host to an existing swarm`, Docker host 會自動建立底下2個 networks
+1. 名為 `ingress` 的 `overlay network` - 處理 swarm services 之間的資料流 (swarm service 除非有要求它使用 user-defined overlay network, 否則預設使用 `ingress`)
+2. 名為 `docker_gwbridge` 的 `bridge network` - 連接 `individual Docker daemon` 到 `other daemons participating in the swarm`
+
+**Overlay network** 可讓 `swarm services` 及 `standalone containers` 相互連接, 但是兩者的 **組態** 及 **預設行為** 都有所差異!! 
+
+底下就這部分來作探討
+1. Operations for all overlay networks
+2. Operations for swarm services
+3. Operations for standalone containers
+
+
+## 1. Operations for all overlay networks
+
+### 1-1 啟用 overlay network 的 `必要注意事項`
+
+※ 建立 `overlay network` 之前的 **必要行為**:
+- 開放底下的 ports
+    - `TCP 2377 port` : cluster management communications 
+    - `TCP && UDP 7946 port` : communication among nodes
+    - `UDP 4789 port` : overlay network traffic
+- 得先使用 `docker swarm init` 來 **初始化 `swarm manager`** ; 或使用 `docker swarm join` 來加入至 swarm
+
+```sh
+# 建立自定義的 overlay network, 名為 my-overlay...
+$ docker network create -d overlay my-overlay
+Error response from daemon: This node is not a swam manager. Use "docker swarm init" or "docker swarm join" to connect this node to swarm and try again.
+# 因為還沒起始 swarm, 不給建立><"
+
+# 初始化 swarm~
+$ docker swarm init
+Swarm initialized: current node (4l40jr...) is now a manager.
+To add a worker to this swarm, run the following command:
+    docker swarm join --token SWMTKN-1-15oo(略).... 192.168.65.3:2377 # <- 2377 port, 供 cluster溝通
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+# 多了 2 個 network
+$ docker network ls
+NETWORK ID      NAME               DRIVER     SCOPE
+572ead22f29c    bridge             bridge     local
+a3bab954f849    host               host       local
+faa4e0b64151    none               null       local
+e07c8017109e    docker_gwbridge    bridge     local     # swarm 建立的
+yohqm0mkfipy    ingress            overlay    swarm     # swarm 建立的
+```
+
+```sh
+# 建立 「讓本地 swarm services or standalone container 可與 "other Docker daemons' standalone containers" 溝通的 Network」
+$ docker network create -d overlay --attachable <Network Name>
+# 白話文: standalone container 只能連接到 「attachable 的 overlay network」 (( 應該吧!? ))
+```
+
+### 1-2 [Encrypt traffic on an overlay network 加密問題](https://docs.docker.com/network/overlay/#encrypt-traffic-on-an-overlay-network) ((這個比較偏))
+
+> 所有 swarm service 管理機制, 預設都有啟用 加密管理機制, `using the AES algorithm in GCM mode(對稱式加密)`. 並且每 12 小時換一次密鑰. <br>
+    可使用 `--opt encrypted` 來對 application data 作加密( <font color="lightgreen">這很吃效能!!</font> ) <br>
+    此外, Windows 上不支援 `overlay network encryption`, 如果嘗試去連接 overlay network encryption 會無法連接通信節點, 且不會報錯!
+
+### 1-3 [自訂式 ingress network](https://docs.docker.com/network/overlay/#customize-the-default-ingress-network) ((這個更偏@@))
+- overlay network 只能有一個(不確定)
+- 這對我來說太偏了... 涉及到很多網管知識, 所以 pass掉~
+
+
+## 2. Operations for swarm services
+
+### 2-1 Publish ports
+
+> 連接到 `相同 overlay network` 的 `swarm services`, 會自動對彼此開放所有的 ports. <br>
+  外界如果想要存取 `特定 port 上的 服務`, 必須在 `docker service create` 或 `docker service update` 上, 使用 `-p` 或 `--publish`.
+
+Flag                      | Description
+------------------------- | ------------------------------
+`-p 8080:80` or <br> `-p published=8080,target=80` | Map service TCP 80 port -> 路由網路的 8080 port
+`-p 8080:80/udp` or <br> `-p published=8080,target=80,protocol=udp` | Map service UDP 80 port -> 路由網路的 8080 port
+`-p 8080:80/tcp -p 8080:80/udp` or <br> `-p published=8080,target=80,protocol=tcp -p published=8080,target=80,protocol=udp` | Map service UDP 80 port -> 路由網路的 UDP 8080 port && <br> Map service TCP 80 port -> 路由網路的 TCP 8080 port
+
+### 2-2 [Bypass the routing mesh for a swarm service](https://docs.docker.com/network/overlay/#bypass-the-routing-mesh-for-a-swarm-service)
+- Load balance, routing mesh, 深入議題...
+- PASS
+
+
+
+
+## 3. Operations for standalone containers
+
+Flag value                    | Description
+----------------------------- | ----------------
+-p 8080:80                    | Map container TCP 80 port -> overlay network 8080 port
+-p 8080:80/udp                | Map container UDP 80 port -> overlay network 8080 port
+-p 8080:80/sctp               | Map container SCTP 80 port -> overlay network 8080 port
+-p 8080:80/tcp -p 8080:80/udp | Map container TCP 80 port -> overlay network TCP 8080 port && <br> Map container UDP 80 port -> overlay network UDP 8080 port
+
+## [Networking with overlay network](https://docs.docker.com/network/network-tutorial-overlay/)
+- 底下是 overlay network toturial 的章節...
+
+```sh
+# prerequest
+$ docker swarm init
+# 自動建立 2個 network
+# NAME              DRIVER    SCOPE
+# docker_gwbridge   bridge    local
+# ingress           overlay   swarm
+```
+
+
 
 
 
@@ -273,7 +359,7 @@ faa4e0b64151    none      null      local
 $ docker run --rm -d --network host --name my_nginx nginx
 # --rm : stop Container 後, 一併刪除 Container
 # -d : 背景執行
-# 使用 名為 "host" 的 network driver (這張網卡使用 host driver)
+# 使用 名為 "host" 的 network driver
 # 建立 container: my_nginx
 # 使用 image: nginx, 
 
@@ -306,7 +392,7 @@ $ firewall-cmd --zone=public --remove-port=80/tcp
 # [5. none network](https://docs.docker.com/network/none/)
 - 2018/06/19
 
-關閉 Docker Container Network, Container內, 將不再有 `eth0` 這張網卡
+關閉 Docker Container Network, Container內, 將不再有 `eth0` 這個 network
 
 ```sh
 $ docker run --rm -dit --network none --name no-net-alpine alpine:latest ash

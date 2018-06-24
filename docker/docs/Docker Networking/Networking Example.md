@@ -1,6 +1,7 @@
 # [Network containers](https://docs.docker.com/v17.09/engine/tutorials/networkingcontainers/)
-- 2018/01/07 (官方估計閱讀時間 6分鐘, 林北看了 3小時, 乾~)
+- 2018/01/07 (官方估計閱讀時間 6分鐘, 林北讀了 3小時, 乾~)
 - 2018/05/02(改寫)
+- 2018/06/24(用 Docker on Windows v18.03 測試 可正常執行!)
 - 此篇, 是「如何使用 Docker Network」的基礎範例
 - `17.09版` 的範例!!
 
@@ -10,7 +11,12 @@
 `圖1`
 ![圖1](./../../../img/bridge3.jpg)
 
-## Prerequest
+- 兩個 docker network, 分別為 `bridge` 及 `my_bridge`
+- 兩個 docker container, 分別為 `web` 及 `db`
+- `web` container 附加 `docker0` 及 `my_bridge`
+- `db` container 附加 `my_bridge`
+
+# Prerequest
 1. 略懂網路架構(起碼看上圖能有點感覺)
 2. 知道 Docker Container是啥東西
 3. 知道 Docker Image是啥東西
@@ -21,30 +27,9 @@ Docker version 17.09.0-ce, build afdb6d4   # <--- 這裡很重要!  因為我最
 ```
 
 
-## Docker Network 概念
-Docker可以藉由設定 `Network Driver` 來部屬 Container, 而 `Network Driver` , 約可分為 2類(當然不止啦!):
-Network Driver    | Description
------------------ | ---------------------------------------
-bridge(預設)      | 只能使用在單一本地端(single host)<br>**A bridge network is limited to a single host running Docker Engine.**
-overlay(進階)     | 可以包含多數本地端(multiple host)<br>**An overlay network can include multiple hosts and is a more advanced topic.**
-其他自行實作      | (比較進階, 略)
 
----------------------------------------------------------------------
+# 建立 docker network
 
-## 建立第一個 Container
-
-語法:
-```sh
-# 建立 Docker Network
-$ docker network create <Network Name>
-# or
-$ docker network create -d <Network Driver> <Network Name> 
-
-# 刪除 Docker Network
-$ docker network rm <Network Name>
-```
-
-範例開始~~~
 ```sh
 $ docker network ls
 NETWORK ID      NAME         DRIVER      SCOPE
@@ -54,7 +39,7 @@ NETWORK ID      NAME         DRIVER      SCOPE
 # 安裝完 Docker後, 都會有上述 3個預設的 Networks
 
 $ docker network create -d bridge my_bridge     # "-d bridge" 可以省略(因為預設的 Network Driver 就是 bridge)
-ccee7fa10da92e031943d8d4b6da378a6fceb11f7407d500e658b41f531e082d
+ccee7fa10da9...
 # 建立一個 network, 名為 my_bridge
 # 此 network的 driver為 bridge
 
@@ -80,24 +65,12 @@ a9155d48e932   ubuntu   "/bin/bash"   2 minutes ago   Up 2 minutes           net
 `圖2` 剛剛建立的 Container, 看起來像這樣<br>
 ![bridge](./../../../img/docker_bridge.jpg)
 
-可以透過下面的指令, 來
-
-語法:
 ```sh
-# 查看 Network Driver 為 bridges 的 Container資訊 以及 它們的組態設定
-$ docker network inspect <Network Name>
-# or
-$ docker inspect <Network Name>
-```
-
-範例繼續...
-```sh
-# 這邊我們來檢查 Docker 一開始預設的 bridge
 $ docker network inspect bridge
 [
-    {       # 預設 bridge0
+    {
         "Name": "bridge",
-        "Id": "0bd6efb035c91503015c14260315a4ecaa6f4f2d2128d85796aae018b8eb4be8",
+        "Id": "0bd6efb035c9...",
         "Created": "2018-01-07T23:00:31.287691388+08:00",
         "Scope": "local",
         "Driver": "bridge",
@@ -119,10 +92,10 @@ $ docker network inspect bridge
             "Network": ""
         },
         "ConfigOnly": false,
-        "Containers": {     # 套用這 bridge的 Container ((請注意這個 Container大概長這樣))
-            "6b3c1331550af2085d5aad0514f666e76fcac6d8d3c83276ecf5186509edbd7f": {
+        "Containers": {     # 套用這 bridge的 Container
+            "6b3c1331550a...": {
                 "Name": "networktest",                  # network名稱
-                "EndpointID": "66d57c96943e88f35a1a6c382abcfd1ef3b8a5e22132d243b9590987190919ca",
+                "EndpointID": "66d57c96943e...",
                 "MacAddress": "02:42:ac:11:00:02",
                 "IPv4Address": "172.17.0.2/16",         # IP在這!!
                 "IPv6Address": ""
@@ -141,13 +114,6 @@ $ docker network inspect bridge
 ]
 ```
 
-語法:
-```sh
-# 拔掉 Docker Container 的 Network功能 
-$ docker network disconnect <Network Driver Name> <Container ID>
-```
-
-範例繼續...
 ```sh
 # 把 networktest這個 Container的 network功能給拔掉
 $ docker network disconnect bridge networktest
@@ -156,11 +122,11 @@ $ docker network disconnect bridge networktest
 $ docker network inspect bridge
 [
     {
-        "Name": "bridge",       # 這個是預設的 Network Name, 無法被移除!!
-        "Id": "0bd6efb035c91503015c14260315a4ecaa6f4f2d2128d85796aae018b8eb4be8",
+        "Name": "bridge",       # Network Name 為 bridge
+        "Id": "0bd6efb035c9...",
         "Created": "2018-01-07T23:00:31.287691388+08:00",
         "Scope": "local",
-        "Driver": "bridge",     # 這個是 <Network Name>的 bridge
+        "Driver": "bridge",     # Network Driver 為 bridge
         "EnableIPv6": false,
         "IPAM": {
             "Driver": "default",
@@ -179,7 +145,7 @@ $ docker network inspect bridge
             "Network": ""
         },
         "ConfigOnly": false,
-        "Containers": {},           # 此表示, 目前沒有任何一個 Container是套用此 bridge
+        "Containers": {}, # 沒有任何一個 Container 套用此 network
         "Options": {
             "com.docker.network.bridge.default_bridge": "true",
             "com.docker.network.bridge.enable_icc": "true",
@@ -197,7 +163,7 @@ $ docker network inspect my_bridge
 [
     {
         "Name": "my_bridge",
-        "Id": "ccee7fa10da92e031943d8d4b6da378a6fceb11f7407d500e658b41f531e082d",
+        "Id": "ccee7fa10da9...",
         "Created": "2018-01-07T23:21:24.650496745+08:00",
         "Scope": "local",
         "Driver": "bridge",
@@ -218,26 +184,27 @@ $ docker network inspect my_bridge
         "ConfigFrom": {
             "Network": ""
         },
-        "ConfigOnly": false,        # 底下沒有 Container這個東西, 要把套用這個 bridge的 Container納近來
+        "ConfigOnly": false, 
         "Containers": {},
         "Options": {},
         "Labels": {}
     }
 ]
+# 上頭找不到 Container 這東西..., 要把套用這 network 的 container 納近來
 ```
 
 ## 建立 第二個 Container
 ```sh 
 # 使用 training/postgres 這個 Image, 建立名為 db 的 Container, 並且使用的 Network 為 my_bridge
 $ docker run -d --net=my_bridge --name db training/postgres
-9c815ee0bfcd197c8177e004e7c2db4e610d7ae241cba62532b7a2e51a04c5d3
+9c815ee0bfcd...
 
 # 再次檢查 my_bridge
 $ docker inspect my_bridge
 [
     {
         "Name": "my_bridge",
-        "Id": "ccee7fa10da92e031943d8d4b6da378a6fceb11f7407d500e658b41f531e082d",
+        "Id": "ccee7fa10da9...",
         "Created": "2018-01-07T23:21:24.650496745+08:00",
         "Scope": "local",
         "Driver": "bridge",
@@ -260,9 +227,9 @@ $ docker inspect my_bridge
         },
         "ConfigOnly": false,
         "Containers": {     # 將將!! db這個 Container使用此 network囉
-            "9c815ee0bfcd197c8177e004e7c2db4e610d7ae241cba62532b7a2e51a04c5d3": {
+            "9c815ee0bfcd...": {
                 "Name": "db",
-                "EndpointID": "e62473d303528e2f956b44eaeaca13c2abb21a097cf4c1432865dff32bc4c7c5",
+                "EndpointID": "e62473d30352...",
                 "MacAddress": "02:42:ac:12:00:02",
                 "IPv4Address": "172.18.0.2/16",
                 "IPv6Address": ""
@@ -274,7 +241,7 @@ $ docker inspect my_bridge
 ]
 
 # 另外, 也可以反過來檢查 Container連結到哪個 network
-$ docker inspect --format='{{json .NetworkSettings.Networks}}'  db
+$ docker inspect --format="{{json .NetworkSettings.Networks}}"  db
 {
     "my_bridge": {
         "IPAMConfig": null,
@@ -282,8 +249,8 @@ $ docker inspect --format='{{json .NetworkSettings.Networks}}'  db
         "Aliases": [
             "9c815ee0bfcd"
         ],
-        "NetworkID": "ccee7fa10da92e031943d8d4b6da378a6fceb11f7407d500e658b41f531e082d",
-        "EndpointID": "e62473d303528e2f956b44eaeaca13c2abb21a097cf4c1432865dff32bc4c7c5",
+        "NetworkID": "ccee7fa10da9...",
+        "EndpointID": "e62473d30352...",
         "Gateway": "172.18.0.1",
         "IPAddress": "172.18.0.2",
         "IPPrefixLen": 16,
@@ -293,30 +260,28 @@ $ docker inspect --format='{{json .NetworkSettings.Networks}}'  db
         "MacAddress": "02:42:ac:12:00:02",
         "DriverOpts": null
     }
-}
-# 上面的結果我把它美化過了!! 不然原始格式全部擠成一團...
-
+} # 此 output 經排版過, 原始 output 全擠在一起
 
 # 回想 圖1, 開始架設左半部的 Container囉~
 $ docker run -d --name web training/webapp python app.py
-# 使用 training/webapp(Image), 建立 web(Container), 並使用 bridge(Network), 
+# 使用 training/webapp(Image), 建立 web(Container), 並預設使用 bridge(Network), 
 # 建立後, 使用 python app.py來運行這個 Container
 
 $ docker container ls
-CONTAINER ID   IMAGE              COMMAND                  CREATED     STATUS     PORTS        NAMES
-e1468e5ff61a   training/webapp    "python app.py"          (pass)      (pass)     5000/tcp     web
-9c815ee0bfcd   training/postgres  "su postgres -c '/..."   (pass)      (pass)     5432/tcp     db
-6b3c1331550a   ubuntu             "/bin/bash"              (pass)      (pass)                  networktest
+CONTAINER ID   IMAGE               COMMAND                  CREATED   STATUS   PORTS      NAMES
+e1468e5ff61a   training/webapp     "python app.py"          (pass)    (pass)   5000/tcp   web
+9c815ee0bfcd   training/postgres   "su postgres -c '/..."   (pass)    (pass)   5432/tcp   db
+6b3c1331550a   ubuntu              "/bin/bash"              (pass)    (pass)              networktest
 
-# 檢查剛剛建立的 web Container採用哪種 network
-$ docker inspect --format='{{json .NetworkSettings.Networks}}'  web
+# 檢查 web container 套用那些 network
+$ docker inspect --format="{{json .NetworkSettings.Networks}}"  web
 {
-    "bridge": {
+    "bridge": { # (我不確定它是指 network driver 還是 network name...), 推測應該是 name
         "IPAMConfig": null,
         "Links": null,
         "Aliases": null,
-        "NetworkID": "0bd6efb035c91503015c14260315a4ecaa6f4f2d2128d85796aae018b8eb4be8",
-        "EndpointID": "b9c316dae8202717ad21afa9af1c0a8cf70afee5acc5a197eef420f9cac882f6",
+        "NetworkID": "0bd6efb035c9...",
+        "EndpointID": "b9c316dae820...",
         "Gateway": "172.17.0.1",
         "IPAddress": "172.17.0.2",
         "IPPrefixLen": 16,
@@ -329,12 +294,12 @@ $ docker inspect --format='{{json .NetworkSettings.Networks}}'  web
 }
 
 # 取得此 Container的 IP Address
-$ docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' web
+$ docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" web
 172.17.0.2
 ```
 
 
-## 該建的都建完後, 開啟2個 Shell
+## 該建的都建完後 (開啟2個 Shell)
 ### Shell 1: 進入 db 這個 Container
 ```sh
 # 使用 bash, 進入到 db(Container)裏頭去執行~
@@ -359,8 +324,7 @@ lo        Link encap:Local Loopback
 
 root@9c815ee0bfcd:/# ping 172.17.0.2
 PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
-# 然後就停住了!!! ping不到 web Container阿~~~
-# 因為兩者根本就是在不同的網段!!!
+# ping 得到才有鬼! 兩者根本就是在不同的網段!!!
 ```
 
 ### Shell 2: 進入 web 這個 Container
@@ -390,11 +354,11 @@ lo        Link encap:Local Loopback
 ![圖4](./../../../img/bridge2.jpg)<br>
 解法是, 只需要讓 web 使用與 db 相同的 Network 就行了!!
 
+> 附加網卡, 語法 : <br>
+    `docker network connect <Network Name> <Container Name>`
+
 
 ```sh
-# 附加網卡的指令
-$ docker network connect <Network Name> <Container Name>
-
 # 讓 web(Container)使用 my_bridge
 $ docker network connect my_bridge web
 ```
@@ -406,19 +370,7 @@ web 與 db 可以找到彼此了!!
 ```sh
 $ docker exec -it db bash
 
-root@9c815ee0bfcd:/# ping web
+root@9c815ee0bfcd:/# ping web -c 2
 64 bytes from web.my_bridge (172.18.0.3): icmp_seq=1 ttl=64 time=0.350 ms
 64 bytes from web.my_bridge (172.18.0.3): icmp_seq=2 ttl=64 time=0.145 ms
-64 bytes from web.my_bridge (172.18.0.3): icmp_seq=3 ttl=64 time=0.160 ms
-...
-```
--------------------------------------------------
-
-## 指令備註
-```sh
-# 查看<Network>這張虛擬網路卡的組態
-$ docker network inspect <Network Name>         # "network"可省略
-
-# 抓取特定 Container的 network IP Address
-$ docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <Container ID>
 ```

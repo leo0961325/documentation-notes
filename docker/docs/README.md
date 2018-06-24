@@ -47,3 +47,4 @@ Docker layer: Docker圖層
 
 copy-on-write (CoW) strategy: 寫時復制策略
 
+routing mesh : 路由網路

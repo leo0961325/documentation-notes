@@ -2,6 +2,7 @@
 - 2018/05/11
 - 18.03.1-ce
 - [相關解法 - 找這個回覆 kleskowy commented on 17 Nov 2017](https://github.com/docker/for-win/issues/324)
+- [安裝 Docker for Windows 10](https://docs.docker.com/docker-for-windows/install/)
 
 > 5/11, 不知道為什麼你他媽的一直灌不起來, 錯誤訊息也看不懂, 所以先記錄下來
 

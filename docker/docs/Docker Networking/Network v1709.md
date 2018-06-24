@@ -73,7 +73,7 @@ $ docker inspect bridge
 [
     {
         "Name": "bridge",
-        "Id": "eada4c9a1c647d3228a71661dade84dc347273edaf084e895ec2f75cf1924939",
+        "Id": "eada4c9a1c64...",
         "Created": "2018-06-19T17:36:50.250035871+08:00",
         "Scope": "local",
         "Driver": "bridge",
@@ -135,7 +135,7 @@ $ cat /etc/hosts
 > default `bridge` network 並沒有 **automatic service discovery**, 所以只能藉由 `ip address` 來互相溝通, `無法使用 ping <ContainerName>`; 但是 user-defined network 則有此功能! <br>
   此外, 也可使用 (legacy option) `docker run --link` 來連結 兩個 Container (但已經不建議)
 
-> external network的順序 : 如果一個 Container 一口氣附加了很多張可對外的 network, 則預設是使用 `lexical 排序 的第一張 non-internal network`
+> external network 的順序 : 如果一個 Container 一口氣附加了很多個可對外的 network, 則預設是使用 `lexical 排序 的第一個 non-internal network`
 
 ## Bridge networks
 
