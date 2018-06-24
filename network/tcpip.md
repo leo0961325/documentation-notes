@@ -332,8 +332,18 @@ $ ip -4 addr
     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
        valid_lft forever preferred_lft forever
 
-# docker_gwbridge 是 Docker的 local bridge network, 在特定情況下, 自行建立的.
+# 6 為 Docker bridge network, 在特定情況下, 自行建立的.
 ```
+
+
+# ping 不到 win10
+
+
+
+> VM裏頭, 都ping不到Windows10, 該如何設定? <br />
+  開始 > Windows系統管理工具 > 具有進階安全性的 Windows Defender 防火牆 / 輸入規則 > `檔案及印表機共用(回應要求 - ICMPv4-In) 網域` <- 啟用規則, Subnet底下就 ping得到了!!
+
+
 
 # 零星片段 && 名詞
 - 應用程式協定的標準(Application Protocol Standards) `Socket API`
