@@ -1,23 +1,29 @@
-# [Manage application Data](https://docs.docker.com/v17.09/engine/admin/volumes/)
-- 2018/01/12
+# [Manage application Data](https://docs.docker.com/storage/)
+- 2018/01/12 (v17.09)
+- 2018/06/26 (開始改寫成v18.03 ing)
 
-# 概述
-如果把資料儲存在 *Container Writable layer*, 會有一堆不方便的地方, ex: 搬移不方便, 耦合性高..., 所以要把 Container內的資料, 存到其他地方!!
+# 重要概念釐清 && 摘要
 
-### 拋出資料的3種方式:
-1. volumes (最佳方式)
-2. bind mounts
-3. tmpfs volumes
+> 把 `映像檔(ISO)` 掛載到 `H槽`、 `隨身碟` 出現(掛載)在 `E槽` 等, `掛載` 是一個動作, 英文為 `mount`. 而 本文底下提到的 **Docker管理資料保存的方式** , 有3種方法 : `volumes`, `bind mounts`, `tmpfs mount`, 別把 "動作的mount" 及 "管理方式的mount" 搞混了!!
 
-![Container Mount](https://docs.docker.com/v17.09/engine/admin/volumes/images/types-of-mounts.png)
+`Storage drivers` 允許使用者在 `Container writable layer` 建立資料, 但 `讀寫效率` 很低, 且這些資料隨 Container 消失, 所以有了一些 管理 保存資料的方式...
 
-Compare    | Volumes                  | Bind mounts     | tmpfs volumes
----------- | ------------------------ | --------------- | --------------
-儲存位置    | /var/lib/docker/volumes/ | anywhere        | only in Memory
-管理        | Docker                  | Host FileSystem | -
-修改權限    | only Docker process      | any user        | -
 
-## 1. Volumes
+## 資料保存方式 : 
+type of mount | volumes | bind mounts | tmpfs mount
+------------- | ------- | ----------- | -----------
+Linux         | v       | v           | v
+Windows       | v       | v           | -
+Mac           | v       | v           | -
+儲存位置      | /var/lib/docker/volumes/ | anywhere        | only in Memory
+管理          | Docker                   | Host FileSystem | -
+修改權限      | only Docker process      | any user        | -
+
+由下圖的 `資料在Docker host的位置` , 可以看出 `資料的保存方式` <br>
+![Docker Container - types of mount](https://docs.docker.com/storage/images/types-of-mounts.png)
+
+
+# 1. Volumes
 - 可在 container or service 階段建立 Volume
 - 可在多個 Container內, **同時使用相同的 Volume**
 - Volumes可以有 `named(有名稱的 Volume)` 或 `anonymous(匿名 Volume)` 
@@ -45,21 +51,21 @@ Volumes 使用 rprivate綁定傳播，並且綁定傳播對 volumes不可配置�
 ```
 
 
-## 2. Bind mounts
+# 2. Bind mounts
 - Docker很早期就已經存在的儲存機制, 但功能相較 Volumes非常有限
 - 使用 FULL PATH 來綁定到 Container中
 - **無法**使用 CLI來管理 bind mounts
 - 安全性來講, docker內, 可以修改 host端的檔案系統, 包含**非Docker process**也能修改
 - `共享組態文件`, 使用 bind mounts是個不錯的選擇
 
-## 3. tmpfs volume
+# 3. tmpfs volume
 - 用來儲存 暫時 or 敏感 資訊
 - 不會存到檔案系統中
 - Docker Swarm Service使用 tmpfs 來將敏感資訊映射到 Container中
 
 
----
-## -v(or --volume) / --mount  (此文, 一律使用 「-v」)
+
+# -v(or --volume) / --mount  (此文, 一律使用 「-v」)
 [Choose the -v or -mount flag](https://docs.docker.com/v17.09/engine/admin/volumes/volumes/#choose-the--v-or-mount-flag)
 
 flag    | Description

@@ -5,11 +5,6 @@ $ docker --version
 Docker version 18.03.0-ce, build 0520e24
 ```
 
-# 摘要...
-本章節要說明 `Docker Image` 及 `Docker Container` 的關係, 並且說明兩者`如何佔據磁碟空間`.
-
-`Storage drivers`允許使用者在 `Container的 writable layer`建立資料. 而這些資料將隨著 Container的消失而消失, 且 `讀寫效率` 都很低.
-
 ------------------------------
 ## Image and layers
 > `Docker Image` 由一系列的 `Docker Layers`所構成. 
