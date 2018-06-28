@@ -105,7 +105,7 @@ OK
 (integer) 1
 
 # psetex key milliseconds value
-# 變數存活時間
+# 變數存活時間 (多久後到期)
 > psetex live_10_seconds 10000 hi
 # 10秒後, live_10_seconds 將會變成 (nil)
 
@@ -191,7 +191,7 @@ OK
 
 # BRPOPLPUSH SOURCE DESTINATION TIMEOUT
 # 從列表中 取出加到另外一個列表(等待 timeout秒)
-> b`rpoplpush` msg reciver 500 
+> b`rpoplpush` msg reciver 500
 # 此時, block住了!
 # 開另一個 redis-cli
 > lpush msg hi
@@ -428,3 +428,28 @@ OK
 ### 5. Sorted sets
 
 ### 6. Bitmaps and HyperLogLogs
+
+
+
+
+# python-redis
+- [redis.Redis 與 redis.StrictRedis](https://my.oschina.net/paiooo/blog/717705)
+
+```py
+>>> import redis
+>>> r = redis.StrictRedis(host='localhost', port=6379, db=0)
+# a="Hello", 存活10秒鐘
+>>> r.setex('a',10,"Hello")
+```
+
+```py
+# 設定 kk, 其值為10, 分數為 20
+>>> zadd('kk', 10, 20)
+1
+
+>>> r.zrange('kk', 0, 5)
+['20']
+
+>>> r.zrange('kk', 0, 5,withscores=True)
+[('20', 10.0)]
+```
