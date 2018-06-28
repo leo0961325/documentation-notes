@@ -37,9 +37,9 @@
 
 
 # GPT
-將磁碟所有區塊以 LBA區塊來記錄分割資訊. 第一個 LBA稱為 `LBA0`. GPT使用了 34個 LBA區塊來記錄分割資訊(相較於 MBR, 只使用一個), GPT除了前面 34個 LBA之外, 整個磁碟的最後 33個 LBA也拿來做為另一個備份. 
+將磁碟所有區塊以 LBA 區塊來記錄分割資訊. 第一個 LBA 稱為 `LBA0`. GPT使用了 34 個 LBA 區塊來記錄分割資訊(相較於 MBR, 只使用一個), GPT除了前面 34 個 LBA 之外, 整個磁碟的最後 33 個 LBA 也拿來做為另一個備份. 
 
-部分磁碟為了與 MBA兼容, 會將 LBA預設為 512bytes.
+部分磁碟為了與 `MBR` 兼容, 會將 `LBA` 預設為 `512bytes`.
 
 ![鳥哥 - GPT分割表](http://linux.vbird.org/linux_basic/0130designlinux/gpt_partition_1.jpg)
 圖片來源: 鳥哥
@@ -172,12 +172,179 @@ $ du ~ -h --max-depth=1 | head -3
 ```
 
 
+# 磁碟分割
+- 2018/06/26
 
-# 其他
+## 1. 查看 磁碟分割
+```sh
+# lsblk : list block device, 列出所有儲存裝置
+# lsblk [-dfimpt] [device]   (device需要為完整檔名)
+# -d : 列出 磁碟本身, 不列出磁碟分割資料
+# -f : 可查看磁碟的檔案系統名稱
+# -i : 把 └─ 這東西, 以 ASCII 來呈現, 即 |-
+# -m : 可以查看 owner, group, mode
+# -p : 呈現裝置完整檔名
+# -t : 磁碟裝置的詳細資料, 包含磁碟柱列機制, 玉讀寫的資料大小...(一堆我看不懂的)
+$ lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda           8:0    0 465.8G  0 disk           # 第一個磁碟
+├─sda1        8:1    0     1G  0 part /boot
+└─sda2        8:2    0   218G  0 part
+  ├─cl-root 253:0    0    80G  0 lvm  /
+  ├─cl-swap 253:1    0     8G  0 lvm  [SWAP]
+  ├─cl-var  253:2    0    50G  0 lvm  /var
+  └─cl-home 253:3    0    80G  0 lvm  /home
+sdb           8:16   0 931.5G  0 disk           # 第二個磁碟 (1T的外接硬碟)
+└─sdb1        8:17   0 931.5G  0 part
+sdc           8:32   1  14.5G  0 disk           # 第三個磁碟 (16G的隨身碟)
+└─sdc1        8:33   1  14.5G  0 part /run/media/tony/7AA4-35FC
+sr0          11:0    1  1024M  0 rom
+# 目前系統上的主要裝置: sr0 及 sda(實體磁碟)
+# sda 裝置底下, 又分為 2個分割
+# NAME      裝置名稱
+# MAJ:MIN   Kernel 透過這兩個`主要`,`次要` 代碼, 來認識裝置
+# RM        是否 可卸載
+# SIZE      容量
+# RO        是否 Read Only
+# TYPE      磁碟(disk), 分割槽(partition), 唯讀記憶體(rom)等
+# MOUTPOINT 掛載點
+```
 
-- 磁碟管理工具, 老牌的 `fdisk` 不認識 GPT, 需要用 `gdisk` 或 `parted`
+```sh
+# 查看 所有裝置的 UUID   (「lsblk -pf」 完全取代掉...)
+$ sudo blkid        # 很麻煩, 還需要 sudo 才看的到東西
+/dev/sda1: UUID="e667a4ef-3733-4c49-bb50-767221d1537e" TYPE="xfs"
+/dev/sda2: UUID="N7C7nQ-mO2j-D3HQ-l9dc-M8HF-OyO0-P85EX1" TYPE="LVM2_member"
+/dev/mapper/cl-root: UUID="38a08831-a238-46a9-abf9-930a79eb9ec6" TYPE="xfs"
+/dev/mapper/cl-swap: UUID="8b182032-3e30-46af-8937-8c05cbbcd277" TYPE="swap"
+/dev/mapper/cl-var: UUID="193df025-24c5-45e5-8acf-49825f741754" TYPE="xfs"
+/dev/mapper/cl-home: UUID="37a295a7-78fa-47d5-b2e8-78b4b4a10549" TYPE="xfs"
+```
+
+- [MBR equals msdos for gparted?](https://superuser.com/questions/700770/mbr-equals-msdos-for-gparted)
+```sh
+# parted 列出磁碟分割表類型、分割資訊
+$ sudo parted /dev/sda print
+型號：ATA TOSHIBA MQ01ABF0 (scsi)       # 磁碟的模組名稱(廠商)
+磁碟 /dev/sda：500GB
+磁區大小 (邏輯/物理)：512B/4096B          # 磁碟的每個邏輯/物理磁區容量
+分割區：msdos                           # 分割表的格式 (mbr/gpt)  (看上面的參考網址, mbr = msdos)
+Disk Flags:
+
+編號    起始點  結束點  大小    類型      檔案系統   旗標   # 此底下為 分割資料
+ 1    1049kB  1075MB  1074MB  primary  xfs       啟動
+ 2    1075MB  235GB   234GB   primary            lvm
+```
+
+## 2. 使用 gdisk/fdisk 來做 磁碟分割 (整會更新系統的 分割表, 還不會動到磁碟)
+
+- MBR 分割表 : 使用 `fdisk`
+- GPT 分割表 : 使用 `gdisk` 或 `parted`
+```sh
+$ sudo fdisk /dev/sda       # 針對整個裝置做分割
+裝置呈現的邏輯區大小小於
+實體磁區大小。建議對齊到實體磁區 (或最佳化
+I/O) 大小邊界，否則效能也許會被影響。
+Welcome to fdisk (util-linux 2.23.2).
+
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+# 裡面的一切一切, 可以全部亂按~~~  但是最後千萬不要選擇「w」(儲存), 而選擇「q」(不儲存離開)
+# 使用 n 建立一個16G 的 主要分割區, size那邊選擇 「+16G」, 最後選擇 w 
+# 會爆出 failed等字樣, 因為目前作業系統我們正在用啦!! 有底下兩種做法~~
+
+## 法一 : 使用 partprobe 更新Linux核心的分割表資訊
+$ 
+
+## 法二 : 重新開機~~
+$ cat /proc/partitions
+major   minor   #blocks     name
+   8        0  488386584    sda
+   8        1    1048576    sda1
+   8        2  228592640    sda2
+   8        3   16777216    sda3    # 重開機之後, 多出了這個了~~
+  11        0    1048575    sr0
+ 253        0   83886080    dm-0    # 我不知道這底下是啥鬼...
+ 253        1    8384512    dm-1
+ 253        2   52428800    dm-2
+ 253        3   83886080    dm-3
+
+# 底下, 如果要把剛剛建好的 partition 移除~
+$ sudo fdisk /dev/sda
+# 非常簡單非常直覺~~  懶的寫了
+# 很重要的是 : 不要去處理正在使用中的 partition !!
+```
+
+## 3. 磁碟格式化 (建置檔案系統)
+
+```sh
+# 上一步, 完成「分割」後, 緊接著就要開始建置檔案系統了! (格式化)
+# mkfs : make filesystem
+# 底下都是進入 su 作業 !!!
+$ mkfs.xfs /dev/sda3
+meta-data=/dev/sda3              isize=512    agcount=4, agsize=1048576 blks    # 看下面說明
+         =                       sectsz=4096  attr=2, projid32bit=1
+         =                       crc=1        finobt=0, sparse=0
+data     =                       bsize=4096   blocks=4194304, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal log           bsize=4096   blocks=2560, version=2
+         =                       sectsz=4096  sunit=1 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+# agcount: CPU核心數量
+# issize: 磁碟上檔案的分割區塊(stripe)
+
+$ blkid /dev/sda3
+/dev/sda3: UUID="99ded814-7953-433a-9c22-1d85bcea167c" TYPE="xfs"
+# 看到這個, 表示建置好 xfs 檔案系統了!
+# 因為是使用 xfs, 所以格式化速度飛快
+```
+
+## 4. 檔案系統檢驗@@
+
+```sh
+# xfs_repair [-fnd] 目標名稱
+# -f: 針對哪個裝置下的分割
+# -n: 只檢查, 不作修改
+# -d: (危險慎用!) 單人維護模式底下, 針對 / 進行檢查與修復的動作  ((別用就對了!))
+$ sudo xfs_repair /dev/sda3
+Phase 1 - find and verify superblock...
+Phase 2 - using internal log
+        - zero log...
+        - scan filesystem freespace and inode maps...
+        - found root inode chunk
+Phase 3 - for each AG...
+        - scan and clear agi unlinked lists...
+        - process known inodes and perform inode discovery...
+        - agno = 0
+        - agno = 1
+        - agno = 2
+        - agno = 3
+        - process newly discovered inodes...
+Phase 4 - check for duplicate blocks...
+        - setting up duplicate extent list...
+        - check for inodes claiming duplicate blocks...
+        - agno = 2
+        - agno = 1
+        - agno = 3
+        - agno = 0
+Phase 5 - rebuild AG headers and trees...
+        - reset superblock...
+Phase 6 - check inode connectivity...
+        - resetting contents of realtime bitmap and summary inodes
+        - traversing filesystem ...
+        - traversal finished ...
+        - moving disconnected inodes to lost+found ...
+Phase 7 - verify and correct link counts...
+done
+```
+
+
+
+# 其他零碎知識片段
 - 開機管理程式, `grub` 不認識 GPT, 需要用 `grub2`
 - 並非所有作業系統都認識 GPT, 也並非所有硬體都認識 GPT.
 - NTFS 是 `windows 2000` 以後的產物
-
-是否能讀寫 GPT 與 `開機的檢測程式(BIOS 與 UEFI)` 有關.
+- UUID(universally unique identifier) : Linux系統給予 `所有裝置` 個別獨一無二的識別碼, 可拿來做為 掛載 or 使用這個裝置 之用
+- 是否能讀寫 GPT 與 `開機的檢測程式(BIOS 與 UEFI)` 有關.

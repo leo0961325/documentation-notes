@@ -376,6 +376,7 @@ $ git rebase tony           # 把 (落後的)master, 合併到 tony
 ## git stash 暫存版
 - `git stash` 已追蹤 的檔案 建立暫存版 (同 `git stash save`)
 - `git stash -u`　已追蹤 + 未追蹤 的檔案 建立暫存版 (存到 Stack)
+- `git stash --keep-index` 把 untracked files 作 stash
 - `git stash list` 彈出已占存的 暫存版清單
 - `git stash pop` 把 stash 的東西作 pop 最新一筆
 - `git stash apply "stash@{1}"` 把特定 stash 的 暫存版名字 作 pop
