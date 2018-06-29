@@ -255,7 +255,8 @@ Be careful before using the write command.
 # 會爆出 failed等字樣, 因為目前作業系統我們正在用啦!! 有底下兩種做法~~
 
 ## 法一 : 使用 partprobe 更新Linux核心的分割表資訊
-$ 
+$ sudo partprobe -s
+/dev/sda: msdos partitions 1 2 3
 
 ## 法二 : 重新開機~~
 $ cat /proc/partitions

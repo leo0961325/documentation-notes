@@ -544,6 +544,16 @@ $ vi /etc/crontab
 ```
 
 
+## 查看 CPU數
+```sh
+$  grep 'processor' /proc/cpuinfo
+processor       : 0
+processor       : 1
+processor       : 2
+processor       : 3
+# 我有一顆 4 核心的 CPU
+```
+
 
 ---
 ## 誰在線上
