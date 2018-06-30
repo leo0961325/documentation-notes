@@ -23,9 +23,9 @@
 
 
 ## 1. 腳色釐清
-- Jack : `被代理對象` ; `被代理人` ; `真實對象`
+- Jack : `被代理對象` ; `被代理人` ; `真實對象` ; `最終引用的對象` ; `目標對象`
 - Andy : `代理對象` ; `代理人`
-- Mary : `代理目標`
+- Mary : (好像沒有個特定的名詞..., 就暫時稱為 `漂亮女孩` 吧!!)
 
 
 
@@ -33,17 +33,17 @@
 
 從上面故事得知, `代理人` 需要幫忙從事一些行為 : *送花, 送巧克力, 說我愛妳*. 
 
-`代理人` 是誰無所謂, `代理人` 只要幫 `被代理人` *送花, 送巧克力, 說我愛妳* 給 `代理目標` 就可以了. 
+`代理人` 是誰無所謂, `代理人` 只要幫 `被代理人` *送花, 送巧克力, 說我愛妳* 給 `漂亮女孩` 就可以了. 
 
 所以需要把 *送花, 送巧克力, 說我愛妳* 這些行為抽象出來, 然後讓 `代理人` 來實作這些行為.
 
 
 ## 3. C# 實作
 - 介面規範  \<\<interface>>
-- 代理目標  Mary
+- 漂亮女孩  Mary
 - 被代理人  Jack
 - 代理人    Andy
-- 主程式
+- 主程式 (客戶端)
 
 介面(IGive) 規範:
 ```cs
@@ -56,7 +56,7 @@ interface IGive
 }
 ```
 
-代理目標 Mary
+漂亮女孩 Mary
 ```cs
 class BeautifulGirl
 {
@@ -157,7 +157,7 @@ class Program
 - 介面規範      \<\<interface>>
 - 真實物件      RealImage
 - 代理物件      ProxyImage
-- 主程式
+- 主程式 (客戶端)
 
 介面規範(ILoadImage)
 ```cs
@@ -222,6 +222,67 @@ class Program
     {
         ILoadImage pp = new ProxyImage("abc.png");
         pp.DisplayImage();
+
+        Console.Read();
+    }
+}
+```
+
+# 範例三
+
+台灣沒賣 Mac產品, 台灣沒有直營店, 但有代購業者代買~  所以直接找代購
+
+## C# 實作
+- 介面規範
+- 真實物件(我)
+- 代理物件
+- 主程式 (客戶端)
+
+介面
+```cs
+interface Subject
+{
+    void BuyMac();
+}
+```
+
+真實物件(我)
+```cs
+class RealSubject : ISubject
+{
+    public void BuyMac()
+    {
+        Console.WriteLine("去買Mac");
+    }
+}
+```
+
+代理物件
+```cs
+class ProxySubject : ISubject
+{
+    public void BuyMac()
+    {
+        RealSubject r = new RealSubject();
+        r.BuyMac();
+        this.WrapMac();     // 封裝真實物件後, 額外幫忙做其他事情
+    }
+
+    private void WrapMac()
+    {
+        Console.WriteLine("把 Mac 包裝起來");
+    }
+}
+```
+
+主程式
+```cs
+class Program
+{
+    static void Main(string[] args)
+    {
+        ProxySubject p = new ProxySubject();
+        p.BuyMac();
 
         Console.Read();
     }
