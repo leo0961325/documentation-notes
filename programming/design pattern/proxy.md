@@ -57,24 +57,24 @@ class Pursuit : IGive
 {
     BeautifulGirl mm;
 
-    Public Pursuit(BeautifulGirl mm)
+    public Pursuit(BeautifulGirl mm)
     {
         this.mm = mm;
     }
 
     public void GiveFlower()
     {
-        Console.log("我想送花給" + mm.name + ", 但我只敢嘴上說說");
+        Console.WriteLine("不敢送花");
     }
 
     public void GiveChocoloat()
     {
-        Console.log("我想送巧克力給" + mm.name + ", 但我只敢嘴上說說");
+        Console.WriteLine("不敢送巧克力");
     }
 
     public void SayILoveYou()
     {
-        Console.log("我想對" + mm.name + ", 說我愛妳, 但我沒有勇氣");
+        Console.WriteLine("不敢說我愛妳");
     }
 }
 ```
@@ -86,24 +86,24 @@ class Proxy : IGive
 {
     Pursuit sula;
 
-    Public Proxy(BeautifulGirl mm)
+    public Proxy(BeautifulGirl mm)
     {
         this.sula = new Pursuit(mm);
     }
 
     public void GiveFlower()
     {
-        Console.log("我來幫忙送花給" + mm.name);
+        Console.WriteLine("送花");
     }
 
     public void GiveChocoloat()
     {
-        Console.log("我來幫忙送巧克力給" + mm.name);
+        Console.WriteLine("送巧克力");
     }
 
     public void SayILoveYou()
     {
-        Console.log("對著" + mm.name + ", 說我愛妳");
+        Console.WriteLine("說我愛妳");
     }
 }
 ```
@@ -118,13 +118,15 @@ class Program
         BeautifulGirl mm = new BeautifulGirl();
         mm.name = "Mary";
 
-        // 幫忙代理的帥哥 Andy, 知道他的代理目標是 Mary
-        Proxy bb = new Proxy(mm);
+        Proxy bb = new Proxy(mm);           // 代理人 Andy
+        //Pursuit bb = new Pursuit(mm);     // 被代理人 Jack
 
         // 帥哥 Andy 努力的 幫忙做代理
         bb.GiveFlower();
         bb.GiveChocoloat();
         bb.SayILoveYou();
+
+        Console.Read();
     }
 }
 ```
