@@ -91,7 +91,7 @@ Hyper-V 需求:         偵測到 Hypervisor。將不會顯示 Hyper-V 所需的
 
 
 
-# 可以使用 2個工具來檢測 `系統是否符合 Hyper-V的需` 
+# 可以使用 2個工具來檢測 `系統是否符合 Hyper-V的需求` 
 1. [SecurAble](https://www.grc.com/securable.htm)
 
 直接執行程式即可. 必須在尚未啟動 Hyper-V 之前執行才能得到正確結果
