@@ -421,7 +421,7 @@ $ git branch -a
   remotes/origin/master
 ```
 -----------------------------------------
-## 修改 Commit訊息
+## 修改 Commit訊息 重新commit
 ```sh
 $ git commit --amend -m "<Commit String>"
 ```
