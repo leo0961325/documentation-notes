@@ -13,7 +13,7 @@
 
 ==== 安裝步驟 ====
 
-安裝自己上網看啦@@凸
+參考此專案底下的 `linux/install/installCentOS7 裏頭的 Docker CE部分`
 
 ==== 安裝步驟 ====
 

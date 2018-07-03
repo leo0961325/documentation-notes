@@ -52,6 +52,7 @@ sudo yum -y install google-chrome-stable
 ---
 ## Docker CE
 - 2017/11/25
+- 2018/07/01 update
 > [Official Docker](https://docs.docker.com/engine/installation/linux/docker-ce/centos/#install-using-the-repository)
 
 1. Dependancy package && Install
@@ -72,8 +73,7 @@ $ sudo yum install -y docker-ce
 $ cat /etc/group | grep docker
 docker:x:983:
 
-$ sudo groupadd docker
-$ sudo usermod -aG docker $USERNAME
+$ sudo usermod -aG docker $USER
 
 $ cat /etc/group | grep docker
 docker:x:983:tonynb
@@ -83,13 +83,13 @@ docker:x:983:tonynb
 ```
 $ sudo systemctl start docker           <-立刻啟用
 $ sudo systemctl enable docker          <-重新後啟用
-$ sudo systemctl status docker
+$ systemctl status docker
 ```
 
-4. Test (重新登入)
+4. Done
 ```
 $ docker --version
-Docker version 17.09.0-ce, build afdb6d4
+Docker version 18.03.1-ce, build 9ee9f40
 
 $ docker run hello-world
 Hello, World.
