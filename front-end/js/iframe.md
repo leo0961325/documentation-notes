@@ -20,12 +20,9 @@ y.body.style.backgroundColor = 'red';
 
 
 ```html
-
-
-
-
 <iframe id="f1" name="ff1">
 ```
+
 ```js
 f1 === ff1.frameElement
     === frames[0].frameElement

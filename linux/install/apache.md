@@ -18,6 +18,9 @@ Apache伺服器在 CentOS的套件名稱為 httpd, 將關套件為 `hpptd` 及 `
 ```sh
 # 永久讓防火牆允許網頁連線
 $ firewall-cmd --add-service=http --permanent
+
+# 查看有沒有開成功
+$ firewall-cmd --zone=public --list-ports
 ```
 
 > `/etc/httpd/conf/httpd.conf`中, 關於**模組載入方式**, 語法: `LoadModule 模組名稱 模組檔案`

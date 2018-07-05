@@ -52,9 +52,6 @@ $ git branch
 $ git branch -a
 * master
   remotes/origin/master
-
-
-
 ```
 
 

@@ -6,6 +6,7 @@
 - [python gunicorn 官方](https://pypi.org/project/gunicorn/)
 - [這篇寫得不錯](https://jiayi.space/post/flask-gunicorn-nginx-bu-shu)
 - 人稱它為 `Green Unicorn` 綠色獨角獸 (這好像不是很重要...)
+- [快餐範例](https://www.jianshu.com/p/fbe8ffd76e5a)
 
 > Gunicorn 'Green Unicorn' is a Python WSGI HTTP Server for UNIX. It's a pre-fork worker model. The Gunicorn server is broadly compatible with various web frameworks, simply implemented, light on server resources, and fairly speedy.
 

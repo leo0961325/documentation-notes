@@ -2,7 +2,7 @@
 
 ## socket coding 流程
 
-###### server
+### server
 ```
 s.bind()
 s.listen()
@@ -12,7 +12,7 @@ s.send()
 s.close()
 ```
 
-###### client
+### client
 ```
 s.connect()
 s.send()
@@ -35,7 +35,7 @@ s.recv()
 這樣不管你強行中斷了多少次 server, 它都會再次接收原本的 TCP connection
 
 
-###### server.py
+#### server.py
 ```py
 import socket
 
@@ -57,7 +57,7 @@ while True: # 作永久性聆聽
     c.close()
 ```
 
-###### client.py
+#### client.py
 ```py
 import socket
 
@@ -78,7 +78,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 - [解編碼](https://stackoverflow.com/questions/7585435/best-way-to-convert-string-to-bytes-in-python-3?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
 
 
-###### server.py
+#### server.py
 ```py
 import socket
 import re

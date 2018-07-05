@@ -5,3 +5,4 @@ Document         | Description
 git.md           | git的拉哩拉雜的指令備註及概念
 remote_branch.md | 與遠端儲藏庫互動的範例
 stash_example.md | 使用 `git tag`及 `git stash`的範例
+git_branch.md    | 鳥鳥的遠端追蹤分支的範例

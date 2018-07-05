@@ -2,12 +2,12 @@
 - 2018/01/11
 
 ## Docker 引擎
-![engine-components-flow](./../img/engine-components-flow.jpg)
+![GG engine-components-flow](./../../../img/engine-components-flow.jpg)
 
 ---
 
 ## Docker 體系結構
-![dd](./../img/architecture.svg)
+![GG Docker結構](./../../../img/architecture.svg)
 Docker Client 與 Docker Daemon透過 REST API與 `UNIX sockets` 或 `a network interface` 溝通
 
 ---

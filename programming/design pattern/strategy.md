@@ -191,7 +191,7 @@ class TakeFire : IUseItem        // 實作 用工具
 {
     public void UseItem()
     {
-        Console.WriteLine("機器人內建阿姆斯特朗砲轟炸~~~");
+        Console.WriteLine("機關槍掃射~~~");
     }
 }
 ```
