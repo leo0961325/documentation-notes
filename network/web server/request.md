@@ -5,6 +5,9 @@
 ## multipart/form-data
 - 2018/07/05
 - [Example of multipart/form-data](https://stackoverflow.com/questions/4238809/example-of-multipart-form-data)
+- [What should a Multipart HTTP request with multiple files look like?](https://stackoverflow.com/questions/913626/what-should-a-multipart-http-request-with-multiple-files-look-like)
+- [What does enctype='multipart/form-data' mean?](https://stackoverflow.com/questions/4526273/what-does-enctype-multipart-form-data-mean/28380690#28380690)
+
 
 `multipart/form-data` 為 `request body` 的其中一種 `content type`, 若是這樣的話, 
 

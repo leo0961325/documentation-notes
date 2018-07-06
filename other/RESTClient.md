@@ -34,8 +34,9 @@
 - 緊鄰第一行, 為 `request head`
 - `request head` 以 `key : value` 的方式還放, 每個 `key : value` 放一行
 - `request head` 與 `request body` 之間, 要空一行
-- `request body` 可以是 JSON
-
+- `request body` 可以是 JSON, XML, string, ...
+- 文件內, 可以用 `//` 開頭 或者 `#` 開頭, 為整行作註解
+- 文件內, **`不可以`** 在某些 `API` 區段的 `同行尾端` 寫註解
 
 ## 範例1 - 寫明 Request body (幾乎都這樣用)
 ```sh
@@ -177,19 +178,20 @@ Content-Type: {{contentType}}
 
 - 有點變態的 API 玩法...
 - 為 API 命名, 供其他 API 使用 ((接技的概念))
+- 命名寫法的位置 : 在 `###` 與 `請求資源端點` 之間, 命名
+- 命名的寫法 : `# @name xxx` 或 `// @name xxx`
 
 ```sh
 @baseUrl = https://example.com/api
 
+### 此API命名為 login
 # @name login
 POST {{baseUrl}}/api/login HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
 name=foo&password=bar
 
-// 此API命名為 login
-
-###
+### 此API命名為 createComment
 # @name createComment
 POST {{baseUrl}}/comments HTTP/1.1
 Authorization: {{login.response.headers.X-AuthToken}}
@@ -199,31 +201,27 @@ Content-Type: application/json
     "content": "fake content"
 }
 
-// 此API命名為 createComment
 // 使用 login 那組 API 的 response.headers.X-AuthToken 來驗證
 
-###
+### 此API命名為 getCreatedComment
 # @name getCreatedComment
 GET {{baseUrl}}/comments/{{createComment.response.body.$.id}} HTTP/1.1
 Authorization: {{login.response.headers.X-AuthToken}}
 
-// 此API命名為 getCreatedComment
 // 使用 login 那組 API 的 response.headers.X-AuthToken 來驗證
 // 搭配 createComment 那組 API 的 response.body 的 id
 
-###
+### 此API命名為 getReplies
 # @name getReplies
 GET {{baseUrl}}/comments/{{createComment.response.body.$.id}}/replies HTTP/1.1
 Accept: application/xml
 
-// 此API命名為 getReplies
 // 使用 createComment 那組 API 的 response.body 的 id 來作 get
 
-###
+### 此API命名為 getFirstReply
 # @name getFirstReply
 GET {{baseUrl}}/comments/{{createComment.response.body.$.id}}/replies/{{getReplies.response.body.//reply[1]/@id}}
 
-// 此API命名為 getFirstReply
 // 使用 createComment 那組 API 的 response.body 的 id 
 // 搭配 getReplies 那組 API 的 .response.body 的 //reply[1]/@id  <---我看不懂了...
 ```
