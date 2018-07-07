@@ -1,7 +1,7 @@
 # 自學筆記
 - Start from 2017/07
 
-## 資料夾分類
+# 資料夾分類
 Directory     | Description
 ------------- | ------------------------
 db            | 資料庫
@@ -15,9 +15,12 @@ node          | Nodejs v6.11
 programming   | 程式語言(不含Python)相關(含 Design Pattern)
 python        | Python 3.6
 windows       | Windows 作業系統相關
-img           | (無用)
+img           | (Markdown內的附圖)
 other         | 不屬於以上的都放這~~
 
-## 常看到又常忘的名詞備註
-- [on the fly](http://coyanlee.blogspot.com/2012/04/on-fly-meaning.html): 動態產生 
 
+
+# 常看到又常忘的名詞備註
+
+- on the fly : 動態產生 
+- back slash : 反斜線

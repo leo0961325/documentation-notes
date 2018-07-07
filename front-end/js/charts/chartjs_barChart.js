@@ -9,7 +9,8 @@ function init() {
             borderColor: 'rgba(0,255,0,1)',
             borderWidth: 1,
         }],
-    };
+    }
+
     var chartOptions1 = {
         scales: {
             yAxes: [{
@@ -19,8 +20,7 @@ function init() {
                 },
             }],
         },
-    };
-
+    }
 
     var chartData2 = {
         labels: null,
@@ -31,7 +31,8 @@ function init() {
             borderColor: 'rgba(223, 158, 18, 1)',
             borderWidth: 1,
         }],
-    };
+    }
+
     var chartOptions2 = {
         scales: {
             yAxes: [{
@@ -44,8 +45,7 @@ function init() {
         // animation: {
         //     duration: 0
         // },
-    };
-
+    }
 
     var ctx1 = document.getElementById('timeSpan').getContext('2d');
     var ctx2 = document.getElementById('productCumulate').getContext('2d');
@@ -93,7 +93,7 @@ function init() {
 
 
         setTimeout(pp, stopTiming * 1000);
-    };
+    }
 
     setInterval(function() {
         x2.push(new Date().toTimeString().substring(0, 8));
