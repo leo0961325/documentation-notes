@@ -2,7 +2,7 @@
 - 2018/06/09
 
 
-# 檔案隱藏屬性
+# 檔案隱藏屬性 (我用 特殊屬性 來理解它...)
 
 > 隱藏屬性對於 Linux 來說, 只能在 Ext2/Ext3/Ext4 中完整生效, 像是 CentOS7預設使用的 xfs, 僅有部分支援
 - [鳥哥 chattr](http://linux.vbird.org/linux_basic/0220filemanager.php#chattr)

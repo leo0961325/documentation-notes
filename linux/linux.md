@@ -313,8 +313,46 @@ $ ip link show      # 類似 ip address show, 但省略 ip位址資訊
 > `ip`指令可以拿來作 **變更網路組態**, **增刪改特定設備的 ip位址**.... 遇到再 google
 
 
----
-## NetworkManager服務 與 network服務(比較傳統的方式)
+
+# Linux檔案時間
+- 2018/07/08
+- 檔按時間有分成3種, 會因為各種因素, 電腦上可能會有`未來檔案`
+
+在 Linux 理頭, 會有 3 個主要的變動時間
+- modification time (mtime) : `檔案內容` 最後變動時間
+- status time (ctime) : `檔案狀態` 最後變動時間 (ex: 權限, 屬性)
+- access time (atime) : `檔案內容` 最近讀取時間... 被看了!... 害羞(>///<)
+
+```sh
+$ ll /etc/man_db.conf; ll --time=atime /etc/man_db.conf ; ll --time=ctime /etc/man_db.conf
+-rw-r--r--. 1 root root 5171  6月 10  2014 /etc/man_db.conf     # 內容最後變動時間 (預設使用 mtime)
+-rw-r--r--. 1 root root 5171  7月  8 19:33 /etc/man_db.conf     # 狀態最後變動時間
+-rw-r--r--. 1 root root 5171  2月 27 14:05 /etc/man_db.conf     # 內容最近讀取時間
+```
+
+
+
+# touch 這東西
+- 新增 檔案
+- 修改 檔案時間 (mtime, atime), ctime 無法被修改
+
+```sh
+$ touch [-acdmt] <filename>
+# -a : 僅改 access time   (參考 Linux檔案時間)
+# -c : 僅修改檔案的時間 (若不存在則不建立)
+# -d : 可以自己設定 修改時間... 「--date="日期or時間"」 或 「-d "2 days ago"」
+# -m : 僅改 mtime
+# -t : 依照 YYYYMMDDhhmm 設定想修改的時間
+
+$ touch f1
+$ ll f1
+-rw-rw-r--. 1 tony tony 0  7月  8 22:05 f1
+
+$ 
+```
+
+
+# NetworkManager服務 與 network服務(比較傳統的方式)
 > NetworkManager服務(NM) 專門設計用來給 `移動設備(ex: NB)`使用, 可以在各種場合切換連線方式. 所以像是 Server或是一般桌電, 大都不使用 NM, 而是使用 network服務. **兩者則一啟用即可**.
 
 ```sh
@@ -663,91 +701,23 @@ $ systemctl disable <service>
 
 
 
----
-## - 壓縮/解壓縮
-### - gzip
+
+# su 這東西
+- 2018/07/08
+- [換人做做看--sudo 和 su](http://kezeodsnx.pixnet.net/blog/post/25810396-%E6%8F%9B%E4%BA%BA%E5%81%9A%E5%81%9A%E7%9C%8B--sudo-%E5%92%8C-su)
+
 ```sh
-$ touch aa
-$ ll
-aa
+# 使用 「sudo su」
+[tony@tonynb ~]$ sudo su
+[sudo] password for tony:   # 輸入 tony 的 admin 密碼~
+[root@tonynb tony]# exit
+[tony@tonynb ~]$
 
-# 使用 gzip壓縮(取代原始檔案)
-$ gzip aa
-$ ll
-aa.gz
-
-# 使用 gunzip解壓縮(取代原始檔案)
-$ gunzip aa.gz
-$ ll
-aa
-```
-
-### - zip
-#### Case1
-```sh
-$ ll
-aa
-
-# 使用 zip壓縮
-$ zip -r qq.zip aa
-  adding: aa (stored 0%)
-
-$ ll
-aa  qq.zip
-
-$ rm aa
-$ unzip qq.zip
-Archive:  qq.zip
- extracting: aa     
-
-$ ll
-aa  qq.zip
-```
-
-#### Case2
-```sh
-# 將a1, a2, a3壓縮為FF.zip, 並設定密碼
-$ zip -er FF.zip a1 a2 a3
-# (下一行再輸入密碼)
-
-# 把QQ.zip裡面的檔案全部解壓縮出來
-$ unzip QQ.zip
-
-# 把QQ.zip(解壓縮密碼為1234)解壓縮
-$ unzip -P QQ.zip
-# (下一行在輸入密碼)
-```
-
-### - tar
-> 把多的檔案包成一包, 方便 gzip壓縮, 語法: `tar -<選項> <檔名> <要打包的東西>`
-
-> `-c 產生新的包裹檔案` <br> `-v 觀看指令進度` <br> `-f 指定包裹檔案的名稱` <br> `-x 解開已打包的檔案` (解壓縮的概念)
-```sh
-$ ll
-a  b  c
-
-$ tar -cvf qq.tar a b c
-a
-b
-c
-
-$ rm a b c
-$ ll
-qq.tar
-```
-
-### - tgz (tar ball)
-> tar + gz的合體, 語法: `tar -<選項> <tar ball檔名> <要打包的東西們> ...`
-```sh
-$ ll
-a  b  c
-$ tar -czvf qq.tgz a b c
-a
-b
-c
-
-$ ll
-a  b  c  qq.tgz
+# 使用 「su」
+[tony@tonynb ~]$ su
+密碼：                      # 輸入 root 密碼~
+[root@tonynb tony]# exit
+[tony@tonynb ~]$
 ```
 
 
@@ -783,8 +753,8 @@ s       | socket檔案
 
 
 
----
-## sshd無法啟動的原因
+
+# sshd 無法啟動的可能原因
 1. sshd未安裝
 2. sshd未啟動
 3. 防火牆
@@ -792,23 +762,23 @@ s       | socket檔案
 > 產生ssh公私金鑰, 語法: `ssh-keygen -t rsa -b 4096 -C "<id>@<mail host>"`
 
 1. 安裝sshd
-```
+```sh
 $ sudo yum -y install openssh-server
-$ service sshd restart
+$ systemctl start sshd
 ```
 
 2. 檢查看看(應該要有下面兩個)
-```
+```sh
 $ ps -e | grep ssh
 xxxx ? 00:00:00 ssh-agent
 xxxx ? 00:00:00 sshd
 ```
 
 3. 若出現下列狀況
-```
+```sh
 $ ssh localhost
 ssh: connect to host localhost port 22: Connection refused
-請先依照第2點的說明查看是否有啟動ssh-agent及sshd才可以ssh localhost,
+# 請先依照第2點的說明查看是否有啟動ssh-agent及sshd才可以ssh localhost,
 所以只要
 $ service sshd restart
 $ systemctl enable sshd(這個還不是非常確定是否可行)

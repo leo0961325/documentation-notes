@@ -64,49 +64,13 @@ proj/
     "pythonPath": "${config:python.pythonPath}",    // 虛擬環境直譯器 指向 settings.json
     "args": ["runserver", "--noreload", "--nothreading"],
     "stopOnEntry": true,                // 預設為 false, 若為 true, 執行Debug模式時, 會在程式第一行停下來
-    "console": "none",                  // 參考下面 console 設定方式
-    "cwd": "",                          // 不好說, 看下面 cwd 說明
-    "debugOptions": "",     // 不懂... 略
-    "env": "",              // 不懂... 略
-    "envFile": "",          // 不懂... 略
+    "console": "none",
+    "cwd": "",
+    "debugOptions": "",
+    "env": "",
+    "envFile": ""
 }
 ```
-
-
-### console 設定方式
-
-value                   | output displayed
------------------------ | -------------------------------------
-"none"                  | VS Code debug console
-"integratedTerminal"    | (預設) 使用 VS Code 整合式 Terminal
-"externalTerminal"      | 分離式的 console window
-
-
-### args - Debug 時候的額外 參數
-
-ex: `python manage.py runserver --host 0.0.0.0`, 
-
-則設定為 `["runserver", "--host", "0.0.0.0"]` (應該吧! 不確定參數要不要分開)
-
-
-### cwd 說明
-
-`cwd` 就是 debugger 的 `current working directory`, 也就是 相對於要 debug 的程式碼 的 base folder (乾~ 很不白話)
-
-例如: 專案根目錄 為 `proj/`, 專案架構如下
-```
-proj/
-    py_code/app.py
-    data/salaries.csv
-```
-現在要對 `app.py` 作 debug, salaries.csv 的相對路徑會因為 `cwd` 而有所不同
-
-cwd                             | 相對於 data file 的路徑
-------------------------------- | --------------------------
-Omitted or ${workspaceFolder}   | data/salaries.csv
-${workspaceFolder}/py_code      | ../data/salaries.csv
-${workspaceFolder}/data         | salaries.csv
-
 
 ### program 專案啟動文件
 
@@ -134,13 +98,64 @@ ${workspaceFolder}/data         | salaries.csv
 ```
 
 
+### args - Debug 時候的額外 參數
+
+ex: `python manage.py runserver --host 0.0.0.0`, 
+
+則設定為 `["runserver", "--host", "0.0.0.0"]` (應該吧! 不確定參數要不要分開)
+
+
+### console 設定方式
+
+value                   | output displayed
+----------------------- | -------------------------------------
+"none"                  | VS Code debug console
+"integratedTerminal"    | (預設) 使用 VS Code 整合式 Terminal
+"externalTerminal"      | 分離式的 console window
+
+
+### cwd 說明
+
+`cwd` 就是 debugger 的 `current working directory`, 也就是 相對於要 debug 的程式碼 的 base folder (乾~ 很不白話)
+
+例如: 專案根目錄 為 `proj/`, 專案架構如下
+
+```
+proj/
+    py_code/app.py
+    data/salaries.csv
+```
+
+現在要對 `app.py` 作 debug, salaries.csv 的相對路徑會因為 `cwd` 而有所不同
+
+cwd                             | 相對於 data file 的路徑
+------------------------------- | --------------------------
+Omitted or ${workspaceFolder}   | data/salaries.csv
+${workspaceFolder}/py_code      | ../data/salaries.csv
+${workspaceFolder}/data         | salaries.csv
+
+
 ### debugOptions
 
-### env
+可用的選項有 `["RedirectOutput", "DebugStdLib", "Django", "Sudo", "Pyramid", "BreakOnSystemExitZero", "IgnoreDjangoTemplateWarnings"]`
 
-### envFile
+- RedirectOutput : (預設) 讓 Debugger 印出所有 output 到 VS Code debug output window. 若捨略此設定, 所有 程式輸出 將不會出現. 但如果 console 為 `integratedTerminal` 或為 `externalTerminal` 時, 此選可省略.
+- DebugStdLib : 允許 debug of standard library functions.
+- Django : 啟用 debugging feature specific 到 Django
+- Sudo : 得與 `"console": "externalTerminal"` 搭配使用, 則允許 debugging apps that require elevation
+- Pyramid : 
+- BreakOnSystemExitZero : (不明)
+- IgnoreDjangoTemplateWarnings : (不明)
 
-可設定 「含有 環境變數 的檔案」 的路徑 (好像是這樣....)
+
+### env (看不太懂...)
+
+原文 : Sets optional environment variables for the debugger process beyond system environment variables, which the debugger always inherits.
+
+
+### envFile (看不太懂...)
+
+原文 : Optional path to a file that contains environment variable definitions. See [Configuring Python environments - environment variable definitions file](https://code.visualstudio.com/docs/python/environments#_environment-variable-definitions-file).
 
 
 

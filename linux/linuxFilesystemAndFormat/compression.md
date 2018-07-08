@@ -1,5 +1,6 @@
-# 壓縮 && 解壓縮
+# 壓縮 && 解壓縮 && 打包
 - 2018/07/04
+- 系統作 `備份` 時, 這邊的指令細節必須要注意...
 
 Linux 常用壓縮技術, 因為多半壓縮只能對單一檔案作壓縮, 所以會將他們作 `tar 打包` 後, 再來壓縮 ( `tar` = `打包的軟體` )
 ```
@@ -52,6 +53,65 @@ $ zgrep -n 'http' services.gz
 90:http            80/udp          www www-http    # HyperText Transfer Protocol
 ```
 
+```sh
+### gzip 壓縮 && gunzip 解壓縮
+$ touch aa
+$ ls
+aa
+
+$ gzip aa           # 使用 gzip壓縮 (取代原始檔案)
+$ ls
+aa.gz
+
+$ gunzip aa.gz      # 使用 gunzip解壓縮 (取代原始檔案)
+$ ls
+aa
+```
+
+```sh
+### zip 壓縮 && unzip 解壓縮
+$ ls
+aa
+
+$ zip -r qq.zip aa          # 使用 zip 壓縮
+  adding: aa (stored 0%)
+
+$ ls
+aa  qq.zip
+
+$ rm aa
+
+$ unzip qq.zip              # 使用 unzip 解壓縮
+Archive:  qq.zip
+ extracting: aa     
+
+$ ls
+aa  qq.zip
+```
+
+```sh
+### zip 壓縮 && unzip 解壓縮 (加密碼~)
+$ touch a1 a2 a3
+
+# 將 a1, a2, a3 壓縮為 FF.zip, 並設定密碼
+$ zip -er FF.zip a1 a2 a3   # -er 設定 解壓縮密碼~
+Enter password:     # 設定 解壓縮密碼
+Verify password:    # 再次設定 解壓縮密碼
+  adding: a1 (stored 0%)
+  adding: a2 (stored 0%)
+  adding: a3 (stored 0%)
+
+$ rm a1 a2 a3
+
+# 把 FF.zip 裡面的檔案全部解壓縮出來
+$ unzip FF.zip
+Archive:  FF.zip
+[FF.zip] a1 password:   # 輸入 解壓縮密碼
+ extracting: a1
+ extracting: a2
+ extracting: a3
+```
+
 
 ## bzip2, bzcat/bzmore/bzless/bzgrep
 - 可以把 `gzip2` 想像成是為了取代 `gzip` 而生
@@ -100,4 +160,126 @@ $ ll -h
 $ xz -l services.xz
 Strms  Blocks   Compressed Uncompressed  Ratio  Check   Filename
     1       1     97.3 KiB    654.6 KiB  0.149  CRC64   services.xz
+```
+
+
+
+# tar (ball) - 把一堆東西 包成一包
+
+複習~ 
+
+前面提到, 壓縮解壓縮有 3 種格式
+- gzip          : 最快
+- bzip2 (bz2)   : 沒特色...
+- xz            : 最省空間
+
+```sh
+# tar [-zjJ] cxvtf <檔名> [-C 目錄]
+# -c : 建立 tar
+# -t : 查看 tar 裡面有那些東西
+# -x : 解開已打包的檔案
+# -v : 顯示進度
+# -f : 指定包裹檔案的名稱 (( 這個參數一定要放在最右邊! ))
+
+# -z : 透過 gzip
+# -j(小) : 透過 bzip2
+# -J(大) : 透過 xz
+
+# -C : 解壓縮 特定目錄
+
+# -p(小) : 保留原檔案的權限與屬性
+# -P(大) : 保留絕對路徑 (打包系統檔時, 慎用!!!  不然日後解壓縮時, 舊資料 會蓋掉 新資料!! )
+
+# --exclude=XX : 不打包 XX
+
+# tar -jtvf     查詢 tar 內的東西
+# tar -zcvf     用 gzip  壓縮並 tar起來
+# tar -jcvf     用 bzip2 壓縮並 tar起來
+# tar -Jxvf     用 xz    壓縮並 tar起來
+
+
+# 底下在 su 之下執行~~~
+$# time tar zpcf /root/etc.tar.gz /etc    # 用 gz 壓縮 && 打包
+tar: 從成員名稱中移除前端的「/」    # @@ 這是啥? 後面揭曉~~
+
+real    0m2.068s
+user    0m2.022s
+sys     0m0.165s
+$# time tar jpcf /root/etc.tar.bz2 /etc   # 用 bzip2 壓縮 && 打包
+
+tar: 從成員名稱中移除前端的「/」    # 英文為 「tar: Removing leading `/' from member names」
+real    0m5.748s
+user    0m5.667s
+sys     0m0.163s
+
+$# time tar Jpcf /root/etc.tar.xz /etc    # 用 xz 壓縮 && 打包
+tar: 從成員名稱中移除前端的「/」
+real    0m21.362s
+user    0m21.192s
+sys     0m0.381s
+
+$# ll -h /root/ | grep etc.tar.*
+-rw-r--r--. 1 root root  20M  7月  8 19:39 etc.tar.gz
+-rw-r--r--. 1 root root  17M  7月  8 19:40 etc.tar.bz2
+-rw-r--r--. 1 root root  14M  7月  8 19:40 etc.tar.xz
+
+$# du -sm /etc
+63      /etc
+# 實際目錄約佔了 63MB
+```
+
+## 壓縮打包系統資料時, 務必加上 「`-p`」, 去除絕對路徑
+
+```sh
+$# tar -jtvf /root/etc.tar.bz2
+drwxr-xr-x root/root         0 2018-07-08 13:20 etc/
+-rw-r--r-- root/root       617 2018-02-27 13:45 etc/fstab
+-rw------- root/root         0 2018-02-27 13:45 etc/crypttab
+(...略...)                                    # ↑ @@
+# 注意!! 最右邊的路徑, 都已經移除了 根目錄的絕對路徑「/」
+# 目的很明瞭~  防止解壓縮之後, 解壓縮的檔案們會跑回絕對路徑, 把最新的資料蓋掉
+```
+
+```sh
+# 只解壓縮 單一檔案
+$ touch a b c
+
+$  tar -zcvf file.tar.gz a b c
+a
+b
+c
+
+$ rm a b c
+
+# 查看裡面有什麼
+$ tar ztvf file.tar.gz
+-rw-rw-r-- tony/tony         0 2018-07-08 20:24 a
+-rw-rw-r-- tony/tony         0 2018-07-08 20:24 b
+-rw-rw-r-- tony/tony         0 2018-07-08 20:24 c
+
+# 解壓縮 tar 內單一檔案的話, ex: file.tar.gz
+$ tar zxvf file.tar.gz a            # 在最後指定要 解壓縮出哪些東西
+a
+
+$ ls
+a  file.tar.gz      # 只把 a 解壓縮出來~
+```
+
+## `tarfile` vs `tarball`
+- tarfile : 只作了打包, 沒作壓縮
+- tarball : 打包 + 壓縮
+
+但是大家常常通稱 tarball...
+
+底下, 有點進階
+```sh
+$ cd /tmp
+$# tar -cf - /etc | tar -xf -
+tar: 從成員名稱中移除前端的「/」
+
+$# ll
+總計 12
+drwxr-xr-x. 150 root root 8192  7月  8 20:15 etc
+
+# 將 /etc 打包, 「-」 不留中介檔, 直接透過 「|」 導向 stdout, 作解開的動作, 後面的「-」 即為前面的 「-」, 資料夾下不會有東西, 這也是實作 「cp -r」 的一種方式...
 ```
