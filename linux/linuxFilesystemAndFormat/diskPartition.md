@@ -144,6 +144,16 @@ tmpfs                tmpfs     1.9G         0   1.9G    0%    /sys/fs/cgroup
 /dev/mapper/cl-home  xfs        80G       13G    68G   16%    /home
 tmpfs                tmpfs     370M       44K   370M    1%    /run/user/1000
 # 檔案系統(Filesystem) : 所在 partition (裝置名稱)
+
+$ df -h /boot
+檔案系統        容量  已用  可用 已用% 掛載點
+/dev/sda1      1014M  242M  773M   24% /boot
+
+# 也可以拿來看 路徑的掛載點
+$ df -hT /home/tony
+檔案系統            類型  容量  已用  可用 已用% 掛載點
+/dev/mapper/cl-home xfs    80G   20G   61G   24% /home
+# /home/tony/ 掛在 「/dev/mapper/cl-home」 底下
 ```
 
 ## 2. du
@@ -175,7 +185,7 @@ $ du ~ -h --max-depth=1 | head -3
 # 磁碟分割
 - 2018/06/26
 
-## 1. 查看 磁碟分割
+## 1. 查看 磁碟分割 (掛載樹狀結構)
 ```sh
 # lsblk : list block device, 列出所有儲存裝置
 # lsblk [-dfimpt] [device]   (device需要為完整檔名)
@@ -202,7 +212,7 @@ sr0          11:0    1  1024M  0 rom
 # 目前系統上的主要裝置: sr0 及 sda(實體磁碟)
 # sda 裝置底下, 又分為 2個分割
 # NAME      裝置名稱
-# MAJ:MIN   Kernel 透過這兩個`主要`,`次要` 代碼, 來認識裝置
+# MAJ:MIN   Kernel 透過這兩個`主要`,`次要` 代碼, 來認識裝置 (major:minor)
 # RM        是否 可卸載
 # SIZE      容量
 # RO        是否 Read Only
@@ -340,6 +350,42 @@ Phase 6 - check inode connectivity...
 Phase 7 - verify and correct link counts...
 done
 ```
+
+
+
+
+# 比較 lsblk && df -h
+
+```sh
+$# df -hT
+檔案系統            類型      容量  已用  可用 已用% 掛載點
+/dev/mapper/cl-root xfs        80G  9.9G   71G   13% /
+devtmpfs            devtmpfs  1.8G     0  1.8G    0% /dev
+tmpfs               tmpfs     1.9G  108M  1.7G    6% /dev/shm
+tmpfs               tmpfs     1.9G  9.2M  1.8G    1% /run
+tmpfs               tmpfs     1.9G     0  1.9G    0% /sys/fs/cgroup
+/dev/sda1           xfs      1014M  252M  763M   25% /boot
+/dev/mapper/cl-home xfs        80G   18G   63G   23% /home
+/dev/mapper/cl-var  xfs        50G   13G   38G   25% /var
+tmpfs               tmpfs     370M   48K  370M    1% /run/user/1000
+
+
+$# lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda           8:0    0 465.8G  0 disk
+├─sda1        8:1    0     1G  0 part /boot
+├─sda2        8:2    0   218G  0 part
+│ ├─cl-root 253:0    0    80G  0 lvm  /
+│ ├─cl-swap 253:1    0     8G  0 lvm
+│ ├─cl-var  253:2    0    50G  0 lvm  /var
+│ └─cl-home 253:3    0    80G  0 lvm  /home
+└─sda3        8:3    0    16G  0 part
+sdb           8:16   1  14.5G  0 disk
+└─sdb1        8:17   1  14.5G  0 part
+sr0          11:0    1  1024M  0 rom
+```
+
+怎麼說明阿....orz
 
 
 

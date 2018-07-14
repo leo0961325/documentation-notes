@@ -1471,3 +1471,8 @@ $ sudo file /var/lib/mlocate/mlocate.db
 /var/lib/mlocate/mlocate.db: data
 # 此為 data檔
 ```
+
+
+# 光碟寫入工具
+- 光碟製作成 iso 鳥哥`mkisofs`
+- 燒光碟 鳥哥`cdrecord`

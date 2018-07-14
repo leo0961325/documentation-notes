@@ -70,7 +70,7 @@ $ find [PATH] [option] [action]
 
 
 ### 依 時間 find
-```
+```sh
 # -mtime n : 表示 「在 n 天前」的「一天之內」被更動過內容的檔案
 $ find / -mtime 0
 # (會開始搜尋~~~ 有點久, 然後印出一大堆不知道幹嘛的)

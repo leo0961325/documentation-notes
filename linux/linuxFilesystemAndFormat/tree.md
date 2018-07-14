@@ -22,7 +22,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /dev/lp0/                                     # 印表機
 /etc/                                 # 系統設定檔. ex: inittab, resolv.conf, fstab, rc.d
 /etc/crontab                                  # 排程工作
-/etc/fstab                                    # mount設定檔
+/etc/fstab                                    # mount設定檔 (開機時 會依照此設定來作自動掛載; 每次使用 mount時, 預設也會動態更新此檔案)
 /etc/hosts                                    # ip與 dns對照
 /etc/init.d/                                  # CentOS6(含)以前, 所有的服務啟動腳本都在這
 /etc/localtime/                               # 系統時間

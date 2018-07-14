@@ -68,6 +68,10 @@ $ vi .vimrc
 :set nonu		關閉行號
 :set ai			自動內縮
 :set noai		關閉內縮
+:set autoindent     啟用自動縮排
+:set noautoindent   取消自動縮排
+:set syntax on      依照程式語言換顏色
+:set syntax off     不秀顏色
 :set ignorecase		搜尋不分大小寫
 :set noignorecase	搜尋區分大小寫(預設)
 :set tabstop=4		tab鍵=4空白

@@ -47,6 +47,11 @@ other/ubuntu16.04.md | 好久以前寫的...
 (陸續維護中...)
 
 
+
+## 習慣
+程式碼區塊, `$#` 表示, 是使用 `root` 在作指令操作
+
+
 ## 一堆專有名詞
 
 Berkeley Software Distribution(BSD)
