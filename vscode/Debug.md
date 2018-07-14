@@ -51,6 +51,21 @@ proj/
 專案 `Python 虛擬環境` 即為 `"python.pythonPath": "${workspaceFolder}/venv/bin/python"`, 放在 `.vscode/settings.json`
 
 
+# settings.json (專案下的 .vscode/settings.json)
+- 2018/07/11
+
+```js
+{
+    // Windows + anaconda venv 設法 : 直接指向 虛擬環境 Python.exe
+    "python.pythonPath": "${workspaceFolder}/venv/bin/python",   // 讓 launch.json 來指向
+
+    // Linux   + anaconda venv 設法 : 指向 Python直譯器位置 && 設定虛擬環境
+    "python.pythonPath": "/opt/anaconda3/bin/python",           // 讓 launch.json 來指向
+    "python.venvPath": "/opt/anaconda3/envs/drf/",
+}
+```
+
+
 
 # launch.json
 
@@ -61,7 +76,7 @@ proj/
     "type": "python",                   // Debug 使用的程式語言
     "request": "launch",                // launch 或 attach
     "program": "${file}",               // 執行的目標
-    "pythonPath": "${config:python.pythonPath}",    // 虛擬環境直譯器 指向 settings.json
+    "pythonPath": "${config:python.pythonPath}",    // 指向 settings.json 虛擬環境直譯器 
     "args": ["runserver", "--noreload", "--nothreading"],
     "stopOnEntry": true,                // 預設為 false, 若為 true, 執行Debug模式時, 會在程式第一行停下來
     "console": "none",
