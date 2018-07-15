@@ -12,14 +12,33 @@ daemon:x:2:2:daemon:/sbin:/sbin/nologin     # daemon 這系統帳號, 使用的�
 
 ```sh
 # 為指令設定別名 (只作用於目前 session)
-$ alias lla='ls -al'
+$ alias lm='ls -al | less'
+
+# 查看已經設過那些變數
+$ alias
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias vi='vim'
+alias ls='ls --color=auto'
+alias l.='ls -d .* --color=auto'
+alias ll='ls -l --color=auto'
+alias lm='ls -al | less'
+alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
+
+# 取消 已經設定過的別名
+$ unalias lm
 ```
 
 # 不知道怎麼分類的零碎範例...
 ```sh
 # 查詢指令是否為 bash shell 的內建命令
-$ type lla
-lla is aliased to 'ls -al'
+$ type ls
+ls is aliased to `ls --color=auto`
+
+$ type -a ls
+ls is aliased to `ls --color=auto`  # 顯示全部(別名, builtin bash, $PATH)
+ls is /usr/bin/ls
 
 $ type cd
 cd is a shell builtin
@@ -52,6 +71,8 @@ $ echo $MAIL        # 收信的檔案路徑變數
 # 變數
 - export:  自訂變數 -> 環境變數
 - declare: 環境變數 -> 自訂變數
+- 自訂變數 = 區域變數
+- 環境變數 = 全域變數
 
 呼叫變數
 ```sh
@@ -152,20 +173,50 @@ declare -x LANG="zh_TW.UTF-8"
 ...(略)... 約 30 個
 ```
 
+
 隨機亂數
 ```sh
 # 產生 [0, 32767] 之間的亂數
 $ echo ${RANDOM}
 14852
+```
 
-# declare: 讓 環境變數 -> 自訂變數
-# 如果要產生 [0,9]勒? 得自己組合, 然後把變數丟給 「用數學處理後的容器」
+## 查看變數 declare
+
+```sh
+$ declare [-aipr] variable
+# -a : 讓 variable 變成 陣列
+# -i : 讓此變數為 整數  (bash環境的計算, 只能有 int, 無法有 float, decimal 等等的鬼東西)
+# -p : 可以看此變數的類型 (類似看到整個變數宣告過程)
+# -r : 讓此變數變成常數的概念 (也不能 unset)
+
+$ declare [+|-]x variable
+# -x : 設定此變數為 環境變數
+# +x : 將此環境變數取消, 變成區域變數
+
+# 產生 [0,9] 得自己組合, 然後把變數丟給 「用數學處理後的容器」
 $ declare -i rand=${RANDOM}*10/32768; echo ${rand}
 8
 ```
 
 
-# PS1 變數
+陣列變數
+```sh
+$ var[1]=Tony
+$ var[2]=Chou
+$ echo ${var[1]}, ${var[2]}
+Tony, Chou
+```
+
+
+## 限制 bash 資源 - ulimit (配額)
+
+Linux為多人多工, 可能同時有 100 個人登入, 分別開啟 1G 的影片在那邊傳來傳去... 所以可以針對 各個登入者, 作資源管控/資源限制
+
+
+
+
+# PS1 變數 (非環境變數, 僅只是 bash 的操作環境)
 
 ```sh
 [tony@tonynb dev]$ set | grep PS1
@@ -230,11 +281,88 @@ $ echo ${?}
 127             # 上次指令有錯
 ```
 
+# read (就是 inputBox(vb), prompt(js) 啦)
 
+```sh
+$ read [-pt] variable
+# -p : 提示字元
+# -t : 此 inputbox 的等待秒數
+
+$ read -p "Your name: " -t 5 name
+Your name:
+# ↑只會等待 5 秒讓使用者輸入
+
+# 底下為簡單用法
+$ read name
+Tony
+
+$ echo ${name}
+Tony
+```
+
+# history
+
+快速執行歷史指令
+```sh
+$ history
+...
+  785  echo ${PATH}     # <--
+  786  declare
+  787  set
+  788  declare | grep anaconda_HOME
+  789  declare -p anaconda_HOME
+...
+
+# 快速執行歷史指令
+$ !785
+echo ${PATH}
+/opt/anaconda3/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+
+$ !hi       # 執行最近一次執行過「hi」開頭的指令
+...
+  808  echo ${HISTSIZE}
+  809  history
+  810  echo ${PATH}
+  811  history
+```
+
+# login shell 與 non-login shell
+
+Note: 載入 環境變數 設定檔的指令, `source ~/.bashrc` 與 `. ~/.bashrc` 相同; 重點在於「source」與「.」
+
+## 1. login shell (取得登入資訊)
+
+登入後, 取得 bash 的讀取架構
+```
+   # 1 系統設定檔
+|- /etc/profile
+|      |
+|      |- /etc/profile.d/*.sh                      : 裡面各個檔案分別建立的 ll, ls, which, vi, --color 等等
+|      |- /etc/locale.conf                         : 由 /etc/profile.d/lang.sh 呼叫存取, 決定 LANG 採用的語系
+|      |- /usr/share/bash-completion/completions/* : 各種語法補齊檔, 由 /etc/profile.d/bash_completion.sh 呼叫
+|
+|  # 2 使用者偏好設定檔 (依序只讀取一個)
+|-「~/.bash_profile」 或 「~/.bash_login」 或 「~/.profile」
+```
+
+## 2. non-login shell
+
+取得 bash 後, 僅讀取 `~/.bashrc`, 而此檔案再次呼叫 `/etc/bashrc`
+
+而 `/etc/bashrc` 再幫忙定義 `umask`, `PS1`, 並呼叫 `/etc/profile.d/*.sh`
+
+```sh
+# 所以如果看到 bash 的提示字為
+-bash-4.2$ 
+
+# 表示 ~/.bashrc 可能出問題了!! (不影響 bash 使用)
+# 可去複製 /etc/skel/.bashrc 回家目錄, 再來修改~
+```
 
 # 其他
 
-~/`.bash_history` : 前一次登入以前所執行過的指令 ; 此次登入時執行的指令會愈存在 memory, 登出時會寫入此檔案
+- `~/.bash_history` : 前一次登入以前所執行過的指令 ; 此次登入時執行的指令會愈存在 memory, 登出時會寫入此檔案
+- `~./bash_logout` : 可在裡面定義好, 登出後, 系統幫忙做些什麼
 
 ```sh
 # 列出所有 環境變數 + 與bash操作介面有關的變數 + 使用者自定義的變數

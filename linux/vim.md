@@ -82,6 +82,8 @@ $ vi .vimrc
 :set expandtab		往後使用tab,都會自動換成空白
 :retab			將文中所有tab換成空白
 :.retab			將目前這行的tab換成空白
+:set bg=dark
+:set bg=light
 ```
 
 # Ubuntu 改變 vim 設定

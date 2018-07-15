@@ -518,7 +518,7 @@ $?             | 上次指令結束後的狀態碼(0:true, 1:false)
 ## shell內
 hotkey | description
 ------ | -----------
-Ctrl+C | 中斷目前工作
+Ctrl+C | 中斷目前工作 ; 終止目前命令
 Ctrl+D | 送出eof or 輸入結束特殊字元
 Ctrl+Z | 暫停目前工作, 利用 `fg`指令, 可以取得暫停的工作
 
@@ -1397,25 +1397,51 @@ n1 -eq n2      | n1 == n2
 
 
 
----
-## Locale 語系
+
+# Locale - Linux語系編碼
 
 ```sh
 $ locale
-LANG="zh_TW.utf8"           # 語言語系的輸出
-LC_CTYPE="zh_TW.utf8"
-...(很多)...
+LANG=zh_TW.UTF-8    # 原本的語系 zh_TW.UTF-8
+LC_CTYPE="zh_TW.UTF-8"      # 字元的編碼
+LC_NUMERIC="zh_TW.UTF-8"    # 數字格式
+LC_TIME="zh_TW.UTF-8"       # 時間格式
+LC_COLLATE="zh_TW.UTF-8"    # (定序)文字如何比較(為了排序)
+LC_MONETARY="zh_TW.UTF-8"   # 貨幣格式
+LC_MESSAGES="zh_TW.UTF-8"   # 訊息顯示的格式(ex: 錯誤訊息)
+LC_PAPER="zh_TW.UTF-8"
+LC_NAME="zh_TW.UTF-8"
+LC_ADDRESS="zh_TW.UTF-8"
+LC_TELEPHONE="zh_TW.UTF-8"
+LC_MEASUREMENT="zh_TW.UTF-8"
+LC_IDENTIFICATION="zh_TW.UTF-8"
 LC_ALL=
 
-# 改變語系吧@@+
+# 改變語系吧
 $ LANG=en_US.utf8
-$ export LC_ALL=$LANG
-
+$ export LANG=${LANG}
 $ locale
-LANG="en_US.utf8"
-LC_CTYPE="en_US.utf8"
-...(很多)...
-LC_ALL="en_US.utf8"
+LANG=en_US.utf8     # 底下一切都變了 en_US.utf8
+LC_CTYPE="en_US.utf8"   
+LC_NUMERIC="en_US.utf8"
+LC_TIME="en_US.utf8"
+LC_COLLATE="en_US.utf8"
+LC_MONETARY="en_US.utf8"
+LC_MESSAGES="en_US.utf8"
+LC_PAPER="en_US.utf8"
+LC_NAME="en_US.utf8"
+LC_ADDRESS="en_US.utf8"
+LC_TELEPHONE="en_US.utf8"
+LC_MEASUREMENT="en_US.utf8"
+LC_IDENTIFICATION="en_US.utf8"
+LC_ALL=
+
+# locale -a 可以查看 Linux 支援了多少語系
+$ locale -a | wc
+    789     789    8231     # 支援了 789 個語系...
+
+# zh_TW.big5 : 大五碼的中文編碼
+# zh_TW.utf8 : 萬國碼的中文編碼
 ```
 
 
