@@ -21,7 +21,7 @@ $# groups <使用者帳戶>
 
 
 
-# 建立共享資料夾
+# 建立 共享資料夾 共享目錄
 - [SUID/SGID/SBIT 權限](http://linux.vbird.org/linux_basic/0220filemanager.php#suid)
 ```sh
 # 建立要共享的資料夾

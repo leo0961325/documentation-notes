@@ -2,7 +2,7 @@
 
 ```sh
 # 看前3行
-$ $ cat /etc/passwd | head -3
+$ cat /etc/passwd | head -3
 root:x:0:0:root:/root:/bin/bash             # 使用 root 登入後, 是使用 /bin/bash
 bin:x:1:1:bin:/bin:/sbin/nologin
 daemon:x:2:2:daemon:/sbin:/sbin/nologin     # daemon 這系統帳號, 使用的是 /sbin/nologin來作操作

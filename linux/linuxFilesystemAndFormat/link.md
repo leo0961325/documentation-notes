@@ -12,7 +12,7 @@ $ ln [-sf] <來源> <目標>
 $ cd ~
 $ mkdir qq
 $ cd qq
-$ cp -a /etc/passwd .   #(不懂 -a 是啥鬼...)
+$ cp -a /etc/passwd .   #(-a 為 連同 屬性 一起複製)
 
 # 查看目前目錄底下的 inode 與 block 的容量
 $ du -sb ; df -i .

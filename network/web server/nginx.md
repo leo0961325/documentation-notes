@@ -148,5 +148,5 @@ upstream test {
 Nginx支援 `熱啟動`, 所以改完組態檔後, **不用重啟服務**, 重讀組態即可!!
 ```sh
 # 重讀組態
-$ nginx -s reload  
+$ nginx -s reload
 ```

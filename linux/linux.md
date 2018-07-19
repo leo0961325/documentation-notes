@@ -1316,7 +1316,7 @@ $ ls --time={atime, ctime}  # 列出 {access時間 , 改變權限屬性時間 }
 ```
 
 
-### 追蹤 - tail
+### 追蹤 - tail (動態log)
 > 語法: `tail -n <int> <追蹤的 log路徑>`
 ```sh
 # 顯示最後5行, 並持續監看

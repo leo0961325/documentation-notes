@@ -155,6 +155,56 @@ $ git reset HEAD^    # 把分支參考點退回上一個 commit (重寫歷史的
 ```
 
 
+# git reset --hard
+
+```sh
+# !!! 如果本地已經有 git, 且已有最近一次的 Commit, ex:
+# -----------------------------------
+# * 2353tc9 (HEAD -> dev, origin/dev) 改寫部分結構
+# * 745b529 修改架構
+# * b8t58d7 縮減結構
+# -----------------------------------
+
+# 而在 2353tc9 的前提之下, 作了部分修改並存檔(還沒作 git add), 發現把東西弄壞了... 想回到乾淨的 2353tc9
+
+# reset 前 ------------------------
+$ git status
+On branch structuremove
+Your branch is up-to-date with 'origin/structuremove'.
+
+Changes not staged for commit:              # 即將消失---------------------------
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   bis_emc/settings.py     # 即將消失---------------------------
+
+Untracked files:    # 這裡的不會變動, 因為從頭到尾 git 都不認識
+  (use "git add <file>..." to include in what will be committed)
+
+        .vimrc
+        bis.ini
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+# 大膽的回去
+$ git reset --hard
+HEAD is now at 2353tc9 改寫部分結構
+
+# reset 後 ------------------------
+$ git status
+On branch structuremove
+Your branch is up-to-date with 'origin/structuremove'.
+
+Untracked files:    # 這裡的不會變動, 因為從頭到尾 git 都不認識
+  (use "git add <file>..." to include in what will be committed)
+
+        .vimrc
+        bis.ini
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+
 -----------------------------------------
 ## git revert 取消提交 (保有 git commit的實作方式)
 

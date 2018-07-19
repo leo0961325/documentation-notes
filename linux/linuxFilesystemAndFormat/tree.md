@@ -30,6 +30,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /inittab                                  # (舊有的 xwindow服務, os7以後, 已經被 ooo.target 所取代)
     /issue                                    # 查看進站歡迎訊息(自己看得爽而已)
     /opt/                                     # 第三方協作軟體 /opt/ 的相關設定檔
+    /passwd                                   # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
     /systemd/                                 # 軟體的啟動腳本
     /sysconfig/network-scripts/                       # CentOS 的網路設定資料放在這~
 /home/                                        # 家目錄
