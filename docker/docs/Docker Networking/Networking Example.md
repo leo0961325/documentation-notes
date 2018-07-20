@@ -11,7 +11,7 @@
 `圖1`
 ![圖1](./../../../img/bridge3.jpg)
 
-- 兩個 docker network, 分別為 `bridge` 及 `my_bridge`
+- 兩個 docker network, 分別為 `dockere0` 及 `my_bridge`
 - 兩個 docker container, 分別為 `web` 及 `db`
 - `web` container 附加 `docker0` 及 `my_bridge`
 - `db` container 附加 `my_bridge`
@@ -20,10 +20,10 @@
 1. 略懂網路架構(起碼看上圖能有點感覺)
 2. 知道 Docker Container是啥東西
 3. 知道 Docker Image是啥東西
-4. 安裝完 Docker Engine, 本篇範例的版本為:
+4. 安裝完 Docker Engine, 本篇範例的版本為 17.09
 ```sh
 $ docker --version
-Docker version 17.09.0-ce, build afdb6d4   # <--- 這裡很重要!  因為我最近(2018/05)在讀的 18.03版, 似乎跟以前寫的(2018/01)差很多了!!!
+Docker version 17.09.0-ce, build afdb6d4   # 18.03版一樣可以 run
 ```
 
 
