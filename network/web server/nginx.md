@@ -143,6 +143,18 @@ upstream test {
 ```
 
 
+# error.log
+
+```conf
+# http://blog.51cto.com/chenx1242/1769724
+
+2018/07/19 11:38:03 [notice] 1989#1989: signal process started
+# 原本程序已經啟用了, 但又被重新啟用 (非嚴重錯誤)
+```
+
+# access.log
+
+
 # 零碎概念
 
 Nginx支援 `熱啟動`, 所以改完組態檔後, **不用重啟服務**, 重讀組態即可!!
