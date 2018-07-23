@@ -133,38 +133,49 @@ $
 
 
 ```conf
-# /etc/nginx/sites-available
+# /etc/nginx/sites-available/bis.conf
 # 777 root root
+
 upstream django {
-    server    unix:///home/tony/bis_emc/bis.sock;
-    # server    unix:///home/tony/mysite/bis.sock;
+    server    unix:///home/tony/bis_emc/bis.sock;       # 以 Unix Socket 的方式連線
+    # server    unix:///home/tony/mysite/bis.sock;      # 以 TCP Socket 的方式連線
 
     # server    127.0.0.1:8000;
 }
 
 server {
-    listen                  80;
+    listen                  80;                     # 此電腦聆聽 80 port 請求
 
-    server_name             localhost;
+    server_name             localhost;              # 
 
-    charset                 utf-8;
+    charset                 utf-8;                  # 就... UTF8
 
-    client_max_body_size    75M;
+    client_max_body_size    75M;                    # 
 
-    access_log              /home/tony/access.log;
-    error_log               /home/tony/error.log;
+    access_log              /home/tony/access.log;  # 不解釋
+    error_log               /home/tony/error.log;   # 不解釋
 
-    location /static {
-        alias       /home/tony/bis_emc/static;
+    location /static {      # 靜態文件的反代理
+        alias       /home/tony/bis_emc/static;      # 靜態文件位置
     }
+
+    location / {    # 除了上面的 「location /xxx」以外的請求, 都來這
+        uwsgi_pass          django;                 # 交由 django 這個 upstream來處理, 且此 upstream 為 uwsgi
+        include             uwsgi_params;           # /etc/nginx/uwsgi_params  其實我也不懂
+    }
+}
 ```
 
 ```conf
-# /etc/systemd/system
+# /etc/systemd/system/bis.service
 # 644 root root
+
 [Unit]
-Description=uWSGI instance to serve bis
-After=network.target
+
+Description=uWSGI instance to serve bis     # 此服務的說明
+
+After=network.target                        # 此服務接續在 network.target 之後啟動
+
 
 [Service]
 
@@ -172,39 +183,40 @@ User=tony
 
 Group=tony
 
-WorkingDirectory=/home/tony/bis_emc
+WorkingDirectory=/home/tony/bis_emc/bis_emc                     # 服務的位置
 
-Environment=/home/tony/.virtualenvs/bis/bin
+Environment=/home/tony/.virtualenvs/bis/bin                     # 服務的啟動環境
 
-ExecStart=/home/tony/.virtualenvs/bis/bin/uwsgi --ini bis.ini
+ExecStart=/home/tony/.virtualenvs/bis/bin/uwsgi --ini bis.ini   # 服務要啟動的目標
+
 
 [Install]
+
 WantedBy=multi-user.target
 ```
 
 ```ini
 # /home/tony/bis_emc/bis.ini
 # 664 tony tony
+
 [uwsgi]
+master = true           # 忘了
+processes = 1           # 1核
+threads = 2             # 2緒 (較佳的情況為 threads=processes*2)
 
-master = true
+chdir = /home/tony/bis_emc/bis_emc      # 專案位置
 
-processes = 1
-threads = 2
+socket = bis.sock                       # socket位置
 
-chdir = /home/tony/bis_emc
+wsgi-file = bis_emc/wsgi.py             # WSGI callable
 
-socket = bis.sock
+chmod-socket = 664                      # 忘了...
 
-wsgi-file = bis_emc/wsgi.py
+home = /home/tony/.virtualenvs/bis      # Python 虛擬環境位置
 
-chmod-socket = 664
+vacuum = true                           # Service離開後, 自動清理 Unix Socket
 
-home = /home/tony/.virtualenvs/bis
-
-vacuum = true
-
-buffer-size = 30000
+buffer-size = 30000                     # 
 ```
 
 ```s

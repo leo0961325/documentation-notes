@@ -231,12 +231,12 @@ tonynb   10146  0.0  0.0 112672   964 pts/1    S+   14:25   0:00 grep --color=au
 ---
 ## mongoDB in docker
 
-
+```sh
 $ docker run --name mongo -it mongo /bin/bash
 
 $ sudo docker images
-REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
-docker.io/mongo         latest              88b7188af865        23 hours ago        358.3 MB
+REPOSITORY         TAG       IMAGE ID        CREATED         SIZE
+docker.io/mongo    latest    88b7188af865    23 hours ago    358.3 MB
 ...
 
 可以直接取得每次啟動的docker ip
@@ -246,24 +246,23 @@ $ docker inspect <containerName> | grep IPAddress
 $ mongo --port <port> --host <ip>
 
 
+# 啟動後,檢查mongoDB是否正在運行
 
----
-啟動後,檢查mongoDB是否正在運行
 $ ps auxw | grep mongod
 $ systemctl status mongod 
 
-加入下面兩行, 不再顯示警告訊息
+# 加入下面兩行, 不再顯示警告訊息
 $ sudo vi /etc/rc.local
 echo never > /sys/kernel/mm/transparent_hugepage/enabled
 echo never > /sys/kernel/mm/transparent_hugepage/defrag
 
-加入下面1行
+# 加入下面1行
 $ sudo vim /etc/security/limits.d/20-nproc.conf 	
 mongod   soft  nproc   64000
 
 $ systemctl restart mongod
-重啟後, 就不會有亂七八糟的警告訊息了
-
+# 重啟後, 就不會有亂七八糟的警告訊息了
+```
 
 
 ---

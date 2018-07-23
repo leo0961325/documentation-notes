@@ -1,8 +1,8 @@
 # 關於時間
-
+- 2018/07
 - [adding 30 minutes to datetime php/mysql
 ](https://stackoverflow.com/questions/1436827/adding-30-minutes-to-datetime-php-mysql?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
-
+- [Should I use the datetime or timestamp data type in MySQL?](https://stackoverflow.com/questions/409286/should-i-use-the-datetime-or-timestamp-data-type-in-mysql?rq=1)
 
 ```sql
 
@@ -13,7 +13,6 @@ SELECT CURRENT_TIMESTAMP + INTERVAL 10 HOUR;
 SELECT CURRENT_TIMESTAMP + INTERVAL 10 DAY;
 SELECT CURRENT_TIMESTAMP + INTERVAL 10 MONTH;
 SELECT CURRENT_TIMESTAMP + INTERVAL 10 YEAR;
-
 ```
 
 
