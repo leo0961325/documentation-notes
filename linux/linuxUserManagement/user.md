@@ -46,7 +46,7 @@ uid=2000(tony) gid=1000(tony) groups=1000(tony),10(wheel),983(docker),1002(share
 # 使用其他帳戶登入, 去把 /etc/passwd 的 tony 的 UID改回 1000 後, 就正常了~
 ```
 
-上述的第三欄 `UID`:
+上述的第三欄 `UID` (UID範圍):
 - 0 : 系統管理員 (一般使用者把這改為 0, 利碼晉級 Linux 之神)
 - 1~999 : 系統帳號 (通常是安裝軟體後產生的)
     - 1~200 : 由 Linux Distribution 自行產生
@@ -107,7 +107,7 @@ tony wheel docker shared    # tony 有加入的 所有群組 (所有 次要群�
 
 $ touch a 
 
-$ newgrp shared
+$ newgrp shared # 以另外一個 sub-shell 的方式執行 (所以可以 exit 離開)
 $ groups
 shared wheel docker tony    # tony 的 有效群組 改變了
 
@@ -147,8 +147,6 @@ daemon:*:17110:0:99999:7:::
 # 7 密碼過期後的寬限時間(過了就失效了)
 # 8 帳號失效日
 # 9 (目前沒用到)
-
-
 ```
 
 

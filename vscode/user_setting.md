@@ -41,7 +41,7 @@
 ]
 ```
 
-## Django Debugger - Project settings
+## Django Debugger - Project settings - launch.json
 ```js
 {
     // Use IntelliSense to learn about possible attributes.
@@ -64,5 +64,12 @@
             "pythonPath": "${config:python.pythonPath}"
         },
     ]
+}
+```
+
+## Django Debugger - Project settings - settings.json
+```js
+{
+    "python.pythonPath": "${workspaceFolder}\\ve\\Scripts\\python.exe",
 }
 ```
