@@ -1,5 +1,6 @@
 # 統計分配 Distribution
 - 2018/06/30
+- 依賴套件: VSCode - [Markdown+Math v2.2.1](https://marketplace.visualstudio.com/items?itemName=goessner.mdmath)
 - [markdown-math](https://blog.csdn.net/u013698770/article/details/55210693)
 - [VSCode - Math in MarkDown](https://github.com/cben/mathdown/wiki/math-in-markdown)
 - [numpy - exponential](https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.exponential.html)

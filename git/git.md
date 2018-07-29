@@ -18,6 +18,24 @@ $ git --version
 git version 2.14.3
 ```
 
+
+
+# 底下幾個指令自己太常用... 備註到最前面
+
+```sh
+# 本地分支 push 至 origin
+$ git push --set-upstream origin feature
+
+# 把本地分之推送至 origin
+$ git branch --set-upstream-to=origin/feature feature
+
+# 改變追蹤 URL
+$ git remote set-url origin git@github.com:cool21540125/documentation-notes.git
+```
+
+
+
+
 # A. 概念
 > Git為 `分散式版本控管系統(Distributed Version Control System)`. 
 ## 示意圖

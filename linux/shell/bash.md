@@ -216,7 +216,9 @@ Linux為多人多工, 可能同時有 100 個人登入, 分別開啟 1G 的影�
 
 
 
-# PS1 變數 (非環境變數, 僅只是 bash 的操作環境)
+# [PS1 變數 (非環境變數, 僅只是 bash 的操作環境)](http://linux.vbird.org/linux_basic/0320bash.php)
+
+改變 tty 前置字元
 
 ```sh
 [tony@tonynb dev]$ set | grep PS1
@@ -251,8 +253,8 @@ symbolic | Description
 自己玩 PS1
 ```sh
 # 如果想要看起來是這樣 「<<(使用者帳號)@我最強 (時間)>>$ 」
-[tony@tonynb home]$ PS1='<<\u@我最強 \t>>'
-<<tony@我最強 22:29:11>>$               # 之後就會變成這樣了@@
+[tony@tonynb home]$  PS1='[@@ \u最強 \t \W]$ : '
+[@@ tony最強 22:17:38 ~]$ :               # 之後就會變成這樣了@@
 ```
 
 ## 查看目前的程序 「$」變數

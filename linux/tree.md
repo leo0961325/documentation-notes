@@ -27,16 +27,18 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /fstab                                      # mount設定檔 (開機時 會依照此設定來作自動掛載; 每次使用 mount時, 預設也會動態更新此檔案)
     /hosts                                      # ip與 dns對照
     /init.d/                                    # CentOS6(含)以前, 所有的服務啟動腳本都在這
+    /inittab                                    # (舊有的 xwindow服務, os7以後, 已經被 ooo.target 所取代)
+    /issue                                      # 查看進站歡迎訊息(自己看得爽而已)
     /locale.conf                                # 系統預設語系定義檔 (一開始安裝就決定了!)
     /localtime/                                 # 系統時間
     /login.defs                                 # 建立使用者時, 該使用者的 系統愈設初始值
-    /inittab                                    # (舊有的 xwindow服務, os7以後, 已經被 ooo.target 所取代)
-    /issue                                      # 查看進站歡迎訊息(自己看得爽而已)
     /opt/                                       # 第三方協作軟體 /opt/ 的相關設定檔
     /passwd                                     # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
+    /resolv.conf                                # DNS 主機 IP 的設定檔
     /skel/                                      # 預設建立使用者後, 使用者家目錄底下的東西
     /systemd/                                   # 軟體的啟動腳本
-    /sysconfig/network-scripts/                         # CentOS 的網路設定資料放在這~
+    /sysconfig/
+        /network-scripts/                               # CentOS 的網路設定資料放在這~
 /home/                                          # 家目錄
 /lib/                                 # 系統的共用函式庫檔案 (連結至 /usr/lib/)
     /modules/                                   # 可抽換式的核心相關模組(驅動程式); 不同版本的核心模組

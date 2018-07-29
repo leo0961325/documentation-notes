@@ -20,7 +20,15 @@ other         | 不屬於以上的都放這~~
 
 
 
-# 常看到又常忘的名詞備註
+# 常見常忘的 英翻中...
 
 - on the fly : 動態產生 
 - back slash : 反斜線
+- wildcard characters : 萬用字元 (「*」啦)
+- back and forth : 來來回回
+- cascade: 串連
+- VPC: Virtual Private Cloud
+- DHCP: Dynamic Host Configuration Protocol
+- NAT: Network Address Translation
+- IP Masquerade: IP掩蔽
+- Elastic IP(aws)/Floating IP(openstack)
