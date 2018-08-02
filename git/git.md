@@ -6,6 +6,7 @@
 - [為你自己學Git](https://gitbook.tw/chapters/config/user-config.html)
 - [Git中文化電子書](https://git-scm.com/book/zh-tw/v2)
 - [Git視覺化遊戲](http://learngitbranching.js.org/)
+- [Github Cheat Sheet](https://metavige.github.io/2015/04/20/github-chest-sheet/#%E5%BE%9E%E5%B7%A5%E4%BD%9C%E5%8D%80%E5%8E%BB%E9%99%A4%E5%A4%A7%E9%87%8F%E5%B7%B2%E5%88%AA%E9%99%A4%E6%96%87%E4%BB%B6) 感覺值得花時間看看~ 2018/07/19 新增
 
 ```sh
 # 作業環境
@@ -16,6 +17,24 @@ Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x8
 $ git --version
 git version 2.14.3
 ```
+
+
+
+# 底下幾個指令自己太常用... 備註到最前面
+
+```sh
+# 本地分支 push 至 origin
+$ git push --set-upstream origin feature
+
+# 把本地分之推送至 origin
+$ git branch --set-upstream-to=origin/feature feature
+
+# 改變追蹤 URL
+$ git remote set-url origin git@github.com:cool21540125/documentation-notes.git
+```
+
+
+
 
 # A. 概念
 > Git為 `分散式版本控管系統(Distributed Version Control System)`. 
@@ -601,7 +620,7 @@ $ git branch -f master HEAD~3
 
 
 -----------------------------------------
-## 刪除分支
+## 刪除分支 移除分支
 ```sh
 $ git branch -d <要刪除的分支名稱>
 # 若該分支還沒作 merge, 則無法刪除

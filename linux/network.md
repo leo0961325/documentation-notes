@@ -5,6 +5,13 @@
 > 網路卡相關組態放在這邊 : `/etc/sysconfig/network-scripts/`
 
 
+# 常用網路相關指令
+- ifconfig
+- ifup, ifdown : 只能針對 `/etc/sysconfig/network-scripts/` 內的 `ifcfg-ethXX` 進行動作
+- route
+- ip
+
+
 ```sh
 # 可以在 CLI 底下編輯 網卡(手動設定IP等)
 $ nmtui edit <網卡名稱>

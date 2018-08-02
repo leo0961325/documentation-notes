@@ -153,3 +153,10 @@ sql_pd=12345687
 [Section_B]
 # 放其他的...
 ```
+
+# 環境變數
+
+```py
+import os
+os.environ['PATH']
+```

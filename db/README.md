@@ -1,5 +1,5 @@
 2018/05前... 目前接觸過
-- MsSQL
+- MsSQL 2014
 - PostgreSQL
 - MySQL
 - MariaDB

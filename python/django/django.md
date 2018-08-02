@@ -1,5 +1,5 @@
 # Django v1.11
-
+- 2018/07
 
 ```sh
 $ python -m django --version
@@ -8,6 +8,20 @@ $ python -m django --version
 $ django-admin startproject <Project Name>
 
 $ python manage.py startapp <App Name>  # 建立 App
+```
+
+
+``` sh
+# Windows底下首次執行時
+$ pip install mysqlclient
+
+# CentOS7
+$ yum install -y python-devel
+$ pip install mysqlclient
+
+# Ubuntu16.04
+$ apt install -y
+$ pip install mysqlclient
 ```
 
 ```sh
@@ -30,6 +44,9 @@ $
 
 ```sh
 $ python manage.py inspectdb
+
+# 將資料庫schema寫入「blogapp」裡面的 Model.py
+$ python manage.py inspectdb > m.py
 ```
 
 # Superuser

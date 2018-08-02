@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>猜數字</title>
+    <script>
+        window.onload = newgame; 
+        window.onpopstate = popState; 
+        var state, ui; 
+
+        function newgame(playagain) { 
+            ui = {};
+            ui['heading'] = document.getElementById('heading');
+            ui['prompt'] = document.getElementById('prompt');
+            ui['input'] = document.getElementById('input');
+            ui['low'] = document.getElementById('low');
+            ui['mid'] = document.getElementById('mid');
+            ui['high'] = document.getElementById('high');
+            
+            state = {
+                n: Math.floor(99 * Math.random()) + 1,  // 隨機數字[0, 100) 
+                low: 0,                                 // 最小
+                high: 100,                              // 最大
+                guessnum: 0,                            // 猜了幾次
+                guess: undefined                        // 猜的數值
+            };
+
+            ui.input.onchange = handleGuess;
+
+            display(state); //更新遊戲狀態
+            
+            if (playagain) {
+                save(state);
+            }
+        }
+
+        
+        function save(state) {
+            if (!history.pushState) {
+                return;
+            }
+            var url = "#guess" + state.guessnum;
+            history.pushState(state, "", url); 
+        }
+
+        
+        function popState(event) { // 按「上一頁」、「下一頁」時會觸發
+            console.log('popState()');
+            if (event.state) { 
+                state = event.state; 
+                display(state); 
+            } else { // ex: 遊戲才剛開始, 馬上按「上一頁」→ 沒東西啊~~
+                history.replaceState(state, "init", "#guess" + state.guessnum);
+                /*
+                    para1: 回復目前狀態所需的所有狀態資訊
+                    para2: (optional)
+                    para3: (optional)
+                */
+            }
+        };
+        
+        
+        function handleGuess() {
+            var g = parseInt(this.value);
+            if ((g > state.low) && (g < state.high)) {
+                if (g < state.n) {
+                    state.low = g;
+                } else if (g > state.n) {
+                    state.high = g;
+                }
+
+                state.guess = g;
+                state.guessnum++;
+                
+                save(state);
+                display(state);
+            } else { 
+                alert("要比 " + state.low + " 大, 且比 " + state.high + "小.");
+            }
+        }
+
+        
+        function display(state) { // 顯示幕前遊戲狀態
+            ui.heading.innerHTML = document.title = "猜數字: [" + state.low + ", " + state.high + ")";
+            
+            ui.low.style.width = state.low + "%";
+            ui.mid.style.width = (state.high - state.low) + "%";
+            ui.high.style.width = (100 - state.high) + "%";
+            
+            ui.input.style.visibility = "visible";
+            ui.input.value = "";
+            ui.input.focus();
+            
+            if (state.guess === undefined) {
+                ui.prompt.innerHTML = "猜完按Enter: ";
+            } else if (state.guess < state.n) {
+                ui.prompt.innerHTML = state.guess + " 太小了 ";
+            } else if (state.guess > state.n) {
+                ui.prompt.innerHTML = state.guess + " 太大了 ";
+            } else {
+                ui.input.style.visibility = "hidden"; 
+                ui.heading.innerHTML = document.title = state.guess + " Bingo!! ";
+                ui.prompt.innerHTML =
+                    "猜對了! <button onclick='newgame(true)'>Play Again</button>";
+            }
+        }
+    </script>
+    <style>
+        #prompt {
+            font-size: 16pt;
+        }
+
+        table {
+            width: 90%;
+            margin: 10px;
+            margin-left: 5%;
+        }
+
+        #low, #high {
+            background-color: lightgray;
+            height: 1em;
+        }
+
+        #mid {
+            background-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="heading">I'm thinking of a number...</h1>
+
+    <table>
+        <tr>
+            <td id="low"></td>
+            <td id="mid"></td>
+            <td id="high"></td>
+        </tr>
+    </table>
+
+    <label id="prompt"></label>
+    <input id="input" type="text">
+</body>
+</html>

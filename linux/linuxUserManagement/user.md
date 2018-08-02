@@ -6,17 +6,22 @@
 - `GID` 放在 `/etc/group`
 - Linux 不會認識帳號, 而是透過 `/etc/passwd` 找到 `帳號` 對映的 `UID`
 
+相關結構
+```sh
+/etc/passwd         # 使用者帳號 與 UID, GID 之對映
+/etc/shadow         # 使用者帳號 的 密碼 && 該密碼的相關屬性
+/etc/group          # 使用者群組 分別有哪些 使用者帳號 加入
+/etc/gshadow        # 使用者群組 的 群組管理員及其密碼 (幾乎被 sudo 取代了)
+```
+
 
 # User ID && 使用者帳號 && `/etc/passwd`
 
 ```sh
 $ id tony
-uid=1000(tony) gid=1000(tony) groups=1000(tony),10(wheel),983(docker),1002(shared)
 
-$ ll -d /home/tony
-drwx--x---+ 33 tony tony 4096  7月 16 22:47 /home/tony      # 比較這邊
 
-$ $ cat /etc/passwd | grep tony
+$ cat /etc/passwd | grep tony
 tony:x:1000:1000:tony:/home/tony:/bin/bash
 # 上面有 7 個欄位 (由 6 個「:」分隔), 分別為 
 # 1 tony         -> 使用者帳號名稱
@@ -35,11 +40,20 @@ tony:x:1000:1000:SmartTony:/home/tony:/bin/bash
 
 # 假如沒事亂改上面的第三欄的 1000 為 2000
 $ ll -d /home/tony
-drwx--x---+ 33 1000     # 比較這邊
+drwx--x---+ 33 tony tony 4096  7月 16 22:47 /home/tony      # 亂改前
+drwx--x---+ 33 1000 tony 4096  7月 19 22:17 /home/tony      # 把 /etc/passwd 的 tony 第三欄改為 2000 之後
 #                ↑ 應該是 superblock 還什麼鬼的依然指向 第三欄的 UID 1000 吧!!  會導致之後的 tony 近不了 /home/tony
+
+$ id tony
+uid=1000(tony) gid=1000(tony) groups=1000(tony),10(wheel),983(docker),1002(shared)  # 亂改前
+uid=2000(tony) gid=1000(tony) groups=1000(tony),10(wheel),983(docker),1002(shared)  # 把 /etc/passwd 的 tony 第三欄改為 2000 之後
+
+# 後記
+# 某天改成 2000後, 忘了改回來, 發現網路連不上了, 也沒辦法關機@@!  重開機之後, 發現 tony 無法登入...
+# 使用其他帳戶登入, 去把 /etc/passwd 的 tony 的 UID改回 1000 後, 就正常了~
 ```
 
-上述的第三欄 `UID`:
+上述的第三欄 `UID` (UID範圍):
 - 0 : 系統管理員 (一般使用者把這改為 0, 利碼晉級 Linux 之神)
 - 1~999 : 系統帳號 (通常是安裝軟體後產生的)
     - 1~200 : 由 Linux Distribution 自行產生
@@ -63,10 +77,54 @@ shared:x:1002:tony2,tony        # 之前作的 共享目錄
 # 3 GID
 # 4 此群組底下的弟兄們, 使用「,」分隔
 
-$ 
 
+# /etc/group 裏頭儲存的密碼, 格式兩者幾乎相同
+$# cat /etc/gshadow | grep tony
+wheel:::tony
+tony:!!::tony
+docker:!::tony
+# 有 4 個欄位, 3 個「:」分隔
+# 1 群組名稱
+# 2 群組密碼 , 開頭為「!」表示無合法密碼, 無群組管理員
+# 3 群組管理員 的帳號 (因為有 sudo 這東西, 導致 群組管理員 現在很少在用了)
+# 4 (同 /etc/group )
 ```
 
+## 有效群組(effective group) vs 初始群組(initial group)
+
+有效群組, ex: Tony 加入 登山社, 口琴社, 烘焙社等 (此皆為 次要群組, 可切換 有效群組 為 其中一種 次要群組)
+
+另外, Tony 也是 Tony群組 的人 (即為 初始群組, 預設的 有效群組 = 初始群組)
+
+```sh
+$# grep tony /etc/passwd /etc/group /etc/gshadow
+/etc/passwd:    tony:x:1000:1000:tony:/home/tony:/bin/bash
+/etc/group:     wheel:x:10:tony
+/etc/group:     tony:x:1000:tony    # 某些 Linux Dist , 若為 初始群組, 最後一欄會沒東西
+/etc/gshadow:   wheel:::tony
+/etc/gshadow:   tony:!!::tony       # 某些 Linux Dist , 若為 初始群組, 最後一欄會沒東西
+```
+
+- `groups` : 列出該使用者已加入的所有群組
+- `newgrp` : 切換該使用者的 `有效群組`
+```sh
+# 現在的使用者是 tony
+$ groups
+tony wheel docker shared    # tony 有加入的 所有群組 (所有 次要群組 們)
+# 第一個為 有效群組
+
+$ touch a 
+
+$ newgrp shared # 以另外一個 sub-shell 的方式執行 (所以可以 exit 離開)
+$ groups
+shared wheel docker tony    # tony 的 有效群組 改變了
+
+$ touch b
+
+$ ll a b
+-rw-rw-r--. 1 tony tony   0  7月 19 22:17 a
+-rw-r--r--. 1 tony shared 0  7月 19 22:18 b     # 有效群組改變了
+```
 
 
 # 登入過程

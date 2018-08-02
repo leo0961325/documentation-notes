@@ -1,6 +1,6 @@
 # IFrame
 
-> 遠古時代的遺跡
+- 遠古時代的遺跡
 
 ```html
 <iframe id="myframe"></frame>
@@ -29,6 +29,5 @@ f1 === ff1.frameElement
     === frames['f1']
     === frames.f1
 
-//
 iframe.contentWindow === window.frame.Element
 ```

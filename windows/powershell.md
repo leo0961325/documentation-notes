@@ -124,3 +124,37 @@ IPv4 路由表
           0.0.0.0          0.0.0.0       10.0.1.254    預設值
 ===========================================================================
 ```
+
+
+# 設定環境變數
+
+```powershell
+# 建立環境變數
+> $Env:uu = "Tony"
+
+
+# 取得環境變數 (後面開啟的 powershell 也吃得到此變數, 但是 cmd 一樣看不到)
+> $Env:uu
+Tony
+
+
+# 取得 環境變數 詳細清單 (最後一定要加上「:」, 不指定特定變數的話, 表示查全部)
+> Get-ChildItem Env:        # 只查 uu -> Get-ChildItem Env:uu
+
+Name                           Value
+----                           -----
+bash_home                      C:\Program Files\Git
+...(略)...
+USERNAME                       tony.jhou
+uu                             Tony
+
+
+# 更改 環境變數
+> $Env:uu = "TonyCJ"
+
+# 刪除 環境變數
+> Remove-Item Env:tt
+
+# 設定到 系統環境變數 (以系統管理員方式執行 ps)
+> setx key "<value>" /M
+```

@@ -1,4 +1,4 @@
-# Document coordinate && Viewport coordinate(Window coordinate)
+# Document coordinate && Viewport coordinate(Window coordinate) (很雜亂, 未完成)
 - 2018/01/03
 - JavaScript 6E, Ch 15.8筆記
 

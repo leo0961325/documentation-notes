@@ -1,4 +1,4 @@
-# Nginx
+# Web Server - Nginx
 - [官方 Beginner’s Guide](http://nginx.org/en/docs/beginners_guide.html)
 - [nginx 基礎設定教學](https://blog.hellojcc.tw/2015/12/07/nginx-beginner-tutorial/)
 - [Nginx應用場景(簡單明瞭的範例)](http://www.raye.wang/2017/02/24/quan-mian-liao-jie-nginxdao-di-neng-zuo-shi-yao/)
@@ -141,6 +141,18 @@ upstream test {
     server 192.168.10.11:8081 weight=1; # 訪問比重
 }
 ```
+
+
+# error.log
+
+```conf
+# http://blog.51cto.com/chenx1242/1769724
+
+2018/07/19 11:38:03 [notice] 1989#1989: signal process started
+# 原本程序已經啟用了, 但又被重新啟用 (非嚴重錯誤)
+```
+
+# access.log
 
 
 # 零碎概念
