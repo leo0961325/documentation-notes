@@ -12,15 +12,15 @@ $ python manage.py startapp <App Name>  # 建立 App
 
 
 ``` sh
-# Windows底下首次執行時
+# Windows底下首次執行時 (若安裝 Anaconda 才不會有相依套件的問題)
 $ pip install mysqlclient
 
 # CentOS7
-$ yum install -y python-devel
+$ sudo yum install -y python-devel
 $ pip install mysqlclient
 
 # Ubuntu16.04
-$ apt install -y
+$ sudo apt -y install libmysqlclient-dev
 $ pip install mysqlclient
 ```
 

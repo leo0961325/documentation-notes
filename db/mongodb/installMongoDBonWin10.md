@@ -71,7 +71,7 @@ win+R, 輸入 「services.msc」
 
 找看看有沒有 `MongoDB`, 如下圖
 
-![](./img/mongodb01.jpg)
+![xx](../../img/mongodb01.jpg)
 
 右鍵 > 啟動
 
@@ -82,4 +82,4 @@ win+R, 輸入 「services.msc」
 mongo
 ```
 即可進入mongoDB
-![](./img/mongodb02.jpg)
+![xx](../../img/mongodb02.jpg)

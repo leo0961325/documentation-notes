@@ -112,102 +112,7 @@ Static hostname: tonynb
 # 設定新的主機名稱
 $ hostnamectl set-hostname <new host name>
 ```
-
-
 ---
-## systemd 系統服務管理
-### - Linux 新舊時代的 `systemV 系統服務管理`
-systemd                             | SysV init
------------------------------------ | ------------------------
-新一代的系統服務管理                | 舊有的服務管理
-由「Unit 服務」「Target 標的」構成  | ????
-
-### - 常見服務及說明
-Service Name             | Description
------------------------- | -----------------------------
-atd.service              | 一次行排程
-crond.service            | 週期性排程
-NetworkManager.service   | 動態網路連線設定管理器
-network.target           | 固定式網路管理服務
-sysinit.target           | 系統服務
-quotacheck.service       | 硬碟配額檢查服務
-syslog.service           | 系統日誌管理服務
-sendmail.service         | 電子郵件伺服器服務
-smartd.service           | 硬碟健康狀態回報服務
-sshd.service             | 加密的遠端登入服務
-httpd.service            | 網頁伺服器服務
-cups.socket              | 列印伺服器服務
-
-### 服務的分類
-
-
-systemd定義所有的服務為 `一個服務單位(unit)`, 並將該 `unit` 歸類到不同的 `類型(type)`
-init(old)    | systemd(new)   | Description
------------- | -------------- | --------------
-stand alone  | -              | 
-super daemon | -              | 
--            | service        | 背景執行並等待<br> 快速, 耗資源
--            | socket         | 通訊埠有客戶端連線才啟動<br> 速度慢, 適合少量服務, 有 socket連線時才啟動
--            | target         | 
--            | path           | 
--            | snapshot       | 
--            | timer          | 
-
-- 每個`服務`都是一個 Unit
-- Target 代表一個`階段標的`, 訂定在某個階段需要啟動什麼 Unit
-- 服務的啟動是依照系統啟動的「runlevel 執行階段」訂定的
-- `systemd 的 Target` 取代 `init 的 runlevel`
-
-### systemd 服務 ( Unit , Target )
-#### Unit 服務 - 標準文字檔紀錄服務資訊
-```sh
-# 查看系統「一次行排程服務 atd」
-$ cat /etc/systemd/system/multi-user.target.wants/atd.service
-[Unit]
-Description=Job spooling tools                          #
-After=syslog.target systemd-user-sessions.service       # 在哪個服務之後啟動
-
-[Service]
-EnvironmentFile=/etc/sysconfig/atd                      # 執行環境檔
-ExecStart=/usr/sbin/atd -f $OPTS                        # 執行時的指令
-IgnoreSIGPIPE=no                                        # 
-  
-[Install]
-WantedBy=multi-user.target                              # 在多人模式時啟動
-### 每個 Unit描述檔, 都一定會有上面3個段落
-```
-
-#### Target (階段)標的 - 在某個階段時, 需啟動什麼服務
-系統重要的 target
-Series | target name       | Description
-:-----:|:-----------------:| ---------------------------
-1      | sysinit.target    | 確保系統檔案完整啟動
-2      | basic.target      | 系統啟動後自動進入的模式, *multi-user.target*的依賴模式
-3      | multi-user.target | 多人文字模式, 同 init 的 runlevel3
-4      | graphical.target  | 圖形界面, 同 init 的 runlevel5
-5      | default.target    | 系統預設的模式(連結符號), 大都連結到 *multi-user* 或 *graphical*
-
-
-```sh
-# 查看系統的 default.target -> graphical.target
-$ cat /etc/systemd/system/default.target
-[Unit]
-Description=Graphical Interface                                               # 說明
-Documentation=man:systemd.special(7)                                          # 標的文件
-Requires=multi-user.target                                                    # 執行前依賴對象, 若此對象被停止, 則本項目也會停止
-Wants=display-manager.service                                                 # 若本項目被啟動, 則 Wants的對象也會啟動
-Conflicts=rescue.service rescue.target                                        # 本階段標的與 rescue.target不相容
-After=multi-user.target rescue.service rescue.target display-manager.service  # 圖形界面階段之前, 應先進入多人模式階段
-AllowIsolate=yes                                                              # 此項目可否在 systemctl isolate之後使用(類似舊有的 init runlevel)
-```
-
-```sh
-# 馬上切換到 runlevel3 (多人命令模式)
-$ sudo systemctl isolate multi-user.target
-
-# 馬上切換到 runlevel5 (圖形界面)
-$ sudo systemctl isolate graphical.target
-```
 
 
 
@@ -426,28 +331,9 @@ ONBOOT=no           # 開機是否啟用此網路卡
 
 
 ---
-## 查詢主機上的網路連線資訊 && port的使用 - netstat
-> 語法: `netstat <options>`
-```sh
-$ netstat -ntp
-(Not all processes could be identified, non-owned process info
- will not be shown, you would have to be root to see it all.)
-Active Internet connections (w/o servers)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
-tcp        0      0 192.168.124.73:55186    64.233.189.188:443      ESTABLISHED 8605/chrome
-```
-options | descrption
-------- | ------------------
--n      | 不使用名稱, 改用 port, ex: 將 ssh 改為 22
--t      | 列出 TCP封包的連線資訊
--u      | 列出 UDP封包的連線資訊
--l      | 列出 正在傾聽的連線資訊, 大部分都是 server
--p      | 列出 每個連線由哪個 process處理, 顯示 PID與 程式名稱
 
-> Note: 可以使用 `netstat -ntp` 與 `netstat -tp` 比較後, 就可以知道 `service對應的 port`
-
----
 ## 解除yum lock
+
 1. 底下這邊不是程式碼, 是說明情境
 ```
 $ sudo yum install -y mongodb-org
@@ -689,27 +575,7 @@ $ sudo updatedb &
 $ locate ifconf # 要查詢的東西, 檔名可以不完整
 ```
 
-
-
 ---
-
-
-
-
-
-
----
-## - CentOS7服務相關指令
-```sh
-# 啟動與關閉<service>
-$ systemctl start <service>
-$ systemctl stop <service>
-$ systemctl restart <service>
-
-# 重新開機後生效<service>
-$ systemctl enable <service>
-$ systemctl disable <service>
-```
 
 
 

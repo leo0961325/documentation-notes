@@ -89,21 +89,22 @@ moment("12-25-1995", "MM-DD-YYYY");
 ```
 
 Format 格式如下:
-Input  | Example       | Description
------- | ------------- | -------------------
-YYYY    | 2014    | 4 or 2 digit year
-YY    | 14    | 2 digit year
-Q    | 1..4    | Quarter of year. Sets month to first month in quarter.
-M MM    | 1..12    | Month number
-MMM MMMM    | Jan..December    | Month name in locale set by moment.locale()
-D DD    | 1..31    | Day of month
-Do    | 1st..31st    | Day of month with ordinal
-X    | 1410715640.579    | Unix timestamp
-x    | 1410715640579    | Unix ms timestamp
-H HH | 0..23 | Hours (24 hour time)
-h hh | 1..12 | Hours (12 hour time used with a A.)
-m mm | 0..59 | Minutes
-s ss | 0..59 | Seconds
-Z ZZ | +12:00 | Offset from UTC as +-HH:mm, +-HHmm, or Z
+
+Input    | Example        | Description
+-------- | -------------- | -------------------
+YYYY     | 2014           | 4 or 2 digit year
+YY       | 14             | 2 digit year
+Q        | 1..4           | Quarter of year. Sets month to first month in quarter.
+M MM     | 1..12          | Month number
+MMM MMMM | Jan..December  | Month name in locale set by moment.locale()
+D DD     | 1..31          | Day of month
+Do       | 1st..31st      | Day of month with ordinal
+X        | 1410715640.579 | Unix timestamp
+x        | 1410715640579  | Unix ms timestamp
+H HH     | 0..23          | Hours (24 hour time)
+h hh     | 1..12          | Hours (12 hour time used with a A.)
+m mm     | 0..59          | Minutes
+s ss     | 0..59          | Seconds
+Z ZZ     | +12:00         | Offset from UTC as +-HH:mm, +-HHmm, or Z
 (↑僅節錄部分)
 

@@ -1,11 +1,13 @@
 # CentOS7 網路相關問題及指令備註
-- 2018/06/08
 
+- 2018/06/08
 
 > 網路卡相關組態放在這邊 : `/etc/sysconfig/network-scripts/`
 
 
+
 # 常用網路相關指令
+
 - ifconfig
 - ifup, ifdown : 只能針對 `/etc/sysconfig/network-scripts/` 內的 `ifcfg-ethXX` 進行動作
 - route

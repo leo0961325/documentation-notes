@@ -48,7 +48,7 @@ Server
 
 Single vs Multi
 
-![uWSGI Compare](../img/uwsgi_compare.png)
+![uWSGI Compare](../../img/uwsgi_compare.png)
 
 
 
@@ -95,32 +95,25 @@ tony      5165  0.0  0.3 124868 11896 pts/10   Sl+  21:09   0:00 uwsgi --socket 
 
 
 ```sh
-$ uwsgi --socket 127.0.0.1:3031 --chdir /home/tony/tmp/ --wsgi-file foobar.py --master --processes 4 --threads 2 --stats 127.0.0.1:9191
-# 可用 --chdir 改路徑 
-#--wsgi-file 一樣指向 application function
-```
+# 使用 TCP port Socket 參數 run AppServer (找不到靜態文件)
+$ uwsgi --http :8000 --chdir /home/pome/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py --master --processes 4 --threads 2 --module
+
+$ uwsgi --socket 127.0.0.1:8000 --chdir /home/pome/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py --master --processes 2 --threads 4
 
 
-```sh
-# 直接起 server
-# $ uwsgi --http :8000 --chdir /home/tony/bis_emc/bis_emc/ --wsgi-file bis_emc/wsgi.py --master --processes 4 --threads 2 --module q.ini
-
-
-# 使用 TCP Port Socket
-$ uwsgi --socket :8001 --wsgi-file test.py
-$ uwsgi --socket :8001 --chdir /home/tony/bis_emc --wsgi-file bis_emc/wsgi.py
+$ uwsgi --http :8000 --chdir /home/pome/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py
 
 # 使用 Unix Socket
 ### mysite
 $ uwsgi --socket bis.sock --wsgi-file  test.py
-$ uwsgi --socket bis.sock --chdir /home/tony/mysite --wsgi-file mysite/wsgi.py
+$ uwsgi --socket bis.sock --chdir /home/pome/mysite --wsgi-file mysite/wsgi.py
 
 ### bis_emc
-$ uwsgi --socket bis.sock --chdir /home/tony/bis_emc --wsgi-file bis_emc/wsgi.py
-$ uwsgi --socket bis.sock --chdir /home/tony/bis_emc --module bis_emc.wsgi
+$ uwsgi --socket bis.sock --chdir /home/pome/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py
+$ uwsgi --socket bis.sock --chdir /home/pome/bis_emc --module bis_emc.wsgi
 
-### bis_emc 吃 ini
-$ 
+### 使用 Unix Socket
+$ uwsgi --socket bis.sock --chdir /home/pome/doc/bis_emc --wsgi-file bis_emc/wsgi.py
 ```
 
 
@@ -132,109 +125,119 @@ $
 
 
 
-```conf
-# /etc/nginx/sites-available/bis.conf
-# 777 root root
+# nginx - nginx/sites-available/nginx.conf
 
-upstream django {
-    server    unix:///home/tony/bis_emc/bis.sock;       # 以 Unix Socket 的方式連線
-    # server    unix:///home/tony/mysite/bis.sock;      # 以 TCP Socket 的方式連線
-
-    # server    127.0.0.1:8000;
+```ini
+upstream bisproj {
+    server unix:///run/bis.sock;
 }
 
 server {
-    listen                  80;                     # 此電腦聆聽 80 port 請求
-
-    server_name             localhost;              # 
-
-    charset                 utf-8;                  # 就... UTF8
-
-    client_max_body_size    75M;                    # 
-
-    access_log              /home/tony/access.log;  # 不解釋
-    error_log               /home/tony/error.log;   # 不解釋
-
-    location /static {      # 靜態文件的反代理
-        alias       /home/tony/bis_emc/static;      # 靜態文件位置
+    listen          80;
+    server_name     bis;
+    charset         utf-8;
+    client_max_body_size 75M;   # adjust to taste
+    location /static {
+        alias       /home/pome/bis_emc/bis_emc/static;
     }
 
-    location / {    # 除了上面的 「location /xxx」以外的請求, 都來這
-        uwsgi_pass          django;                 # 交由 django 這個 upstream來處理, 且此 upstream 為 uwsgi
-        include             uwsgi_params;           # /etc/nginx/uwsgi_params  其實我也不懂
+    location / {
+        uwsgi_pass  bisproj;
+        include     uwsgi_params;
     }
 }
 ```
 
-```conf
-# /etc/systemd/system/bis.service
-# 644 root root
 
+# nginx - nginx/nginx.conf
+
+```ini
+user root;      # 原為 www-data
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 768;
+    # multi_accept on;
+}
+
+http {
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+    ssl_prefer_server_ciphers on;
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    gzip on;
+    gzip_disable "msie6";
+
+    include /etc/nginx/sites-enabled/*;
+}
+```
+
+
+# proj.service
+
+```ini
 [Unit]
-
-Description=uWSGI instance to serve bis     # 此服務的說明
-
-After=network.target                        # 此服務接續在 network.target 之後啟動
-
+Description=Web Service for bis
+After=network.target
 
 [Service]
-
-User=tony
-
-Group=tony
-
-WorkingDirectory=/home/tony/bis_emc/bis_emc                     # 服務的位置
-
-Environment=/home/tony/.virtualenvs/bis/bin                     # 服務的啟動環境
-
-ExecStart=/home/tony/.virtualenvs/bis/bin/uwsgi --ini bis.ini   # 服務要啟動的目標
-
+User=root
+Group=pome
+WorkingDirectory=/home/pome/bis_emc/bis_emc
+ExecStart=/home/pome/.virtualenvs/bis/bin/uwsgi --ini /home/pome/uwsgi.ini
+#Environment=/home/pome/.virtualenvs/bis/bin
 
 [Install]
-
 WantedBy=multi-user.target
 ```
 
+
+
+# uwsgi.ini
+
 ```ini
-# /home/tony/bis_emc/bis.ini
-# 664 tony tony
-
 [uwsgi]
-master = true           # 忘了
-processes = 1           # 1核
-threads = 2             # 2緒 (較佳的情況為 threads=processes*2)
+uid = root
+gid = pome
+master = true
+processes = 1
+threads = 2
 
-chdir = /home/tony/bis_emc/bis_emc      # 專案位置
+socket = /run/bis.sock
+chmod-socket = 664
 
-socket = bis.sock                       # socket位置
+chdir = /home/pome/bis_emc/bis_emc
+module = bis_emc.wsgi:application
 
-wsgi-file = bis_emc/wsgi.py             # WSGI callable
+home = /home/pome/.virtualenvs/bis
 
-chmod-socket = 664                      # 忘了...
+vacuum = true
+disable-write-exception = true
+buffer-size = 30000
 
-home = /home/tony/.virtualenvs/bis      # Python 虛擬環境位置
+logto =/var/log/bis/bis.log     # root pome s664
 
-vacuum = true                           # Service離開後, 自動清理 Unix Socket
-
-buffer-size = 30000                     # 
+# wsgi-disable-file-wrapper = true
+# socket-timeout = 65
 ```
 
-```s
-# /home/tony/bis_emc/
-    # 664 tony tony bis.ini
-    # 664 tony tony manage.py
-    # bis_emc/
-        # 664 tony tony settings.py
-        # ...
-    # ...
-```
+
 
 ```py
-# settings.py
-# ...
-
+# https://docs.djangoproject.com/en/1.11/ref/settings/
+# https://stackoverflow.com/questions/16676314/should-server-ip-address-be-in-allowed-hosts-django-setting
+# https://stackoverflow.com/questions/15238506/djangos-suspiciousoperation-invalid-http-host-header
 # 不知道為什麼需要這樣作
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.124.108']
-
-# ...
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.124.108']   # 得把自己在區網的 ip addr 加進來
 ```

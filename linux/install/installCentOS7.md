@@ -56,20 +56,16 @@ sudo yum -y install google-chrome-stable
 > [Official Docker](https://docs.docker.com/engine/installation/linux/docker-ce/centos/#install-using-the-repository)
 
 1. Dependancy package && Install
-```
-$ sudo yum install -y yum-utils \
-  device-mapper-persistent-data \
-  lvm2
+```sh
+$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 
-$ sudo yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
+$ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 $ sudo yum install -y docker-ce
 ```
 
 2. Authority
-```
+```sh
 $ cat /etc/group | grep docker
 docker:x:983:
 
@@ -80,17 +76,18 @@ docker:x:983:tonynb
 ```
 
 3. Service
-```
+```sh
 $ sudo systemctl start docker           <-立刻啟用
 $ sudo systemctl enable docker          <-重新後啟用
 $ systemctl status docker
 ```
 
 4. Done
-```
+```sh
 $ docker --version
 Docker version 18.03.1-ce, build 9ee9f40
 
+# 無法執行的話, 重新登入就可以了
 $ docker run hello-world
 Hello, World.
 ```
@@ -420,7 +417,6 @@ make: *** [credential-store.o] Error 1
 $ sudo yum install zlib-devel 
 # 之後即可正常 make
 ```
-
 
 
 

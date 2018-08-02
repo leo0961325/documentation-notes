@@ -1,4 +1,5 @@
 # 磁碟分割
+
 - 2018/04/21
 - 硬梆梆...
 
@@ -20,6 +21,7 @@
 
 
 # MBR (max 2.2TB)
+
 - MBR底下, `Primary Partition` 與 `Extended Partition` 最多只能有 4個(硬碟限制)(each 16 Bytes)
 - `Extended Partition` 最多只能有 1個(作業系統限制), 用來為 `邏輯分割區(Logical Partition)` 作定址
 - `Logical Partition` 是由 `Extended Partition` 持續切割出來的分割槽.
@@ -37,6 +39,7 @@
 
 
 # GPT
+
 將磁碟所有區塊以 LBA 區塊來記錄分割資訊. 第一個 LBA 稱為 `LBA0`. GPT使用了 34 個 LBA 區塊來記錄分割資訊(相較於 MBR, 只使用一個), GPT除了前面 34 個 LBA 之外, 整個磁碟的最後 33 個 LBA 也拿來做為另一個備份. 
 
 部分磁碟為了與 `MBR` 兼容, 會將 `LBA` 預設為 `512bytes`.
@@ -71,7 +74,9 @@ Linux fs 通常把 `檔案權限(rwx)` 與 `檔案屬性(owner, group, time, ...
 - `inode` : 紀錄檔案屬性. 一個檔案占用一個 inode, 並記錄 `data block 號碼`
 - `superblock` : fs 整體資訊. 包括 inode/block 的總量, 使用量, 剩餘量.
 
+
 ## Linux 支援的檔案系統
+
 - 傳統 fs : ext2 / minix / MS-DOS / FAT 等
 - 日誌式 fs : ext3 / ext4 / ReiserFS / Windows' NTFS / SGI's XFS / ZFS 等
 - 網路 fs : NFS / SMBFS
@@ -121,7 +126,8 @@ realtime =none                   extsz=4096   blocks=0, rtextents=0
 
 # 查硬碟容量 df 與 du
 
-## 1. df
+## df
+
 > 列出 檔案系統 的 整體磁碟使用量 : `df` ,針對整個檔案系統, 讀取範圍主要是在 Superblock 內的資訊(速度快). `※「/」容量剩下很小的話, 就代表快出事了!`
 
 ```sh
@@ -156,7 +162,8 @@ $ df -hT /home/tony
 # /home/tony/ 掛在 「/dev/mapper/cl-home」 底下
 ```
 
-## 2. du
+
+## du
 
 > 評估 檔案系統 的 磁碟使用量(目錄所佔容量) : `du`, 會實際到 檔案系統 內搜尋所有的 檔案資料(費時).
 
