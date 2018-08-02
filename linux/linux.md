@@ -332,6 +332,18 @@ $ ll /etc/man_db.conf; ll --time=atime /etc/man_db.conf ; ll --time=ctime /etc/m
 
 
 
+# cp, mkdir
+
+```sh
+# 遞迴複製
+$ cp -r dir1 dir2
+# 把 dir1 內所有東西, 都複製到 dir2
+
+# 遞迴建立
+$ mkdir -r d1/d2/d3/d4/f1
+# 建立目錄結構
+```
+
 # touch 這東西
 - 新增 檔案
 - 修改 檔案時間 (mtime, atime), ctime 無法被修改
@@ -963,8 +975,15 @@ tonynb
 $ logname
 tonynb
 
+# 查看使用者
 $ id
 uid=1000(tonynb) gid=1000(tonynb) groups=1000(tonynb),10(wheel),983(docker) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+# 看其他使用者 (只能看到基本資訊)
+ id root
+uid=0(root) gid=0(root) groups=0(root)
+
+$ 
 
 $ id -u
 1000
@@ -1291,10 +1310,10 @@ $ echo $n
 ```sh
 $ ls -i     # 列出 inode
 $ ls -s     # 列出檔案大小
-$ ls -R     # Recursive
+$ ls -R     # Recursive (遞回列出)
+$ ls -r     # 反向排序
 $ ls -h     # 檔案內容以 KB, MB, GB顯示
 $ ls -d     # 只顯示 directory
-$ ls -r     # 反向列出
 $ ls -t     # 依時間排序
 $ ls -S     # 依檔案大小排序
 $ ls -F     # 附加資料結構, *: 可執行檔; /: 目錄; =: socket檔案; |: FIFO檔案;

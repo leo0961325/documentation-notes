@@ -760,3 +760,26 @@ $ unrar l <file.rar>    # 列出壓縮黨內的目錄
 $ unrar t <file.rar>    # 測試壓縮檔是否完整
 # 有密碼的話, 後面在接著輸入
 ```
+
+
+# node.js
+- 2018/07/21
+- [官網](https://nodejs.org/en/)
+
+```sh
+$ wget https://nodejs.org/dist/v10.7.0/node-v10.7.0-linux-x64.tar.xz        # 10.7
+$ wget https://nodejs.org/dist/v8.11.3/node-v8.11.3-linux-x64.tar.xz        # 8.11
+
+$ tar Jxvf node-v10.7.0-linux-x64.tar.xz    # 解壓縮xz 10.7
+$ tar zxvf tar zxvf node-v8.11.3.tar.gz     # 解壓縮gz 8.11
+
+$ cd node-v10.7.0-linux-x64/
+$ cd node-v8.11.3/
+
+# 10.7直接設環境變數
+
+# 8.11 要安裝~
+$ ./configure
+$ make && sudo make install
+
+```

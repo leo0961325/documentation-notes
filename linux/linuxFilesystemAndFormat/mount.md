@@ -69,6 +69,7 @@ $# blkid
 /dev/mapper/cl-var: UUID="193df025-24c5-45e5-8acf-49825f741754" TYPE="xfs"
 /dev/mapper/cl-home: UUID="37a295a7-78fa-47d5-b2e8-78b4b4a10549" TYPE="xfs"
 
+# mkdir -p 遞迴建資料夾
 $# cd / ; mkdir -p /data/xfs
 $# mount UUID="99ded814-7953-433a-9c22-1d85bcea167c" /data/xfs
 

@@ -1,4 +1,5 @@
 # 帳戶管理 與 ACL權限
+
 - 2018/07/16
 - 每個檔案都有 `擁有人(User ID, UID)` && `擁有群組(User Group, GID)`
 - `UID 與 帳號 對映檔` 放在 `/etc/passwd`
@@ -6,7 +7,7 @@
 - Linux 不會認識帳號, 而是透過 `/etc/passwd` 找到 `帳號` 對映的 `UID`
 
 
-# User ID && 使用者帳號 && /etc/passwd
+# User ID && 使用者帳號 && `/etc/passwd`
 
 ```sh
 $ id tony
@@ -22,9 +23,15 @@ tony:x:1000:1000:tony:/home/tony:/bin/bash
 # 2 x            -> 密碼(加密存於 /etc/shadow) (Linux 早期把密碼放這)
 # 3 1000         -> 使用者帳號 對映的 UID
 # 4 1000         -> 使用者帳號 對映的 GID
-# 5 tony         -> 使用者 資訊欄位說明 (鳥哥說這欄不是很重要), ((後續關鍵字 finger , chfn ))
+# 5 tony         -> 使用者 資訊欄位說明 (可以亂改沒差XD)
 # 6 /home/tony   -> 登入後, 進入的 家目錄
 # 7 /bin/bash    -> 登入後, 取得的 shell 位置
+
+# 可以更改上述第五個欄位(沒啥用XD)
+$ usermod -c SmartTony tony
+$ $ cat /etc/passwd | grep tony
+tony:x:1000:1000:SmartTony:/home/tony:/bin/bash
+
 
 # 假如沒事亂改上面的第三欄的 1000 為 2000
 $ ll -d /home/tony
@@ -41,7 +48,8 @@ drwx--x---+ 33 1000     # 比較這邊
 
 
 
-# Group ID && 使用者群組 && /etc/group
+# Group ID && 使用者群組 && `/etc/group`
+
 ```sh
 $ cat /etc/group | grep tony
 wheel:x:10:tony,tony2
@@ -62,6 +70,7 @@ $
 
 
 # 登入過程
+
 1. 尋找 `/etc/passwd` 是否有此帳號, 找出 `UID`
 2. 依照剛找到的帳號, 前往 `/etc/group` 尋找 `GID`
 3. 前往 `/etc/shadow`, 依照 `帳號`(還是 `UID`) 及 `輸入的密碼`, 與此 家密後的密碼 作 @^#%"^&... 換算 && 比對
@@ -89,13 +98,17 @@ daemon:*:17110:0:99999:7:::
 # 7 密碼過期後的寬限時間(過了就失效了)
 # 8 帳號失效日
 # 9 (目前沒用到)
-
-
 ```
 
 
+```sh
+# 清空使用者的 附屬群組
+$ usermod -G '' <userid>
+```
+
 
 # root 密碼忘記了@@?
+
 - 有救!
 
 重開機進入 `單人維護模式` (會取得約當於 root 權限的 shell), 再使用 `passwd` 修改密碼
