@@ -1,20 +1,54 @@
-# 流程圖
+# [VSCode套件 - Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
+- 2018/08/04
+- VSCode版本 1.25.0
+- 套件版本 1.0.0
+- [mermaidjs - github.io](https://mermaidjs.github.io/)
+- [mermaidjs - 有點完整的教學](https://mermaidjs.github.io/gantt.html)
 
-- [mermaid教學](https://mermaidjs.github.io/)
-- 依賴套件 : [Markdown Mermaid for VSCode](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
-- 這邊也有教學 [Draw Diagrams With Markdown](https://support.typora.io/Draw-Diagrams-With-Markdown/)
-- [mermaidjs](https://mermaidjs.github.io/gantt.html)
 
-帥!
+
+# 基本
+
+語法:
+
+    ```mermaid
+    graph LR;
+        A --> B;
+        A --> C;
+        B --> C;
+    ```
+
+可以看到如下圖:
 
 ```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+graph LR;
+    A --> B;
+    A --> C;
+    B --> C;
 ```
 
+`graph TD` 用來描述此區塊的流程圖的 `方向` : `TD (上到下)` 及 `LR (左到右)`
+
+
+## 也可以做出 `子區塊(subgraph)`, 並製作 `關聯關係`
+
+```mermaid
+graph TD
+
+MrWang -- ??? --- MsLin
+
+subgraph 王家
+    MrWang[王先生] -- 夫妻 --- MrsWang[王太太]
+end
+
+subgraph 林家
+    MsLin[林小姐]
+end
+```
+
+
+
+# 進階一點的官方範例 - 不解釋 (因為還沒用到)
 
 ```mermaid
 %% Example of sequence diagram
