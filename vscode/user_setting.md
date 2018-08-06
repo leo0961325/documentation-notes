@@ -1,4 +1,4 @@
-# .vscode/ 設定檔
+# User settings.json
 
 
 ## User settings.json
@@ -19,34 +19,50 @@
     "powermode.enabled": true,
     "powermode.enableStatusBarComboCounter": false,
     "powermode.enableStatusBarComboTimer": false,
+
+    // Terminal
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
 }
 ```
 
-## User keybindings.json
+
+
+# User KeyBindings.json
+
 ```js
-// Place your key bindings in this file to overwrite the defaults
 [
-    {
+    {   // Toggle Mini Map
         "key": "ctrl+m",
         "command": "editor.action.toggleMinimap"
     },
-    {   
+    {   // IntelliSence
         "key": "ctrl+i",                "command": "editor.action.triggerSuggest",
         "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly" 
     },
-    { 
+    {   // Current Line
         "key": "ctrl+l",                "command": "expandLineSelection",
         "when": "textInputFocus" 
     },
 ]
 ```
 
-## Django Debugger - Project settings - launch.json
-```js
+
+
+# Django Debugger - Project settings - settings.json
+
+```json
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "python.pythonPath": "${workspaceFolder}\\ve\\Scripts\\python.exe",
+}
+```
+
+
+# Debugger - Launch.json
+## Python - Django
+
+```json
+{
+
     "version": "0.2.0",
     "configurations": [
         {
@@ -67,9 +83,52 @@
 }
 ```
 
-## Django Debugger - Project settings - settings.json
+
+## Python - Tornado
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "tornado",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "pythonPath": "${config:python.pythonPath}"
+        },
+    ]
+}
+```
+
+
+
+# go
+
 ```js
 {
-    "python.pythonPath": "${workspaceFolder}\\ve\\Scripts\\python.exe",
+    "version": "0.2.0",
+    "configurations": [
+        {   // debug Current File
+            "name": "qoo",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${file}",
+            "showLog": true
+        },
+        {   // run web
+            "name": "Run Web",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "port": 9090,
+            "host": "127.0.0.1",
+            "program": "${workspaceRoot}",
+            "env": {},
+            "args": [],
+            "showLog": true
+        }
+    ]
 }
 ```
