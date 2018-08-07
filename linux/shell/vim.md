@@ -1,13 +1,12 @@
-# vim指令
+# vim 指令
 
 - 2018/08/03 update
-
 
 
 ## 我習慣的 vim操作設定
 
 ```sh
-$ vi .vimrc
+$ vi ~/.vimrc
 
 set expandtab           # tab 以空白取代
 set tabstop=4           # tab鍵=4空白
@@ -16,7 +15,18 @@ set mouse=a             # 可以使用滑鼠點選
 ```
 
 
-## 基本操作
+
+# Ubuntu Vim 相容模式 (Ubuntu Vim 超難用~)
+
+```sh
+$ vi ~/.vimrc
+
+set nocompatible
+```
+
+
+
+# 基本操作
 
 ```sh
 ### 命令操作
@@ -79,7 +89,7 @@ Ctrl+r          redo
 ```
 
 
-## 操作 Vim 時的其他設定
+# 操作 Vim 時的其他設定
 
 參考: http://wiki.csie.ncku.edu.tw/vim/vimrc
 
@@ -118,13 +128,4 @@ Ctrl+r          redo
 # Terminal底色
 :set bg=dark
 :set bg=light
-```
-
-
-
-# Ubuntu 改變 vim 相容模式 (Ubuntu Vim 超難用~)
-
-```sh
-$ vi ~/.vimrc
-set nocompatible
 ```

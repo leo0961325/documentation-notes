@@ -19,7 +19,6 @@
 
 
 
-
 # MBR (max 2.2TB)
 
 - MBR底下, `Primary Partition` 與 `Extended Partition` 最多只能有 4個(硬碟限制)(each 16 Bytes)
@@ -34,7 +33,6 @@
 
     /dev/sd[a-p][1-128] : 實體磁碟 的 磁碟檔名
     /dev/vd[a-p][1-128] : 虛擬磁碟 的 磁碟檔名
-
 
 
 
@@ -189,10 +187,12 @@ $ du ~ -h --max-depth=1 | head -3
 ```
 
 
+
 # 磁碟分割
 - 2018/06/26
 
 ## 1. 查看 磁碟分割 (掛載樹狀結構)
+
 ```sh
 # lsblk : list block device, 列出所有儲存裝置
 # lsblk [-dfimpt] [device]   (device需要為完整檔名)
@@ -253,6 +253,7 @@ Disk Flags:
  2    1075MB  235GB   234GB   primary            lvm
 ```
 
+
 ## 2. 使用 gdisk/fdisk 來做 磁碟分割 (整會更新系統的 分割表, 還不會動到磁碟)
 
 - MBR 分割表 : 使用 `fdisk`
@@ -294,6 +295,7 @@ $ sudo fdisk /dev/sda
 # 很重要的是 : 不要去處理正在使用中的 partition !!
 ```
 
+
 ## 3. 磁碟格式化 (建置檔案系統)
 
 ```sh
@@ -318,6 +320,7 @@ $ blkid /dev/sda3
 # 看到這個, 表示建置好 xfs 檔案系統了!
 # 因為是使用 xfs, 所以格式化速度飛快
 ```
+
 
 ## 4. 檔案系統檢驗@@
 
@@ -360,7 +363,6 @@ done
 
 
 
-
 # 比較 lsblk && df -h
 
 ```sh
@@ -390,13 +392,14 @@ sda           8:0    0 465.8G  0 disk
 sdb           8:16   1  14.5G  0 disk
 └─sdb1        8:17   1  14.5G  0 part
 sr0          11:0    1  1024M  0 rom
-```
 
-怎麼說明阿....orz
+# 怎麼說明阿....orz
+```
 
 
 
 # 其他零碎知識片段
+
 - 開機管理程式, `grub` 不認識 GPT, 需要用 `grub2`
 - 並非所有作業系統都認識 GPT, 也並非所有硬體都認識 GPT.
 - NTFS 是 `windows 2000` 以後的產物

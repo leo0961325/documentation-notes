@@ -35,7 +35,7 @@
 
 一個段落裏頭, 有再多再多再多再多再多再多再多`再多的空白鍵                                                                                                               都會被當成只有一個`, 相信智商暴表的你知道我意思.
 
-如果有哪些字想用更加醒目的顏色來提醒, Markdown也提供 `html`語法支援, ex: <font color="red">我好紅~</font>, <font color="green">臉都綠了~</font>, <font style="background-color:blue;">我的心情跟底色一樣~~</font>
+如果有哪些字想用更加醒目的顏色來提醒, Markdown 也提供 `html` 語法支援, ex: <font color="red">我好紅~</font>, <font color="green">臉都綠了~</font>, <font style="background-color:blue;">我的心情跟底色一樣~~</font>. 但是~~~ Github 沒有 部分HTML的語法支援, ex: `<font color="red">xxx</font>`, 故看不到顏色效果
 
 
 
@@ -103,16 +103,6 @@ datetime.now()
 
 
 
-# 超連結
-
-[點我到Google](https://www.google.com.tw)
-
-超連結也可以把圖片塞進來, 如下圖:
-
-![看到這些字的話, 代表圖片掛了](../img/git01.jpg)
-
-
-
 # 摺疊清單
 
 ## 1. 使用預設名稱
@@ -156,9 +146,16 @@ datetime.now()
 
 
 
-
 # 文內超連結
 
-- [回到最上面](#Markdown)
+- [本文內超連結 (要回去的「#」的地方, 不能是特定名字 && 不能有 空白)](#h2)
 
 
+
+# 超連結
+
+[點我到Google](https://www.google.com.tw)
+
+超連結也可以把圖片塞進來, 如下圖:
+
+![看到這些字的話, 代表圖片掛了](../img/git01.jpg)

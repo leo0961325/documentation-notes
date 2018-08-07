@@ -33,3 +33,5 @@ windows       | Windows 作業系統相關
 - IP Masquerade: IP掩蔽
 - Elastic IP(aws)/Floating IP(openstack)
 - permissible : 被許可的
+- Berkeley Software Distribution(BSD)
+- Network File System (NFS)

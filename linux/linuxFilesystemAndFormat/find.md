@@ -1,9 +1,11 @@
 # 搜尋
+
 - 2018/06/09
 - [鳥哥 尋找](http://linux.vbird.org/linux_basic/0220filemanager.php#whereis)
 
 
 # 1. 找指令
+
 ```sh
 # 搜尋 某個指令放在哪裡
 $ which [-a] command
@@ -23,9 +25,11 @@ history: usage: history [-c] [-d offset] [n] or history -anrw [filename] or hist
 ```
 
 # 2. 找檔案
+
 - whereis : 只找 特定目錄 下的檔案(快)
 - locate : 利用 資料庫 來搜尋檔名(快)
 - find : 很操硬碟(慢)
+
 
 ## 1. whereis
 
@@ -37,6 +41,7 @@ $ whereis [-bmsu] <file or dir>
 $ whereis ifconfig
 ifconfig: /usr/sbin/ifconfig /usr/share/man/man8/ifconfig.8.gz
 ```
+
 
 ## 2. locate/updatedb
 
@@ -57,7 +62,6 @@ $ locate -l 5 passwd    # 「-l 5」找出所有與 passwd 相關的檔名, 僅�
 
 
 ## 3. find
-
 
 ### 基本語法
 ```sh
@@ -90,6 +94,7 @@ $ find /var -mtime 4
 $ find /var +mtime 4
 ```
 
+
 ### 依 使用者/群組 find
 ```sh
 # 尋找 /home 下, 屬於 tony 的檔案
@@ -99,6 +104,7 @@ $ find /home --user tony
 $ sudo ls -l /etc | grep ssmtp
 drwxr-s---.  2 root mail       42  4月 11 18:13 ssmtp   # ex: 自行編譯原始碼軟體時, 就會經常看到
 ```
+
 
 ### 依 權限 find
 ```sh
@@ -111,6 +117,7 @@ $ find / -perm /7000
 $ find / -perm -7000
 # 找出完全符合「---s--s--t」權限的檔案
 ```
+
 
 ### 額外附加選項的 find (有點偏, 懶得寫了)
 

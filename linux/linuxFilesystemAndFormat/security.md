@@ -2,6 +2,7 @@
 - 2018/06/09
 
 
+
 # 檔案隱藏屬性 (我用 特殊屬性 來理解它...)
 
 > 隱藏屬性對於 Linux 來說, 只能在 Ext2/Ext3/Ext4 中完整生效, 像是 CentOS7預設使用的 xfs, 僅有部分支援
@@ -25,6 +26,7 @@ $ lsattr
 
 
 # 特殊權限 SUID, SGID, SBIT
+
 - [鳥哥-特殊權限](http://linux.vbird.org/linux_basic/0220filemanager.php#suid)
 
 ```sh
@@ -33,7 +35,10 @@ drwxrwxrwt. 20 root root 4096  6月  9 20:59 /tmp                # 有 t 出現�
 -rwsr-xr-x. 1 root root 27832  6月 10  2014 /usr/bin/passwd     # 有 s 出現在 rwx 裏頭
 ```
 
+
+
 # 特殊權限
+
 1. SUID (權限 4)
 2. SGID (權限 2)
 3. SBIT (權限 1)
@@ -44,14 +49,15 @@ $ chmod 4755 xxx
 ```
 
 
-
 ## 1. SUID (只能作用於 檔案)
+
 ```sh
 $ ls -l /usr/bin/passwd
 -rwsr-xr-x. 1 root root 27832  6月 10  2014 /usr/bin/passwd
    ^     ^
  非擁有者可執行此二進位檔案(runtime 期間, 擁有 owner權限)
 ```
+
 
 
 # 2. SGID (可用於 檔案 與 目錄) (不是很懂...)
@@ -62,14 +68,12 @@ $ sudo ls -l /var/lib/mlocate/mlocate.db /usr/bin/locate
 -rwx--s--x. 1 root slocate   40512 11月  5  2016 /usr/bin/locate
       ^  ^
   擁有 x 權限的使用者, 可執行此二進位檔案, runtime期間, 將會獲得該程式群組的支援
-
-$ 
-  
 ```
 
-## 3. SBIT(Sticky Bit) 只針對 目錄 有效
-(先 Pass...)
 
+## 3. SBIT(Sticky Bit) 只針對 目錄 有效
+
+(先 Pass...)
 
 
 ```sh
@@ -92,7 +96,6 @@ $ $ chmod u=rwxs,go=x test; ls -l test # 「,」前後不能加空白
 
 $ chmod g+s,o+t test; ls -l test
 -rws--s--t. 1 tony tony 0  6月  9 22:01 test
-
 ```
 
 

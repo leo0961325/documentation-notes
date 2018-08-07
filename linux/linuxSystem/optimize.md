@@ -1,12 +1,13 @@
 # 系統優化相關
 
-
 ## 關閉印表機服務
+
 - 2018/07/31
 - 我的筆電根本就沒有要用印表機阿XD... 白白浪費近2年的效能
 - 但是把東西轉成 pdf 到底是不是透過這服務... 就不知道了
 
 ```sh
+# 觀察列印服務
 $ systemctl status cups
 ● cups.service - CUPS Printing Service
    Loaded: loaded (/usr/lib/systemd/system/cups.service; enabled; vendor preset: enabled)
@@ -15,17 +16,20 @@ $ systemctl status cups
    CGroup: /system.slice/cups.service
            └─1392 /usr/sbin/cupsd -f
 
+# 關了吧關了吧~~
 $# systemctl stop cups
 Warning: Stopping cups.service, but it can still be activated by:
   cups.socket
   cups.path
 
+# 關了吧關了吧~~
 $# systemctl disable cups
 Removed symlink /etc/systemd/system/multi-user.target.wants/cups.path.
 Removed symlink /etc/systemd/system/multi-user.target.wants/cups.service.
 Removed symlink /etc/systemd/system/sockets.target.wants/cups.socket.
 Removed symlink /etc/systemd/system/printer.target.wants/cups.service.
 
+# 觀察列印服務
 $ systemctl status cups
 ● cups.service - CUPS Printing Service
    Loaded: loaded (/usr/lib/systemd/system/cups.service; disabled; vendor preset: enabled)
