@@ -2,6 +2,13 @@
 
 [觀察程序 ps](http://linux.vbird.org/linux_basic/0440processcontrol.php#ps)
 
+- `ps` 指令, 使用來 `listing current processes`
+
+## ps option format
+1. UNIX(POSIX) options : 「-」開頭
+2. BSD options         : 不可為「-」開頭
+3. GUN long options    : 「--」開頭
+
 ```sh
 # 只能查閱自己的 bash程序
 $ ps -l

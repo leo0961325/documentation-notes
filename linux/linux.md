@@ -527,15 +527,6 @@ lrwxrwxrwx. 1 root root   26  3月  2 14:10 py -> /opt/anaconda3/bin/python3
 ---
 ## chown
 ```sh
-# 改變檔案的擁有者
-$ sudo chown <owner>:<group> <fileName>
-
-# 改變資料夾的擁有者(及裡頭的東西)
-$ sudo chown -R <owner>:<group> <dirName>
-
-# 讓 pp.py可以被擁有者執行
-$ chmod u+x pp.py
-
 # 10分鐘後關機
 $ sudo shutdown -h +10 
 
@@ -664,28 +655,7 @@ $ systemctl enable sshd(這個還不是非常確定是否可行)
 
 
 
-
----
-## 建立使用者
-> 指令: `adduser <userName>`
-```sh
-$ adduser tony
-# 然後就開始輸入密碼那堆東西~
-
-$ groups tony
-tony : tony 
-
-$ sudo usermod -aG sudo tony
-# 把使用者加入 root群組
-
-$ groups tony
-tony : tony sudo
-```
-
-
-
----
-## 開啟 port並設定防火牆
+# 開啟 port並設定防火牆
 - 2018/02/19
 - [CentOS 7 設定防火牆允許特定 PORT 連線](https://blog.yowko.com/2017/09/centos-7-firewall.html?m=1)
 

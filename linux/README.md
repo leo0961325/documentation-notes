@@ -54,7 +54,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /etc/                                 # 系統設定檔. ex: inittab, resolv.conf, fstab, rc.d
     /crontab                                # 排程工作
     /default/                               # 
-        useradd                                 # 使用 useradd後, 預設的 新使用者 建立相關初始設定
+        useradd                                 # 使用 useradd 後, 預設的 新使用者 建立相關初始設定
     /fstab                                  # mount設定檔 (開機時 會依照此設定來作自動掛載; 每次使用 mount時, 預設也會動態更新此檔案)
     /hosts                                  # ip與 dns對照
     /init.d/                                # (CentOS6前, 所有的 服務啟動腳本) CentOS7仍在(但已經不使用 init 來管理服務了), 只剩部分東西還在這 (連結至 rc.d/init.d)
@@ -79,6 +79,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /resolv.conf                            # DNS 主機 IP 的設定檔
     /services                               # 服務 與 port 對映檔
     /skel/                                  # 預設建立使用者後, 使用者家目錄底下的東西
+    /sudoers                                # 定義 sudo, wheel... 相關事項(建議使用 visudo 來修改, 別直接編輯此檔案)
     /systemd/                               # 軟體的啟動腳本
         /system/                                # 依據系統所要提供的功能所撰寫的 服務腳本, 優先於 /run/systemd/system/ 及 /usr/lib/systemd/system/
     /sysconfig/
@@ -121,7 +122,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /log/                                   # 登入檔放置的目錄. 比較重要的有: /var/log/messages, /var/log/wtmp (紀錄登入者資訊)
         /dmesg                                  # 開機時偵測硬體與啟動服務的紀錄
         /messages                               # 開機紀錄
-        /secure                                 # 安全紀錄
+        /secure                                 # 所有使用 sudo 來作事的指令, 都會被 log 到這邊
     /lib/                                   # 程式運作過程所需用到的 資料檔案 放置的目錄. ex: MySQL DB 放在 /var/lib/mysql/; rpm DB 放在 /var/lib/rpm/
         /mysql/                                 # mysql資料庫的資料儲存位置
     /mail/                                  # 個人電子郵件信箱的目錄. 這目錄也被放置到 /var/spool/mail/, 與之互為連結
