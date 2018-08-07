@@ -96,3 +96,10 @@ $ vim /etc/my.cnf # for Ubuntu
 character-set-server=utf8
 collation-server=utf8_unicode_ci 
 ```
+
+
+## COMMAND LINE編碼
+- [Change default code page of Windows console to UTF-8](https://superuser.com/questions/269818/change-default-code-page-of-windows-console-to-utf-8?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+```
+chcp 65001
+```

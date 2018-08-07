@@ -32,3 +32,4 @@ windows       | Windows 作業系統相關
 - NAT: Network Address Translation
 - IP Masquerade: IP掩蔽
 - Elastic IP(aws)/Floating IP(openstack)
+- permissible : 被許可的
