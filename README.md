@@ -35,3 +35,8 @@ windows       | Windows 作業系統相關
 - permissible : 被許可的
 - Berkeley Software Distribution(BSD)
 - Network File System (NFS)
+- validate : 驗證
+- authenticate : 認證
+- credentials : 憑證
+- semantic : 語意
+- malformed : 異常
