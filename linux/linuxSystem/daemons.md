@@ -87,7 +87,7 @@ NetworkManager.service   | 動態網路連線設定管理器
 network.target           | 固定式網路管理服務
 sysinit.target           | 系統服務
 quotacheck.service       | 硬碟配額檢查服務
-syslog.service           | 系統日誌管理服務
+syslog.service           | 系統日誌管理服務 (old)
 sendmail.service         | 電子郵件伺服器服務
 smartd.service           | 硬碟健康狀態回報服務
 sshd.service             | 加密的遠端登入服務
@@ -164,6 +164,10 @@ $ systemctl restart <service>   # 服務關掉後再啟動
 # 重新開機後生效<service>
 $ systemctl enable <service>
 $ systemctl disable <service>
+
+# 列出所有 Unit Type = service 的 Daemons
+$ systemctl        list-units   --type=service
+# CommandUtility   SubCommand   Option
 ```
 
 daemon重啟狀態 (Loaded 最後面)

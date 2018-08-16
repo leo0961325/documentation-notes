@@ -25,10 +25,10 @@ centos-release-7-3.1611.el7.centos.x86_64
 
 
 
----
-## Google Chrome
+# Google Chrome
+
 - 2017/11/25
-> [老灰鴨的筆記本](http://oldgrayduck.blogspot.tw/2016/04/linuxcentos-7-google-chrome.html)
+- [老灰鴨的筆記本](http://oldgrayduck.blogspot.tw/2016/04/linuxcentos-7-google-chrome.html)
 
 1. repo
 ```
@@ -49,11 +49,11 @@ sudo yum -y install google-chrome-stable
 
 
 
----
-## Docker CE
+# Docker CE
+
 - 2017/11/25
 - 2018/07/01 update
-> [Official Docker](https://docs.docker.com/engine/installation/linux/docker-ce/centos/#install-using-the-repository)
+- [Official Docker](https://docs.docker.com/engine/installation/linux/docker-ce/centos/#install-using-the-repository)
 
 1. Dependancy package && Install
 ```sh
@@ -94,10 +94,10 @@ Hello, World.
 
 
 
----
-## MySQL CE
+# MySQL CE
+
 - 2017/11/26
-> [Official MySQL](https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/)
+- [Official MySQL](https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/)
 
 
 1. 先到這邊手動下載[repo rpm](https://dev.mysql.com/downloads/repo/yum/), 再執行剛剛下載的那包rpm(版本不同, 底下指令也跟著不同)
@@ -138,15 +138,13 @@ $ mysql -uroot -p
 
 
 
----
-## Docker - MySQL
+# Docker - MySQL
+
 - 2017/10/01
+- [Severalnines Blog - MySQL Docker Container](https://severalnines.com/blog/mysql-docker-containers-understanding-basics)
 - 前提, 已經下載並安裝好
 	1. Docker
 	2. MySQL
-
-> [Severalnines Blog - MySQL Docker Container](https://severalnines.com/blog/mysql-docker-containers-understanding-basics)
-
 
 1. 下載及安裝MySQL image, 建立Container, 設定root密碼
 ```sh
@@ -176,10 +174,10 @@ $ docker start <containerName>
 
 
 
----
-## MongoDB CE
+# MongoDB CE
+
 - 2017/11/26
-> [Official MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/)
+- [Official MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/)
 
 1. repo [決定自己要哪個版本]()
 ```
@@ -225,8 +223,7 @@ tonynb   10146  0.0  0.0 112672   964 pts/1    S+   14:25   0:00 grep --color=au
 
 
 
----
-## mongoDB in docker
+# MongoDB in docker
 
 ```sh
 $ docker run --name mongo -it mongo /bin/bash
@@ -241,7 +238,6 @@ $ docker inspect <containerName> | grep IPAddress
 
 進入 docker 的 mongo
 $ mongo --port <port> --host <ip>
-
 
 # 啟動後,檢查mongoDB是否正在運行
 
@@ -262,10 +258,11 @@ $ systemctl restart mongod
 ```
 
 
----
-## Visual Studio Code
+
+# Visual Studio Code
+
 - 2017/11/27
-> [Official vscode](https://code.visualstudio.com/docs/setup/linux)
+- [Official vscode](https://code.visualstudio.com/docs/setup/linux)
 
 1. repo && install
 ```
@@ -278,14 +275,10 @@ $ sudo yum -y install code
 
 
 
+# install Anaconda (python3.6.1)
 
-
-
----
-## install Anaconda (python3.6.1)
 - 2017/11/26
-> [Official Anaconda](https://www.continuum.io/downloads)
-
+- [Official Anaconda](https://www.continuum.io/downloads)
 
 1. Download && Install
 ```
@@ -308,8 +301,8 @@ Python 3.6.3 :: Anaconda, Inc.
 
 
 
----
-## Redis
+# Redis
+
 - 2017/11/26 (2018/05/15 update)
 - [Official Redis](https://redis.io/download)
 - [cc not found 解法1](https://stackoverflow.com/questions/35634795/no-acceptable-c-compiler-found-in-path-while-installing-the-c-compiler)
@@ -357,11 +350,10 @@ $ src/redis-cli
 ```
 
 
----
-## Git (CentOS7 default git v-1.8 )
-- 2017/11/26
 
-> [How To Install Git on CentOS 7](https://blacksaildivision.com/git-latest-version-centos) 
+# Git (CentOS7 default git v-1.8 )
+- 2017/11/26
+-  [How To Install Git on CentOS 7](https://blacksaildivision.com/git-latest-version-centos) 
 
 1. Dependancy
 ```
@@ -395,10 +387,10 @@ $ git --version
 git version 2.14.3
 ```
 
+
 ### 額外備註
 
-> 在 `centos:7` 的 docker image內, 編譯 git 時, 因為缺乏許多套件, 發生下列錯誤
-
+在 `centos:7` 的 docker image內, 編譯 git 時, 因為缺乏許多套件, 發生下列錯誤
 ```sh
 $ make 
     * new build flags
@@ -420,10 +412,10 @@ $ sudo yum install zlib-devel
 
 
 
----
-## net-tools
+# net-tools
+
 - 2017/11/26
-> [centos7 最小化安装 無 ifconfig,netstat 的安装](http://www.cnblogs.com/cocoajin/p/4064547.html)
+- [centos7 最小化安装 無 ifconfig,netstat 的安装](http://www.cnblogs.com/cocoajin/p/4064547.html)
 
 ```
 $ ifconfig
@@ -437,16 +429,12 @@ success!
 
 
 
----
-## VLC
+# VLC
+
 - 2017/11/26
-
-> [How to Install EPEL on CentOS 7](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
-
-> [How To Install VLC On CentOS 7](https://www.unixmen.com/install-vlc-centos-7/)
-
-> [install vlc on CentOS7](https://stackoverflow.com/questions/29443096/how-to-install-vlc-on-centos7-from-terminal)
-
+- [How to Install EPEL on CentOS 7](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
+- [How To Install VLC On CentOS 7](https://www.unixmen.com/install-vlc-centos-7/)
+- [install vlc on CentOS7](https://stackoverflow.com/questions/29443096/how-to-install-vlc-on-centos7-from-terminal)
 
 1. Install EPEL
 ```
@@ -468,10 +456,10 @@ Try `vlc --help' for more information
 
 
 
-## teamviewer
-- 2018/02/07
+# teamviewer
 
-> [Install TeamViewer on CentOS 7 / RHEL 7](https://community.teamviewer.com/t5/Knowledge-Base/How-to-install-TeamViewer-Host-for-Linux/ta-p/6318?_ga=2.2833328.1279667713.1518017393-1552891207.1518017393)
+- 2018/02/07
+- [Install TeamViewer on CentOS 7 / RHEL 7](https://community.teamviewer.com/t5/Knowledge-Base/How-to-install-TeamViewer-Host-for-Linux/ta-p/6318?_ga=2.2833328.1279667713.1518017393-1552891207.1518017393)
 
 ```sh
 $ wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -489,10 +477,10 @@ x86_64
 ```
 
 
----
-## 7zip
+
+# 7zip
 - 2017/11/26
-> [e Learning](http://elearning.wsldp.com/pcmagazine/extract-7zip-centos-7/)
+- [e Learning](http://elearning.wsldp.com/pcmagazine/extract-7zip-centos-7/)
 
 1. Dependancy && Install
 ```
@@ -509,39 +497,35 @@ $ 7za x <fileName>
 
 
 
----
-## install nginx
+# Install Nginx
+
 - 2018/03/19
 - [Official](http://nginx.org/en/linux_packages.html#stable)
 - [參考這邊](https://dotblogs.com.tw/grayyin/2017/05/18/183117)
 
-1. 增加 yum repo
 ```sh
+# 1 建立 yum repo
 $ sudo vi /etc/yum.repos.d/nginx.repo
 [nginx]
 name=nginx repo
 baseurl=http://nginx.org/packages/centos/7/$basearch/
+# baseurl=http://nginx.org/packages/OS/OSRELEASE/$basearch/   # 看官方說明吧
 gpgcheck=1
 enabled=1
-```
-2. 到 [這邊](http://nginx.org/keys/nginx_signing.key) 把 GPG-keys Copy
-```sh
+
+# 前往 「http://nginx.org/keys/nginx_signing.key」
+# Copy GPG-keys, 貼到底下檔案內
 $ vi nginx_signing.key
-# 把 keys內容貼上
-
 $ sudo rpm --import nginx_signing.key
-```
-3. 安裝~
-```sh
+
+
+### 2 安裝
 $ sudo yum install -y nginx
-
 $ sudo systemctl start nginx
-
 $ sudo systemctl enable nginx
-```
 
-4. 其他補充及設定
-```sh
+
+### 3. 其他補充及設定
 $ nginx -v
 nginx version: nginx/1.13.9
 
@@ -553,10 +537,12 @@ $ sudo vi /etc/nginx/conf.d/default.conf
 ```
 
 
----
-## install Apache
+
+# Install Apache
+
 - 2018/02/27
 - [安裝Apache, MySQL, PHP](https://www.phpini.com/linux/redhat-centos-7-setup-apache-mariadb-php)
+
 ```sh
 $ sudo yum install -y httpd
 
@@ -570,38 +556,10 @@ Server built:   Oct 19 2017 20:39:16
 進入瀏覽器, 「localhost」就可以看到網頁了~
 
 
----
-## install nginx
-- 2018/03/13
-- [安裝 Nginx](http://nginx.org/en/linux_packages.html#stable)
 
-```sh
-# 1. 建立 repo
-$ sudo vi /etc/yum.repos.d/nginx.repo
-[nginx]
-name=nginx repo
-baseurl=http://nginx.org/packages/centos/7/$basearch/         
-# baseurl=http://nginx.org/packages/OS/OSRELEASE/$basearch/   # 看官方說明吧
-gpgcheck=1
-enabled=1
-
-# 2. 增加 RPM package的 數位簽章
-# 到這 Copy~~ 
-# http://nginx.org/keys/nginx_signing.key
-$ vi nginx_signing.key
-# 貼上去, 在執行匯入
-$ sudo rpm --import nginx_signing.key
-
-# 3. 安裝
-$ sudo yum install -y nginx
-```
-
-
----
-## install scala (不完整)
+# install scala (不完整)
 - 2017/06/??
-
-> [Official Scala](https://www.scala-lang.org/download/)
+- [Official Scala](https://www.scala-lang.org/download/)
 
 1. **Install JRE first**
 
@@ -623,9 +581,8 @@ export PATH=$scala_HOME/bin:$PATH
 
 
 
+# install Python (不完整)
 
----
-## install Python (不完整)
 ```sh
 $ wget <python>
 
@@ -652,11 +609,10 @@ $ pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERS
 
 
 
+# Install jdk1.8 (不完整)
 
----
-## Install jdk1.8 
 - 2018/03/21
-> [Official Orical jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- [Official Orical jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
 
 1. 移除 open-jdk...!!?? 網路上有阿貓阿狗會教, 把 open-jdk移除後, 再來安裝 oracle-jdk, 但是這樣會把 libore-office的依賴套件也一併移除(沒辦法使用 Linux的 Excel了QAQ). 所以我不這麼作. 因此, 第一步, 啥都不用作!
@@ -684,8 +640,9 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.161-b12, mixed mode)
 ```
 
 
----
-## Install KVM
+
+# Install KVM
+
 - 2018/04/22
 - [Install KVM Hypervisor](https://www.linuxtechi.com/install-kvm-hypervisor-on-centos-7-and-rhel-7/)
 - CentOS用的 VirtualBox....
@@ -710,31 +667,17 @@ $ sudo virt-manager
 ```
 
 
----
-## Install wget
-- 2018/05/15
-安裝最輕量化的 CentOS7, 沒有 `wget`這東西
 
-```sh
-$ sudo yum install wget
-```
+# gcc, make
 
-
-## Install gcc
-- 2018/05/15
-- [cc: Command not found](https://unix.stackexchange.com/questions/287913/cc-command-not-found-when-compiling-a-pam-module-on-centos?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
-```sh
-# 不知道這是不是一個好的解法... 一口氣安裝超級大一包
-
-```
-
-
-# make
 - 2018/06/16
 - [bash - make command not found](https://stackoverflow.com/questions/21700755/bash-make-command-not-found)
-> 發生 `bash make command not found` ==> 無法編譯 tarball 阿~~~
+- [cc: Command not found](https://unix.stackexchange.com/questions/287913/cc-command-not-found-when-compiling-a-pam-module-on-centos?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+
+發生 `bash make command not found` ==> 無法編譯 tarball 阿~~~
 
 ```sh
+# 不知道這是不是一個好的解法... 一口氣安裝超級大一包
 $ sudo yum groupinstall "Development Tools"
 
 # Note : "Development Tools" => yum CentOS
@@ -744,6 +687,7 @@ $ sudo yum groupinstall "Development Tools"
 
 
 # 解壓縮
+
 - [Linux 解壓縮 rar](https://www.phpini.com/linux/linux-extract-rar-file)
 - 2018/06/16
 
@@ -757,7 +701,9 @@ $ unrar t <file.rar>    # 測試壓縮檔是否完整
 ```
 
 
-# node.js
+
+# Node.js
+
 - 2018/07/21
 - [官網](https://nodejs.org/en/)
 
@@ -776,5 +722,4 @@ $ cd node-v8.11.3/
 # 8.11 要安裝~
 $ ./configure
 $ make && sudo make install
-
 ```

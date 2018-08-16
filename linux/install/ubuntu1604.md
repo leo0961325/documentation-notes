@@ -1,4 +1,4 @@
-# Ubuntu16.04
+# Ubuntu 16.04
 
 
 ## apt 無法執行動作 (被lock住的解法)
@@ -32,42 +32,46 @@ $ sudo dpkg --configure -a
 ```
 
 
-### 無網路服務時
+# 無網路服務時, 安裝網路工具
+
 - [Docker - Ubuntu - bash: ping: command not found](https://stackoverflow.com/questions/39901311/docker-ubuntu-bash-ping-command-not-found)
+
 ```sh
-$ apt update
-$ apt install iputils-ping
+$# apt update
+$# apt install iputils-ping
 ```
 
-## install mysql5.7
+
+
+# install mysql 5.7
+
 [MySQL官方教學](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install)
 
 ```sh
-1. 連到這裡  https://dev.mysql.com/downloads/file/?id=472914
-抓官方的repo
+# 1. 連到這裡  https://dev.mysql.com/downloads/file/?id=472914
+# 抓官方的repo
 
-2.加入官方repo
-sudo dpkg -i mysql-apt-config_0.8.8-1_all.deb
+# 2.加入官方repo
+$ sudo dpkg -i mysql-apt-config_0.8.8-1_all.deb
 
-3. 更新一下apt
-sudo apt-get -y update
+# 3. 更新一下apt
+$ sudo apt-get -y update
 
-4. 安裝mysql server
-sudo apt-get -y install mysql-server
+# 4. 安裝mysql server
+$ sudo apt-get -y install mysql-server
 
-5. 服務
-sudo service mysql status
-sudo service mysql stop
-sudo service mysql start
-
+# 5. 服務
+$ sudo service mysql status
+$ sudo service mysql stop
+$ sudo service mysql start
 ```
 
----
 
-## MongoDB3.4
-[官方教學](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#install-mongodb-community-edition)
 
-安裝
+# MongoDB 3.4
+
+- [官方教學](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#install-mongodb-community-edition)
+
 ```sh
 1. 加入官方public key
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
@@ -82,10 +86,12 @@ sudo apt-get update
 sudo sudo apt-get install -y mongodb
 ```
 
-## Docker
-- 2018/01/30
 
-[官方教學](https://docs.docker.com/install/linux/docker-ce/ubuntu/#os-requirements)
+
+# Docker
+
+- 2018/01/30
+- [官方教學](https://docs.docker.com/install/linux/docker-ce/ubuntu/#os-requirements)
 
 ```sh
 $ sudo apt-get update
@@ -101,26 +107,39 @@ $ sudo usermod -aG docker <userName>
 # 使目前使用者能使用 Docker ((重新登入!!))
 ```
 
-## vim
--2018/01/30
 
-[Linux 安裝 vim](https://www.phpini.com/linux/linux-install-vim)
 
-把 vim想像成有顏色的 vi
+# vim (有顏色的 vi)
+
+- 2018/01/30
+- [Linux 安裝 vim](https://www.phpini.com/linux/linux-install-vim)
+- [How to change syntax color in vim?](https://askubuntu.com/questions/912404/how-to-change-syntax-color-in-vim)
+- [Backspace in insert mode in vi doesn't erase the character](https://askubuntu.com/questions/296385/backspace-in-insert-mode-in-vi-doesnt-erase-the-character)
+
 ```sh
 $ sudo apt -y install vim
 
-$ cd
+$ ls /usr/share/vim/vim74/colors
+blue.vim  default.vim  desert.vim  evening.vim  koehler.vim  ...等 19 種
+# 可選擇自己喜歡的顏色風格
 
-$ vi .vimrc
+$ vi ~/.vimrc
+colorscheme koehler
 ```
-[參考這篇](https://askubuntu.com/questions/296385/backspace-in-insert-mode-in-vi-doesnt-erase-the-character), 在 `.vimrc` 加入這幾行
-```
+
+
+## 或者可以使用預設的 vi, 取消 Ubuntu 難用的兼容模式...
+
+```vim
+# .vimrc
 set nocompatible
 set backspace=2
 ```
 
+
+
 # 安裝 git
+
 - 2018/06/19
 - [git 官方查看自己要的版本 (Branch: master那邊)](https://github.com/git/git)
 

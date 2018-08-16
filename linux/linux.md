@@ -173,20 +173,8 @@ repolist: 24,950
 
 
 
+# 網路介面卡 && ifconfig
 
----
-## 設定 ssh公私鑰
-> 產生金鑰, 語法: `ssh-keygen [-t rsa|dsa] -C "<id>@<host>"`
-```sh
-> ssh-keygen -t rsa -C 'cool21540125@gmail.com'
-# -t 是選擇 ssh的加密演算法方式, 有[rsa,dsa], 預設為 rsa
-# -C 是指讓識別碼以email為識別值, 而非預設的「帳號@遠端主機位址」
-```
-
-
-
----
-## 網路介面卡 && ifconfig
 > CentOS7前: 網路介面卡名稱, eth0, eth1, ... 分別代表第1張網卡, 第2張網卡, ...; 名稱由 **開機時核心偵測的時機** 決定, 故可能因為更換硬體設備而異動. 網卡名稱變動可能造成防火牆錯誤.
 
 > CentOS7: 裝置名稱改為 `p1p1, p2p1, p3p1`等 BIOS名稱, 目的是為了維持設備名稱的一致性, 並以 **名稱得知網路卡在主機板上插槽的位置**. 
@@ -622,13 +610,15 @@ s       | socket檔案
 
 
 
+# sshd (CentOS 7 已內建 && 預設啟動)
 
-# sshd 無法啟動的可能原因
-1. sshd未安裝
-2. sshd未啟動
-3. 防火牆
-
-> 產生ssh公私金鑰, 語法: `ssh-keygen -t rsa -b 4096 -C "<id>@<mail host>"`
+```sh
+# 產生ssh公私金鑰
+$ ssh-keygen -t rsa -b 4096 -C "<id>@<host>"
+# -t [rsa|tsa] : 加密演算法
+# -b <number> : 加密位元數, 建議都 2048 以上
+# -C <xxx> : keygen 名稱
+```
 
 1. 安裝sshd
 ```sh
@@ -639,23 +629,79 @@ $ systemctl start sshd
 2. 檢查看看(應該要有下面兩個)
 ```sh
 $ ps -e | grep ssh
-xxxx ? 00:00:00 ssh-agent
 xxxx ? 00:00:00 sshd
+xxxx ? 00:00:00 ssh-agent
+# CentOS7 的 圖形話介面, 預設啟用 ssh-agent
 ```
 
 3. 若出現下列狀況
 ```sh
 $ ssh localhost
 ssh: connect to host localhost port 22: Connection refused
-# 請先依照第2點的說明查看是否有啟動ssh-agent及sshd才可以ssh localhost,
-所以只要
-$ service sshd restart
-$ systemctl enable sshd(這個還不是非常確定是否可行)
+# 請先依照第2點的說明查看是否有啟動 ssh-agent 及 sshd 才可以 ssh localhost, 所以只要
+$ sudo service sshd restart
+$ sudo systemctl enable sshd(這個還不是非常確定是否可行)
+```
+
+
+## 若發現無法啟動, 可能原因如下 (應該不會有 sys-admin這樣作吧?)
+
+1. sshd 被砍了~
+2. sshd 被關閉了~
+3. 防火牆擋住了~
+
+
+
+# SSH 概念說明
+
+每次作 ssh 連線時, 會作 2 件事情 :
+1. 建立加密連線通道 (set up the secure encryption for the communication channel)
+2. 對 Server 作驗證 (authenticate the server)
+
+> Client 使用 `ssh-keygen` 時, 比較明智的做法是使用 passphrase(密語), 但如此一來, 每每要動到 `private key` 時, 都得輸入 `passphrase`, 相當麻煩, 因此有了 `ssh-agent` 幫忙作代理, 只需要首次使用時, 輸入 passphrase, 日後就不再需要輸入 passphrase 了!
+
+> 客戶端 **每次** ssh 到 Server 時, Server 都會給客戶端它的 `public key`; 客戶端再找出自己的 `~/.ssh/known_hosts` 裏頭該 Server 的 `public key` 來比對看看是否 public key 有改變過, 若改變過(可能客戶端 restart sshd 或者 網路遭到劫持...), 則無法 ssh. [解法: 砍掉該 Server 的 known_hosts 裏頭的 public key, 再重連(假設沒遭到crack入侵的話)] ; 而客戶端會把自己的 `public key` 丟到 Server端的 `~/.ssh/authorized_keys`
+
+> 然而每次 Client ssh 到 Server 都得打密碼太麻煩了, 所以乾脆直接讓 Server 認識 Client 就好了啊!! 因此 Client 可以使用 `ssh-copy-id <remote user id>@<remote host>` 把自己的 `public key` 都給 Server(預設會 Copy `~/.ssh/id_rsa.pub`), 日後 ssh 到 Server 後, Server 會主動將該 Client 的 public key 從 Server 的 `~/.ssh/authorized_keys` 取出來, 去要求 Client 作 公私鑰比對認證,
+
+> `private key : 600` ; `public key : 644`
+
+
+## ※安全觀點 : sshd 組態 /etc/ssh/sshd_config
+
+組態更改後, 需要 `systemctl restart sshd`
+
+```ini
+# PermitRootLogin yes                   # 禁止 ssh root
+# PermitRootLogin without-password      # 折衷方案, 禁止 root 使用密碼登入
+PermitRootLogin no                      # (預設) 未禁止 ssh root
+
+#PasswordAuthentication yes             # 禁止 使用密碼來作 ssh
+PasswordAuthentication yes              # (預設) 未禁止 使用密碼來作 ssh
+# ↑ 很重要! 作這之前, 記得先丟 ssh-copy-id 阿~~ 不然登出後就進不來了
+```
+
+
+# 查看誰登入
+
+```sh
+# 可看到 誰從哪裡登近來, 然後在幹嘛
+$ w
+ 20:01:47 up  1:19,  2 users,  load average: 0.02, 0.07, 0.12
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+tony     :0       :0               18:43   ?xdm?   1:21   0.21s /usr/libexec/gnome-session-binary --session gnome-c
+tony     pts/0    192.168.124.101  18:46    3.00s  0.19s  0.02s w
+# TTY : 「:0」 為 圖形化介面
+# TTY : 「pts/0」 為 pseudo-terminal 登入
+# FROM : 從哪裡來的
+
 ```
 
 
 
+
 # 開啟 port並設定防火牆
+
 - 2018/02/19
 - [CentOS 7 設定防火牆允許特定 PORT 連線](https://blog.yowko.com/2017/09/centos-7-firewall.html?m=1)
 
@@ -1011,11 +1057,11 @@ BC
 > 語法1: `scp <要複製的檔案> <要放置的id>@<要放置的host>:<放在哪邊>`<br>
   語法2: `scp <要複製的來源id>@<來源host>:<檔案絕對路徑> <放置位置>`
 ```sh
-$ scp requirement.txt pome@192.168.124.81:/home/pome/tmp
-# 把 requirement.txt 丟到 pome@192.168.124.81的 /home/pome/tmp裏頭
+$ scp requirement.txt tony@192.168.124.81:/home/tony/tmp
+# 把 requirement.txt 丟到 tony@192.168.124.81的 /home/tony/tmp裏頭
 
-$ scp pome@192.168.124.81:/home/pome/tmp/requirement.txt .
-# 把 pome@192.168.124.81 內的 /home/pome/tmp/requirement.txt 複製到目前目錄底下
+$ scp tony@192.168.124.81:/home/tony/tmp/requirement.txt .
+# 把 tony@192.168.124.81 內的 /home/tony/tmp/requirement.txt 複製到目前目錄底下
 ```
 
 ### 產生序列數字 - seq
@@ -1172,9 +1218,9 @@ $ ls --time={atime, ctime}  # 列出 {access時間 , 改變權限屬性時間 }
 
 
 ### 追蹤 - tail (動態log)
-> 語法: `tail -n <int> <追蹤的 log路徑>`
+> 語法: `tail -f <追蹤的 log路徑>`
 ```sh
-# 顯示最後5行, 並持續監看
+# 顯示最後5行, 並持續監看 (追蹤log)
 $ tail -n 5 -f /var/log/messages
 ```
 
@@ -1184,18 +1230,18 @@ $ tail -n 5 -f /var/log/messages
 
 ```sh
 $ last -n 5
-pome     pts/10       192.168.124.94   Mon Apr  9 20:59   still logged in
-pome     pts/11       192.168.124.88   Mon Apr  9 20:11 - 20:12  (00:01)
-pome     pts/10       192.168.124.94   Mon Apr  9 19:37 - 20:51  (01:14)
-pome     pts/9        192.168.124.94   Mon Apr  9 17:02   still logged in
-pome     pts/9        192.168.124.94   Mon Apr  9 10:35 - 16:58  (06:23)
+tony     pts/10       192.168.124.94   Mon Apr  9 20:59   still logged in
+tony     pts/11       192.168.124.88   Mon Apr  9 20:11 - 20:12  (00:01)
+tony     pts/10       192.168.124.94   Mon Apr  9 19:37 - 20:51  (01:14)
+tony     pts/9        192.168.124.94   Mon Apr  9 17:02   still logged in
+tony     pts/9        192.168.124.94   Mon Apr  9 10:35 - 16:58  (06:23)
 
 $ last -n 5 | awk '{print $1 "\t" $3}'
-pome    192.168.124.94
-pome    192.168.124.88
-pome    192.168.124.94
-pome    192.168.124.94
-pome    192.168.124.94
+tony    192.168.124.94
+tony    192.168.124.88
+tony    192.168.124.94
+tony    192.168.124.94
+tony    192.168.124.94
 ```
 
 

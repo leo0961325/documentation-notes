@@ -12,7 +12,7 @@ $ python manage.py startapp <App Name>  # 建立 App
 
 
 ``` sh
-# Windows底下首次執行時 (若安裝 Anaconda 才不會有相依套件的問題)
+# Windows底下首次執行時 (若安裝 Anaconda 才不會有相依套件的問題), 參考 dbapi 那篇
 $ pip install mysqlclient
 
 # CentOS7
