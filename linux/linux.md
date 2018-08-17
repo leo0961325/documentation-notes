@@ -1011,11 +1011,11 @@ BC
 > 語法1: `scp <要複製的檔案> <要放置的id>@<要放置的host>:<放在哪邊>`<br>
   語法2: `scp <要複製的來源id>@<來源host>:<檔案絕對路徑> <放置位置>`
 ```sh
-$ scp requirement.txt pome@192.168.124.81:/home/pome/tmp
-# 把 requirement.txt 丟到 pome@192.168.124.81的 /home/pome/tmp裏頭
+$ scp requirement.txt tony@192.168.124.81:/home/tony/tmp
+# 把 requirement.txt 丟到 tony@192.168.124.81的 /home/tony/tmp裏頭
 
-$ scp pome@192.168.124.81:/home/pome/tmp/requirement.txt .
-# 把 pome@192.168.124.81 內的 /home/pome/tmp/requirement.txt 複製到目前目錄底下
+$ scp tony@192.168.124.81:/home/tony/tmp/requirement.txt .
+# 把 tony@192.168.124.81 內的 /home/tony/tmp/requirement.txt 複製到目前目錄底下
 ```
 
 ### 產生序列數字 - seq
@@ -1184,18 +1184,18 @@ $ tail -n 5 -f /var/log/messages
 
 ```sh
 $ last -n 5
-pome     pts/10       192.168.124.94   Mon Apr  9 20:59   still logged in
-pome     pts/11       192.168.124.88   Mon Apr  9 20:11 - 20:12  (00:01)
-pome     pts/10       192.168.124.94   Mon Apr  9 19:37 - 20:51  (01:14)
-pome     pts/9        192.168.124.94   Mon Apr  9 17:02   still logged in
-pome     pts/9        192.168.124.94   Mon Apr  9 10:35 - 16:58  (06:23)
+tony     pts/10       192.168.124.94   Mon Apr  9 20:59   still logged in
+tony     pts/11       192.168.124.88   Mon Apr  9 20:11 - 20:12  (00:01)
+tony     pts/10       192.168.124.94   Mon Apr  9 19:37 - 20:51  (01:14)
+tony     pts/9        192.168.124.94   Mon Apr  9 17:02   still logged in
+tony     pts/9        192.168.124.94   Mon Apr  9 10:35 - 16:58  (06:23)
 
 $ last -n 5 | awk '{print $1 "\t" $3}'
-pome    192.168.124.94
-pome    192.168.124.88
-pome    192.168.124.94
-pome    192.168.124.94
-pome    192.168.124.94
+tony    192.168.124.94
+tony    192.168.124.88
+tony    192.168.124.94
+tony    192.168.124.94
+tony    192.168.124.94
 ```
 
 
@@ -1330,7 +1330,7 @@ $
 # 適用情境: 不同使用者, 要各自登入 linux, 要共同合作開發某資料夾下的專案, 可先改好 umask後, 便可方便將來合作
 
 
-$ umask
+$ umask   # 用來清除對應的權限
 0002    # 第 1 碼為特殊用途; 後面分別為 user, group, other
 
 $ umask -S    # 以符號類型的方式, 顯示(如上例, umask 0002)
@@ -1420,4 +1420,82 @@ $ ip a
     inet6 fe80::f044:abf9:731c:462f/64 scope link
        valid_lft forever preferred_lft forever
 # Host 可以 用 192.168.137.47 及 192.168.137.99 找到它了~
+
+
+# 網路 verify
+$ ip link show
+$ ip addr show
+$ ip route show
+$ cat /etc/resolv.conf
+$ ss
+
+# 網路 Test
+$ ping
+$ traceroute  # 追蹤 route
+$ tracepath   # 追蹤 route
+$ nslookup
+
+$ ss -t   # 查看有建立起來的 TCP Channel
+$ ss -ta  # 查看所有有在監聽的 TCP Channel
+
+
+```
+
+
+## Network
+
+CentOS7 的 NetworkManager 預設的組態路徑 : `/etc/sysconfig/network-scripts/ifcfg-*`
+
+  CentOS7 的 網路連線, 都要 Bind on Device
+  Device
+    + Connection1
+    + Connection2
+    |  + Ip address1
+    |  + Ip address2
+    |  + ...
+    |  
+    + Connection3
+    + ...
+
+```sh
+nmcli connection show
+nmcli connection add
+nmcli connection modify
+nmcli connection up
+nmcli connection down     # 較不建議用此中斷連線
+nmcli connection delete
+nmcli device status
+nmcli device show
+nmcli device connect
+nmcli device disconnect   # 建議用此中斷連線
+nmcli net off
+```
+
+
+```sh
+# 查電腦上的連線
+$ nmcli connection show
+NAME           UUID                                  TYPE             DEVICE 
+14f-classroom  7249c377-ce83-4233-a40c-ddc5c4021be9  802-11-wireless  wlp2s0  # 目前啟用的無線網路連線
+virbr0         9dcffbd1-d53f-4c7e-8c3a-f3b261ece9de  bridge           virbr0 
+
+$  nmcli connection show "14f-classroom"
+connection.id:                          14f-classroom
+connection.uuid:                        7249c377-ce83-4233-a40c-ddc5c4021be9
+...(PASS)...
+ipv4.method:                            auto    # 自動取得 ip
+ipv4.dns:                               --
+ipv4.dns-search:                        --
+ipv4.dns-options:                       (default)
+ipv4.dns-priority:                      0
+ipv4.addresses:                         --      # 手動設定的 ip
+ipv4.gateway:                           --
+...(PASS)...
+IP4.ADDRESS[1]:                         172.16.1.57/23  # 自動取得 ip 所分配到的 IP (大寫不能改)
+IP4.GATEWAY:                            172.16.1.254
+IP4.DNS[1]:                             168.95.1.1
+...(PASS)...
+IP6.GATEWAY:                            --
+
+$ 
 ```

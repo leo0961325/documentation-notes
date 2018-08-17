@@ -1,4 +1,5 @@
-# App Server (Python 觀點)
+# Web Application(App Server)(Python 觀點)
+
 - 2018/05/18
 - [What is the point of uWSGI?
 ](https://stackoverflow.com/questions/38601440/what-is-the-point-of-uwsgi?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
@@ -9,14 +10,22 @@
 
 
 
-## 比較 
+# 3個很容易搞混的名詞比較 (大小寫)
+
 - uWSGI: `純 Python` 的 `App Server/HTTP Server`. 本身很大一包, **無法** 在 Windows 上運行.
 - WSGI : `python web 框架` 遵照的協議 (除非要自行開發 Python Web Framework, 不然不用理這個...)
 - uwsgi: `python base App Server` 與 `Web Server` 溝通的協定
 
-
 ![比較表](../../img/wsgi.jpg)
 [圖片來源在這 - 我覺得他寫的很棒~](https://www.rapospectre.com/blog/31)
+
+
+
+```mermaid
+graph LR
+webServer[Web Server] -- uwsgi 協議 --- appServer[App Server]
+appServer             -- WSGI 協議  --- webApp[Web Framework]
+```
 
 ---------------------------
 ## WSGI
@@ -29,3 +38,9 @@
 4. back to Loop
 5. repeat 2-4 ~~到死為止~~
 
+
+
+```sh
+alias rr='nginx -s reload; systemctl restart ww'
+alias ss='systemctl status ww'
+```

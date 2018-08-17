@@ -96,24 +96,25 @@ tony      5165  0.0  0.3 124868 11896 pts/10   Sl+  21:09   0:00 uwsgi --socket 
 
 ```sh
 # 使用 TCP port Socket 參數 run AppServer (找不到靜態文件)
-$ uwsgi --http :8000 --chdir /home/pome/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py --master --processes 4 --threads 2 --module
+$ uwsgi --http :8000 --chdir /home/tony/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py --master --processes 4 --threads 2 --module
 
-$ uwsgi --socket 127.0.0.1:8000 --chdir /home/pome/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py --master --processes 2 --threads 4
+$ uwsgi --socket 127.0.0.1:8000 --chdir /home/tony/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py --master --processes 2 --threads 4
 
 
-$ uwsgi --http :8000 --chdir /home/pome/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py
+$ uwsgi --http :8000 --chdir /home/tony/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py
 
 # 使用 Unix Socket
-### mysite
-$ uwsgi --socket bis.sock --wsgi-file  test.py
-$ uwsgi --socket bis.sock --chdir /home/pome/mysite --wsgi-file mysite/wsgi.py
+
+uwsgi --socket /tmp/w.sock --chdir /home/tony/doc/bis_emc/bis_emc --module bis_emc.wsgi:application --chmod-socket=664 --vacuum
+
+$ uwsgi --socket bis.sock --chdir /home/tony/mysite --wsgi-file mysite/wsgi.py
 
 ### bis_emc
-$ uwsgi --socket bis.sock --chdir /home/pome/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py
-$ uwsgi --socket bis.sock --chdir /home/pome/bis_emc --module bis_emc.wsgi
+$ uwsgi --socket bis.sock --chdir /home/tony/bis_emc/bis_emc --wsgi-file bis_emc/wsgi.py
+$ uwsgi --socket bis.sock --chdir /home/tony/bis_emc --module bis_emc.wsgi
 
 ### 使用 Unix Socket
-$ uwsgi --socket bis.sock --chdir /home/pome/doc/bis_emc --wsgi-file bis_emc/wsgi.py
+$ uwsgi --socket /bis.sock --chdir /home/tony/doc/bis_emc --wsgi-file bis_emc/wsgi.py
 ```
 
 
@@ -138,7 +139,7 @@ server {
     charset         utf-8;
     client_max_body_size 75M;   # adjust to taste
     location /static {
-        alias       /home/pome/bis_emc/bis_emc/static;
+        alias       /home/tony/bis_emc/bis_emc/static;
     }
 
     location / {
@@ -193,10 +194,10 @@ After=network.target
 
 [Service]
 User=root
-Group=pome
-WorkingDirectory=/home/pome/bis_emc/bis_emc
-ExecStart=/home/pome/.virtualenvs/bis/bin/uwsgi --ini /home/pome/uwsgi.ini
-#Environment=/home/pome/.virtualenvs/bis/bin
+Group=tony
+WorkingDirectory=/home/tony/bis_emc/bis_emc
+ExecStart=/home/tony/.virtualenvs/bis/bin/uwsgi --ini /home/tony/uwsgi.ini
+#Environment=/home/tony/.virtualenvs/bis/bin
 
 [Install]
 WantedBy=multi-user.target
@@ -209,7 +210,7 @@ WantedBy=multi-user.target
 ```ini
 [uwsgi]
 uid = root
-gid = pome
+gid = tony
 master = true
 processes = 1
 threads = 2
@@ -217,16 +218,16 @@ threads = 2
 socket = /run/bis.sock
 chmod-socket = 664
 
-chdir = /home/pome/bis_emc/bis_emc
+chdir = /home/tony/bis_emc/bis_emc
 module = bis_emc.wsgi:application
 
-home = /home/pome/.virtualenvs/bis
+home = /home/tony/.virtualenvs/bis
 
 vacuum = true
 disable-write-exception = true
 buffer-size = 30000
 
-logto =/var/log/bis/bis.log     # root pome s664
+logto =/var/log/bis/bis.log     # root tony s664
 
 # wsgi-disable-file-wrapper = true
 # socket-timeout = 65
@@ -241,3 +242,5 @@ logto =/var/log/bis/bis.log     # root pome s664
 # 不知道為什麼需要這樣作
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.124.108']   # 得把自己在區網的 ip addr 加進來
 ```
+
+

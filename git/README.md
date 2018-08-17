@@ -1,5 +1,4 @@
-# git相關知識
-
+# Git版空
 - [Learning git in 30 days](https://github.com/doggy8088/Learn-Git-in-30-days/tree/master/zh-tw)
 - [Git branch的操作](https://blog.gogojimmy.net/2012/01/21/how-to-use-git-2-basic-usage-and-worflow/)
 - [Git初學者心得分享](http://www.mrmu.com.tw/2011/05/06/git-tutorial-for-beginner/)
@@ -7,16 +6,6 @@
 - [Git中文化電子書](https://git-scm.com/book/zh-tw/v2)
 - [Git視覺化遊戲](http://learngitbranching.js.org/)
 - [Github Cheat Sheet](https://metavige.github.io/2015/04/20/github-chest-sheet/#%E5%BE%9E%E5%B7%A5%E4%BD%9C%E5%8D%80%E5%8E%BB%E9%99%A4%E5%A4%A7%E9%87%8F%E5%B7%B2%E5%88%AA%E9%99%A4%E6%96%87%E4%BB%B6) 感覺值得花時間看看~ 2018/07/19 新增
-
-```sh
-# 作業環境
-$ uname -a
-Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 
-
-# 版本
-$ git --version
-git version 2.14.3
-```
 
 
 
@@ -33,22 +22,35 @@ $ git branch --set-upstream-to=origin/feature feature
 $ git remote set-url origin git@github.com:cool21540125/documentation-notes.git
 ```
 
+```sh
+# 作業環境
+$ uname -a
+Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 
+
+# 版本
+$ git --version
+git version 2.14.3
+```
 
 
 
 # A. 概念
+
 > Git為 `分散式版本控管系統(Distributed Version Control System)`. 
+
+
 ## 示意圖
+
 ![Git0](../img/git01.jpg)
 
 ![Git1](../img/git02.jpg)
-```
-add : 將 檔案 加入版本控管
 
-```
+
 
 # B. 名詞定義
+
 ## 分支名稱
+
 Name   | Description
 ------ | ----------------------------------
 master | `本地端分支`的預設名稱
@@ -74,8 +76,8 @@ $ git branch -a
 ```
 
 
------------------------------------------
 ## HEAD節點標籤
+
 此節點標籤, 永遠代表最新的 commit
 ```sh
 $ git show HEAD
@@ -83,9 +85,8 @@ $ git show HEAD
 ```
 
 
-
------------------------------------------
 ## git merge
+
 把指定的分支, 合併到目前的分支
 ```sh
 # 目前位於 branch A
@@ -98,8 +99,8 @@ $ git merge B
 ```
 
 
------------------------------------------
 ## git merge 「fast-forward merge」
+
 讓 master分支, 沿著分支快轉前進(不會產生新的節點)
 ```sh
 # 「O」代表每次 commit, (越下面的 commit表示越新,)
@@ -133,8 +134,8 @@ $ git merge bug/123 --no-ff
 ```
 
 
------------------------------------------
 ## git merge 「3-way merge」
+
 因為分支與 master 都有各自 commit了, 導致彼此的歷史沒有重疊
 ```sh
 #         O 
@@ -154,8 +155,8 @@ $ git merge bug/123
 ```
 
 
------------------------------------------
 ## git reset 取消提交
+
 將 git檔案庫回復到某一個舊節點的狀態.
 - 取消最近一次的合併動作
 - **無法對 remote branch作用!!!!**
@@ -224,7 +225,6 @@ nothing added to commit but untracked files present (use "git add" to track)
 ```
 
 
------------------------------------------
 ## git revert 取消提交 (保有 git commit的實作方式)
 
 ```sh
@@ -252,8 +252,8 @@ $ git cherry-pick commit <節點標籤>
 ```
 
 
------------------------------------------
 ## 放棄合併衝突
+
 執行合併後, 產生衝突, 打算放棄此合併, 則會回到未執行合併前的狀態
 ```sh
 $ git merge --abort
@@ -265,16 +265,13 @@ $ git cherry-pick --abort
 ```
 
 
------------------------------------------
 ## git reflog
+
 > 任何透過指令修改的`參照(ref)的內容` or `更任何分支的 HEAD 參照內容`, 都會建立歷史紀錄. ex: commit, checkout, pull, push, merge, ...
-```sh
 
-```
-
------------------------------------------
 
 ## git rebase
+
 ```sh
 
 ```
@@ -342,16 +339,16 @@ $ git config --global push.followTags true  # ※ 好像沒有用處!!?? ※
 ```
 
 
------------------------------------------
 ## .gitignore - 取消追蹤
+
 ```
 *.txt        # 不要追蹤所有 txt檔
 !note.txt    # 但是排除 note.txt(要追蹤)
 ```
 
 
------------------------------------------
 ## 更改 remote repo
+
 ```sh
 $ git remote -v
 origin  https://github.com/cool21540125/illu.git (fetch)
@@ -367,8 +364,6 @@ origin  git@github.com:cool21540125/documentation-notes.git (push)
 ```
 
 
-
------------------------------------------
 ## 改變追蹤遠端分支
 
 建立一個新的 foo branch, 並追蹤 origin/master
@@ -383,16 +378,16 @@ $ git branch -u origin/master foo
 
 
 # D. 操作指令
+
 ## 選項
+
 選項 | 說明 | 範例 
 --- | --- | ---
 -s | 簡易資訊 | git status -s
 
 
-
-
------------------------------------------
 ## Git tag
+
 [推送 tag問題](https://stackoverflow.com/questions/5195859/how-to-push-a-tag-to-a-remote-repository-using-git)
 > 推送 tag到遠端, 語法: `git push <遠端名稱> <tag name>`
 
@@ -410,8 +405,9 @@ $ git tag -d v1.0
 $ git push --follow-tags
 ```
 
------------------------------------------
+
 ## Merge 與 Rebase
+
 > Merge: `合併後, 分支仍然存在`
 ```sh
 $ git branch
@@ -437,9 +433,8 @@ $ git rebase tony           # 把 (落後的)master, 合併到 tony
 ```
 
 
-
------------------------------------------
 ## git stash 暫存版
+
 - `git stash` 已追蹤 的檔案 建立暫存版 (同 `git stash save`)
 - `git stash -u`　已追蹤 + 未追蹤 的檔案 建立暫存版 (存到 Stack)
 - `git stash --keep-index` 把 untracked files 作 stash
@@ -451,14 +446,17 @@ $ git rebase tony           # 把 (落後的)master, 合併到 tony
 - [保證簡單好懂得範例](./stash_example.md)
 
 
------------------------------------------
 ## git reset 改變範圍
+
 param   | data in repo | git index | file in dir
 ------- |:------------:|:---------:|:------------:
 --soft  | v            |           | 
 --mixed | v            | v         | 
 -- hard | v            | v         | v
+
+
 ## 建立新的git repo
+
 > 參考: [共用儲存庫](https://ithelp.ithome.com.tw/articles/10132804)
 ```sh
 $ git init
@@ -466,16 +464,13 @@ $ git init --bare
 ```
 
 
-
------------------------------------------
 ## 遠端分支
-> 
+
 ```sh
 $ git config -l | grep master
 branch.master.remote=origin
 branch.master.merge=refs/heads/master
 ```
-
 
 ```sh
 # 查看本地/遠端分支
@@ -486,15 +481,17 @@ $ git branch -a
   remotes/origin/logging
   remotes/origin/master
 ```
------------------------------------------
+
+
 ## 修改 Commit訊息 重新commit
+
 ```sh
 $ git commit --amend -m "<Commit String>"
 ```
 
 
------------------------------------------
 ## 鎖定遠端repo、遠端repo追蹤
+
 > 加入 remote repository, 語法: `git remote add <遠端名稱> <網址>`
 ```sh
 # 追蹤遠端分支
@@ -581,8 +578,8 @@ $ git tree
 ```
 
 
------------------------------------------
 ## 加入至stage狀態
+
 [git add 差異說明](https://stackoverflow.com/questions/572549/difference-between-git-add-a-and-git-add)
 
 > ※ 以下 `不保證完全正確`, 因為有版本問題...
@@ -600,14 +597,11 @@ $ git add .     # (不建議使用, 請用上者來代替)
 # 把已經 git add 的檔案, 從已追蹤名單中移除
 $ git rm --cached <檔名>
 # ((--cached 也可以解釋成, 從快取中... 或 從 index中...))
-
-# 
-$ 
 ```
 
 
------------------------------------------
 ## 回到過去
+
 - 使用 `^`向上移動一個 commit
 - 使用`~<num>`向上移動多個 commit
 ```sh
@@ -619,8 +613,8 @@ $ git branch -f master HEAD~3
 ```
 
 
------------------------------------------
 ## 刪除分支 移除分支
+
 ```sh
 $ git branch -d <要刪除的分支名稱>
 # 若該分支還沒作 merge, 則無法刪除
@@ -630,15 +624,15 @@ $ git branch -D <要刪除的分支名稱>
 ```
 
 
------------------------------------------
 ## 重新命名分支
+
 ```sh
 $ git branch -m <新的分支名稱>
 ```
 
 
------------------------------------------
 ## 清理檔案庫
+
 Git經過一段時間之後, .git的資料夾會變得無比的巨大, 可以使用下列指令來清理此檔案庫, 指令為
 ```sh
 $ git gc
@@ -651,7 +645,9 @@ N/A          | (預設) 會用比較快速的方式檢查&&清理
 --auto       | Git自動判斷是否需要清理, 情況良好則不動作
 --no-prune   | 不要清除repo, 而是用整了的方式
 
+
 ## 查詢歷史紀錄
+
 > 語法: `git reflog <branchName>` , 查詢任何分支變動的歷史紀錄<br>
   若只有打 `git reflog` or `git reflog HEAD`, 則表示列出 HEAD變動的歷史紀錄
 ```sh
@@ -668,7 +664,8 @@ $ git reset --hard HEAD@{4}
 # 慎用 --hard
 ```
 
------------------------------------------
+
+
 # E. 其他零碎片段
 
 > `沒有工作目錄的儲藏庫`(no working tree / no working directory), 為 「bare repository」
@@ -686,4 +683,3 @@ $ git checkout HEAD~1
 
 $ ssh-keygen -t rsa -b 4096 -C "tony@tonynb"
 ```
-

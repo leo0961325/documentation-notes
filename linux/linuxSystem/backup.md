@@ -162,6 +162,11 @@ $ ll /var/lib/xfsdump/inventory/
 
 # 底下為了進行 增量備份, 所以先弄個假東西在裏頭XD
 $# dd if=/dev/zero of=/boot/testing.img bs=1M count=10
+# block size=1M
+# count 10 份
+# of=... 輸出到
+# 總計 1M * 10 = 10M
+
 $# touch /boot/QQQ
 
 # 進行 level 1 增量備份~~

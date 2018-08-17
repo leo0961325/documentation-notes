@@ -10,11 +10,21 @@
 3. GUN long options    : 「--」開頭
 
 ```sh
+$ ps aux        # u : 看到 user name
+$ ps alx        # l : 
+$ ps afx
+$ pstree -p
+$ ps au --sort=...      # 指定排序欄位
+
 # 只能查閱自己的 bash程序
 $ ps -l
 
 # 查閱所有系統運作的程序
 $ ps aux
+# a: 所有 user
+# u: user name 欄位
+# l: UID 欄位
+# x: 背景程序(會有超多)
 ```
 
 
@@ -110,6 +120,8 @@ F   UID   PID  PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
 0  1000  2198  1959  20   0 148936  1452 -      R+   pts/0      0:00 ps l
 0  1000 24277 24261  20   0 116560  3224 n_tty_ Ss+  pts/1      0:00 /bin/bash
 # NI為 [-20, 19], 越小越優先, 預設為 0
+# R+ 為 正在執行佇列
+# T  為 Stopped
 ```
 
 
