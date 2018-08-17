@@ -143,6 +143,14 @@ OPTIONAL    | (同 MAY)
 
 
 
+## status code
+
+Code                       | Description
+-------------------------- | ---------------------------------
+403 Forbidden              | 請求被 Server 拒絕, Server 應回傳拒絕原因 or 導向 404
+405 Method Not Allowed     | Request Line 不支援此方法
+415 Unsupported Media Type | 要給 `Content-Type`
+
 # [rfc7540](https://www.ietf.org/rfc/rfc7540.txt)
 
 ## Hypertext Transfer Protocol Version 2 (HTTP/2)
