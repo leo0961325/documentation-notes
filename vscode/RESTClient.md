@@ -102,11 +102,11 @@ Authorization: token xxx
 
 ```sh
 ### 將轉換後的 base64 寫在底下...
-GET https://httpbin.org//basic-auth/user/passwd HTTP/1.1
+GET https://httpbin.org/basic-auth/user/passwd HTTP/1.1
 Authorization: Basic dXNlcjpwYXNzd2Q=
 
 ### 直接寫明 帳號 密碼
-GET https://httpbin.org//basic-auth/user/passwd HTTP/1.1
+GET https://httpbin.org/basic-auth/user/passwd HTTP/1.1
 Authorization: Basic user passwd
 
 ### 改用 Digest Auth

@@ -277,7 +277,7 @@ db.createUser({ user: "root", pwd: "root_pd", roles: [{ role: "root", db: "admin
 use db2;
 db.createUser({ user: "admin", pwd: "admin_pwd", roles: [{ role: "dbOwner", db: "db2" }] });
 
-db.createUser({ user: "admin", pwd: "pome", roles: [{ role: "dbOwner", db: "test_emc" }] });
+db.createUser({ user: "admin", pwd: "1234%^&*", roles: [{ role: "dbOwner", db: "test_emc" }] });
 ```
 
 

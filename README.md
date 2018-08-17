@@ -40,3 +40,4 @@ windows       | Windows 作業系統相關
 - credentials : 憑證
 - semantic : 語意
 - malformed : 異常
+- passphrase : 密語; 嚴格來講, 此非密碼 (Not a password)
