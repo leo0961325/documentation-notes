@@ -1,4 +1,5 @@
 # 網際網路 與 網路架構
+
 - 2018/05/17
 - UCOM - NINS 上課筆記
 - 網管的東西
@@ -6,6 +7,7 @@
 
 
 # 網路的一些基本概念 (好像也不是非常重要)
+
 > 網路有 2個派系: `ISO` 及 `IEEE`. ISO(1970) 提出了個 成本很貴的 OSI 7層協定; IEEE(1982) 提出了一連串的網路協定
 
 Standard     | Description
@@ -17,15 +19,21 @@ IEEE 802.15  | Wireless PAN (藍芽)
 
 > 早期, *網路卡製造商* 都會在 **網路卡** 上面 直接燒錄 `Mac Address(實體位置)` 在它的 ROM 上面, 但還是會有 不同網卡有相同 `Mac Address` 的事情發生(2個人相同身分證字號啦!!). 所以, 近一、二十年來, 都改成可以用 *驅動程式* 來更改 `Mac Address` 了.
 
+
 ## 802.3 - Ethernet 乙太網路
+
 - 使用 CSMA/CD 傳輸資料
 - 現今 `乙太網路標準` 分為 2 個: 一個由 DEC、Intl、Xerox 共同制定的 `DIX乙太網路標準`; 另一個是由 IEEE 802委員會所制定的 `IEEE 802.3乙太網路標準`
 
+
 ## 802.11 - Wireless LAN 無線區域網路
+
 - 採用 CSMA/CA 傳輸資料
 - 傳輸資料分為 2 種, 一種是 **有透過 AP傳輸** ; 一種是 **沒有透過 AP傳輸** (也稱為 `Ad-Hoc`). note: AP(Access Point)
 
+
 ## 802.15 - Wireless PAN 藍芽
+
 - (我還不知道它怎麼傳輸資料...)
 
 
@@ -42,12 +50,14 @@ IEEE 802.15  | Wireless PAN (藍芽)
 
 
 ## 1. 信號再生器(Repeater)
+
 -  OSI `實體層` 的運作
 - 因為 *數位訊號* (一堆 0 跟 1) 傳輸時會衰退, 重製數位訊號, 來增加傳輸距離
 - 它只知道 **訊號來了, 我就重製它, 再把它傳出去**, 它 **看不懂訊號** 的意義
 
 
 ## 2. 集線器(Hub)
+
 -  OSI `實體層` 的運作
 - 依照 `會不會對訊號作 重製/再生`(需不需要插電(大誤)), 分為 `Active Hub(要插電)` 跟 `Passive Hub(不用插電)`
 - 現今多數都是 `Active Hub`
@@ -56,6 +66,7 @@ IEEE 802.15  | Wireless PAN (藍芽)
 
 
 ## 3. 橋接器(Bridge)
+
 - 屬於 OSI `資料連結層` 的運作 (只認得`實體位置` 只認得`實體位置` 只認得`實體位置` )
 - 主要功能: `轉送廣播訊框, 篩選直接訊框`
 - 依照 `MAC Address` 決定資料傳輸的方向, 來提高網路效率
@@ -71,6 +82,7 @@ IEEE 802.15  | Wireless PAN (藍芽)
 
 
 ## 4. 交換器(Switch)
+
 - 屬於 OSI `資料連結層` 的運作(狹義上), 基本上, 它具有 **橋接器** 的功能
 - **企業級的交換器** 通常可進行 `虛擬區域網路的分割`, 將一台 實體交換器, 設定成 多台虛擬且獨立的交換器
 - 交換器 有2個以上的 通道, 對每一個 port提供 獨享頻寬
@@ -78,6 +90,7 @@ IEEE 802.15  | Wireless PAN (藍芽)
 
 
 ## 5. 路由器(Router)
+
 - 屬於 OSI `網路層` 的運作
 - 主要目的: 切割網域
 - 看得懂 `IP Address`
@@ -92,12 +105,14 @@ $ traceroute <ip>
 ```
 
 ## 6. 閘道器(Gateway)
+
 - 屬於 OSI `傳輸層(以上)` 的運作
 - 讓 不同網路協定 的資料可以相互傳輸 (講不同語言的人互相溝通的翻譯人員啦!!)
 
 
 
 # TCP/IP Protocol
+
 ![TCP/IP Protocol](../img/protocol_main.jpg)
 
 Source: https://www.distributednetworks.com/dhcp-tcp-ip/module3/images/protocol_main.gif
@@ -140,16 +155,16 @@ Source: https://www.distributednetworks.com/dhcp-tcp-ip/module3/images/protocol_
 - For 「Windows 10」, 「C:\Windows\System32\drivers\etc\protocol」裏頭有 protocol:port 對照表
 
 
-
 ## Internet Protocol (IP)
+
 - 封包的 `切割` 、 `重組` 、 `定址` 、 `轉送`
     - 重組切割, ex: router兩端, 一邊 wifi, 一邊 Ethernet (MTU 不同)
 - IP 協定不會確認對方在不在(不建立 Session、分連接導向)
 - 可以依靠 `TCP` or `應用程式` 來負責 `可靠的資料傳遞`
 
 
-
 ## Transmission Coltrol Protocol (TCP)
+
 - 先建立 Session, 建立連線; 連接導向; Three-Ways HandShake
 - Byte-Stream
 - Port 對應 端點
@@ -161,13 +176,13 @@ Source: https://www.distributednetworks.com/dhcp-tcp-ip/module3/images/protocol_
     - Acknowledgements 確認 
 
 
-
 ## User Datagram Protocol (UDP)
+
 - 支援 unicast、multicast、broadcast
 
 
-
 ## Internet Control Message Protocol (ICMP)
+
 - 偵測網路連線狀況與路由分析, 找到快速回家的路(ICMP Redirect)
 - 預設來講, 為了避免封包被無止境轉送, 弄出了 `TTL`, TTL = default - n
 ```powershell
@@ -180,8 +195,8 @@ Source: https://www.distributednetworks.com/dhcp-tcp-ip/module3/images/protocol_
 - for Linux,   default TTL = 255
 
 
-
 ## Address Resolution Protocol (ARP)
+
 - 解析 `IP Address` 對應的 `Mac Address`(使用 `Broadcast` 取得)
 - 分為 **動態快取** 及 **靜態快取**
     - 動態快取 - 透過 ARP協定 運作而自動加入
@@ -221,8 +236,8 @@ Source: https://www.distributednetworks.com/dhcp-tcp-ip/module3/images/protocol_
 ```
 
 
-
 ## Internet Group Management Protocol (IGMP)
+
 - class D 的領域... `[224~239].xxx.xxx.xxx`
 - 群播(Multicast)機制
 - 主機需要設定多址傳送等級
@@ -235,11 +250,14 @@ Source: https://www.jannet.hk/content/public/upload/igmp/01.png
 
 
 ## 其他
+
 - 查看封包的好用軟體 `Wireshark`, 使用 `packet driver` 來擷取訊框
 - DHCP: 為 bootp 的進化版
 
 
+
 # Web Service
+
 > Dynamic Host Configuration Protocol, DHCP (RFC-1541, 1542) : 讓管理者集中管理 DHCP Client IP 相關設定, 讓 DHCP Client 自動取得合適的 IP.
 
 - Client/Server , 藉由 UDP Protocal 由 Client 68 Port 藉由 Broadcast 至 67 Port

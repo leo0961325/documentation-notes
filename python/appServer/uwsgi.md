@@ -114,7 +114,7 @@ $ uwsgi --socket bis.sock --chdir /home/tony/bis_emc/bis_emc --wsgi-file bis_emc
 $ uwsgi --socket bis.sock --chdir /home/tony/bis_emc --module bis_emc.wsgi
 
 ### 使用 Unix Socket
-$ uwsgi --socket /bis.sock --chdir /home/tony/doc/bis_emc --wsgi-file bis_emc/wsgi.py
+$ uwsgi --socket bis.sock --chdir /home/tony/doc/bis_emc --wsgi-file bis_emc/wsgi.py
 ```
 
 

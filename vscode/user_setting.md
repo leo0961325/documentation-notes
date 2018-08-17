@@ -50,9 +50,18 @@
 
 # Django Debugger - Project settings - settings.json
 
-```json
+- [Using Pylint with Django](https://stackoverflow.com/questions/115977/using-pylint-with-django/31000713#31000713)
+
+```sh
+pip install pylint-django
+```
+
+```js
 {
     "python.pythonPath": "${workspaceFolder}\\ve\\Scripts\\python.exe",
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django"      // 讓 VSCode Python-Django 的 linter 正常一點...
+    ],
 }
 ```
 
@@ -60,7 +69,7 @@
 # Debugger - Launch.json
 ## Python - Django
 
-```json
+```js
 {
 
     "version": "0.2.0",
@@ -72,6 +81,7 @@
             "program": "${workspaceFolder}/manage.py",
             "args": [
                 "runserver",
+                "--noreload",   // 如此才能 Debug阿@@
             ],
             "debugOptions": [
                 "RedirectOutput",

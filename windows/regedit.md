@@ -3,7 +3,7 @@
 ```powershell
 > systeminfo
 
-主機名稱:             3200-PM0024-1
+主機名稱:             520-QQ81-1
 作業系統名稱:         Microsoft Windows 10 專業版
 作業系統版本:         10.0.17134 N/A 組建 17134
 # 後略...

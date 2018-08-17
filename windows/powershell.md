@@ -1,7 +1,13 @@
 # powershell 指令
 
-### sys-admin
+```powershell
+# 查詢自己的主機名稱
+> HOSTNAME
+520-QQ081-1
+```
 
+
+### sys-admin
 
 ```powershell
 # 啟動 Hyper-V - https://docs.microsoft.com/zh-tw/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
