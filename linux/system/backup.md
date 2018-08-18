@@ -1,7 +1,10 @@
 # backup備份 restore還原
+
 - [Backup](http://linux.vbird.org/linux_basic/0610hardware.php#backup_type)
 
+
 ## 工具
+
 - dd (直接讀取磁碟, 非常慢喔)
 - cpio (得要有 find 之類的找檔名指令)
 - xfsdump/xfsrestore (可直接進行累積備份)
@@ -10,11 +13,14 @@
 - 再生龍(可把磁碟的東西複製成一個大檔案, 鳥哥很推薦這個)
 
 ## 完整備份之累積備份(Incremental backup)
+
 週日作完整備份, 爾後則比較今天與`昨天`的差異, 備份差異部分. 再隔天, 一樣與`昨天`比較後, 備份差異的部分. 依此類推~
 
 
 ## 完整備份之差異備份(Differential backup)
+
 週日作完整備份, 爾後則比較今天與`第一天`的差異, 備份差異部分. 再隔天, 一樣與`第一天`比較後, 備份差異的部分. 依此類推~ (`差異備份`會越來越大包)
+
 
 ### 鏡像備份(Mirror backup)
 
@@ -23,7 +29,9 @@ $ rsync -av <來源> <目標>
 ```
 
 
+
 # 差異備份範例
+
 - 2018/07/08
 - [鳥哥 - 僅備份比某個時刻還要新的檔案](http://linux.vbird.org/linux_basic/0240tarcompress.php#pack)
 
@@ -59,14 +67,17 @@ $# tar ztvf bb.tar.gz | grep -v '/$'
 -rw-r----- root/lp         111 2018-06-28 09:06 etc/cups/subscriptions.conf
 -rw-r--r-- root/root      1062 2018-06-26 21:43 etc/group
 ...(略)...
-
 ```
 
 
+
 # xfs 檔案系統 (CentOS7 預設)
+
 - 2018/07/09
 
+
 ## xfsdump && xfsrestore
+
 - 只能備份 `XFS "檔案系統"` (`無法備份 XFS檔案系統 裡的 特定目錄`)
 - 備份的東西只能讓 `xfsrestore` 解析
 - 只能備份已掛載的檔案系統(不支援沒有掛載的檔案系統)
@@ -76,6 +87,7 @@ $# tar ztvf bb.tar.gz | grep -v '/$'
 
 
 ## 1. xfsdump 備份~~
+
 ```sh
 $ xfsdump [-L S_Label] [-M M_Label] [-l #] [-f <backup name>] <target file>
 # -L : xfsdump 會記錄每次備份的 session 標頭
@@ -298,6 +310,8 @@ $# diff -r tmp/ /boot/
 # -i 可用互動式還原 (在此省略)
 ```
 
+
+
 # dd - 製作檔案, 壓縮, ...
 
 預設 dd 是逐磁區去作讀/寫, 所以不用理會 檔案系統, 都可以作備份還原
@@ -321,6 +335,4 @@ $ ll passwd.bak /etc/passwd
 # 檔案大小為 2541 bytes, 而因為 dd 時, 沒有指定 bs, 預設為 512 bytes
 # 512*4 < 2541 < 512*5=2560
 # 所以~ 4+1 表示有 4 個完整的 512 bytes + 1 個還沒滿的
-
-$ 
 ```

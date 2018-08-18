@@ -381,19 +381,17 @@ tmpfs               tmpfs     370M   48K  370M    1% /run/user/1000
 
 $# lsblk
 NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
-sda           8:0    0 465.8G  0 disk
-├─sda1        8:1    0     1G  0 part /boot
-├─sda2        8:2    0   218G  0 part
-│ ├─cl-root 253:0    0    80G  0 lvm  /
-│ ├─cl-swap 253:1    0     8G  0 lvm
-│ ├─cl-var  253:2    0    50G  0 lvm  /var
-│ └─cl-home 253:3    0    80G  0 lvm  /home
-└─sda3        8:3    0    16G  0 part
-sdb           8:16   1  14.5G  0 disk
-└─sdb1        8:17   1  14.5G  0 part
-sr0          11:0    1  1024M  0 rom
-
-# 怎麼說明阿....orz
+sda           8:0    0 465.8G  0 disk       # 第一顆磁碟
+├─sda1        8:1    0     1G  0 part /boot     # 第一個磁區
+├─sda2        8:2    0   218G  0 part           # 第二個磁區
+│ ├─cl-root 253:0    0    80G  0 lvm  /             # 根目錄磁區
+│ ├─cl-swap 253:1    0     8G  0 lvm                # SWAP空間
+│ ├─cl-var  253:2    0    50G  0 lvm  /var          # /var
+│ └─cl-home 253:3    0    80G  0 lvm  /home         # 家目錄
+└─sda3        8:3    0    16G  0 part           # 第三個磁區
+sdb           8:16   1  14.5G  0 disk       # 第二顆磁碟
+└─sdb1        8:17   1  14.5G  0 part           # part是啥阿...@@?
+sr0          11:0    1  1024M  0 rom        # sr: CDROM/DVDROM
 ```
 
 

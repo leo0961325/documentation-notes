@@ -20,6 +20,9 @@ $ git branch --set-upstream-to=origin/feature feature
 
 # 改變追蹤 URL
 $ git remote set-url origin git@github.com:cool21540125/documentation-notes.git
+
+# 重新 Commit
+$ $ git commit --amend -m "<Commit String>"
 ```
 
 ```sh

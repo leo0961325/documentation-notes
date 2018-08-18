@@ -1,6 +1,5 @@
-# 實體連結 && 符號連結 : ln
+# 連結方式 : `實體連結` && `符號連結`
 
-連結方式分兩種
 1. hard link
 2. soft link (與 Windows的捷徑一樣)
 
@@ -8,6 +7,10 @@
 $ ln [-sf] <來源> <目標>
 # s : 軟連結
 # f : 如果目標檔存在, 則覆蓋
+
+$ ln -s /opt/anaconda3/bin/python3 ~/bin/python
+$ ll ~/bin/python
+lrwxrwxrwx. 1 root root   26  3月  2 14:10 python -> /opt/anaconda3/bin/python3
 
 $ cd ~
 $ mkdir qq

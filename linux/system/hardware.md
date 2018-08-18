@@ -1,6 +1,6 @@
 # CentOS7 硬體部份
 
-> 在 Linux中, 每個裝置都被當成一個**檔案**來對待
+在 Linux中, `任何東西` 都被當成 **檔案** 來對待
 
 
 
@@ -12,22 +12,11 @@
 
 ```sh
 # gdisk 列出分割表
-$ 
-
 # dmesg 核心運作過程, 產生的訊息紀錄
-$ 
-
 # vmstat 分析系統(CPU/RAM/IO)目前的狀態
-$ 
-
 # lspci 列出 PCI介面裝置
-$
-
 # lsusb 列出 USB port
-$ 
-
 # iostat 列出整個 CPU與 周邊設備的I/O狀態 (類似 vmstat)
-$ 
 
 # lsmod: 查看核心模組
 $ lsmod | grep nouveau
@@ -43,31 +32,23 @@ i2c_core               40756  8 drm,i915,i2c_i801,i2c_hid,drm_kms_helper,i2c_alg
 ```
 
 
+## 常見的硬體裝置, 在 Linux 中的檔名
 
-# 未分類
+Device                                | Linux內的檔名
+------------------------------------- | ----------------------
+SCSI / SATA / USB (called SCSI)       | `/dev/sd[a-p]` <br> ex: `/dev/sda`, `/dev/sda1`, `/dev/sda2` <br> 可以做到 15個邏輯分割區
+IDE Disk                              | `/dev/hd[a-d]` (舊有系統), 但也有部分的 IDE硬碟, 被偽裝成了 `/dev/sd[a-d]` <br> 可以做到 63個邏輯分割區
+Virtual I/O interface                 | `/dev/vd[a-p]` (用於虛擬機器內)
+Printer                               | `/dev/usb/lp[0-15]` (USB介面) <br> `/dev/lp[0-2]` (25針腳印表機)
+Mouse                                 | `/dev/input/mouse[0-15]` (通用) <br> `/dev/psaux` (PS/2介面)
+CDROM/DVDROM                          | `/dev/cdrom` (當前CDROM, 指向`/dev/sr0` )  <br> `/dev/sr[0-1]` (通用, CentOS比較常見) <br> ex: `/dev/sr0`
 
-> 在 Linux中, 每個裝置都被當成一個**檔案**來對待
-
-
-## 常見的硬體裝置, 在 Linux中的檔名
-
-裝置 | Linux內的檔名
---- | ----------------------
-SCSI / SATA / USB <br> (統稱 SCSI硬碟) | `/dev/sd[a-p]` <br> ex: `/dev/sda`, `/dev/sda1`, `/dev/sda2` <br> 可以做到 15個邏輯分割區
-IDE硬碟 | `/dev/hd[a-d]` (舊有系統), 但也有部分的 IDE硬碟, 被偽裝成了 `/dev/sd[a-d]` <br> 可以做到 63個邏輯分割區
-Virtual I/O介面 | `/dev/vd[a-p]` (用於虛擬機器內)
-印表機 | `/dev/usb/lp[0-15]` (USB介面) <br> `/dev/lp[0-2]` (25針腳印表機)
-滑鼠 | `/dev/input/mouse[0-15]` (通用) <br> `/dev/psaux` (PS/2介面)
-CDROM/DVDROM | `/dev/cdrom` (當前CDROM, 指向`/dev/sr0` )  <br> `/dev/sr[0-1]` (通用, CentOS比較常見) <br> ex: `/dev/sr0`
-
-
-    /dev/sda1
-
-    其中, 
-    sd: SCSI磁碟
-    a: 第 1 顆 SCSI碟
-    4: 第 4 個分割區
-
+```sh
+# /dev/sda4
+# sd : sd: SCSI磁碟
+# a: 第 1 顆 SCSI碟
+# 4: 第 4 個分割區
+```
 
 
 

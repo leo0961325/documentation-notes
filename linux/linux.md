@@ -23,10 +23,7 @@ Codename:       Core
 
 
 
-
-
----
-## EPEL(Extra Packages for Enterprise Linux)
+# EPEL(Extra Packages for Enterprise Linux)
 > Linux在安裝許多軟體的時候(ex: yum install ...), 會有軟體相依性的問題, 若發現相依軟體尚未被安裝, yum會自己去`本地 repository`裡頭找有記載的`遠端 repository`去下載相依套件. 而 EPEL就是專門 for CentOS的套件庫, 裡頭有許多CentOS的核心套件. <br>查看補充說明: 
 [What is EPEL](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
 ```sh
@@ -35,23 +32,28 @@ $ sudo yum install -y epel
 
 
 
----
-## Linux的軟體管理員 - rpm
+# Linux的軟體管理員 - rpm
+
 ### - rpm vs dpkg
+
 distribution 代表 | 軟體管理機制 | 使用指令 | 線上升級機制(指令)
 --- | --- | --- | ---
 Red Hat/Fedora | RPM | rpm, rpmbuild | YUM (yum)
 Debian/Ubuntu | DPKG | dpkg | APT (apt-get)
 
+
 ### - rpm vs srpm
+
 檔案格式 | 檔名格式 | 直接安裝與否 | 內含程式類型 | 可否修改參數並編譯
 --- | --- | --- | --- | ---
 RPM | xxx.rpm | 可 | 已編譯 | 不可
 SRPM | xxx.src.rpm | 不可 | 未編譯之原始碼 | 可
 
-> rpm套件管理的語法: `rpm -<options> <xxx.rpm>`
+rpm套件管理的語法: `rpm -<options> <xxx.rpm>`
+
 
 ### - options
+
 options     | description
 ----------- | ------------
 -i          | 安裝套件
@@ -79,12 +81,14 @@ setup-2.8.71-4.el7.noarch   <---安裝包
   適用平台: noarch
 ```
 
+
 ### - sub options
 sub options | description
 ----------- | ------------
 --test      | 僅測試模擬安裝過程, 不會真正安裝`(移除時, 可嘗試用此搭配)`
 --nodeps    | 忽略安裝前的相依性檢查
 --force     | 強制安裝(若已安裝, 會覆蓋掉前次安裝)
+
 
 ### 常用選項
 options     | description
@@ -112,8 +116,6 @@ Static hostname: tonynb
 # 設定新的主機名稱
 $ hostnamectl set-hostname <new host name>
 ```
----
-
 
 
 
@@ -252,75 +254,11 @@ $ touch [-acdmt] <filename>
 $ touch f1
 $ ll f1
 -rw-rw-r--. 1 tony tony 0  7月  8 22:05 f1
-
-$ 
-```
-
-
-# NetworkManager服務 與 network服務(比較傳統的方式)
-> NetworkManager服務(NM) 專門設計用來給 `移動設備(ex: NB)`使用, 可以在各種場合切換連線方式. 所以像是 Server或是一般桌電, 大都不使用 NM, 而是使用 network服務. **兩者則一啟用即可**.
-
-```sh
-$ systemctl status NetworkManager.service
-● NetworkManager.service - Network Manager
-   Loaded: loaded (/usr/lib/systemd/system/NetworkManager.service; enabled; vendor preset: enabled)
-   Active: active (running) since 三 2018-03-07 09:09:49 CST; 14h ago    ### 啟動中!!
-     Docs: man:NetworkManager(8)
- Main PID: 850 (NetworkManager)
-   Memory: 21.3M
-   CGroup: /system.slice/NetworkManager.service
-           ├─  850 /usr/sbin/NetworkManager --no-daemon
-           └─12031 /sbin/dhclient -d -q -sf /usr/libexec/nm-dhcp-helper -pf /var/run/dhclient-enp1s0.pid -lf /var/lib/NetworkManager/dhclient-1e1bba3e...
-(還有超多...略...)
-
-$ systemctl status network.service
-● network.service - LSB: Bring up/down networking
-   Loaded: loaded (/etc/rc.d/init.d/network; bad; vendor preset: disabled)
-   Active: active (exited) since 三 2018-03-07 09:09:55 CST; 14h ago     ### 存在, 但沒啟用
-     Docs: man:systemd-sysv-generator(8)
-  Process: 957 ExecStart=/etc/rc.d/init.d/network start (code=exited, status=0/SUCCESS)
-   Memory: 0B
-```
-
-> 由於多數 Linux Server都是使用 `network service`, 所以底下開始說明 `network service`的組態
-```sh
-# 服務程式位置
-/etc/init.d/network   
-
-# network服務會讀取 「系統網路組態目錄」內的設定檔, 並配置所有網路的組態
-$ ls /etc/sysconfig/network-scripts/
-ifcfg-andy.lee  ifcfg-enp1s0    ifcfg-lo        ifcfg-wha  # (還有很多很多)
-
-# 網路卡的設定檔
-$ cat ifcfg-enp1s0
-TYPE=Ethernet
-BOOTPROTO=dhcp      # [dhcp, static, none], 若設定其他者, 還要有 'IPADDR=<ip>', 'NETMASK=<sub-net mask>', 'GATEWAY=<gateway>'
-DEFROUTE=yes
-PEERDNS=yes
-PEERROUTES=yes
-IPV4_FAILURE_FATAL=no
-IPV6INIT=yes        # 是否支援 ipv6
-IPV6_AUTOCONF=yes
-IPV6_DEFROUTE=yes
-IPV6_PEERDNS=yes
-IPV6_PEERROUTES=yes
-IPV6_FAILURE_FATAL=no
-IPV6_ADDR_GEN_MODE=stable-privacy
-NAME=enp1s0
-UUID=1e1bba3e-ea82-4b79-9071-b64b659bd9fe
-DEVICE=enp1s0       # 設備名稱
-ONBOOT=no           # 開機是否啟用此網路卡
-# USERCTL           # 使用者是否有權限控制此網路卡
-# NM CONTROLLED     # 是否交由 NetworkManager工具來管理此網路卡
-
-### 以上都可以直接編輯後, 重新啟動 network.service即可作用 ###
 ```
 
 
 
----
-
-## 解除yum lock
+# 解除yum lock
 
 1. 底下這邊不是程式碼, 是說明情境
 ```
@@ -360,36 +298,22 @@ Command: gnome-terminal
 
 
 
----
-## rwx 權限
-> 若出現 `Permission denyed`, 則要改變執行者對此檔案的權限
-```sh
-$ ll
--rw-rw-r--. 1 ...(略)... pp.py
+# - shebang on Linux
 
-$ chmod u+x pp.py
-$ ll
-drwxrwxr-x. 1 ...(略)... pp.py
-```
+- [run python script directly from command line](https://stackoverflow.com/questions/20318158/run-python-script-directly-from-command-line)
 
-特殊權限(SUID, SGID, SBIT), 參考 security.md
-
-
-
-
----
-## - shebang on Linux
-[run python script directly from command line](https://stackoverflow.com/questions/20318158/run-python-script-directly-from-command-line)
 > Linux系統底下, 可在任何.py檔的第一行使用 `#!/usr/bin/python` ( 依照使用的 python位置而定 ), 執行此腳本時, 可以藉由下列方式來執行.<br>
 > windows系統下, 若要使用同 shebang的功能, 再去google `cygwin`.
+
 ```sh
 $ python pp.py
 $ ./pp.py
 ```
 
 
----
-## 常見系統環境變數
+
+# 常見系統環境變數
+
 env variables  | description
 -------------- | -----------------
 $HOME          | /home/tony
@@ -400,8 +324,9 @@ $LANG          | en_US.UTF-8
 $RANDOM        | 0~32767整數亂數
 $?             | 上次指令結束後的狀態碼(0:true, 1:false)
 
----
-## shell內
+
+
+# shell內
 hotkey | description
 ------ | -----------
 Ctrl+C | 中斷目前工作 ; 終止目前命令
@@ -500,20 +425,8 @@ tony     pts/2    :0               14:06   18:13   0.26s  0.12s bash
 
 
 
----
-## 軟連結 soft link
-> 語法: `ln -s <目標對象> <連結名稱>`
-```sh
-$ ln -s /opt/anaconda3/bin/python3 ~/py
+# chown
 
-$ ll | grep py
-lrwxrwxrwx. 1 root root   26  3月  2 14:10 py -> /opt/anaconda3/bin/python3
-```
-
-
-
----
-## chown
 ```sh
 # 10分鐘後關機
 $ sudo shutdown -h +10 
@@ -576,37 +489,6 @@ $ locate ifconf # 要查詢的東西, 檔名可以不完整
 [root@tonynb tony]# exit
 [tony@tonynb ~]$
 ```
-
-
----
-## find相關
-[參考自網路blog](https://blog.gtwang.org/linux/unix-linux-find-command-examples/)
-```sh
-# 速查檔案位置
-$ find [path] -name <要查的檔案名稱> #(可用 * )
-
-# 在目前dir底下,忽略大小寫找出所有xx.txt
-$ find . -iname xx.txt
-
-# -perm:尋找特定權限的檔案
-$ find . -type f ! -perm 777
-
-# 列出唯獨的檔案
-$ find . -perm /u=r
-
-# 列出可執行的檔案
-$ find . -perm /a=x
-```
-
-> 尋找語法: `$ find <路徑> -type <code> -name <要找的名稱>`
-
-\<code> | description 
-------- | ------------------ 
-d       | 目錄 
-p       | 具名的pipe(FIFO) 
-f       | 一般檔案 
-l       | 連結檔 
-s       | socket檔案 
 
 
 
@@ -1028,14 +910,12 @@ h       | 顯示 help介面
 
 
 ### 計數(word count) - wc
+
 ```sh
+# wc -[lwc] <file>  Line, Word, Character
 $ wc .bashrc
 118  520 3809 .bashrc
-# 檔案內有 118行, 520個英文字節數, 3809 bytes
-# 分別可用 -l -w -c來控制想要的輸出
-
-$ wc -w .bashrc
-520 .bashrc
+# 檔案內有 118行, 520個字節數, 3809 Byte Counts
 ```
 
 ### 取代/刪除字元 - tr
@@ -1122,22 +1002,6 @@ $ cut -d',' -f2 doc2
 18
 ```
 
-### 請求主機回應 - ping
-> ping指令, 送出 `icmp protocal的 ECHO_REQUEST`封包至特定主機, 主機在同樣以 `icmp回傳封包`
-```sh
-# ping 1次 (Windows 無法使用 -c)
-$ ping -c 1 168.95.1.1
-64 bytes from 168.95.1.1: icmp_seq=1 ttl=241 time=3.97 ms
-
-# 3.97 ms為 伺服氣宇該主機之間的連線回應狀況
-```
-
-### 追蹤網路主機路徑 - traceroute
-> 網路主機路徑追蹤工具, 找出 icmp封包到目的主機的路徑(中途節點, 可能因為安全性考量, 而無法回應)
-```sh
-$ traceroute 168.95.1.1
-# 168.95.1.1 : 中華電信 Hinet IP
-```
 
 ### 主機名稱 - hostname
 > 設定主機名稱, 重新登入後開始生效, 語法: `set-hostname <新的 hostname名稱>`
@@ -1384,48 +1248,57 @@ u=rwx,g=rwx,o=rx
 ```
 
 
-### 觀察檔案類型: file
-```
-$ file ~/.bashrc
-/home/tony/.bashrc: ASCII text
-# 此為一般 ASCII 文檔
 
+# 觀察檔案類型: file
+
+```sh
+# 一般 ASCII 文檔
+$ file /etc/passwd
+/etc/passwd: ASCII text
+
+# 二進位編碼過後的執行檔
 $ file /usr/bin/passwd
 /usr/bin/passwd: setuid ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=1e5735bf7b317e60bcb907f1989951f6abd50e8d, stripped
-# 此為 &^%#@ 不單純的檔案(二進制吧!?)
 
+# data檔
 $ sudo file /var/lib/mlocate/mlocate.db
 /var/lib/mlocate/mlocate.db: data
-# 此為 data檔
 ```
+
+
+
+# 檢查檔案細項屬性
+
+```sh
+# 不知道怎麼解釋 =口=...
+$ stat /etc/passwd
+  File: ‘/etc/passwd’
+  Size: 2541        Blocks: 8          IO Block: 4096   regular file
+Device: fd00h/64768d    Inode: 201385622   Links: 1
+Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+Context: system_u:object_r:passwd_file_t:s0
+Access: 2018-07-23 09:01:28.195275508 +0800
+Modify: 2018-07-20 16:11:33.755081384 +0800
+Change: 2018-07-20 16:11:33.818081653 +0800
+ Birth: -
+
+$ stat /bin/passwd
+  File: ‘/bin/passwd’
+  Size: 27832       Blocks: 56         IO Block: 4096   regular file
+Device: fd00h/64768d    Inode: 201780015   Links: 1
+Access: (4755/-rwsr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+Context: system_u:object_r:passwd_exec_t:s0
+Access: 2018-07-23 21:37:58.500276830 +0800
+Modify: 2014-06-10 14:27:56.000000000 +0800
+Change: 2018-02-27 13:54:29.234444218 +0800
+ Birth: -
+```
+
 
 
 # 光碟寫入工具
 - 光碟製作成 iso 鳥哥`mkisofs`
 - 燒光碟 鳥哥`cdrecord`
-
-
-
-# 常用網路相關指令
-
-- ifconfig
-- ifup, ifdown : 只能針對 `/etc/sysconfig/network-scripts/` 內的 `ifcfg-ethXX` 進行動作
-- route
-- ip
-
-> 網路卡相關組態放在這邊 : `/etc/sysconfig/network-scripts/`
-
-```sh
-# 可以在 CLI 底下編輯 網卡(手動設定IP等)
-$ nmtui edit <網卡名稱>
-
-# 顯示網卡資訊
-
-$ nmcli dev status
-DEVICE   TYPE       STATE           CONNECTION
-eth0     ethernet   disconnected    --
-lo       loopback   unmanaged       --
-```
 
 
 
@@ -1476,72 +1349,7 @@ $ cat /etc/resolv.conf
 $ ss
 
 # 網路 Test
-$ ping
 $ traceroute  # 追蹤 route
 $ tracepath   # 追蹤 route
 $ nslookup
-
-$ ss -t   # 查看有建立起來的 TCP Channel
-$ ss -ta  # 查看所有有在監聽的 TCP Channel
-
-
-```
-
-
-## Network
-
-CentOS7 的 NetworkManager 預設的組態路徑 : `/etc/sysconfig/network-scripts/ifcfg-*`
-
-  CentOS7 的 網路連線, 都要 Bind on Device
-  Device
-    + Connection1
-    + Connection2
-    |  + Ip address1
-    |  + Ip address2
-    |  + ...
-    |  
-    + Connection3
-    + ...
-
-```sh
-nmcli connection show
-nmcli connection add
-nmcli connection modify
-nmcli connection up
-nmcli connection down     # 較不建議用此中斷連線
-nmcli connection delete
-nmcli device status
-nmcli device show
-nmcli device connect
-nmcli device disconnect   # 建議用此中斷連線
-nmcli net off
-```
-
-
-```sh
-# 查電腦上的連線
-$ nmcli connection show
-NAME           UUID                                  TYPE             DEVICE 
-14f-classroom  7249c377-ce83-4233-a40c-ddc5c4021be9  802-11-wireless  wlp2s0  # 目前啟用的無線網路連線
-virbr0         9dcffbd1-d53f-4c7e-8c3a-f3b261ece9de  bridge           virbr0 
-
-$  nmcli connection show "14f-classroom"
-connection.id:                          14f-classroom
-connection.uuid:                        7249c377-ce83-4233-a40c-ddc5c4021be9
-...(PASS)...
-ipv4.method:                            auto    # 自動取得 ip
-ipv4.dns:                               --
-ipv4.dns-search:                        --
-ipv4.dns-options:                       (default)
-ipv4.dns-priority:                      0
-ipv4.addresses:                         --      # 手動設定的 ip
-ipv4.gateway:                           --
-...(PASS)...
-IP4.ADDRESS[1]:                         172.16.1.57/23  # 自動取得 ip 所分配到的 IP (大寫不能改)
-IP4.GATEWAY:                            172.16.1.254
-IP4.DNS[1]:                             168.95.1.1
-...(PASS)...
-IP6.GATEWAY:                            --
-
-$ 
 ```

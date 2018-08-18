@@ -1,4 +1,5 @@
 # mount 掛載
+
 - 2018/06/28
 - `掛載點` 為 `目錄`
 - `單一檔案系統` 不要重複掛載到 `不同的掛載點(目錄)`
@@ -13,9 +14,11 @@ For CentOS7, 掛載時, 會自動到 fs 的 superblock 去分析並測試掛載,
 - `/proc/filesystems` : 系統已經載入的 fs類型
 - `/lib/modules/$(uname -r)/kernel/fs/` : Linux 支援的 fs 的所有驅動程式 目錄
 
+
+
 # 說明... 乾~  超大一包
 
-> 簡單版的掛載指令: `mount UUID="<lskid 找到要掛載的裝置 UUID>" <要掛載的空資料夾完整路徑>`
+簡單版的掛載指令: `mount UUID="<lskid 找到要掛載的裝置 UUID>" <要掛載的空資料夾完整路徑>`
 
 某些特殊情況下, ex: 進入單人維護模式, `根目錄` 會被系統掛載為 `ro`... (看不太懂...), 重新掛載 `根目錄` 的指令為: `mount -o remount,rw,auto /` (沒事別用)
 
@@ -40,10 +43,12 @@ For CentOS7, 掛載時, 會自動到 fs 的 superblock 去分析並測試掛載,
 #    remount : 系統出錯 or 重新更新參數時, 再重新掛載吧~
 ```
 
-掛載時, 也可能因為 os 只支援英文, 但掛上來的裝置有其他語系, 所以要作其他指令才有辦法對此語系有正常解讀
-`mount -o codepage=950,iocharset=utf8 UUID="xxx" <要掛載到哪裡>`
+掛載時, 也可能因為 os 只支援英文, 但掛上來的裝置有其他語系, 所以要作其他指令才有辦法對此語系有正常解讀 `mount -o codepage=950,iocharset=utf8 UUID="xxx" <要掛載到哪裡>`
+
+
 
 # 範例1 - (把稍早前作的 sda3 掛上去)
+
 - 2018/07/10
 
 ```sh
@@ -91,6 +96,8 @@ sda           8:0    0 465.8G  0 disk
 sr0          11:0    1  1024M  0 rom
 ```
 
+
+
 # 範例2 - 把CentOS7的光碟 塞到電腦後~~
 
 ```sh
@@ -126,6 +133,8 @@ $ umount /data/cdrom
 # 卸載後~ /data/cdrom/就變空了~~
 ```
 
+
+
 # 範例3 - symbolic link 的替代方式 - `mount --bind dirA dirB`
 
 某些情況下, 無法使用軟連結, 可以用 `mount` 的方式, 來把特定目錄 掛載到 另一個地方...
@@ -145,25 +154,26 @@ sunrpc on /var/lib/nfs/rpc_pipefs type rpc_pipefs (rw,relatime)
 /dev/mapper/cl-var on /data/var type xfs (rw,relatime,seclabel,attr2,inode64,noquota)   # 剛剛把這個掛載上來了
 ```
 
+
+
 # /etc/fstab
 
 ```sh
 $# cat /etc/fstab
 
-#
 # /etc/fstab
 # Created by anaconda on Tue Feb 27 13:45:22 2018
 #
 # Accessible filesystems, by reference, are maintained under '/dev/disk'
 # See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
 #
+# 1                      2       3          4       5     6
 /dev/mapper/cl-root     /       xfs     defaults    0     0
 UUID=e6...(pass)...7e   /boot   xfs     defaults    0     0
 /dev/mapper/cl-home     /home   xfs     defaults    0     0
 /dev/mapper/cl-var      /var    xfs     defaults    0     0
 /dev/mapper/cl-swap     swap    swap    defaults    0     0
-# 1                      2       3          4       5     6
-# 欄位分別為~
+# 
 # 1.裝置/UUID等
 # 2.掛載點
 # 3.檔案系統
@@ -173,8 +183,8 @@ UUID=e6...(pass)...7e   /boot   xfs     defaults    0     0
 ```
 
 
-# swap 相關
 
+# swap 相關
 
 使用檔案建置 swap
 

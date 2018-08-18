@@ -1,4 +1,5 @@
 # Ubuntu 使用 MongoDB
+
 - 2018/06/23
 
 ```sh
@@ -36,6 +37,7 @@ $ ps -aux | grep mongo
 $ netstat -nao |grep 27017
 ```
 
+
 ## MongoDB設定檔修改
 
 parameter | default
@@ -44,6 +46,7 @@ dbpath    | /data/db
 logpath   | (Null)
 bind_ip   | 0.0.0.0
 port      | 27017
+
 
 ### mongo.cfg範例
 

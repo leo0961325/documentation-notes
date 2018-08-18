@@ -1,7 +1,7 @@
-# 自學筆記
+# 自學筆記 - 資料夾分類
+
 - Start from 2017/07
 
-# 資料夾分類
 Directory     | Description
 ------------- | ------------------------
 db            | 資料庫
@@ -19,8 +19,7 @@ vscode        | 強大的跨平台 && 多數語言通用的 IDE
 windows       | Windows 作業系統相關
 
 
-
-# 常見常忘的 英翻中...
+### 常見常忘的 英翻中...
 
 - on the fly : 動態產生 
 - back slash : 反斜線
@@ -41,3 +40,7 @@ windows       | Windows 作業系統相關
 - semantic : 語意
 - malformed : 異常
 - passphrase : 密語; 嚴格來講, 此非密碼 (Not a password)
+- snippets : 片段
+- intelliSense : 提示
+- linter : code 語法 check
+- congestion : 擁塞

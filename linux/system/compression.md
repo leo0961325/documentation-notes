@@ -1,20 +1,30 @@
 # 壓縮 && 解壓縮 && 打包
+
 - 2018/07/04
 - 系統作 `備份` 時, 這邊的指令細節必須要注意...
 
-Linux 常用壓縮技術, 因為多半壓縮只能對單一檔案作壓縮, 所以會將他們作 `tar 打包` 後, 再來壓縮 ( `tar` = `打包的軟體` )
-```
-*.Z         由 compress 壓縮    # 老舊~
-*.zip       由 zip 壓縮         # 為了支援 Windows
-*.gz        由 gzip 壓縮        # 可以解開 compress, zip, gz
-*.bz2       由 bzip2 壓縮       # 
-*.xz        由 xz 壓縮          # 這個比較新(壓縮品質不錯)
 
-*.tar       由 tar 打包, 未壓縮
-*.tar.gz    由 tar 打包, 由 gzip 壓縮
-*.tar.bz2   由 tar 打包, 由 bzip2 壓縮
-*.tar.xz    由 tar 打包, 由 xz 壓縮
-```
+## 常見的壓縮技術有下列幾種:
+
+- 7z        (Windows常見)
+- zip       (Windows常見)
+- gzip(gz)  (Linux常見)
+- bZ2       (Linux常見)
+- xz        (Linux常見)
+
+Linux 常用壓縮技術, 因為多半壓縮只能對單一檔案作壓縮, 所以會將他們作 `tar 打包` 後, 再來壓縮 ( `tar` = `打包的軟體` )
+
+
+    *.Z         由 compress 壓縮    # 老舊~
+    *.zip       由 zip 壓縮         # 為了支援 Windows
+    *.gz        由 gzip 壓縮        # 可以解開 compress, zip, gz
+    *.bz2       由 bzip2 壓縮       # 
+    *.xz        由 xz 壓縮          # 這個比較新(壓縮品質不錯)
+
+    *.tar       由 tar 打包, 未壓縮
+    *.tar.gz    由 tar 打包, 由 gzip 壓縮
+    *.tar.bz2   由 tar 打包, 由 bzip2 壓縮
+    *.tar.xz    由 tar 打包, 由 xz 壓縮
 
 
 ## gzip, zcat/zmore/zless/zgrep
@@ -273,16 +283,19 @@ a  file.tar.gz      # 只把 a 解壓縮出來~
 
 
 ## `tarfile` vs `tarball`
+
 - tarfile : 只作了打包, 沒作壓縮
 - tarball : 打包 + 壓縮
 
 但是大家常常通稱 tarball...
 
-底下, 有點進階
+底下, 有點進階, 詳見[鳥哥-檔案壓縮,打包與備份](http://linux.vbird.org/linux_basic/0240tarcompress.php)
 ```sh
 $ cd /tmp
-$# tar -cf - /etc | tar -xf -
-tar: 從成員名稱中移除前端的「/」
+$# tar -cvf - /etc | tar -xvf -
+# tar: 從成員名稱中移除前端的「/」
+# -c : 建立新檔案
+# 把 | 前半部的 「-」交由後半部的「-」繼續作(不產生中繼檔案)
 
 $# ll
 總計 12

@@ -6,7 +6,6 @@
 - `GID` 放在 `/etc/group`
 - Linux 不會認識帳號, 而是透過 `/etc/passwd` 找到 `帳號` 對映的 `UID`
 
-
 ```sh
 # 相關檔案
 /etc/passwd         # 使用者帳號 與 UID, GID 之對映
@@ -16,6 +15,42 @@
 ```
 
 
+
+# [特殊權限](http://linux.vbird.org/linux_basic/0220filemanager.php#suid)
+
+1. SUID (權限 4)    `只能用於 檔案`
+    - 非擁有者可執行此二進位檔案(runtime 期間, 擁有 owner權限)
+2. SGID (權限 2)    `可用於 檔案 or 目錄`
+    - 執行者所具備的 `secondary group` 只要符合該 檔案 or 目錄 的擁有者群組, 即 **暫時具備** 檔案擁有者的權限
+3. SBIT (權限 1)    `只能用於 目錄`
+    - (我不會... 遇到再說)
+
+```sh
+ls -ld /tmp; ls -l /usr/bin/passwd
+drwxrwxrwt. 20 root root 4096  6月  9 20:59 /tmp                # 有 t 出現在 rwx 裏頭
+-rwsr-xr-x. 1 root root 27832  6月 10  2014 /usr/bin/passwd     # 有 s 出現在 rwx 裏頭
+
+### 其他範例
+$ touch test
+
+$ chmod 4755 test; ll test
+-rwsr-xr-x. 1 tony tony 0  6月  9 22:01 test
+
+$ chmod 6755 test; ll test
+-rwsr-sr-x. 1 tony tony 0  6月  9 22:01 test
+
+$ chmod 1755 test; ll test
+-rwxr-xr-t. 1 tony tony 0  6月  9 22:01 test
+
+$ chmod 7666 test; ll test
+-rwSrwSrwT. 1 tony tony 0  6月  9 22:01 test    # test為紅底, 且具有空的 SUID/SGID權限 (大寫)
+
+$ $ chmod u=rwxs,go=x test; ls -l test # 「,」前後不能加空白
+-rws--x--x. 1 tony tony 0  6月  9 22:01 test    
+
+$ chmod g+s,o+t test; ls -l test
+-rws--s--t. 1 tony tony 0  6月  9 22:01 test
+```
 
 # 建立使用者 && 群組
 
@@ -65,6 +100,7 @@ $# echo "<密碼>" | passwd --stdin <使用者帳戶>
 $# groups <使用者帳戶>
 ```
 
+
 ## 刪除使用者
 
 > `userdel -r <使用者帳號>` , 務必與 -r 搭配使用, 會一併刪除家目錄. <br> 如果不這麼做, 殘存的家目錄的 owner 會變成 `已被刪除的 UID 所擁有(而非 username)`, 但 UID 會隨著日後 `useradd` 時, 被重新指派!! <br> <font color="red">後面的使用者, 莫名其妙的得到殘存的家目錄的所有權, 輝常可怕</font>
@@ -92,6 +128,7 @@ $# chmod 2770 /home/shared
 $# ll -d /home/shared
 drwxrws---. 2 root shared 15  7月 14 15:41 /home/shared/
 ```
+
 
 ## chmod 注意事項
 

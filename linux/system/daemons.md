@@ -102,6 +102,7 @@ cups.socket              | 列印伺服器服務
 ```sh
 # 查看系統「一次行排程服務 atd」
 $ cat /etc/systemd/system/multi-user.target.wants/atd.service
+
 [Unit]
 Description=Job spooling tools                          #
 After=syslog.target systemd-user-sessions.service       # 在哪個服務之後啟動
@@ -171,15 +172,15 @@ $ systemctl        list-units   --type=service
 ```
 
 daemon重啟狀態 (Loaded 最後面)
-- enabled
-- disabled
+- enabled : 重啟後使用
+- disabled : 重啟後不使用
 - static : 此服務不可自行啟動, 但會被其他 enabled 的服務呼喚
 - mask : 無法被啟動的服務(已經被註銷) ; 可使用 `systemctl unmask xxx` 恢復
 
 daemon相關狀態 (Active 括號內)
-- active(running)
-- active(exited) : 沒有常駐在記憶體, 執行一次就結束了的服務
-- active(waiting) : 執行中, 但在等待其他事件才會繼續處理
+- active (running) : 持續運行中的程序
+- active (exited) : 沒有常駐在記憶體, 執行一次就結束了的服務
+- active (waiting) : 執行中, 但在等待其他事件才會繼續處理
 - inactive
 
 
@@ -190,9 +191,22 @@ LISTEN                  UNIT                       ACTIVATES
 /dev/log                systemd-journald.socket    systemd-journald.service
 /run/dmeventd-client    dm-event.socket            dm-event.service
 # ... 約10~30個 sockets ...
-
 ```
 
+```sh
+# 查看啟用失敗的程序
+$ systemctl --failed --type=service
+  UNIT          LOAD   ACTIVE SUB    DESCRIPTION
+● kdump.service loaded failed failed Crash recovery kernel arming
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+
+1 loaded units listed. Pass --all to see loaded but inactive units, too.
+To show all installed unit files use 'systemctl list-unit-files'.
+# kdump 好像是虛擬機相關的東西, 需要耗費大量RAM, 而這台NB才 4G RAM, 所以會啟用失敗
+```
 
 ```sh
 # 系統服務 與 port 對映檔
@@ -211,24 +225,3 @@ mysql           3306/tcp                        # MySQL
 mysql           3306/udp                        # MySQL
 # ...(僅節錄部分)...
 ```
-
-
-
-# 網路服務
-
-- 基本上, `會產生網路監聽埠口的 process`, 就稱為 `Network Service`
-- 查詢主機上的網路連線資訊 && port的使用. 語法: `netstat <options>`
-
-```sh
-$ netstat -[natuplrc]    # 與網路介面相關
-# n : 用 ip, port 代替 主機名稱, 服務名稱. ex: 將 ssh 改為 22
-# a : 列出所有連線狀態
-# t : 列出 TCP 連線
-# u : 列出 UDP 連線
-# p : 列出 PID && 程式名稱 (每個連線由哪個 process處理)
-# l : 列出有在 Listen 的服務的網路狀態
-# r : 列出 route table (功能與 route 相同)
-# c xxx : xxx 秒後自動更新一次
-```
-
-> Note: 可以使用 `netstat -ntp` 與 `netstat -tp` 比較後, 就可以知道 `service 對應的 port`
