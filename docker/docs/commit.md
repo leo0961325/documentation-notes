@@ -1,15 +1,17 @@
 # [Docker commit](https://docs.docker.com/engine/reference/commandline/commit/#examples)
+
 - 2018/06/17
 - [Docker Hub](https://hub.docker.com/)
 
-> 語法: `docker commit <Container ID> <REPOSITORY[:TAG]>` 
+語法: `docker commit <Container ID> <REPOSITORY[:TAG]>` 
 
-Name, shorthand | 	Default	 | Description
--------- | ----- | ------
---author , -a	|	| Author (e.g., “John Hannibal Smith hannibal@a-team.com”)
---change , -c	|	| Apply Dockerfile instruction to the created image
---message , -m	|	| Commit message
---pause , -p	|true	|Pause container during commit
+Name, shorthand | Default | Description
+--------------- | ------- | ------
+--author , -a   |         | Author (e.g., “John Hannibal Smith hannibal@a-team.com”)
+--change , -c   |         | Apply Dockerfile instruction to the created image
+--message , -m  |         | Commit message
+--pause , -p    | true    | Pause container during commit
+
 ```sh
 # 要先登入~
 $ docker login
@@ -42,9 +44,8 @@ $ docker push cool21540125/devos7:1.0
 
 完成後前往 Docker Hub, 東西救上去了
 
-> 執行 Container 語法 : `docker run -it --name <Container名稱> <Image來源:版本> <執行語法>`
+執行 Container 語法 : `docker run -it --name <Container名稱> <Image來源:版本> <執行語法>`
 
 ```sh
-# 執行~
 $ docker run -it --name tonyos7 cool21540125/devos7:1.0 /bin/bash
 ```

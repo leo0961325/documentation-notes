@@ -668,6 +668,43 @@ $ sudo virt-manager
 
 
 
+# VirtualBox
+
+- 2018/08/19
+- [官網](https://www.virtualbox.org/wiki/Linux_Downloads)
+
+```sh
+# 安裝主檔
+$ wget https://download.virtualbox.org/virtualbox/5.2.18/VirtualBox-5.2-5.2.18_124319_el7-1.x86_64.rpm
+
+# 授權
+$ wget https://www.virtualbox.org/download/oracle_vbox.asc
+$ sudo rpm --import oracle_vbox.asc
+
+# 安裝
+$ sudo rpm -Uvh VirtualBox-5.2-5.2.18_124319_el7-1.x86_64.rpm
+正在準備…                       ################################# [100%]
+Updating / installing...
+   1:VirtualBox-5.2-5.2.18_124319_el7-################################# [100%]
+
+Creating group 'vboxusers'. VM users must be member of that group!
+
+$ systemctl status vboxautostart-service
+● vboxautostart-service.service
+   Loaded: loaded (/usr/lib/virtualbox/vboxautostart-service.sh; enabled; vendor preset: disabled)
+   Active: active (exited) since 日 2018-08-19 21:55:20 CST; 3min 30s ago
+  Process: 19029 ExecStart=/usr/lib/virtualbox/vboxautostart-service.sh start (code=exited, status=0/SUCCESS)
+    Tasks: 0
+   Memory: 0B
+
+ 8月 19 21:55:20 tonynb systemd[1]: Starting vboxautostart-service.service...
+ 8月 19 21:55:20 tonynb systemd[1]: Started vboxautostart-service.service.
+
+$ sudo systemctl start vboxautostart-service
+```
+
+
+
 # gcc, make
 
 - 2018/06/16
