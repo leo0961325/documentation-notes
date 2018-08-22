@@ -1,4 +1,5 @@
 # Git版空
+
 - [Learning git in 30 days](https://github.com/doggy8088/Learn-Git-in-30-days/tree/master/zh-tw)
 - [Git branch的操作](https://blog.gogojimmy.net/2012/01/21/how-to-use-git-2-basic-usage-and-worflow/)
 - [Git初學者心得分享](http://www.mrmu.com.tw/2011/05/06/git-tutorial-for-beginner/)
@@ -22,7 +23,7 @@ $ git branch --set-upstream-to=origin/feature feature
 $ git remote set-url origin git@github.com:cool21540125/documentation-notes.git
 
 # 重新 Commit
-$ $ git commit --amend -m "<Commit String>"
+$ git commit --amend -m "<Commit String>"
 ```
 
 ```sh

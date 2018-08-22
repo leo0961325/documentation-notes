@@ -115,18 +115,12 @@ Trx read view will not see trx with id >= 14579, sees < 14579
 
 建議設定 `lock_wait_timeout` 設定超時時間, 避免長時間的 metadata鎖.
 
-而現在... 
-
-```sh
-
-```
-
 
 
 # Key
 
 ```sql
-show index from <Table Name>;
+> show index from <Table Name>;
 +--------------+------------+--------------------+--------------+----------------+-----------+----------+--------+
 | Table        | Non_unique | Key_name           | Seq_in_index | Column_name    | Collation | Sub_part | Packed |
 +--------------+------------+--------------------+--------------+----------------+-----------+----------+--------+
@@ -134,16 +128,16 @@ show index from <Table Name>;
 |data_counter  |          1 | fk_wod_code_idx    |            1 | fk_wod_serial  | A         |     NULL | NULL   |
 | data_counter |          1 | fk_sensor_code_idx |            1 | fk_sensor_code | A         |     NULL | NULL   |
 +--------------+------------+--------------------+--------------+----------------+-----------+----------+--------+
-# 已移除部分欄位
+--;# 已移除部分欄位
 ```
 
 
 
 # Reference
+
 - [MySQL 建立Foreign Key ( InnoDB ) 時要注意的一件事](http://lagunawang.pixnet.net/blog/post/25455909-mysql-%E5%BB%BA%E7%AB%8Bforeign-key-%28-innodb-%29-%E6%99%82%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%B8%80%E4%BB%B6%E4%BA%8B)
 
 預設 FK **不作** `連動更改` (NO ACTION)
-
 
 ```sql
 CREATE TABLE `tbl` (
@@ -153,7 +147,6 @@ CREATE TABLE `tbl` (
     FOREIGN KEY(`parent_id`) REFERENCES `parent`(`id`) ON DELETE CASCADE ON UPDATE CASADE
 );
 ```
-
 
 [ON DELETE {CASCADE | SET NULL | NO ACTION | RESTRICT}]
 
@@ -169,6 +162,7 @@ CREATE TABLE `tbl` (
 # MySQL 5.7 指令備註
 
 ## DML
+
 ```sql
 drop database tt;
 create database tt;
@@ -193,21 +187,22 @@ select * from t1;
 ## 查看編碼
 
 ```sql
-mysql> select @@character_set_database, @@collation_database;
-
-mysql> show variables LIKE 'character%';
+> SELECT @@character_set_database, @@collation_database;
+> SHOW variables LIKE 'character%';
 ```
+
 
 ## 執行外部腳本
 
-> 語法: ``
 ```sql
-mysql> source d:\dbinit.sql
+> SOURCE d:\dbinit.sql
 ```
+
 
 ## 分隔符號
 
 - [只談MySQL (第16天) Stored Procedure及Function](https://ithelp.ithome.com.tw/articles/10032363)
+
 MySQL預設以「;」為分隔符號, 可使用「delimiter //」, 就可把分隔符號改為「//」了.
 
 
@@ -223,6 +218,7 @@ DATETIME(6) -> 微秒
 ## 開頭符號
 
 MySQL內, 以下種種, 都有它們所要表達的意思, [看官網說明](https://dev.mysql.com/doc/refman/5.7/en/entering-queries.html)
+
 ```sh
 # mysql>
 # ->

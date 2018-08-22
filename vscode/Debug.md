@@ -155,7 +155,7 @@ ${workspaceFolder}/data         | salaries.csv
 可用的選項有 `["RedirectOutput", "DebugStdLib", "Django", "Sudo", "Pyramid", "BreakOnSystemExitZero", "IgnoreDjangoTemplateWarnings"]`
 
 - RedirectOutput : (預設) 讓 Debugger 印出所有 output 到 VS Code debug output window. 若捨略此設定, 所有 程式輸出 將不會出現. 但如果 console 為 `integratedTerminal` 或為 `externalTerminal` 時, 此選可省略.
-- DebugStdLib : 允許 debug of standard library functions.
+- DebugStdLib : 會跑進去 StdLibrary 裡頭...(沒必要啦!!)
 - Django : 啟用 debugging feature specific 到 Django
 - Sudo : 得與 `"console": "externalTerminal"` 搭配使用, 則允許 debugging apps that require elevation
 - Pyramid : 
@@ -180,9 +180,18 @@ ${workspaceFolder}/data         | salaries.csv
 
 ## prerequest
 1. 兩部電腦 : make sure that identical source code is available (看不懂..)
-2. for Mac & Linux, `pip3 install ptvsd==3.0.0` ; for Windows `pip install ptvsd==3.0.0`
+2. Mac & Linux: `pip3 install ptvsd==3.0.0` ; Windows: `pip install ptvsd==3.0.0`
 3. Remote : 開放 port 給 debugger 使用
-4. Remote : = =...
+4. Remote : 遠端電腦放這個
+```py
+import ptvsd
+
+# Allow other computers to attach to ptvsd at this IP address and port, using the secret
+ptvsd.enable_attach("my_secret", address = ('1.2.3.4', 3000))
+
+# Pause the program until a remote debugger is attached
+ptvsd.wait_for_attach()
+```
 5. 
 6. 
 7. 

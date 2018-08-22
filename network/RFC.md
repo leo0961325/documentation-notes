@@ -147,9 +147,27 @@ OPTIONAL    | (同 MAY)
 
 Code                       | Description
 -------------------------- | ---------------------------------
-403 Forbidden              | 請求被 Server 拒絕, Server 應回傳拒絕原因 or 導向 404
+401 Unauthorized           | 認證沒過的請求, 應提示 `WWW-Authenticate` or 導向 404
+403 Forbidden              | 認證沒過的請求, 不包含 `WWW-Authenticate`
 405 Method Not Allowed     | Request Line 不支援此方法
 415 Unsupported Media Type | 要給 `Content-Type`
+
+> `401 Invalid username/password.` 帳號密碼 不對
+
+> `401 Authentication credentials were not provided.` 沒提供 帳號密碼
+
+> `403 Authentication credentials were not provided.` 認證方式不被允許, `Basic`, `Digest`, ...
+
+> `403 You do not have permission to perform this action.` 使用者權限不足
+
+> `405 Method "POST" not allowed.` 後端不接受 POST api
+
+
+### * 14.47 response header - WWW-Authenticate
+
+回傳 `401` 時, 必須夾帶 `WWW-Authenticate`. 而此值, 起碼需要有一個 `challenge` (因為App Server 可能有多種 [authentication]), 用以指出 `適用於此 Request-URI 的 認證方案 和 參數`. Agent 解析時, 須留意驗證參數可能會有很多個(ex: [a, b, c, ...])
+
+    WWW-Authenticate  = "WWW-Authenticate" ":" 1#challenge
 
 # [rfc7540](https://www.ietf.org/rfc/rfc7540.txt)
 

@@ -30,14 +30,8 @@ windows       | Windows 作業系統相關
 - NAT: Network Address Translation
 - IP Masquerade: IP掩蔽
 - Elastic IP(aws)/Floating IP(openstack)
-- permissible : 被許可的
 - Berkeley Software Distribution(BSD)
 - Network File System (NFS)
-- validate : 驗證
-- authenticate : 認證
-- credentials : 憑證
-- malformed : 異常
-- passphrase : 密語; 嚴格來講, 此非密碼 (Not a password)
 - snippets : 片段
 - intelliSense : 提示
 - linter : code 語法 check
@@ -45,3 +39,14 @@ windows       | Windows 作業系統相關
 - GDPR : General Data Protection Regulation
 - TDD : Test-Driven-Development
 - POC : Proof of Concept 概念性驗證
+- malformed : 異常
+
+#### 安全性相關
+
+- permission : 許可
+- authentication : 認證
+- authorization : 授權
+- credential : 憑證
+- validate : 驗證
+- token : 就... Token (不會翻@@)
+- passphrase : 密語; 嚴格來講, 此非密碼 (Not a password)

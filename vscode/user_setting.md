@@ -22,6 +22,15 @@
 
     // Terminal
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+
+    // Tab Size
+    "editor.tabSize": 2,
+    "[markdown]": {
+      "editor.tabSize": 4
+    },
+    "[json]": {
+      "editor.tabSize": 4
+    }
 }
 ```
 
@@ -66,7 +75,9 @@ pip install pylint-django
 ```
 
 
+
 # Debugger - Launch.json
+
 ## Python - Django
 
 ```js

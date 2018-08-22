@@ -1,10 +1,12 @@
 # backup
 
 ## 使用 `mysqldump` 做完整備份
-[mysqldump](https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html#mysqldump-ddl-options)
-> mysqldump -u '<帳號>' -p '<密碼>' <Format>
+
+- [mysqldump](https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html#mysqldump-ddl-options)
+
 
 ```sh
+# mysqldump -u '<帳號>' -p '<密碼>' <Format>
 $ mysqldump -u '<id>' -p '<pd>' 
     --single-transaction                # non-lock online backup(for InnoDB)
     --flush-logs                        # 將 transaction flush到檔案
@@ -31,7 +33,36 @@ mysqlbackup                        | mysqldump
 可能需要關服務, backup比較不會有問題  | 可以暖備份
 
 
-[用mysqlhotcopy 備份MySQL](https://blog.longwin.com.tw/2005/01/%E7%94%A8mysqlhotcopy-%E5%82%99%E4%BB%BDmysql/)
+## 還原 restore
+
+- 依備份檔還原資料庫, 語法: `mysql [DB Name] -uroot -p < [備份的文檔名稱.sql]`
+
+```sh
+# 還原前, 關閉二進位日誌
+$ mysql > set sql_log_bin=0;
+
+$ mysql tt -uroot -p < ttbck.sql
+
+$ mysql > set sql_log_bin=1;
+```
+
+
+## other
+
+- [LVM快照備份](https://ithelp.ithome.com.tw/articles/10081811)
+
+
+```sh
+# 依照目前時間做完整備份, 產出ex: full_backup_1036.sql
+$ mysqldump -u '<id>' -p '<pd>' --single-transaction --flush-logs --master-data=2 --all-databases --delete-master-logs > <PATH>/full_backup_`date +\%H\%M`.sql
+```
+
+
+
+# MySQL5.6 mysqlcopy ( `mysqldump` 前身 )
+
+- [用mysqlhotcopy 備份MySQL](https://blog.longwin.com.tw/2005/01/%E7%94%A8mysqlhotcopy-%E5%82%99%E4%BB%BDmysql/)
+
 ```sh
 $ mysqlhotcopy --checkpoint dbinfo.checkpoint --addtodest db_douzi_org /var/db_backup
 ```
@@ -46,28 +77,4 @@ CREATE TABLE `checkpoint` (
     `msg` varchar(255) NOT NULL default '',
     PRIMARY KEY (`time_stamp`)
 );
-```
-
-
-## 還原 restore
-> 依備份檔還原資料庫, 語法: `mysql [DB Name] -uroot -p < [備份的文檔名稱.sql]`
-```sh
-# 還原前, 關閉二進位日誌
-$ mysql > set sql_log_bin=0;
-
-$ mysql tt -uroot -p < ttbck.sql
-
-$ mysql > set sql_log_bin=1;
-```
-
-
-## other
-[LVM快照備份](https://ithelp.ithome.com.tw/articles/10081811)
-
-
-
-
-```sh
-# 依照目前時間做完整備份, 產出ex: full_backup_1036.sql
-$ mysqldump -u '<id>' -p '<pd>' --single-transaction --flush-logs --master-data=2 --all-databases --delete-master-logs > <PATH>/full_backup_`date +\%H\%M`.sql
 ```

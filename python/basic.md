@@ -106,3 +106,18 @@ def pp(**params):
 
 pp(**a)
 ```
+
+
+# [base64](https://docs.python.org/3.6/library/base64.html)
+
+```py
+>>> import base64
+>>> s='tony:password123'.encode()
+>>>
+>>> q = base64.b64encode(s)
+>>> q
+b'dG9ueTpwYXNzd29yZDEyMw=='
+>>>
+>>> base64.b64decode(q)
+b'tony:password123'
+```
