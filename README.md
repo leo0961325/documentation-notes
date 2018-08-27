@@ -48,5 +48,6 @@ windows       | Windows 作業系統相關
 - authorization : 授權
 - credential : 憑證
 - validate : 驗證
+- cryptographically : 加密
 - token : 就... Token (不會翻@@)
 - passphrase : 密語; 嚴格來講, 此非密碼 (Not a password)

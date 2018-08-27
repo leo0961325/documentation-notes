@@ -262,3 +262,51 @@ Date: {{$datetime rfc1123}}
     "review_count": "{{$randomInt 5, 200}}"
 }
 ```
+
+
+
+# 額外
+
+```r
+@baseURL=http://localhost:8000
+
+### 法一: 查 Token ((application/json))
+# @name login
+POST {{baseURL}}/api/get_auth_token/
+Content-Type: application/json
+
+{
+  "username": "tony",
+  "password": "password123"
+}
+# 36ac46118a054c8fff5bfb62c46ce1c2a4ca12f2
+
+### 法二: 查 Token ((application/x-www-form-urlencoded))
+POST {{baseURL}}/api/get_auth_token/
+Content-Type: application/x-www-form-urlencoded
+
+username=tony&password=password123
+
+### 法三: 接技 - login
+# @name goByLogin
+GET {{baseURL}}/api/users/1/
+Authorization: Token {{login.response.body.token}}
+# 類似會把 回傳值丟給 「@name login」, 然後用 「{{login.response.body.token}}」 取出
+```
+
+以上三種方法都可收到
+
+```
+HTTP/1.0 200 OK
+Date: Thu, 23 Aug 2018 02:04:28 GMT
+Server: WSGIServer/0.2 CPython/3.6.1
+Content-Type: application/json
+Allow: POST, OPTIONS
+X-Frame-Options: SAMEORIGIN
+Content-Length: 52
+Vary: Cookie
+
+{
+  "token": "y6af53p61ce1hf182c48fub2c46b62Qa4ca10g4c"
+}
+```

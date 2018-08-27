@@ -1,21 +1,16 @@
 # Django REST framework
+
 - 2018/08/12
 - v3.8.2
 
 
 ## Request parsing
 
-### `r.data`
+用 `req.data` 代替 `req.POST`, `req.FILES`
 
-回傳 json, 此結果幾乎與 `r.POST`, `r.FILES` 相同
+用 `req.query_params` 代替 `req.GET`
 
-
-### `r.query_params`
-
-較 `r.GET` 使用上語意更加明確.
-
-
-### `r.parsers` (通常用不到... 別理他)
+`req.parsers` (通常用不到... 別理他)
 
 
 
@@ -78,7 +73,28 @@ class SnippetSerializer(serializers.ModelSerializer):
 
 
 
-# auth
+# [Authentication](http://www.django-rest-framework.org/api-guide/authentication/)
 
-- `request.user`
-- `request.auth`
+settings.py
+```py
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',            # 預設啟用
+        'rest_framework.authentication.SessionAuthentication',          # 預設啟用
+        'rest_framework.authentication.TokenAuthentication',            # 
+        'rest_framework.authentication.RemoteUserAuthentication',       # Web Server 代理 App Server 作認證
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # 3rd 認證 - OAuth2
+        'rest_framework_digestauth.authentication.DigestAuthentication' # 3rd 認證 - Digest
+    )
+}
+```
+
+
+Authentication | request.user | request.auth
+-------------- | ------------ | ------------------------------------------
+Basic          | Django User  | None
+Session        | Django User  | None
+Token          | Django User  | rest_framework.authtoken.models.Token
+RemoteUser     | Django User  | None
+
+

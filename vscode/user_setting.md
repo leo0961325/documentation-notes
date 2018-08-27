@@ -1,42 +1,78 @@
-# User settings.json
 
+# User Setting
 
-## User settings.json
 ```js
+// settings.json
 {
     // General
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
     "workbench.startupEditor": "none",
     "editor.minimap.enabled": false,
     "editor.mouseWheelZoom": true,
-    "files.autoSave": "onFocusChange",
-
-    // Material Icon Theme 3.5.1
-    "workbench.iconTheme": "material-icon-theme",
-    "material-icon-theme.showUpdateMessage": false,
-
-    // Power Mode 2.2.0
-    "powermode.presets": "flames",
-    "powermode.enabled": true,
-    "powermode.enableStatusBarComboCounter": false,
-    "powermode.enableStatusBarComboTimer": false,
-
-    // Terminal
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+    "files.autoSave": "onWindowChange",
+    "extensions.showRecommendationsOnlyOnDemand": true,
+    "workbench.sideBar.location": "right",
+    "editor.renderWhitespace": "all",
+    "editor.detectIndentation": false,
+    "editor.tabCompletion": true,
 
     // Tab Size
-    "editor.tabSize": 2,
-    "[markdown]": {
-      "editor.tabSize": 4
+    "[html]":{
+        "editor.tabSize": 2
     },
-    "[json]": {
-      "editor.tabSize": 4
-    }
+
+    // Markdown
+    "markdown.preview.doubleClickToSwitchToEditor": false,
+    "markdown.preview.fontFamily": "'Consolas', 'Droid Sans', 'sans-serif'",
+
+    // Material Icon Theme
+    "workbench.iconTheme": "material-icon-theme",
+
+    // RestClient
+    "rest-client.timeoutinmilliseconds": 2000,
+
+    // Live Server
+    "liveServer.settings.donotShowInfoMsg": true,
+
+    // Power Mode
+    "powermode.enabled": true,
+    "powermode.presets": "flames",
+    "powermode.enableStatusBarComboCounter": false,
+    "powermode.enableStatusBarComboTimer": false,
+}
+```
+
+
+# WorkSpace Setting
+
+- [Using Pylint with Django](https://stackoverflow.com/questions/115977/using-pylint-with-django/31000713#31000713)
+
+```sh
+pip install pylint-django
+```
+
+```js
+// settings.json
+{
+    // Python - Windows
+    "python.pythonPath": "${workspaceFolder}\\venv\\Scripts\\python.exe",
+
+    // Python - Linux - Anaconda
+    "python.pythonPath": "/opt/anaconda3/..."
+
+    // Python - Linux - Virtualenvs
+    "python.pythonPath": "/home/$USER/.virtualenvs/bin/<ENV>/"
+
+
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django"      // 讓 VSCode Python-Django 的 linter 正常一點...
+    ],
 }
 ```
 
 
 
-# User KeyBindings.json
+# KeyBindings
 
 ```js
 [
@@ -56,58 +92,76 @@
 ```
 
 
+# Debugger - Launch.json
 
-# Django Debugger - Project settings - settings.json
 
-- [Using Pylint with Django](https://stackoverflow.com/questions/115977/using-pylint-with-django/31000713#31000713)
+## Python
 
-```sh
-pip install pylint-django
-```
+- [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial)
 
 ```js
 {
-    "python.pythonPath": "${workspaceFolder}\\ve\\Scripts\\python.exe",
-    "python.linting.pylintArgs": [
-        "--load-plugins=pylint_django"      // 讓 VSCode Python-Django 的 linter 正常一點...
-    ],
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}"
+        }
+    ]
 }
 ```
 
 
-
-# Debugger - Launch.json
-
 ## Python - Django
 
 ```js
+// launch.json
 {
-
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Django",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/manage.py",
-            "args": [
-                "runserver",
-                "--noreload",   // 如此才能 Debug阿@@
-            ],
-            "debugOptions": [
-                "RedirectOutput",
-                "Django"
-            ],
-            "pythonPath": "${config:python.pythonPath}"
-        },
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {   // 1. 正常 Run
+      "name": "Django-Running",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/bis_emc/manage.py",
+      "args": [
+        "runserver"
+      ],
+      "debugOptions": [
+        "Django",
+      ],
+    },
+    {   // 2. Debug用
+      "name": "Django-Debugging",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/bis_emc/manage.py",
+      "args": [
+        "runserver",
+        "--no-color",
+        "--noreload",
+        "--nothreading",
+      ],
+      "console": "none",
+      "debugOptions": [
+        "Django",
+        "BreakOnSystemExitZero",
+        // "DebugStdLib",       // Debug Library
+        "RedirectOutput",
+        "IgnoreDjangoTemplateWarnings",
+      ],
+    }
+  ]
 }
 ```
 
 
 ## Python - Tornado
 
-```json
+```js
+// launch.json
 {
     "version": "0.2.0",
     "configurations": [
@@ -123,10 +177,10 @@ pip install pylint-django
 ```
 
 
-
-# go
+## go
 
 ```js
+// launch.json
 {
     "version": "0.2.0",
     "configurations": [
@@ -153,3 +207,4 @@ pip install pylint-django
     ]
 }
 ```
+
