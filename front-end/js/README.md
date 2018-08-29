@@ -1,10 +1,11 @@
 # 核心 javascript
 
 
+
 # if 內, false 的所有情況
+
 ```js
 var a;
-
 if (!a) {   // 只有 6 種情況, a = false
     // undefined
     // null
@@ -16,6 +17,8 @@ if (!a) {   // 只有 6 種情況, a = false
 ```
 
 
+
+# 物件屬性
 
 ```js
 // "物件屬性" 一般具有下列特性
@@ -47,3 +50,28 @@ if (!a) {   // 只有 6 種情況, a = false
 ex: 使用 `new Array()建立的物件` 原型為 `Array.prototype` ; `new Date()建立的物件` 原型為 `Date.prototype`
 
 而 `Object.prototype` 沒有原型物件
+
+
+
+# Closure 閉包
+
+```js
+var oo = function() {
+    var x = 0;
+    var ii = function() {
+        x = x + 1;
+        return x;
+        }
+    return ii;
+}
+
+var q = oo()
+// q 為 [Function: ii]
+
+q();
+1
+q();
+2
+q();
+3
+```

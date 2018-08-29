@@ -63,9 +63,12 @@ pip install pylint-django
     // Python - Linux - Virtualenvs
     "python.pythonPath": "/home/$USER/.virtualenvs/bin/<ENV>/"
 
-
+    // Python - pylint
     "python.linting.pylintArgs": [
-        "--load-plugins=pylint_django"      // 讓 VSCode Python-Django 的 linter 正常一點...
+        "--load-plugins=pylint_django",     // 讓 VSCode Python-Django 的 linter 正常一點...
+        "--disable=missing-docstring",      // docstring
+        "--disable=C0103",                  // Argument name snake_case naming style
+        "--disable=C0301",                  // Line too Long
     ],
 }
 ```
