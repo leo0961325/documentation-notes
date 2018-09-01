@@ -183,3 +183,28 @@ $ cat /proc/partitions
 # 查看 CPU資訊
 $ cat /proc/cpuinfo
 ```
+
+
+
+# Process Example
+
+Terminal A
+```sh
+# 建立 TCP Socket 的 MongoDB process
+$# systemctl stop mongod
+$# mongod --dbpath /tmp/qq
+```
+
+
+Terminal B
+```sh
+$ ps au | grep mongod
+USER   PID  %CPU  %MEM    VSZ    RSS  TTY     STAT START  TIME COMMAND
+root  3547   0.4   1.7 1012544  67576  pts/1  SLl+ 20:16  0:04 mongod --dbpath /tmp/qq
+# a : 所有User
+# u : 增加顯示 Process Owner, Memory, CPU 等欄位資訊
+```
+
+```sh
+$ 
+```

@@ -1,7 +1,9 @@
 # 連結方式 : `實體連結` && `符號連結`
 
-1. hard link
-2. soft link (與 Windows的捷徑一樣)
+1. Hard link
+    1. 節省儲存空間, 防止檔案誤刪
+    2. 只能建立在 `檔案` 上, 不能跨 File System
+2. Soft link (與 Windows的捷徑一樣)
 
 ```sh
 $ ln [-sf] <來源> <目標>

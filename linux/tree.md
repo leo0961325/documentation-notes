@@ -20,11 +20,17 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /sd1/                                   # SCSI硬碟
 /etc/                                 # 系統 設定檔. ex: inittab, resolv.conf, fstab, rc.d
     /chrony.conf                            # 時間校正的服務設定檔
-    /crontab                                # 排程工作
+    /cron.d/*                                   # 已寫好的週期性系統排程
+    /cron.daily/*                               # 每天　 要執行的 Shell Script, 建議放這邊
+    /cron.hourly/*                              # 每小時 要執行的 Shell Script, 建議放這邊
+    /cron.monthly/*                             # 每月　 要執行的 Shell Script, 建議放這邊
+    /cron.weekly/*                              # 每週　 要執行的 Shell Script, 建議放這邊
+    /crontab                                # 如果有明確指名幾點幾分的排程工作, 建議放這裡
     /default/                               # 
         useradd                                 # 使用 useradd 後, 預設的 新使用者 建立相關初始設定
     /fstab                                  # mount設定檔 (開機時 會依照此設定來作自動掛載; 每次使用 mount時, 預設也會動態更新此檔案)
-    /hosts                                  # ip與 dns對照
+    /hostname                               # 主機名稱檔
+    /hosts                                  # ip 與 dns 對照
     /init.d/                                # (CentOS6前, 所有的 服務啟動腳本) CentOS7仍在(但已經不使用 init 來管理服務了), 只剩部分東西還在這 (連結至 rc.d/init.d)
         netconsole                              # 各種模式下的 *netconsole 連結
         network                                 # 各種模式下的 *network 連結至此
@@ -35,6 +41,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /login.defs                             # 建立使用者時, 該使用者的 系統愈設初始值
     /opt/                                   # 第三方協作軟體 /opt/ 的相關設定檔
     /passwd                                 # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
+    /pki/                                   # 公私金鑰存放區
     /rc.d/                                  # 各種執行等級的啟動腳本
         /init.d/                                # 
             netconsole                              # 各種模式下的 *netconsole 連結至此
@@ -44,7 +51,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /rc5.d/                                 # 文字+圖形介面
             K50netconsole                           # (連結至 ../init.d/netconsole)
             S10network                              # (連結至 ../init.d/network)
-    /resolv.conf                            # DNS 主機 IP 的設定檔
+    /resolv.conf                            # DNS 主機的 IP 的設定檔
     /rsyslog.conf                           # 定義 "rsyslog 服務" 應把 各種 Log 存到哪裡的組態檔
     /rsyslog.d/                             # 客製化 Log 定義組態檔, 放這邊比較好
     /services                               # 服務 與 port 對映檔
@@ -93,6 +100,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /linux/                                 # 核心原始碼 建議放這
 /var/                                 # 登錄檔, 程序檔案, MySQL資料庫檔案, ... (與系統運作過程有關); 系統開始運作後, 這會慢慢變大;
     /cache/                                 # 系統運作過程的快取
+        /yum/                                   # yum 安裝時, 下載下來的 rpm 檔
     /lib/                                   # 程式運作過程所需用到的 資料檔案 放置的目錄. ex: MySQL DB 放在 /var/lib/mysql/; rpm DB 放在 /var/lib/rpm/
         /mysql/                                 # mysql資料庫的資料儲存位置
     /lock/                                  # 某些裝置或檔案, 一次只能一人使用, 使用中會上鎖. (連結至 /run/lock/)
@@ -106,8 +114,13 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /mail/                                  # 個人電子郵件信箱的目錄. 這目錄也被放置到 /var/spool/mail/, 與之互為連結
     /run/                                   # 早期 系統開機後所產生的各項資訊. (連結至 /run/)
     /spool/                                 # 通常用來放 佇列(排隊等待其他程式來使用)資料(理解成 快取目錄). ex: 系統收到新信, 會放到 /var/spool/mail/ , 但使用者收下信件後, 會從此刪除
-          /cron/                                # 工作排成資料
-          /mail/                                # 所有使用者的 信件資料夾集中處 ; 系通收到新信, 會放到這; 等待寄出的 email
-          /mqueue/                              # 信件寄不出去, 會塞到這
-          /news/                                # 新聞群組
+        /at/                                    # 一次行 工作排程
+        /anacron/
+            /cron.daily                             # 最新一次執行 daily contab 的時間
+            /cron.weekly                            # 最新一次執行 weekly crontab 的時間
+            /cron.monthly                           # 最新一次執行 monthly crontab 的時間
+        /cron/                                  # 週期性 工作排程
+        /mail/                                  # 所有使用者的 信件資料夾集中處 ; 系通收到新信, 會放到這; 等待寄出的 email
+        /mqueue/                                # 信件寄不出去, 會塞到這
+        /news/                                  # 新聞群組
 ```

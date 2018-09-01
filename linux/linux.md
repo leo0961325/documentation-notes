@@ -68,7 +68,7 @@ options     | description
 -qf         | - 某個東西是被哪個套件安裝的 (與 -ql相反)
 
 ```sh
-# 可以反查某個檔案的安裝套件
+# 可以反查某個檔案被哪個套件所安裝
 $ rpm -qf /etc/fstab
 setup-2.8.71-7.el7.noarch
 
@@ -1352,4 +1352,9 @@ $ ss
 $ traceroute  # 追蹤 route
 $ tracepath   # 追蹤 route
 $ nslookup
+```
+
+```sh
+# CentOS7 rpm 檢核用的 public key
+$ ll /etc/pki/rpm-gpg/
 ```

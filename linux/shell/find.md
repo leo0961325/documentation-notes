@@ -85,7 +85,7 @@ $ find [PATH] [option] [action]
 
 ### 依 檔名 查找
 # 找 path 底下的 檔名
-$ find [path] -name <要查的檔案名稱> #(可用 * )
+$ find [path] -name <要查的檔案名稱> #(可用 * , 但要「'*'」起來)
 
 # 同上, 但忽略大小寫
 $ find . -iname xx.txt
@@ -125,11 +125,14 @@ $ find . -perm /a=x
 # 找出 /run 底下, 類型為 Socket的檔案
 $ find /run -type s
 
-# 找出「---s--s--t」權限的檔案(任意一個即可)
-$ find / -perm /7000
+$ find -perm -324
+# 有「-」, 表示權限至少為 324 (至少 011010100)
 
-$ find / -perm -7000
-# 找出完全符合「---s--s--t」權限的檔案
+$ find -perm 324
+# 條件為 324
+
+$ find -perm /324
+# 條件為 「u=011 或 g=010 或 o=100」
 
 # 目前目錄下, 權限 != 777 的檔案
 $ find . -type f ! -perm 777

@@ -760,3 +760,24 @@ $ cd node-v8.11.3/
 $ ./configure
 $ make && sudo make install
 ```
+
+
+
+# PhantomJS
+
+- [Install PhantomJS on CentOS](https://www.bonusbits.com/wiki/HowTo:Install_PhantomJS_on_CentOS)
+
+```sh
+$ sudo yum install fontconfig freetype freetype-devel fontconfig-devel libstdc++
+
+$ wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2
+
+$ sudo mkdir -p /opt/phantomjs
+
+$ tar jxf phantomjs-1.9.8-linux-x86_64.tar.bz2
+
+$ rm phantomjs-1.9.8-linux-x86_64.tar.bz2
+$ sudo mv phantomjs-1.9.8-linux-x86_64/* /opt/phantomjs/
+$ rmdir phantomjs-1.9.8-linux-x86_64/
+$ ln -s /opt/phantomjs/bin/phantomjs ~/bin/phantomjs
+```

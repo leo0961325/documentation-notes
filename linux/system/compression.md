@@ -189,12 +189,19 @@ Strms  Blocks   Compressed Uncompressed  Ratio  Check   Filename
 - xz            : 最省空間
 
 ```sh
-# tar [-zjJ] cxvtf <檔名> [-C 目錄]
+    c   z              .gz
+tar xv  jf  tarName.tar.bz2
+    t   J              .xz
+```
+
+```sh
+# tar [-zjJ] ctxvf <檔名> [-C 目錄]
 # -c : 建立 tar
 # -t : 查看 tar 裡面有那些東西
 # -x : 解開已打包的檔案
 # -v : 顯示進度
 # -f : 指定包裹檔案的名稱 (( 這個參數一定要放在最右邊! ))
+# -C : 解壓縮時, 把東西解壓縮到~
 
 # -z : 透過 gzip
 # -j(小) : 透過 bzip2
@@ -202,7 +209,7 @@ Strms  Blocks   Compressed Uncompressed  Ratio  Check   Filename
 
 # -C : 解壓縮 特定目錄
 
-# -p(小) : 保留原檔案的權限與屬性
+# -p(小) : 保留原檔案的權限與屬性 (preserve permission)
 # -P(大) : 保留絕對路徑 (打包系統檔時, 慎用!!!  不然日後解壓縮時, 舊資料 會蓋掉 新資料!! )
 
 # --exclude=XX : 不打包 XX

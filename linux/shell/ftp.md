@@ -1,15 +1,21 @@
 # [遠端連線伺服器SSH / XDMCP / VNC / RDP](http://linux.vbird.org/linux_server/0310telnetssh.php#ssh_client)
 
-- sftp
-- scp
+- sftp : 互動式使用方式, 適用於 GUI 的工具
+- scp : 適用於單一檔案的複製 (無法保留屬性)
 - ncftp
     - ncftpget
     - ncftpput
 - sshpass
 - lftp
+- rsync : 目錄內容的同步, 可保留屬性
+
+```sh
+$ rsync -av <來源> <目標>
+$ rsync -av root@server01:/etc /backup/
+```
 
 
-## 模擬 FTP 的檔案傳輸方式： sftp
+## sftp : 安全的  FTP
 
 ssh 用來 **Login to Remote Server** 進行後續操作, 但如果只是想 **上傳/下載** 資料, 則使用 `sftp` 或 `scp`. 此兩個指令, 也是透過 `22 port`, 只是他們模擬成 FTP 與 複製 的動作而已.
 
@@ -66,10 +72,21 @@ put <file>
 ```
 
 
-## 使用 scp上傳(但要手動打密碼)
+## 使用 scp (但要手動打密碼)
+
+使用 `ssh` 傳輸
+
+`[user@]host:/path`
+
+`[id@]主機:/絕對路徑`
 
 ```sh
-scp <file> <id>@<host>
+# 上傳
+$ scp <file> [<file2> <file3> ...] ID@HOST:/PATH
+# COPY 給誰之後, 東西就屬於 ID 的
+
+# 下載
+scp <id>@<host>:/path
 ```
 
 
