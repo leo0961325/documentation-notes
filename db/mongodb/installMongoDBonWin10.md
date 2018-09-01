@@ -1,85 +1,102 @@
-# Win10安裝mongoDB (含服務)
-- 2017/10/09
+# Windows 10 使用 MongoDB v3.4 (含服務)
+
+- 2017/10/09, 2018/08/24 更新
 - 以 `3.4.9版 2008R2Plus SSL (64bit)` 為例
 
-## 下載 MongoDB
+分為 `兩種使用方式`, `A:安裝` or `B:純使用`, 但都得先下載 MongoDB...
 
-[MongoDB官方網站](https://www.mongodb.com/download-center#community)
 
-版本選擇:
-Version: Windows Server 2008 R2 64-bit and later, with SSL support x64
 
-## 1. 安裝方式
-完整安裝 ,一口氣下一步到底, 採用預設路徑安裝的話, 沒意外會裝在
-```
-C:\Program Files\MongoDB\Server\3.4
-```
+# 下載 MongoDB
 
-<font color="red">請到控制台>新增移除程式看看是否安裝成功!!</font>
+- [MongoDB官方網站](https://www.mongodb.com/download-center#community)
 
-(稍早原以為安裝完了, 搞了老半天, 發現新增移除程式沒有`MongoDB`...)
+版本選擇: Version: Windows Server 2008 R2 64-bit and later, with SSL support x64
+
+
+
+# A:安裝
+
+## 1. 安裝
+
+完整安裝 ,一口氣下一步到底, 採用預設路徑安裝的話, 沒意外會裝在 `C:\Program Files\MongoDB\Server\3.4`, 前往 `控制台 > 新增移除程式` 看看是否安裝成功!! 但我稱這個叫做`假安裝`, 因為安裝後, 依然沒辦法使用@@!!
+
 
 ## 2. 設定環境變數
-這邊有點懶得仔細說明, 
 
-新增環境變數 mongod
-```
-C:\Program Files\MongoDB\Server\3.4
-```
+設定 MongoDB 的 環境變數
 
-到Path新增
-```
-%mongod%\bin
-```
 
-## 3. 安裝MongoDB服務
-1. 建立相關資料夾
-2. 建立組態
-3. cmd 依照組態安裝服務
-4. 使用 MongoDB
+## 3. 安裝 MongoDB 服務
 
----
+1. 建立 相關資料夾 && 組態檔案
 
-1. 建立相關資料夾及檔案
+    D:\mongoDB\data\
+    D:\mongoDB\log\
+    D:\mongoDB\mongod.cfg
 
-```
-D:\mongoDB\data
-D:\mongoDB\log
-D:\mongoDB\mongod.cfg
+
+`mongod.cfg`, 內容如下:
+
+```cfg
+systemLog:
+    destination: file
+    path: d:\mongodb\data\log\mongod.log
+storage:
+    dbPath: d:\mongodb\data\db
 ```
 
-2. 建立組態
+2. 安裝 MongoDB 服務
 
-    D:\mongoDB\mongo.cfg
+以 `系統管理員` 身分打開 `命令提示字元(Command Line)`
 
-    內容如下
-```
-dbpath=D:\mongoDB\data
-logpath=D:\mongoDB\log\mongod.log
-```
-
-3. cmd 依照組態安裝服務
 ```cmd
-d:
-cd mongoDB
-mongod --config "D:\mongoDB\mongod.cfg" --install
+> d:
+> cd mongoDB
+> mongod --config "D:\mongoDB\mongod.cfg" --install
+> net start MongoDB
 ```
 
-以上即完成安裝, 下列步驟確認是否安裝成功
+若打字打錯還怎樣的導致安裝失敗, 得先刪除 `安裝失敗的遺跡`, 再重新安裝
 
-win+R, 輸入 「services.msc」
-
-找看看有沒有 `MongoDB`, 如下圖
-
-![xx](../../img/mongodb01.jpg)
-
-右鍵 > 啟動
-
-4. 使用 MongoDB
-
-進入 cmd
 ```cmd
-mongo
+> mongod --config D:\mongodb\mongod.cfg --remove
+> mongod --config D:\mongodb\mongod.cfg --install
 ```
-即可進入mongoDB
+
+
+# B:純使用
+
+Terminal A - 建立 Mongo Server
+
+```cmd
+::# (自定義的資料夾，該資料夾會記錄DB的訊息)
+> mongod --dbpath d:\mongodb\data\db
+```
+
+Terminal B - Mongo Client 連線
+
+```cmd
+> mongo
+```
+
+
+
+# 安裝後檢查是否安裝成功
+
+```cmd
+> mongo --version
+MongoDB shell version v3.4.9
+git version: 876ebee8c7dd0e2d992f36a848ff4dc50ee6603e
+OpenSSL version: OpenSSL 1.0.1u-fips  22 Sep 2016
+allocator: tcmalloc
+modules: none
+build environment:
+    distmod: 2008plus-ssl
+    distarch: x86_64
+    target_arch: x86_64
+```
+
+MongoDB 進入畫面
+
 ![xx](../../img/mongodb02.jpg)
