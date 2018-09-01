@@ -41,13 +41,15 @@ windows       | Windows 作業系統相關
 - POC : Proof of Concept 概念性驗證
 - malformed : 異常
 
+
 #### 安全性相關
 
-- permission : 許可
 - authentication : 認證
 - authorization : 授權
 - credential : 憑證
-- validate : 驗證
 - cryptographically : 加密
-- token : 就... Token (不會翻@@)
+- elevate : 提升(通常指使用 具有權限 的 使用者)
 - passphrase : 密語; 嚴格來講, 此非密碼 (Not a password)
+- permission : 許可
+- token : 就... Token (不會翻@@)
+- validate : 驗證

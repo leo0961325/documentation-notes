@@ -57,6 +57,7 @@ $ rpm -qa | grep httpd
 $ rpm -ql httpd
 
 $ rpm -qpc xxx
+# -c : 路徑
 ```
 
 
@@ -64,6 +65,7 @@ $ rpm -qpc xxx
 # 移除 Line
 
 ```sh
+# 查詢 line 相關的已安裝軟體套件
 $# rpm -qa | grep line
 readline-6.2-10.el7.x86_64
 gnome-online-accounts-3.22.5-1.el7.x86_64

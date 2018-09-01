@@ -375,25 +375,8 @@ script | desc
 %S     | 秒
 
 
-
----
-## crontab 排程(crond服務)
-> 指定特定時間執行特定的工作, 時間為: `分、時、日、月、週`<br>
-  1為週一, 2為週二, ..., **週日為 0 or 7都可**
-```sh
-$ ll /etc | grep crontab
--rw-r--r--   1 root root     722  四   6  2016 crontab
-
-$ vi /etc/crontab
-* * * * * root mysqldump -u'root' -p'root_password' tt > /root/test_crontab/bck_`date +\%m\%d\%H\%M`.sql
-# 29 9 15 8 *   # 8/15 09:29
-# 0 17 10 * *   # 每月10日, 17:00
-# 0 4 * * 6     # 每週六 04:00
-# 0 */1 * * *   # 每小時
-```
-
-
 ## 查看 CPU數
+
 ```sh
 $  grep 'processor' /proc/cpuinfo
 processor       : 0
@@ -404,7 +387,6 @@ processor       : 3
 ```
 
 
----
 ## 誰在線上
 
 ```sh
@@ -874,10 +856,7 @@ done
 ```
 
 
----
 ## 其他不知道怎嚜分類
-### crond
-> 系統排程服務`crond`, 每分鐘會檢查 `/etc/crontab`, 並在適當時機執行檔案內指令的排程工作
 
 > `/proc`內部幾乎都是虛擬檔案(唯獨), 少數系統設定值可修改
 ```sh
