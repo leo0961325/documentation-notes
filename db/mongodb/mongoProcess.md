@@ -1,5 +1,7 @@
 # MongoDB Process
 
+如果不打算使用 Daemon 啟用 MongoDB, 也可以使用 前景執行的方式, 來使用 MongoDB
+
 1. 建立 Mongo Daemon (不使用服務)
 ```sh
 # 先建立空目錄 /tmp/qq
