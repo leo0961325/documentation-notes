@@ -13,10 +13,13 @@
 # 底下幾個指令自己太常用... 備註到最前面
 
 ```sh
+# 首次設定 PKI
+$ ssh-keygen -t rsa -b 4096 -C "tony@tonynb"
+
 # 本地分支 push 至 origin
 $ git push --set-upstream origin feature
 
-# 把本地分之推送至 origin
+# 設定本地分支追蹤的遠端分支
 $ git branch --set-upstream-to=origin/feature feature
 
 # 改變追蹤 URL
@@ -684,6 +687,4 @@ $ git checkout <branch> <fileName>
 $ git branch -f master HEAD~3
 
 $ git checkout HEAD~1
-
-$ ssh-keygen -t rsa -b 4096 -C "tony@tonynb"
 ```

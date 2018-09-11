@@ -46,6 +46,7 @@ windows       | Windows 作業系統相關
 
 - authentication : 認證
 - authorization : 授權
+- confined : 受限
 - credential : 憑證
 - cryptographically : 加密
 - elevate : 提升(通常指使用 具有權限 的 使用者)

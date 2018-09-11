@@ -1,18 +1,23 @@
-# CentOS 7.x
+# CentOS 7
 
 安裝的 ISO 說明: 自從 CentOS7 開始, `版本命名依據` 就跟 `發表日` 有關
-    「CentOS-7-x86_64-Everything-1503-01.iso」
-    CentOS-7 表示 7.x版
-    x86_64 為 64位原
-    Everything 為 包山包海的版本
-    1503 表示此版本在 2015/03 發表
-    01.iso 為 CentOS7.1版
+
+    CentOS-7-x86_64-Everything-1503-01.iso
+    -------- ------ ---------- ---- --
+       A        B        C      D   E
+
+    A: Linux distribution - CentOS 7
+    B: 64位元
+    C: 包山包海的版本(內建所有的說明文件)
+    D: 於 2015/03 發表
+    E: 7.1版 (連同 A 一起看)
 
 ```sh
-# 我的電腦環境
+# 環境
 $ uname -a
 Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
 
+# 環境
 $ hostnamectl
    Static hostname: tonynb
          Icon name: computer-laptop
@@ -24,9 +29,11 @@ $ hostnamectl
             Kernel: Linux 3.10.0-514.el7.x86_64
       Architecture: x86-64
 
+# 環境
 $ cat /etc/centos-release
 CentOS Linux release 7.3.1611 (Core)
 
+# 環境
 $ rpm --query centos-release
 centos-release-7-3.1611.el7.centos.x86_64
 ```
