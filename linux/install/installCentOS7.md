@@ -1,6 +1,7 @@
 # CentOS7 安裝備註
 
 我的使用環境如下
+
 ```
 $ uname -a
 Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
@@ -22,6 +23,46 @@ CentOS Linux release 7.3.1611 (Core)
 $ rpm --query centos-release
 centos-release-7-3.1611.el7.centos.x86_64
 ```
+
+- RHEL (RedHat Enterprise Linux) : 
+- EPEL (Extra Packages for Enterprise Linux) : 幾乎都是 RedHat 的實驗品... 正式 Server 別裝這些...
+
+
+
+# yum
+
+```sh
+# 可查線上 repo 可安裝的套件(但是得給完全相同的名字才能查(可用regex))
+$ yum list 'http*'
+
+# (同上) 但可用關鍵字來查詢 (套件名稱, 套件說明)
+$ yum search all 'web server'
+
+# 給完整名稱, 查線上套件安裝資訊
+$ yum info httpd
+
+# (不好用) 可查哪個套件被安裝在哪邊
+$ yum provides /var/www/html
+
+# 查本地已經安裝的 Linex Kernels
+$ yum list kernel
+
+# 移除本地已安裝的套件 && Dependcies
+$# yum remove httpd 
+
+# 查線上可安裝的群組套件
+$ yum group list # 或 yum grouplist
+
+# 可用關鍵字來查詢線上 群組套件名稱, 群組套件說明
+$ yum groups info "Server with GUI"
+
+# 增加 「yum repo 檔」 到 /etc/yum.repo.d/xxx.repo  (沒事別用這個...)
+$# sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+#
+$ 
+```
+
 
 
 
@@ -303,12 +344,25 @@ Python 3.6.3 :: Anaconda, Inc.
 
 # Redis
 
-- 2017/11/26 (2018/05/15 update)
+- 2017/11/26 (2018/05/15, 2018/09/02 update)
 - [Official Redis](https://redis.io/download)
 - [cc not found 解法1](https://stackoverflow.com/questions/35634795/no-acceptable-c-compiler-found-in-path-while-installing-the-c-compiler)
 - [cc not found 解法2](https://unix.stackexchange.com/questions/287913/cc-command-not-found-when-compiling-a-pam-module-on-centos?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
 - [jemalloc not found 的解說1](https://blog.csdn.net/bugall/article/details/45914867)
 - [jemalloc not found 的解說2](http://www.ywnds.com/?p=6957)
+- [Linode - Install and Configure Redis on CentOS 7](https://www.linode.com/docs/databases/redis/install-and-configure-redis-on-centos-7/)
+
+
+## 安裝版
+
+```sh
+$ sudo yum install epel-release
+$ sudo yum install redis
+$ sudo systemctl start redis
+```
+
+
+## 免安裝版 (需要使用一個Terminal 前景執行 redis-server)
 
 1. Download && Install
 ```sh
@@ -406,7 +460,7 @@ make: *** [credential-store.o] Error 1
 解法: [Install Git](https://tecadmin.net/install-git-2-0-on-centos-rhel-fedora/)
 
 ```sh
-$ sudo yum install zlib-devel 
+$ sudo yum install zlib-devel
 # 之後即可正常 make
 ```
 
@@ -701,6 +755,20 @@ $ systemctl status vboxautostart-service
  8月 19 21:55:20 tonynb systemd[1]: Started vboxautostart-service.service.
 
 $ sudo systemctl start vboxautostart-service
+```
+
+
+## 相依關係失敗 - libSDL-1.2.so.0()(64bit) 被 VirtualBox-5.2-5.2.18_124319_el7-1.x86_64 需要
+
+- 2018/09/04
+- [RPM Resource libSDL-1.2.so.0](https://rpmfind.net/linux/rpm2html/search.php?query=libSDL-1.2.so.0()(64bit))
+
+```sh
+$ wget https://rpmfind.net/linux/centos/7.5.1804/os/x86_64/Packages/SDL-1.2.15-14.el7.x86_64.rpm
+
+$ sudo rpm -Uvh SDL-1.2.15-14.el7.x86_64.rpm
+
+$ sudo rpm -Uvh VirtualBox-5.2-5.2.18_124319_el7-1.x86_64.rpm
 ```
 
 

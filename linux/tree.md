@@ -33,6 +33,10 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /fstab                          # mount設定檔 (開機時 會依照此設定來作自動掛載; 每次使用 mount時, 預設也會動態更新此檔案)
     /hostname                       # 主機名稱檔
     /hosts                          # ip 與 dns 對照
+    /httpd/                         # Apache 的組態設定檔
+        /conf/                          # Apache 主設定檔dir
+            httpd.conf                      # Apache 主設定檔
+        /conf.d/                        # Apache 附加設定檔dir
     /init.d/                        # (CentOS6前, 所有的 服務啟動腳本) CentOS7仍在(但已經不使用 init 來管理服務了), 只剩部分東西還在這 (連結至 rc.d/init.d)
         netconsole                      # 各種模式下的 *netconsole 連結
         network                         # 各種模式下的 *network 連結至此
@@ -41,6 +45,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /locale.conf                    # 系統預設語系定義檔 (一開始安裝就決定了!)
     /localtime/                     # 系統時間
     /login.defs                     # 建立使用者時, 該使用者的 系統愈設初始值
+    /my.cnf                         # MySQL 組態
     /opt/                           # 第三方協作軟體 /opt/ 的相關設定檔
     /passwd                         # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
     /pki/                           # 公私金鑰存放區
@@ -56,6 +61,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /resolv.conf                    # DNS 主機的 IP 的設定檔
     /rsyslog.conf                   # 定義 "rsyslog 服務" 應把 各種 Log 存到哪裡的組態檔
     /rsyslog.d/                     # 客製化 Log 定義組態檔, 放這邊比較好
+    /selinux/
+        /config                         # SELinux 組態設定檔
     /services                       # 服務 與 port 對映檔
     /skel/                          # 預設建立使用者後, 使用者家目錄底下的東西
     /ssh/
@@ -63,6 +70,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /sudoers                        # 定義 sudo, wheel... 相關事項(建議使用 visudo 來修改, 別直接編輯此檔案)
     /sysconfig/                     # CentOS6 舊時代的組態設定
         /network-scripts/               # CentOS 的網路設定資料放在這~
+        /selinux                        # SELinux 組態設定檔 (連結至 /etc/selinux/config)
     /systemd/                       # 軟體的啟動腳本
         /journald.conf                  # journalctl 的 組態設定
         /system/                        # 依據系統所要提供的功能所撰寫的 服務腳本, 優先於 /run/systemd/system/ 及 /usr/lib/systemd/system/
@@ -84,6 +92,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /tmp/                         # 重開機後會清除
 /usr/                         # (unix software resource) Linux系統安裝過程中必要的 packages (軟體安裝/執行相關); 系統剛裝完, 這裡最占空間
     /bin/                           # 一般使用者 用的 工具or指令or執行檔; 
+        /mysql*                         # 底下有 20 個左右的 MySQL 工具
     /games/                         # 與遊戲相關
     /include/                       # c++ 的 header 與 include 放置處; 使用 tarball 方式安裝軟體時, 會用到裡面超多東西
     /lib/                           # 系統的共用函式庫檔案
@@ -94,8 +103,9 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /local/                         # sys admin 在本機自行安裝的軟體, 建議放這邊
           /sbin/                        # 本機自行安裝的軟體所產生的系統執行檔(system binary), ex: fdisk, fsck, ifconfig, mkfs 等
     /sbin/                          # 系統專用的 工具/指令/執行檔, ex: 某些伺服器軟體程式的東西
+        mysqld                          # mysqld (server)
     /share/                         # 唯讀架構的資料檔案; 共享文件; 幾乎都是文字檔
-          /doc                          # 系統文件
+          /doc                          # 系統說明文件
           /man                          # 線上操作手冊
           /zoneinfo                     # 時區檔案
     /src/                           # 一般原始碼 建議放這
@@ -104,7 +114,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /cache/                         # 系統運作過程的快取
         /yum/                           # yum 安裝時, 下載下來的 rpm 檔
     /lib/                           # 程式運作過程所需用到的 資料檔案 放置的目錄. ex: MySQL DB 放在 /var/lib/mysql/; rpm DB 放在 /var/lib/rpm/
-        /mysql/                         # mysql資料庫的資料儲存位置
+        /mysql/                         # mysql資料庫的資料儲存位置, InnoDB log && System TableSpace
     /lock/                          # 某些裝置或檔案, 一次只能一人使用, 使用中會上鎖. (連結至 /run/lock/)
     /log/                           # rsyslog服務(舊Log機制) 放置 log 的位置, 最多保留4份檔案, daily cron 會每天來清理
         /boot.log                       # 系統開機相關
@@ -113,6 +123,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /maillog                        # mail server 相關
         /messages                       # 認證相關exception, email, debugging log, 幾乎所有 syslog message 都在這
         /secure                         # security 及 authentication 相關錯誤訊息
+        /yum.log                        # 使用 yum 安裝/刪除/更新 的所有紀錄
     /mail/                          # 個人電子郵件信箱的目錄. 這目錄也被放置到 /var/spool/mail/, 與之互為連結
     /run/                           # 早期 系統開機後所產生的各項資訊. (連結至 /run/)
     /spool/                         # 通常用來放 佇列(排隊等待其他程式來使用)資料(理解成 快取目錄). ex: 系統收到新信, 會放到 /var/spool/mail/ , 但使用者收下信件後, 會從此刪除

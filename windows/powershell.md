@@ -7,6 +7,20 @@
 ```
 
 
+
+# Service
+
+- [Docker for Windows fails with a daemon not running message](https://success.docker.com/article/docker-for-windows-fails-with-a-daemon-not-running-message)
+
+```powershell
+# 關閉服務
+> Net stop com.docker.service
+
+# 啟動服務
+> Net start com.docker.service
+```
+
+
 ### sys-admin
 
 ```powershell
