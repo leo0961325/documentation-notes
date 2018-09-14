@@ -15,6 +15,15 @@ For CentOS7, 掛載時, 會自動到 fs 的 superblock 去分析並測試掛載,
 - `/lib/modules/$(uname -r)/kernel/fs/` : Linux 支援的 fs 的所有驅動程式 目錄
 
 
+# 標準作業流程
+
+1. 插入空的隨身碟
+2. 先作磁區分割 ( `fdisk` or `gdisk` )
+3. 針對 *分割後的 Partition* 格式化 `mkfs`
+4. 手動掛載 `mount /dev/sdb1 <path>`
+5. 自動掛載 : 修改 `/etc/fstab` (有錯誤會導致無法開機! 改後記得用 `mount -a` 測試是否失敗!!)
+
+
 
 # 說明... 乾~  超大一包
 

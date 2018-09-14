@@ -2,6 +2,7 @@
 
 - 2018/04/21
 - 硬梆梆...
+- [鳥哥-partition](http://linux.vbird.org/linux_basic/0130designlinux.php#partition_table) search「所以邏輯分割槽的裝置名稱號碼就由5號開始了」
 
 
 # 概念
@@ -9,26 +10,27 @@
 磁區(Sector) : 最小物理儲存單位, 分別有 `512 Bytes(早期)` 、 `4K Bytes(近代)`.
 
 
-    磁碟分割表分為兩種
-    1. 早期的 MBR分割表 (512 Bytes)    
+    磁碟分割表 分為 2 種
+    1. 早期的 MBR分割表 (512 Bytes, max 2TB)    
         |- 非第 1 磁區
         |- 第 1 磁區 (這邊壞了硬碟就掛了)
             |- 主要開機區 (Master boot record, MBR) - 446 Bytes
             |- 分割表 (Partition Table) - 64 Bytes
-    2. 近代的 GPT分割表 (支援 2TB 以上硬碟)
+    2. 近代的 GPT 分割表 (支援 2TB 以上硬碟)
 
 
+# MBR
 
-# MBR (max 2.2TB)
-
-- MBR底下, `Primary Partition` 與 `Extended Partition` 最多只能有 4個(硬碟限制)(each 16 Bytes)
-- `Extended Partition` 最多只能有 1個(作業系統限制), 用來為 `邏輯分割區(Logical Partition)` 作定址
-- `Logical Partition` 是由 `Extended Partition` 持續切割出來的分割槽.
-- 能夠被格式化後, 拿來存資料的是 `Primary Partition` 及 `Logical Partition`. (`Extended Partition` 無法格式化)
-- `Logical Partition` 數量, 依作業系統而不同. Linux系統, SATA硬碟可以突破 63個以上了~
-- 把 `Extended Partition` 想像成他只是個指向 `Logical Partition`的空殼. 裏頭還會指向 **尚未被分割的分割槽**.
-
-其餘細節, [去看鳥哥](http://linux.vbird.org/linux_basic/0130designlinux.php#partition_table), 並搜尋關鍵字「所以邏輯分割槽的裝置名稱號碼就由5號開始了」, 有個不錯的範例. 重點在於, 為什麼「/dev/sda2」之後就跳成「/dev/sda5」了...
+```sh
+Primary 1       /dev/sda1
+Primary 2       /dev/sda2
+Primary 3       /dev/sda3
+Extended
+    +Logical    /dev/sda5
+    +Logical    /dev/sda6
+    +...
+    +Logical    /dev/sda15
+```
 
 
     /dev/sd[a-p][1-128] : 實體磁碟 的 磁碟檔名
@@ -62,15 +64,15 @@
 
 
 
-# 檔案系統 Filesystem, 底下都以 fs 表示
+# 檔案系統 Filesystem(以下以 fs 表示)
 
 > 一般來說, `一個分割槽(partition)` 只能裝 `一個 fs`. 但因為後續的新技術, ex: LVM, 軟體磁碟陣列(RAID), `一個分割槽`, 可以裝 `多個 fs 了`, 所以 ~~針對 partition 來格式化~~, `一個可被掛載的資料 = 一個 fs (而非分割槽)`
 
 Linux fs 通常把 `檔案權限(rwx)` 與 `檔案屬性(owner, group, time, ...)` 存到不同區塊
 
-- `block` : 實際檔案內容. 若檔案太大, 會占用多個 block
-- `inode` : 紀錄檔案屬性. 一個檔案占用一個 inode, 並記錄 `data block 號碼`
 - `superblock` : fs 整體資訊. 包括 inode/block 的總量, 使用量, 剩餘量.
+- `inode` : 紀錄檔案屬性. 一個檔案占用一個 inode, 並記錄 `data block 號碼`
+- `block` : 實際檔案內容. 若檔案太大, 會占用多個 block
 
 
 ## Linux 支援的檔案系統
@@ -79,11 +81,10 @@ Linux fs 通常把 `檔案權限(rwx)` 與 `檔案屬性(owner, group, time, ...
 - 日誌式 fs : ext3 / ext4 / ReiserFS / Windows' NTFS / SGI's XFS / ZFS 等
 - 網路 fs : NFS / SMBFS
 
-> 從 `CentOS7 開始`, 拋棄了對 Linux 支援度最廣的 ext家族, `投入了 xfs 的懷抱`. 有一大堆原因啦!!  ex : ext家族 格式化時採用 `預先配置`(大硬碟會弄超久~~ 而 `xfs 採用 動態配置`)、還有其他我看不懂的... 參考 [鳥哥-XFS檔案系統簡介](http://linux.vbird.org/linux_basic/0230filesystem.php#harddisk-xfs).
+> 從 `CentOS7 開始`, 拋棄了對 Linux 支援度最廣的 ext 家族, `投入了 xfs 的懷抱`. 有一大堆原因啦!!  ex : ext家族 格式化時採用 `預先配置`(大硬碟會弄超久~~ 而 `xfs 採用 動態配置`)、還有其他我看不懂的... 參考 [鳥哥-XFS檔案系統簡介](http://linux.vbird.org/linux_basic/0230filesystem.php#harddisk-xfs).
 
 > journal功能 : 檔案系統裏頭, 如果有說明支援 `日誌功能(System Log)` , 表示如果哪天出了問題, 重開機的時候, 不用作 Disk Scan, 而是直接去檢查 syslog 之類的東西, 然後開始作修復 or 還原.
 
-> Linux VFS (Virtual Filesystem Switch) : Linux 認識的 fs 都是在 VFS 進行管理. 簡單來說, Linux裏頭可以同時存在多個不同的 fs, User在作檔案存取時, 根本不需要理會目前操作的檔案的 fs 式殺虫, 因為 VFS 以將幫忙處理了. VFS流程圖可以看 [鳥哥-VFS檔案系統的示意圖](http://linux.vbird.org/linux_basic/0230filesystem.php#harddisk-other)
 
 ```sh
 # 查看 Linux 支援的檔案系統有哪些
@@ -403,3 +404,5 @@ sr0          11:0    1  1024M  0 rom        # sr: CDROM/DVDROM
 - NTFS 是 `windows 2000` 以後的產物
 - UUID(universally unique identifier) : Linux系統給予 `所有裝置` 個別獨一無二的識別碼, 可拿來做為 掛載 or 使用這個裝置 之用
 - 是否能讀寫 GPT 與 `開機的檢測程式(BIOS 與 UEFI)` 有關.
+- MBR : Master Boot Record
+- GPT : GUID Partition Table

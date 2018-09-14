@@ -56,3 +56,5 @@ windows       | Windows 作業系統相關
 - permission : 許可
 - token : 就... Token (不會翻@@)
 - validate : 驗證
+- Permission denied : 無權使用此指令
+- Operation not permitted : 不具有此指另作用的檔案 的權限

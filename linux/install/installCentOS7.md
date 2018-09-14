@@ -41,8 +41,9 @@ $ yum search all 'web server'
 # 給完整名稱, 查線上套件安裝資訊
 $ yum info httpd
 
-# (不好用) 可查哪個套件被安裝在哪邊
+# 到 YUM Server 查 安裝在哪個位置的工具叫啥 or 該工具相關的套件
 $ yum provides /var/www/html
+$ yum provides semanage
 
 # 查本地已經安裝的 Linex Kernels
 $ yum list kernel
@@ -135,83 +136,53 @@ Hello, World.
 
 
 
-# MySQL CE
+# MySQL Community 5.7
 
-- 2017/11/26
+- 2018/09/14
 - [Official MySQL](https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/)
 
+1. 安裝 MySQL
 
-1. 先到這邊手動下載[repo rpm](https://dev.mysql.com/downloads/repo/yum/), 再執行剛剛下載的那包rpm(版本不同, 底下指令也跟著不同)
-```
-$ sudo rpm -Uvh mysql57-community-release-el7-11.noarch.rpm 
-```
+```sh
+# 1. 編寫 yum repo 檔
+$# sudo vim /etc/yum.repos.d/mysql-community.repo
+###### 內容如下 ######
+[mysql57-community]
+name=MySQL 5.7 Community Server
+baseurl=http://repo.mysql.com/yum/mysql-5.7-community/el/7/$basearch/
+enabled=1
+gpgcheck=1
+gpgkey=http://repo.mysql.com/RPM-GPG-KEY-mysql
+###### 內容如上 ######
 
-2. 安裝MySQL Server(若要選擇不同的Release Series, 要再進去網頁熟讀第2點), 否則直接使用下列指令, 安裝最新版本(目前為5.7)
-```
-$ sudo yum install -y mysql-community-server
-```
+# 2. Check Repo && Install
+$# yum repolist | grep mysql
+mysql57-community/x86_64     MySQL 5.7 Community Server      287
 
-3. 啟動MySQL服務
-```
-$ sudo systemctl enable mysqld 
-$ sudo systemctl start mysqld 
-$ sudo systemctl status mysqld
-```
+$# yum install -y mysql-community-server
 
-4. 取得暫時密碼登入
-```
-$ sudo grep 'temporary password' /var/log/mysqld.log
+# 3. 啟動 && 設定 root 密碼~
+$# systemctl start mysqld.service
+
+$# grep 'temporary password' /var/log/mysqld.log
 
 $ mysql -uroot -p
+# 前面取得的密碼登入
 ```
 
-5. 移除密碼複雜性驗證 && 更改密碼 && 建立使用者
+2. 更改密碼~
+
+```sql
+--;# 登入 MySQL 後, 立馬改密碼
+ALTER USER 'root'@'localhost' IDENTIFIED BY '<new password>';
+
+--;# 自己看看要不要移除 密碼政策
+uninstall plugin validate_password;
+
+--;# 建立 User
+CREATE USER 'tony'@'%' IDENTIFIED BY '<password>';
+GRANT ALL ON *.* TO 'tony'@'%';
 ```
-
-> ALTER USER 'root'@'localhost' IDENTIFIED BY '<new password>';
-
-> uninstall plugin validate_password;
-
-> CREATE USER 'tony'@'%' IDENTIFIED BY '<password>';
-
-> GRANT ALL ON *.* TO 'tony'@'%';
-```
-
-
-
-# Docker - MySQL
-
-- 2017/10/01
-- [Severalnines Blog - MySQL Docker Container](https://severalnines.com/blog/mysql-docker-containers-understanding-basics)
-- 前提, 已經下載並安裝好
-	1. Docker
-	2. MySQL
-
-1. 下載及安裝MySQL image, 建立Container, 設定root密碼
-```sh
-$ docker run -d --name=<containerName> --env="MYSQL_ROOT_PASSWORD=<password>" mysql 
-```
-
-2. 看mysql啟動的Log
-```sh
-$ docker logs <containerName>
-```
-
-3. 取得每次啟動的docker ip
-```sh
-$ docker inspect <containerName> | grep IPAddress
-```
-
-4. 連進去Container囉!!
-```sh
-$ mysql -u <user> -p <password> -h <ip> -P <port>
-```
-
-5. 關閉MySQL Container
-$ docker stop <containerName>
-
-6. 將來再進去(Container要在, 只是還沒被啟動 docker ps -a要有)
-$ docker start <containerName>
 
 
 
@@ -220,35 +191,31 @@ $ docker start <containerName>
 - 2017/11/26
 - [Official MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/)
 
-1. repo [決定自己要哪個版本]()
-```
-$ sudo vi /etc/yum.repos.d/mongodb-org-3.4.repo
 
+```sh
+# 1. 編寫 Yum repo 檔
+$# vim /etc/yum.repos.d/mongodb-org-3.4.repo
+###### 內容如下 ######
 [mongodb-org-3.4]
 name=MongoDB Repository
 baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
 gpgcheck=1
 enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
-```
+###### 內容如上 ######
 
-2. install
-```
-$ sudo yum install -y mongodb-org
-```
+# 2. Check Repo && Install
+$# yum repolist | grep mongo
+mongodb-org-3.4/7       MongoDB Repository        90
 
-3. service
-```
-$ sudo ystemctl start mongod.service
-$ sudo systemctl enable mongod.service
-$ systemctl status mongod.service
-```
+$# yum install -y mongodb-org
 
-4. other
-```
-$ mongodb --version
-MongoDB shell version v3.4.10
-git version: 078f28920cb24de0dd479b5ea6c66c644f6326e9
+# 3. 啟動~
+$# systemctl start mongod.service
+
+$ mongod --version
+db version v3.4.17
+git version: 7c14a47868643bb691a507a92fe25541f998eca4
 OpenSSL version: OpenSSL 1.0.1e-fips 11 Feb 2013
 allocator: tcmalloc
 modules: none
@@ -258,60 +225,34 @@ build environment:
     target_arch: x86_64
 
 $ ps auxw | grep mongod
-mongod   10015  0.9  1.2 976812 45716 ?        Sl   14:23   0:01 /usr/bin/mongod -f /etc/mongod.conf
-tonynb   10146  0.0  0.0 112672   964 pts/1    S+   14:25   0:00 grep --color=auto mongod
-```
-
-
-
-# MongoDB in docker
-
-```sh
-$ docker run --name mongo -it mongo /bin/bash
-
-$ sudo docker images
-REPOSITORY         TAG       IMAGE ID        CREATED         SIZE
-docker.io/mongo    latest    88b7188af865    23 hours ago    358.3 MB
-...
-
-可以直接取得每次啟動的docker ip
-$ docker inspect <containerName> | grep IPAddress
-
-進入 docker 的 mongo
-$ mongo --port <port> --host <ip>
-
-# 啟動後,檢查mongoDB是否正在運行
-
-$ ps auxw | grep mongod
-$ systemctl status mongod 
-
-# 加入下面兩行, 不再顯示警告訊息
-$ sudo vi /etc/rc.local
-echo never > /sys/kernel/mm/transparent_hugepage/enabled
-echo never > /sys/kernel/mm/transparent_hugepage/defrag
-
-# 加入下面1行
-$ sudo vim /etc/security/limits.d/20-nproc.conf 	
-mongod   soft  nproc   64000
-
-$ systemctl restart mongod
-# 重啟後, 就不會有亂七八糟的警告訊息了
+mongod  8562  1.1  1.0 972408 41188 ?      Sl  20:43  0:01 /usr/bin/mongod -f /etc/mongod.conf
+tony    9499  0.0  0.0 112708   968 pts/2  S+  20:45  0:00 grep --color=auto mongod
 ```
 
 
 
 # Visual Studio Code
 
-- 2017/11/27
+- 2018/09/14
 - [Official vscode](https://code.visualstudio.com/docs/setup/linux)
 
-1. repo && install
-```
-$ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+```sh
+# 1. 編寫 Yum Repo
+$# vim /etc/yum.repos.d/vscode.repo
+###### 內容如下 ######
+[code]
+name=Visual Studio Code
+baseurl=https://packages.microsoft.com/yumrepos/vscode
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc
+###### 內容如上 ######
 
-$ sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+# 2. Check Repo && Install
+$# yum repolist | grep code
+code        Visual Studio Code       44
 
-$ sudo yum -y install code
+$# yum -y install code
 ```
 
 
@@ -325,7 +266,7 @@ $ sudo yum -y install code
 ```
 $ wget https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
 
-$ su bash ./Anaconda3-5.0.1-Linux-x86_64.sh
+$ sudo bash ./Anaconda3-5.0.1-Linux-x86_64.sh
 ```
 
 2. Environment 
@@ -353,54 +294,11 @@ Python 3.6.3 :: Anaconda, Inc.
 - [Linode - Install and Configure Redis on CentOS 7](https://www.linode.com/docs/databases/redis/install-and-configure-redis-on-centos-7/)
 
 
-## 安裝版
-
 ```sh
+# 安裝 Redis
 $ sudo yum install epel-release
 $ sudo yum install redis
 $ sudo systemctl start redis
-```
-
-
-## 免安裝版 (需要使用一個Terminal 前景執行 redis-server)
-
-1. Download && Install
-```sh
-$ wget http://download.redis.io/releases/redis-4.0.2.tar.gz
-
-$ tar xzf redis-4.0.2.tar.gz
-
-$ mv redis-4.0.2.tar.gz ~/.
-
-$ ~/cd redis-4.0.2
-
-$ make
-
-# 如果 make 有問題, 再往下看---------------
-# *** 如果出現「cc not found」
-# 我直接把超大一包的'Development Tools'裝近來(殺雞用牛刀, 但可用!)
-$ sudo yum groupinstall 'Development Tools'
-
-# *** 如果出現「jemalloc/jemalloc.h: No such file or directory」
-# 解法: 
-# 1. 編譯時, 使用「make MALLOC=libc」來迫使 Redis使用 libc(比起 jemalloc 不那麼有效率) 取代 Redis預設的 jemalloc(應該是 記憶體管理的模組)
-# 2. 安裝 jemalloc 
-
-# 底下採用 解法2 -> 安裝 jemalloc
-$ # a. 安裝 EPEL
-$ # b. 安裝 jemalloc
-$ # c. 完成後, 再執行 「make MALLOC=/usr/local/jemalloc/lib」編譯. (不曉得為何 make test 依然發生錯誤), 不過可正常使用了
-# -------------------------------------------
-```
-
-2. Create redis-server - Terminal 1
-```sh
-$ src/redis-server
-```
-
-3. Run redis-client - Terminal 2
-```sh
-$ src/redis-cli
 ```
 
 
@@ -408,60 +306,31 @@ $ src/redis-cli
 # Git (CentOS7 default git v-1.8 )
 - 2017/11/26
 -  [How To Install Git on CentOS 7](https://blacksaildivision.com/git-latest-version-centos) 
+- [Choose a version](https://github.com/git/git/releases) ( 以2.14.3版為例 )
 
 1. Dependancy
-```
-$ sudo yum install autoconf libcurl-devel expat-devel gcc gettext-devel kernel-headers openssl-devel perl-devel zlib-devel -y
-```
+```sh
+# 所需套件
+$# yum install -y autoconf libcurl-devel expat-devel gcc gettext-devel kernel-headers openssl-devel perl-devel zlib-devel
 
-2. [Choose a version](https://github.com/git/git/releases) ( 以2.14.3版為例 )
-```
+# 下載
 $ wget https://github.com/git/git/archive/v2.14.3.tar.gz
-```
 
-3. Install
-```
+# Install
 $ tar zxf v2.14.3.tar.gz
-
 $ cd git-2.14.3/
-
 $ make clean
-
 $ make configure
 GIT_VERSION = 2.14.3
     GEN configure
 
 $ ./configure --prefix=/usr/local
-
 $ make
 
-$ sudo make install
+$# sudo make install
 
 $ git --version
 git version 2.14.3
-```
-
-
-### 額外備註
-
-在 `centos:7` 的 docker image內, 編譯 git 時, 因為缺乏許多套件, 發生下列錯誤
-```sh
-$ make 
-    * new build flags
-    CC credential-store.o
-In file included from credential-store.c:1:0:
-cache.h:42:18: fatal error: zlib.h: No such file or directory
- #include <zlib.h>
-                  ^
-compilation terminated.
-make: *** [credential-store.o] Error 1
-```
-
-解法: [Install Git](https://tecadmin.net/install-git-2-0-on-centos-rhel-fedora/)
-
-```sh
-$ sudo yum install zlib-devel
-# 之後即可正常 make
 ```
 
 
@@ -558,36 +427,28 @@ $ 7za x <fileName>
 - [參考這邊](https://dotblogs.com.tw/grayyin/2017/05/18/183117)
 
 ```sh
-# 1 建立 yum repo
-$ sudo vi /etc/yum.repos.d/nginx.repo
-[nginx]
-name=nginx repo
-baseurl=http://nginx.org/packages/centos/7/$basearch/
-# baseurl=http://nginx.org/packages/OS/OSRELEASE/$basearch/   # 看官方說明吧
-gpgcheck=1
-enabled=1
-
-# 前往 「http://nginx.org/keys/nginx_signing.key」
-# Copy GPG-keys, 貼到底下檔案內
-$ vi nginx_signing.key
+# 1. 匯入 GPG-Key
+$ curl http://nginx.org/keys/nginx_signing.key > nginx_signing.key
 $ sudo rpm --import nginx_signing.key
 
+# 2. 建立 Yum Repo
+$ sudo vi /etc/yum.repos.d/nginx.repo
+###### 內容如下 ######
+[nginx]
+name=Nginx Repo
+baseurl=http://nginx.org/packages/centos/7/$basearch/
+gpgcheck=1
+enabled=1
+###### 內容如上 ######
 
-### 2 安裝
-$ sudo yum install -y nginx
-$ sudo systemctl start nginx
-$ sudo systemctl enable nginx
+### 3. Repolist && Install
+$ yum repolist | grep nginx
+nginx/x86_64      Nginx Repo         108
 
+$# yum install -y nginx
 
-### 3. 其他補充及設定
 $ nginx -v
-nginx version: nginx/1.13.9
-
-# 設定檔位置
-$ sudo vi /etc/nginx/nginx.conf
-
-# 預設主機配置  
-$ sudo vi /etc/nginx/conf.d/default.conf
+nginx version: nginx/1.14.0
 ```
 
 
@@ -809,24 +670,21 @@ $ unrar t <file.rar>    # 測試壓縮檔是否完整
 
 # Node.js
 
-- 2018/07/21
+- 2018/09/14
 - [官網](https://nodejs.org/en/)
 
 ```sh
 $ wget https://nodejs.org/dist/v10.7.0/node-v10.7.0-linux-x64.tar.xz        # 10.7
 $ wget https://nodejs.org/dist/v8.11.3/node-v8.11.3-linux-x64.tar.xz        # 8.11
 
-$ tar Jxvf node-v10.7.0-linux-x64.tar.xz    # 解壓縮xz 10.7
-$ tar zxvf tar zxvf node-v8.11.3.tar.gz     # 解壓縮gz 8.11
+$ tar xJf node-v10.7.0-linux-x64.tar.xz     # 解壓縮xz 10.7
+$ tar xJf node-v8.11.3-linux-x64.tar.xz     # 解壓縮xz 8.11
 
 $ cd node-v10.7.0-linux-x64/
-$ cd node-v8.11.3/
+$ cd node-v8.11.3-linux-x64/
 
-# 10.7直接設環境變數
-
-# 8.11 要安裝~
-$ ./configure
-$ make && sudo make install
+$ mkdir ~/bin
+$ ln -s /home/tony/Downloads/node-v8.11.3-linux-x64/bin/node ~/bin/node # v8.11
 ```
 
 
@@ -848,4 +706,22 @@ $ rm phantomjs-1.9.8-linux-x86_64.tar.bz2
 $ sudo mv phantomjs-1.9.8-linux-x86_64/* /opt/phantomjs/
 $ rmdir phantomjs-1.9.8-linux-x86_64/
 $ ln -s /opt/phantomjs/bin/phantomjs ~/bin/phantomjs
+```
+
+
+
+# Go lang
+
+- 2018/09/14
+
+```sh
+# Download && untar
+$ wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
+
+$ sudo tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+
+$ echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bash_profile
+
+$ go version
+go version go1.11 linux/amd64
 ```
