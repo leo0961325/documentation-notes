@@ -421,3 +421,43 @@ $ docker exec no-net-alpine ip link show
 $ docker exec no-net-alpine ip route
 # 沒有回傳值~~ 因為沒有網路, routing table 是空der
 ```
+
+
+
+# 補充
+
+```sh
+# 查看有哪些 Net working space
+$ ip netns list
+
+$ sudo ip netns add blue
+
+$ ip netns list
+blue
+
+$ sudo ip netns delete blue
+
+# 查看接口
+$# ip netns exec blue ip a
+1: lo: <LOOPBACK> mtu 65536 qdisc noop state DOWN qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+
+$# ip netns exec blue ip link
+1: lo: <LOOPBACK> mtu 65536 qdisc noop state DOWN mode DEFAULT qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+
+# 啟動
+$# ip netns exec blue ip link set dev lo up
+$# ip netns exec blue ip link
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+```
+
+```sh
+$ brctl show
+bridge name     bridge id               STP enabled     interfaces
+docker0         8000.02423eebdec1       no
+virbr0          8000.52540048e681       yes             virbr0-nic
+
+
+```
