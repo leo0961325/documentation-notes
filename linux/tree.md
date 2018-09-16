@@ -9,10 +9,10 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 
 下面的目錄樹結構, 是經年累月慢慢補上去的...(大致上按 英文 排序, 部分依 功能別 放在一起)
 ```sh
-/bin/                         # 可執行檔; (os7後, 連結至 /usr/bin/)
+/bin/                         # 單人維護模式還能用的可執行檔; (os7後, 連結至 /usr/bin/)
 /boot/                        # 開機時使用的核心檔案目錄.
      /grub2/                        # 開機設定檔
-/dev/                         # 系統設備目錄
+/dev/                         # Linux的任何裝置及設備目錄
     /cdrom/                         # 光碟機裝置(指向 sr0)
     /sr0                            # 光碟機裝置
     /fd0/                           # 軟碟機裝置
@@ -23,6 +23,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /lp0/                           # 印表機裝置
 /etc/                         # 系統 設定檔. ex: inittab, resolv.conf, fstab, rc.d
     /anacrontab                     # 定期 驅動執行 cron.daily, cron.weekly, cron.monthly 的腳本
+    /auto.master.d/                 # autofs 掛載的組態設定目錄 (其內檔案附檔名為'.autofs')
     /chrony.conf                    # 時間校正的服務設定檔
     /cron.d/*                           # Packages 相關的排程應該放這 ; admin 為了方便管理, 也可統一放這邊
         /0hourly                            # 每小時 驅動執行 cron.hourly 的腳本
@@ -45,6 +46,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         network                         # 各種模式下的 *network 連結至此
     /inittab                        # (舊有的 xwindow服務, os7以後, 已經被 ooo.target 所取代)
     /issue                          # 查看進站歡迎訊息(自己看得爽而已)
+    /krb5.conf                      # 集中驗證相關; central keroeros 架構
     /locale.conf                    # 系統預設語系定義檔 (一開始安裝就決定了!)
     /localtime/                     # 系統時間
     /login.defs                     # 建立使用者時, 該使用者的 系統愈設初始值
@@ -53,7 +55,12 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /conf.d/                        # Nginx ??? 組態目錄
             /default.conf                   # Nginx 預設主機配置
         /nginx.conf                     # Nginx 主要設定檔
+    /nsswitch.conf                  # 集中驗證相關; User into && Auth service 該如何被系統使用的設定檔
+    /openldap/                      # 集中驗證相關
+        /cacerts                        # 儲存 LDAP Server 用來驗證 SSL憑證 的 Root Certificate Authorities(CA)
+        /ldap.conf                      # central LDAP Server 組態設定
     /opt/                           # 第三方協作軟體 /opt/ 的相關設定檔
+    /pam.d/                         # 集中驗證相關; 各種服務該如何組態 Auth 的設定檔
     /passwd                         # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
     /pki/                           # 公私金鑰存放區
     /rc.d/                          # 各種執行等級的啟動腳本
@@ -74,6 +81,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /skel/                          # 預設建立使用者後, 使用者家目錄底下的東西
     /ssh/
         /sshd_config                    # 紀錄 sshd 組態
+    /sssd/                          # 集中驗證相關
+        /sssd.conf                      # System Security Services Daemon; 網路不通時, 從 cache 作 Login 驗證
     /sudoers                        # 定義 sudo, wheel... 相關事項(建議使用 visudo 來修改, 別直接編輯此檔案)
     /sysconfig/                     # CentOS6 舊時代的組態設定
         /network-scripts/               # CentOS 的網路設定資料放在這~
@@ -81,12 +90,14 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /systemd/                       # 軟體的啟動腳本
         /journald.conf                  # journalctl 的 組態設定
         /system/                        # 依據系統所要提供的功能所撰寫的 服務腳本, 優先於 /run/systemd/system/ 及 /usr/lib/systemd/system/
-/home/                              # 家目錄
+    /X11/                           # X Window相關設定檔
+    /xml/                           # 與 XML 格式相關的設定檔
+/home/                        # 家目錄
 /lib/                         # 系統的共用函式庫檔案 (連結至 /usr/lib/)
     /modules/                       # 可抽換式的核心相關模組(驅動程式); 不同版本的核心模組
-/media/                       # 移動式磁碟or光碟 掛載目錄 (可移除的裝置)
+/media/                       # 可移除的裝置; 移動式磁碟or光碟 掛載目錄 (可移除的裝置)
 /mnt/                         # "暫時性" 檔案系統 掛載目錄; 現在許多裝置都移到 /media/ 了, 所以暫時的, 依舊放這
-/opt/                         # 非 Linux預設安裝的外來軟體 (第三方協作軟體)
+/opt/                         # 非 Linux預設安裝的外來軟體 (第三方協作軟體(非原本distribution所提供的)), 早期都習慣放在 /usr/local
 /proc/                        # 虛擬檔案系統(virtual filesystem), 東西都存在於 memory, 不占用 disk; 行程資訊目錄
     /partitions                     # Linux 核心分割表資訊
     /swaps                          # 
@@ -110,7 +121,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /systemd/                       # 
             /system/                        # 每個服務最主要的 啟動腳本設定 , 類似CentOS6前的 /etc/init.d 底下的東西
     /libexec/                       # 大部分的 X window 的操作指令都放這. (不被使用這慣用的執行檔or腳本)
-    /local/                         # sys admin 在本機自行安裝的軟體, 建議放這邊
+    /local/                         # sys admin 在本機自行安裝的軟體, 建議放這邊(早期)
           /sbin/                        # 本機自行安裝的軟體所產生的系統執行檔(system binary), ex: fdisk, fsck, ifconfig, mkfs 等
     /sbin/                          # 系統專用的 工具/指令/執行檔, ex: 某些伺服器軟體程式的東西
         mysqld                          # mysqld (server)

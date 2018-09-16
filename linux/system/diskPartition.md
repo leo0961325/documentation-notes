@@ -114,7 +114,7 @@ meta-data=/dev/sda1              isize=512    agcount=4, agsize=65536 blks
          =                       sectsz=4096  attr=2, projid32bit=1
          =                       crc=1        finobt=0 spinodes=0
 data     =                       bsize=4096   blocks=262144, imaxpct=25
-         =                       sunit=0      swidth=0 blks # 0 表示沒使用 磁碟陣列
+         =                       sunit=0      swidth=0 blks # sunit=0: 沒在使用磁碟陣列
 naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
 log      =internal               bsize=4096   blocks=2560, version=2
          =                       sectsz=4096  sunit=1 blks, lazy-count=1
@@ -172,8 +172,6 @@ $ du [-ahskm] <檔案 or 目錄>
 # S : 不包含子目錄下的統計
 # s : 只列出總容量
 # h : 人看得懂的 kb, mb, gb, ...
-# m : 以 MBytes 顯示
-# k : 以 KBytes 顯示
 
 $ du -a | head -3
 0	./.mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/langpack-zh-TW@firefox.mozilla.org.xpi
@@ -190,6 +188,7 @@ $ du ~ -h --max-depth=1 | head -3
 
 
 # 磁碟分割
+
 - 2018/06/26
 
 ## 1. 查看 磁碟分割 (掛載樹狀結構)
@@ -197,12 +196,10 @@ $ du ~ -h --max-depth=1 | head -3
 ```sh
 # lsblk : list block device, 列出所有儲存裝置
 # lsblk [-dfimpt] [device]   (device需要為完整檔名)
-# -d : 列出 磁碟本身, 不列出磁碟分割資料
 # -f : 可查看磁碟的檔案系統名稱
-# -i : 把 └─ 這東西, 以 ASCII 來呈現, 即 |-
 # -m : 可以查看 owner, group, mode
 # -p : 呈現裝置完整檔名
-# -t : 磁碟裝置的詳細資料, 包含磁碟柱列機制, 玉讀寫的資料大小...(一堆我看不懂的)
+# -t : 磁碟裝置的詳細資料, 包含磁碟柱列機制, 預讀寫的資料大小...(一堆我看不懂的)
 $ lsblk
 NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 sda           8:0    0 465.8G  0 disk           # 第一個磁碟
@@ -219,18 +216,13 @@ sdc           8:32   1  14.5G  0 disk           # 第三個磁碟 (16G的隨身�
 sr0          11:0    1  1024M  0 rom
 # 目前系統上的主要裝置: sr0 及 sda(實體磁碟)
 # sda 裝置底下, 又分為 2個分割
-# NAME      裝置名稱
 # MAJ:MIN   Kernel 透過這兩個`主要`,`次要` 代碼, 來認識裝置 (major:minor)
 # RM        是否 可卸載
-# SIZE      容量
 # RO        是否 Read Only
 # TYPE      磁碟(disk), 分割槽(partition), 唯讀記憶體(rom)等
-# MOUTPOINT 掛載點
-```
 
-```sh
 # 查看 所有裝置的 UUID   (「lsblk -pf」 完全取代掉...)
-$ sudo blkid        # 很麻煩, 還需要 sudo 才看的到東西
+$# blkid
 /dev/sda1: UUID="e667a4ef-3733-4c49-bb50-767221d1537e" TYPE="xfs"
 /dev/sda2: UUID="N7C7nQ-mO2j-D3HQ-l9dc-M8HF-OyO0-P85EX1" TYPE="LVM2_member"
 /dev/mapper/cl-root: UUID="38a08831-a238-46a9-abf9-930a79eb9ec6" TYPE="xfs"
@@ -240,9 +232,10 @@ $ sudo blkid        # 很麻煩, 還需要 sudo 才看的到東西
 ```
 
 - [MBR equals msdos for gparted?](https://superuser.com/questions/700770/mbr-equals-msdos-for-gparted)
+
 ```sh
 # parted 列出磁碟分割表類型、分割資訊
-$ sudo parted /dev/sda print
+$# parted /dev/sda print
 型號：ATA TOSHIBA MQ01ABF0 (scsi)       # 磁碟的模組名稱(廠商)
 磁碟 /dev/sda：500GB
 磁區大小 (邏輯/物理)：512B/4096B          # 磁碟的每個邏輯/物理磁區容量
@@ -259,8 +252,9 @@ Disk Flags:
 
 - MBR 分割表 : 使用 `fdisk`
 - GPT 分割表 : 使用 `gdisk` 或 `parted`
+
 ```sh
-$ sudo fdisk /dev/sda       # 針對整個裝置做分割
+$# fdisk /dev/sda       # 針對整個裝置做分割
 裝置呈現的邏輯區大小小於
 實體磁區大小。建議對齊到實體磁區 (或最佳化
 I/O) 大小邊界，否則效能也許會被影響。
@@ -271,19 +265,18 @@ Be careful before using the write command.
 
 # 裡面的一切一切, 可以全部亂按~~~  但是最後千萬不要選擇「w」(儲存), 而選擇「q」(不儲存離開)
 # 使用 n 建立一個16G 的 主要分割區, size那邊選擇 「+16G」, 最後選擇 w 
-# 會爆出 failed等字樣, 因為目前作業系統我們正在用啦!! 有底下兩種做法~~
+# 會出現 WARNING 等字樣, 因為目前作業系統我們正在用啦!!
 
-## 法一 : 使用 partprobe 更新Linux核心的分割表資訊
-$ sudo partprobe -s
+## 使用 partprobe 更新 核心的分割表資訊
+$# partprobe -s /dev/sda
 /dev/sda: msdos partitions 1 2 3
 
-## 法二 : 重新開機~~
-$ cat /proc/partitions
+$# cat /proc/partitions
 major   minor   #blocks     name
    8        0  488386584    sda
    8        1    1048576    sda1
    8        2  228592640    sda2
-   8        3   16777216    sda3    # 重開機之後, 多出了這個了~~
+   8        3   16777216    sda3    # 多出了這個了~~
   11        0    1048575    sr0
  253        0   83886080    dm-0    # 我不知道這底下是啥鬼...
  253        1    8384512    dm-1
@@ -291,19 +284,19 @@ major   minor   #blocks     name
  253        3   83886080    dm-3
 
 # 底下, 如果要把剛剛建好的 partition 移除~
-$ sudo fdisk /dev/sda
+$# fdisk /dev/sda
+# 選 d ... w...
+# partprobs -s /dev/sda
 # 非常簡單非常直覺~~  懶的寫了
-# 很重要的是 : 不要去處理正在使用中的 partition !!
 ```
 
 
 ## 3. 磁碟格式化 (建置檔案系統)
 
 ```sh
-# 上一步, 完成「分割」後, 緊接著就要開始建置檔案系統了! (格式化)
+# 完成「分割」後, 緊接著就要開始建置檔案系統了! (格式化)
 # mkfs : make filesystem
-# 底下都是進入 su 作業 !!!
-$ mkfs.xfs /dev/sda3
+$# mkfs.xfs /dev/sda3
 meta-data=/dev/sda3              isize=512    agcount=4, agsize=1048576 blks    # 看下面說明
          =                       sectsz=4096  attr=2, projid32bit=1
          =                       crc=1        finobt=0, sparse=0
@@ -313,13 +306,11 @@ naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
 log      =internal log           bsize=4096   blocks=2560, version=2
          =                       sectsz=4096  sunit=1 blks, lazy-count=1
 realtime =none                   extsz=4096   blocks=0, rtextents=0
-# agcount: CPU核心數量
-# issize: 磁碟上檔案的分割區塊(stripe)
+# agcount: CPU核心數量? 還是 block group?
+# isize: 磁碟上檔案的分割區塊(stripe)
 
-$ blkid /dev/sda3
+$# blkid /dev/sda3
 /dev/sda3: UUID="99ded814-7953-433a-9c22-1d85bcea167c" TYPE="xfs"
-# 看到這個, 表示建置好 xfs 檔案系統了!
-# 因為是使用 xfs, 所以格式化速度飛快
 ```
 
 
@@ -394,6 +385,21 @@ sdb           8:16   1  14.5G  0 disk       # 第二顆磁碟
 └─sdb1        8:17   1  14.5G  0 part           # part是啥阿...@@?
 sr0          11:0    1  1024M  0 rom        # sr: CDROM/DVDROM
 ```
+
+
+
+# LVM 指令彙整
+
+Task      | PV         | VG         | LV        | filesystem(xfs \| ext4)
+--------- | ---------- | ---------- | --------- | ------------
+Scan      | pvscan     | vgscan     | lvscan    | lsblk, blkid
+Create    | pvcreate   | vgcreate   | lvcreate  | mkfs.xfs \| mkfs.ext4
+Display   | pvdisplay  | vgdisplay  | lvdisplay | df, mount
+Extend    | -          | vgextend   | lvextend  | xfs_growfs \| resize2fs
+Reduce    | -          | vgreduce   | lvreduce  | - \| resize2fs
+Remove    | pvremove   | vgremove   | lvremove  | umount
+Resize    | -          | -          | lvresize  | xfs_growfs \| resize2fs
+attribute | pvchange   | vgchange   | lvchange  | /etc/fstab, remount
 
 
 
