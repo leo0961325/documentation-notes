@@ -8,42 +8,54 @@
 
 ```sh
 $ netstat -[natuplrc]    # 與網路介面相關
-# n : 用 ip, port 代替 主機名稱, 服務名稱. ex: 將 ssh 改為 22
-# a : 列出所有連線狀態
-# t : 列出 TCP 連線
-# u : 列出 UDP 連線
-# p : 列出 PID && 程式名稱 (每個連線由哪個 process處理)
-# l : 列出有在 Listen 的服務的網路狀態
-# r : 列出 route table (功能與 route 相同)
-# c xxx : xxx 秒後自動更新一次
+# -n : 用 ip, port 代替 主機名稱, 服務名稱. ex: 將 ssh 改為 22
+# -a : 列出所有連線狀態
+# -t : 列出 TCP 連線
+# -u : 列出 UDP 連線
+# -p : 列出 PID && 程式名稱 (每個連線由哪個 process處理)
+# -l : 列出有在 Listen 的服務的網路狀態
+# -r : 列出 route table (功能與 route 相同)
+# -c xxx : xxx 秒後自動更新一次
 
 # Note: 可以使用 netstat -ntp 與 netstat -tp 比較後, 就可以知道 `service 對應的 port`
 ```
 
 
 
-# 網卡命名
+# Naming
 
 `wlp2s0`, `enp1s0`, `eth0`, ... 到底是啥挖歌
 
 CentOS6 以前(包含目前的虛擬機), 都是按照 **eth0**, **eth1**, **eth2** 的方式來對網卡作命名, 而命名依據則是 `網卡插在電腦上的哪個 port(硬體上的那個洞啦!!), 就會給予 該 port 的編號. 簡單的說, 插在第一個洞=eth0, 插在第二個洞=eth1, ...`; 而虛擬機裏頭, 因為是 `虛擬作業系統`, 透過 #@)*^!#... 的機制, 抓取實體作業系統的網卡, 所以一樣會看到 `eth0` 這東西
 
-Begin Name
+ex: `wlp2s0`, `enp1s0`
+
+前 2 碼 Begin Name
 
 - en : 乙太雙絞線
 - wl : 無線
 - ww : 廣域網路介面
 
-第三碼之後(可能多碼)
+第 3 碼(可能多碼)
 
 - o : `on-board` 主機板上的網卡
 - s : `hotplug slot` USB網卡
 - p : `PCI geographic location` PCI介面網卡
 - x : `MAC address`
 
+第 4 碼
+
+- 1 : PCI介面第 1 孔
+- 2 : PCI介面第 2 孔
+
+第 5~6 碼
+
+- s0 : 網卡上第 1 個孔
+
+
 範例: 
 ```
-wlp2s0 : 第二孔PCI介面的第一張無線網卡
+wlp2s0 : PCI介面第二孔的第一張無線網卡
 enp1s0 : 第一孔PCI介面第一張乙太網卡
 eno1   : 第一張內建網路介面卡
 ```

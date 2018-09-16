@@ -21,31 +21,34 @@ windows       | Windows 作業系統相關
 
 ### 常見常忘的 英翻中...
 
-- on the fly : 動態產生 
+- alphanumeric : 標點符號
 - back slash : 反斜線
-- wildcard characters : 萬用字元 (「*」啦)
-- cascade: 串連
-- VPC: Virtual Private Cloud
-- DHCP: Dynamic Host Configuration Protocol
-- NAT: Network Address Translation
-- IP Masquerade: IP掩蔽
-- Elastic IP(aws)/Floating IP(openstack)
 - Berkeley Software Distribution(BSD)
-- Network File System (NFS)
-- snippets : 片段
-- intelliSense : 提示
-- linter : code 語法 check
+- cascade: 串連
 - congestion : 擁塞
+- DHCP: Dynamic Host Configuration Protocol
+- Elastic IP(aws)/Floating IP(openstack)
 - GDPR : General Data Protection Regulation
-- TDD : Test-Driven-Development
-- POC : Proof of Concept 概念性驗證
+- intelliSense : 提示
+- IP Masquerade: IP掩蔽
+- linter : code 語法 check
 - malformed : 異常
+- NAT: Network Address Translation
+- Network File System (NFS)
+- on the fly : 動態產生 
+- POC : Proof of Concept 概念性驗證
+- snippets : 片段
+- tilde : 波浪號
+- TDD : Test-Driven-Development
+- VPC: Virtual Private Cloud
+- wildcard characters : 萬用字元 (「*」啦)
 
 
 #### 安全性相關
 
 - authentication : 認證
 - authorization : 授權
+- confined : 受限
 - credential : 憑證
 - cryptographically : 加密
 - elevate : 提升(通常指使用 具有權限 的 使用者)
@@ -53,3 +56,5 @@ windows       | Windows 作業系統相關
 - permission : 許可
 - token : 就... Token (不會翻@@)
 - validate : 驗證
+- Permission denied : 無權使用此指令
+- Operation not permitted : 不具有此指另作用的檔案 的權限

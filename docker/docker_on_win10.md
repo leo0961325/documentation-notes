@@ -1,4 +1,5 @@
 # Docker on Windows 10
+
 - 2018/05/11
 - 18.03.1-ce
 - [相關解法 - 找這個回覆 kleskowy commented on 17 Nov 2017](https://github.com/docker/for-win/issues/324)
@@ -73,6 +74,187 @@ Docker for Windows service is not running
 
 
 ## Issue
+
 - [Security warning appearing when building a Docker image from Windows against a non-Windows Docker host](https://github.com/moby/moby/issues/20397)
 
 > Build Image from Dockerfile之後, 會看到 `Successfully tagged mt:latestSECURITY WARNING: You are building a Docker image from Windows against a non-Windows Docker host. All files and directories added to build context will have '-rwxr-xr-x' permissions. It is recommended to double check and reset permissions for sensitive files and directories.`. 這是因為 Windows裏頭, 並不存在 *executable*, 所以這些訊息都會經由 stdout 輸出, 並且無法透過設定將它關閉提醒(17.04版以前, 此為 stderr).
+
+
+
+# Docker Machine
+
+- [Microsoft Hyper-V](https://docs.docker.com/machine/drivers/hyper-v/)
+- [Cannot start docker after installation on Windows](https://stackoverflow.com/questions/36885985/cannot-start-docker-after-installation-on-windows)
+- [Install Hyper-V on Windows 10](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
+- [在 Windows 10 上安裝 Hyper-V](https://docs.microsoft.com/zh-tw/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
+- [Error with pre-create check: "Hyper-V PowerShell Module is not available" #4342](https://github.com/docker/machine/issues/4342)
+- [Source Code - docker/machine/drivers/hyperv/powershell.go](https://github.com/docker/machine/blob/master/drivers/hyperv/powershell.go)
+- [Windows 10 如何啟用 docker 功能](https://blog.yowko.com/2017/05/windows-10-docker.html)
+- 2018/09/03 (still failed)
+
+我自己的解法~
+
+1. Win+R > `ncpa.cpl`
+2. (選擇使用來上網的網卡), 右鍵 > 內容
+3. (上面的)共用
+4. `允許其他網路使用者透過這台電腦的網際網路連線來連線(N)`
+5. (下拉式選單) 選擇 vEthernet(DockerNAT) **`有個重要的前提`**
+6. prompt 訊息提示視窗, 按確定吧~
+
+> 當網際網路連線共用啟用後, 您的LAN介面卡會被設定成使用IP位址 192.168.137.1 . 您的電腦可能會因此失去與網路上其他電腦的連線. 如果這些電腦擁有靜態IP位址的話, 您應該將它們設定成自動取得它們的IP位址. 您確定要啟用網際網路連線共用嗎?
+
+5的前提 : Docker 虛擬機(MobyLinuxVM) 所用的 **虛擬交換器** 選擇的是 `DockerNAT`, 才可用上面的做法
+
+恩... 結果還是不能用, 馬der again...
+
+```powershell
+# 使用 admin 開啟 powershell
+> Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+> Enable-WindowsOptionalFeature -Online -FeatureName containers -All
+
+
+# 部署映像服務與管理工具
+> DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V
+
+
+# 查看 VM
+> Get-VM
+
+Name        State   CPUUsage(%) MemoryAssigned(M) Uptime           Status   Version
+----        -----   ----------- ----------------- ------           ------   -------
+MobyLinuxVM Running 0           2048              01:55:18.6470000 正常運作 8.3
+os6         Off     0           0                 00:00:00         正常運作 8.3
+os7         Off     0           0                 00:00:00         正常運作 8.3
+u16         Off     0           0                 00:00:00         正常運作 8.3
+
+# 查看虛擬交換器
+> Get-VMSwitch
+
+Name                 SwitchType NetAdapterInterfaceDescription
+----                 ---------- ------------------------------
+PrivateVirtualSwitch External   Intel(R) Ethernet Connection (7) I219-V
+DockerNAT            Internal
+預設切換             Internal   Teamed-Interface
+
+# 建立 Docker-Machine
+# 無法使用 Docker Machine 阿~~~docker-machine create --driver "hyperv" master
+> docker-machine create --driver "hyperv" master
+Running pre-create checks...
+Error with pre-create check: "Hyper-V PowerShell Module is not available"
+```
+
+
+
+# [Microsoft Hyper-V](https://docs.docker.com/machine/drivers/hyper-v/)
+
+- 2018/06/24
+- [Windows 10 Docker-Machine 使用 Hyper-V](https://docs.docker.com/machine/drivers/hyper-v/#example)
+
+Docker on Windows 10 使用 Docker machine 的問題
+
+
+已經使用 系統管理員權限 來使用了~
+
+```powershell
+# 不曉得為啥...
+> docker-machine create --driver hyperv myvm1
+Running pre-create checks...
+Error with pre-create check: "Hyper-V PowerShell Module is not available"
+
+> Get-VMSwitch
+Name      SwitchType NetAdapterInterfaceDescription
+----      ---------- ------------------------------
+DockerNAT Internal
+預設切換  Internal   Teamed-Interface
+
+> docker-machine create --driver hyperv --hyperv-virtual-switch "預設切換" myvm1
+Running pre-create checks...
+Error with pre-create check: "Hyper-V PowerShell Module is not available"
+```
+
+
+
+## 2018/09/04
+
+不知道怎麼搞的... 原本 DockerMachine無法使用, 弄一弄後, 整個 Docker 又掛了...
+
+MobyLinux 沒灌起來 caused by DockerNAT 沒安裝成功
+
+```
+Error response from daemon: open \\.\pipe\docker_engine_windows: The system cannot find the file specified.
+
+   於 Docker.Backend.DockerDaemonChecker.Check(Func`1 isDaemonProcessStillRunning) 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Backend\DockerDaemonChecker.cs: 行 63
+   於 Docker.Backend.ContainerEngine.Windows.DoStart(Settings settings, String daemonOptions) 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Backend\ContainerEngine\Windows.cs: 行 218
+   於 Docker.Backend.ContainerEngine.Windows.Start(Settings settings, String daemonOptions) 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Backend\ContainerEngine\Windows.cs: 行 93
+   於 Docker.Core.Pipe.NamedPipeServer.<>c__DisplayClass9_0.<Register>b__0(Object[] parameters) 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Core\pipe\NamedPipeServer.cs: 行 46
+   於 Docker.Core.Pipe.NamedPipeServer.RunAction(String action, Object[] parameters) 於 C:\gopath\src\github.com\docker\pinata\win\src\Docker.Core\pipe\NamedPipeServer.cs: 行 144
+```
+
+
+
+# 依然無法使用(此篇不值得參考)
+
+## Problem - 安裝完 Docker 之後, 卻找不到 DockerNAT
+
+- 2018/09/04
+- [Create a virtual switch for Hyper-V virtual machines](https://docs.microsoft.com/zh-tw/windows-server/virtualization/hyper-v/get-started/create-a-virtual-switch-for-hyper-v-virtual-machines)
+
+```powershell
+### 1. 安裝完 Docker 之後, 應該要有 DockerNAT, 但卻沒有出現!!
+> Get-VMSwitch
+
+Name                 SwitchType NetAdapterInterfaceDescription
+----                 ---------- ------------------------------
+PrivateVirtualSwitch External   Intel(R) Ethernet Connection (7) I219-V
+預設切換             Internal   Teamed-Interface
+# DockerNAT            Internal                 ### <----- 應該要有, 卻沒有被安裝, 導致 Docker daemon 一直無法啟動...
+
+### 2. 然後使用 Hyper-V 管理員, 手動新增 虛擬交換器時, 發生錯誤!
+# 經查上述網址, 發現因為 「移除之前的虛擬交換器 + 重新建立」會發生 「之前的東西沒刪乾淨, 導致無法建立新的」, 依照網頁指示, 下載軟體排除問題後重開機
+```
+
+
+
+- [docker/labs/Setup-Windows10](https://github.com/docker/labs/blob/master/windows/windows-containers/Setup-Win10.md)
+- [about_Execution_Policies](https://technet.microsoft.com/zh-TW/library/hh847748.aspx)
+
+```powershell
+# 前往這邊~~ 「C:\Program Files\Docker\Docker\resources」
+> .\MobyLinux.ps1 -create -switchname DockerNAT
+.\MobyLinux.ps1 : 因為這個系統上已停用指令碼執行，所以無法載入 C:\Program Files\Docker\Docker\resources\MobyLinux.ps1 檔案。如需詳細資訊，請參閱 about_Execution_Policies，網址為 https:/go.microsoft.com/fwlink/?LinkID=13517
+0。
+位於 線路:1 字元:1
++ .\MobyLinux.ps1 -create -switchname DockerNAT
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+
+# 目前的執行政策沒有被授權
+> Get-ExecutionPolicy
+Restricted
+
+> Get-ExecutionPolicy -List
+
+        Scope ExecutionPolicy
+        ----- ---------------
+MachinePolicy       Undefined
+   UserPolicy       Undefined
+      Process       Undefined
+  CurrentUser       Undefined
+ LocalMachine       Undefined
+
+# 查詢 CurrentUser 的執行原則
+> Get-ExecutionPolicy -Scope CurrentUser
+Undefined
+
+# 設定執行原則
+# Set-ExecutionPolicy -ExecutionPolicy <PolicyName> -Scope <scope>
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+
+# 建立 DockerNAT
+> powershell -ExecutionPolicy ByPass -File 'C:\Program Files\Docker\Docker\resources\MobyLinux.ps1' -create -switchname DockerNAT
+
+# 移除執行原則
+# Set-ExecutionPolicy  -ExecutionPolicy Undefined
+> Set-ExecutionPolicy -ExecutionPolicy Undefined -Scope LocalMachine
+```

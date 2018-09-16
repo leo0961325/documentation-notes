@@ -1,12 +1,6 @@
 # token (令牌)
 
-以REST的架構來講, 具有下列6個特色
-1. Client-Server
-2. Stateless
-3. Cache
-4. Uniform Interface
-5. Layered System
-6. Code-on-Demand
+下面的概念, 還不確定是不是完全正確...
 
 > 每次請求之間, Server不會去記錄任何請求之間的片段資訊, 若遇到某些 Resource需要特定權限時, 每次都得去檢查 request.session(來自前端網頁的 cookies). 但是...!!! 如果 Client端的請求不是網頁呢?(通常沒有 cookies這咚咚), 而且, 就算檢查 request.session好了, 每次請求都超級大一包, 誰受的了阿!! 因而有了`Token-Based Authentication`
 

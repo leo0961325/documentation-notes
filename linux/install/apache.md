@@ -17,6 +17,9 @@ Apache伺服器在 CentOS的套件名稱為 httpd, 將關套件為 `hpptd` 及 `
 - 網頁根目錄: `/var/www/html/` 
 - 服務執行程式: `/usr/sbin/httpd` 安裝後, 成為系統服務
 
+
+## 防火牆
+
 - [How to remove access to a port using firewall on Centos7?](https://serverfault.com/questions/818996/how-to-remove-access-to-a-port-using-firewall-on-centos7)
 
 ```sh

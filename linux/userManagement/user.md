@@ -1,13 +1,6 @@
 # 帳戶管理 與 ACL權限
 
-- 2018/07/16
-- 每個檔案都有 `擁有人(User ID, UID)` && `擁有群組(User Group, GID)`
-- `UID 與 帳號 對映檔` 放在 `/etc/passwd`
-- `GID` 放在 `/etc/group`
-- Linux 不會認識帳號, 而是透過 `/etc/passwd` 找到 `帳號` 對映的 `UID`
-
-```sh
-# 相關檔案
+```
 /etc/passwd         # 使用者帳號 與 UID, GID 之對映
 /etc/shadow         # 使用者帳號 的 密碼 && 該密碼的相關屬性
 /etc/group          # 使用者群組 分別有哪些 使用者帳號 加入
@@ -15,8 +8,20 @@
 ```
 
 
+## 目錄:
 
-# [特殊權限](http://linux.vbird.org/linux_basic/0220filemanager.php#suid)
+- [特殊權限](#特殊權限)
+- [使用者及群組](#使用者及群組)
+- [協作目錄](#協作目錄)
+- [ACLs](#ACLs)
+
+
+
+
+
+# 特殊權限
+
+- [特殊權限](http://linux.vbird.org/linux_basic/0220filemanager.php#suid)
 
 1. SUID (權限 4)    `只能用於 檔案`
     - 非擁有者可執行此二進位檔案(runtime 期間, 擁有 owner權限)
@@ -52,24 +57,38 @@ $ chmod g+s,o+t test; ls -l test
 -rws--s--t. 1 tony tony 0  6月  9 22:01 test
 ```
 
-# 建立使用者 && 群組
+# 使用者及群組
 
-- 建立使用者 : `useradd`(靜態腳本常用) 及 `adduser`(互動式)
-- <font color="red">(建議)</font> 建立群組  : 使用 `groupadd` 時, 明確指定 `-g` "group id" . <br> 因為新增使用者 `useradd` 時, 預設都會新增一個同名的 "group id" 當成它預設的 "primary group" (可能將來會導致 「uid number != gid number」~~~ 讓人看不爽阿 && 減少日後混淆的可能 )
+- `useradd` : 靜態腳本常用
+- `adduser` : 互動式新增使用者
+- `usermod` : 修改 User
+- `groupadd` : 建議明確指定 `-g "group id"` [附註1](#附註1)
+- `userdel` : 建議明確指定 `-r "user id"` [附註2](#附註2)
+- `groupdel` : 刪除群組
+- `chown` : 改變檔案 User Owner
+- `chgrp` : 改變檔案 Group Owner
+
+
+
+## 常用
 
 ```sh
-# 修改帳戶
-$# usermod -[gaGLU] <使用者帳戶>
-# -g : 設定 primary group
-# -G : 設定 supplementary groups
-# -a : 通常用 -aG, 來讓已經存在的使用者, 新增附屬群組
-# -L : 鎖帳戶
-# -U : 解鎖帳戶
+# 建立 User && 設定密碼
+$# uu=student
+$# useradd ${uu} ; echo ${uu} | passwd --stdin <new password>
 
-# 建立使用者群組 (-g 指定 附屬群組 gid)
-$# groupadd -g <新建立的使用者群組>
+# 讓此 User 成為 admin
+$# usermod -aG wheel ${uu}
 
-# 把 使用者 -> 使用者群組
+# 
+$# 
+```
+
+
+## 備註
+
+```sh
+### 把 使用者 -> 使用者群組
 $# useradd -G <使用者群組> <新使用者帳戶>
 # -g xxx : 初始群組 為 xxx
 # -G xxx : 次要群組 為 xxx
@@ -79,17 +98,29 @@ $# useradd -G <使用者群組> <新使用者帳戶>
 # -M : 告訴系統, 建立使用者就好了, 不用幫他建立 家目錄
 # -r : 讓這個變成系統帳號
 
-# 改變擁有者
+### 使用 inter-activate 的互動方式, 新增使用者
+$# adduser tony
+# 然後就開始輸入密碼那堆東西~
+
+### 修改帳戶
+$# usermod -[agGLU] <使用者帳戶>
+# -a : 通常用 -aG, 來讓已經存在的使用者, 新增附屬群組
+# -g : 設定 primary group
+# -G : 設定 supplementary groups
+# -L : 鎖帳戶
+# -U : 解鎖帳戶
+
+### 建立使用者群組 (-g 指定 附屬群組 gid)
+$# grep 5000 /etc/group
+$# groupadd -g 5000 controller
+
+### 改變擁有者
 $ sudo chown -R <owner>:<group> <dirName>   # 改變 dir 內所有檔案的 owner
 $ sudo chown <owner>:<group> <fileName>     # 改變 file 的 owner
 
 # 改變擁有群組
 $ chgrp <Group Name> <dir name>
 # 也可以寫成 chown :<Group Name> <dir name> (但不建議)
-
-# 使用 inter-activate 的互動方式, 新增使用者
-$ adduser tony
-# 然後就開始輸入密碼那堆東西~
 
 $# usermod -aG <使用者群組> <已經存在的使用者帳戶>
 
@@ -101,22 +132,13 @@ $# groups <使用者帳戶>
 ```
 
 
-## 刪除使用者
 
-> `userdel -r <使用者帳號>` , 務必與 -r 搭配使用, 會一併刪除家目錄. <br> 如果不這麼做, 殘存的家目錄的 owner 會變成 `已被刪除的 UID 所擁有(而非 username)`, 但 UID 會隨著日後 `useradd` 時, 被重新指派!! <br> <font color="red">後面的使用者, 莫名其妙的得到殘存的家目錄的所有權, 輝常可怕</font>
-
-```sh
-$# find / -nouser -o -nogroup 2> /dev/null
-# 尋找所有 nouser && nogroup 的檔案們, 並將他們移除 (以免被將來的使用者無償取得...)
-```
-
-
-
-# 建立 共享資料夾 共享目錄
+# 協作目錄
 
 - [SUID/SGID/SBIT 權限](http://linux.vbird.org/linux_basic/0220filemanager.php#suid)
+
 ```sh
-# 建立要共享的資料夾
+# 建立要共享的資料夾 (共享資料夾)
 $# mkdir /home/shared
 
 # 改變這個資料夾的使用者群組
@@ -129,6 +151,22 @@ $# ll -d /home/shared
 drwxrws---. 2 root shared 15  7月 14 15:41 /home/shared/
 ```
 
+
+
+# ACLs
+
+- `setfacl` : 設定 ACLs
+- `getfacl` : 查看 ACLs
+
+
+
+## 備註
+
+- Mask settings : 設定 `Named user`, `Group owner`, `Named group` 的檔案最大權限. 但不影響 `User owner`, `Other`
+
+```sh
+
+```
 
 ## chmod 注意事項
 
@@ -154,6 +192,8 @@ $# useradd ${uu} ; echo ${uu} | passwd --stdin ${uu}
 
 
 # User ID && 使用者帳號 && `/etc/passwd`
+
+Linux 不會認識帳號, 而是透過 `/etc/passwd` 找到 `帳號` 對映的 `UID`
 
 ```sh
 $ cat /etc/passwd | grep tony
@@ -337,3 +377,19 @@ CentOS6 以前, 無法這麼做, 權限設定在 `/etc/sudoers`
 # 其他
 
 Windows 的 `User Account Control (UAC)` 與 Linux 的 `PolicyKit` 相當
+
+
+###### 附註1:
+
+因為新增使用者 `useradd` 時, 預設都會新增一個同名的 "group id" 當成它預設的 "primary group" (可能將來會導致 「uid number != gid number」~~~ 讓人看不爽阿 && 減少日後混淆的可能 )
+
+
+###### 附註2:
+
+移除 User 時, 一併刪除家目錄. 如果不這麼做, 殘存的家目錄的 Owner (原為 username), 會變成 已被刪除的 UID 所擁有(沒有 username 的 UID). 而 UID 會隨著日後增加使用者時, 被重新指派!! 新使用者, 可能會莫名其妙的得到殘存的家目錄的所有權 (超幸運的~ 得到一個有遺產的 UID)
+
+```sh
+# 移除無主的檔案
+$# find / -nouser -o -nogroup 2> /dev/null
+# 尋找所有 nouser && nogroup 的檔案們, 並將他們移除 (以免被將來的使用者無償取得...)
+```
