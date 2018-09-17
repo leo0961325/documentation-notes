@@ -2,9 +2,9 @@
 
 我的使用環境如下
 
-```
+```sh
 $ uname -a
-Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+Linux tonynb 3.10.0-514.el7.x86_64 \#1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
 
 $ hostnamectl
    Static hostname: tonynb
@@ -18,10 +18,10 @@ $ hostnamectl
       Architecture: x86-64
 
 $ cat /etc/centos-release
-CentOS Linux release 7.3.1611 (Core)
+CentOS Linux release 7.5.1804 (Core)
 
 $ rpm --query centos-release
-centos-release-7-3.1611.el7.centos.x86_64
+centos-release-7-5.1804.4.el7.centos.x86_64
 ```
 
 - RHEL (RedHat Enterprise Linux) : 
@@ -59,11 +59,7 @@ $ yum groups info "Server with GUI"
 
 # 增加 「yum repo 檔」 到 /etc/yum.repo.d/xxx.repo  (沒事別用這個...)
 $# sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-
-#
-$ 
 ```
-
 
 
 
@@ -145,7 +141,7 @@ Hello, World.
 
 ```sh
 # 1. 編寫 yum repo 檔
-$# sudo vim /etc/yum.repos.d/mysql-community.repo
+$ sudo vim /etc/yum.repos.d/mysql-community.repo
 ###### 內容如下 ######
 [mysql57-community]
 name=MySQL 5.7 Community Server
@@ -190,7 +186,6 @@ GRANT ALL ON *.* TO 'tony'@'%';
 
 - 2017/11/26
 - [Official MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/)
-
 
 ```sh
 # 1. 編寫 Yum repo 檔
@@ -263,19 +258,18 @@ $# yum -y install code
 - [Official Anaconda](https://www.continuum.io/downloads)
 
 1. Download && Install
-```
+
+```sh
 $ wget https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
 
-$ sudo bash ./Anaconda3-5.0.1-Linux-x86_64.sh
+$ bash ./Anaconda3-5.0.1-Linux-x86_64.sh
+# 安裝在使用者家目錄就好了~~  省麻煩阿~~
 ```
 
-2. Environment 
-```
-$ vi .bashrc
-export anaconda_HOME="/opt/anaconda3/"
-export PATH=$anaconda_HOME/bin:$PATH
-
-$ source .bashrc
+2. 設環境變數
+```sh
+echo "export anaconda_HOME=\"/home/${USER}/anaconda3\"" >> ~/.bashrc
+echo 'export PATH=$anaconda_HOME/bin:$PATH' >> ~/.bashrc
 
 $ python --version
 Python 3.6.3 :: Anaconda, Inc.
@@ -432,7 +426,7 @@ $ curl http://nginx.org/keys/nginx_signing.key > nginx_signing.key
 $ sudo rpm --import nginx_signing.key
 
 # 2. 建立 Yum Repo
-$ sudo vi /etc/yum.repos.d/nginx.repo
+$ sudo vim /etc/yum.repos.d/nginx.repo
 ###### 內容如下 ######
 [nginx]
 name=Nginx Repo
@@ -587,16 +581,19 @@ $ sudo virt-manager
 
 - 2018/08/19
 - [官網](https://www.virtualbox.org/wiki/Linux_Downloads)
+- [RPM Resource libSDL-1.2.so.0](https://rpmfind.net/linux/rpm2html/search.php?query=libSDL-1.2.so.0()(64bit))
 
 ```sh
-# 安裝主檔
-$ wget https://download.virtualbox.org/virtualbox/5.2.18/VirtualBox-5.2-5.2.18_124319_el7-1.x86_64.rpm
-
 # 授權
 $ wget https://www.virtualbox.org/download/oracle_vbox.asc
 $ sudo rpm --import oracle_vbox.asc
 
-# 安裝
+# VirtualBox 相依套件
+$ wget https://rpmfind.net/linux/centos/7.5.1804/os/x86_64/Packages/SDL-1.2.15-14.el7.x86_64.rpm
+$ sudo rpm -Uvh SDL-1.2.15-14.el7.x86_64.rpm
+
+# 抓主檔 && 安裝
+$ wget https://download.virtualbox.org/virtualbox/5.2.18/VirtualBox-5.2-5.2.18_124319_el7-1.x86_64.rpm
 $ sudo rpm -Uvh VirtualBox-5.2-5.2.18_124319_el7-1.x86_64.rpm
 正在準備…                       ################################# [100%]
 Updating / installing...
@@ -605,31 +602,6 @@ Updating / installing...
 Creating group 'vboxusers'. VM users must be member of that group!
 
 $ systemctl status vboxautostart-service
-● vboxautostart-service.service
-   Loaded: loaded (/usr/lib/virtualbox/vboxautostart-service.sh; enabled; vendor preset: disabled)
-   Active: active (exited) since 日 2018-08-19 21:55:20 CST; 3min 30s ago
-  Process: 19029 ExecStart=/usr/lib/virtualbox/vboxautostart-service.sh start (code=exited, status=0/SUCCESS)
-    Tasks: 0
-   Memory: 0B
-
- 8月 19 21:55:20 tonynb systemd[1]: Starting vboxautostart-service.service...
- 8月 19 21:55:20 tonynb systemd[1]: Started vboxautostart-service.service.
-
-$ sudo systemctl start vboxautostart-service
-```
-
-
-## 相依關係失敗 - libSDL-1.2.so.0()(64bit) 被 VirtualBox-5.2-5.2.18_124319_el7-1.x86_64 需要
-
-- 2018/09/04
-- [RPM Resource libSDL-1.2.so.0](https://rpmfind.net/linux/rpm2html/search.php?query=libSDL-1.2.so.0()(64bit))
-
-```sh
-$ wget https://rpmfind.net/linux/centos/7.5.1804/os/x86_64/Packages/SDL-1.2.15-14.el7.x86_64.rpm
-
-$ sudo rpm -Uvh SDL-1.2.15-14.el7.x86_64.rpm
-
-$ sudo rpm -Uvh VirtualBox-5.2-5.2.18_124319_el7-1.x86_64.rpm
 ```
 
 
@@ -685,6 +657,9 @@ $ cd node-v8.11.3-linux-x64/
 
 $ mkdir ~/bin
 $ ln -s /home/tony/Downloads/node-v8.11.3-linux-x64/bin/node ~/bin/node # v8.11
+
+$ node --version
+v8.11.3
 ```
 
 
@@ -718,10 +693,19 @@ $ ln -s /opt/phantomjs/bin/phantomjs ~/bin/phantomjs
 # Download && untar
 $ wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
 
-$ sudo tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+$ tar -C ~/. -xzf go1.11.linux-amd64.tar.gz
 
-$ echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bash_profile
+$ echo "export PATH=/home/${USER}/go/bin:\$PATH" >> ~/.bashrc
 
 $ go version
 go version go1.11 linux/amd64
 ```
+
+
+
+
+
+# 備註
+
+- $basearch : x86_64 (位元架構)
+- $releasever : CentOS7 的 7 (大版本號)

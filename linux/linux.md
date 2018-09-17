@@ -210,6 +210,7 @@ $ ip link show      # 類似 ip address show, 但省略 ip位址資訊
 
 
 # Linux檔案時間
+
 - 2018/07/08
 - 檔按時間有分成3種, 會因為各種因素, 電腦上可能會有`未來檔案`
 
@@ -239,7 +240,10 @@ $ mkdir -r d1/d2/d3/d4/f1
 # 建立目錄結構
 ```
 
+
+
 # touch 這東西
+
 - 新增 檔案
 - 修改 檔案時間 (mtime, atime), ctime 無法被修改
 
@@ -260,41 +264,29 @@ $ ll f1
 
 # 解除yum lock
 
-1. 底下這邊不是程式碼, 是說明情境
-```
+```sh
 $ sudo yum install -y mongodb-org
 Loaded plugins: fastestmirror, langpacks
-Existing lock /var/run/yum.pid: another copy is running as pid 7629.
+Existing lock /var/run/yum.pid: another copy is running as pid 7629.    # <-- 殺~~
 Another app is currently holding the yum lock; waiting for it to exit...
   The other application is: PackageKit
     Memory : 300 M RSS (1.7 GB VSZ)
     Started: Sun Nov 26 13:05:36 2017 - 00:19 ago
     State  : Running, pid: 7629
-Another app is currently holding the yum lock; waiting for it to exit...
-  The other application is: PackageKit
-    Memory : 353 M RSS (1.7 GB VSZ)
-    Started: Sun Nov 26 13:05:36 2017 - 00:21 ago
-    State  : Running, pid: 7629
-...
-```
 
-2. 如何解決 - 找出 pid, 砍掉
-```
-$ ps aux | grep yum
-
-$ sudo kill -9 <pid>
+$ sudo kill -9 7629
 ```
 
 
 
----
-## - 設定terminal的熱鍵
-```
-畫面右上角功能表 > 設定 > 鍵盤 > 快捷鍵 > 自訂捷徑列 > +
-Name: Terminal Shortcut
-Command: gnome-terminal
-再點選所要設定的熱鍵
-```
+# - 設定terminal的熱鍵
+
+
+    畫面右上角功能表 > 設定 > 鍵盤 > 快捷鍵 > 自訂捷徑列 > +
+    Name: Terminal Shortcut
+    Command: gnome-terminal
+    再點選所要設定的熱鍵
+
 
 
 
@@ -316,7 +308,9 @@ $ ./pp.py
 
 env variables  | description
 -------------- | -----------------
+$HOSTNAME      | tonynb
 $HOME          | /home/tony
+$PWD           | 目前位置
 $PATH          | ...(一大堆)...
 $USER          | tony
 $UID           | 1000
@@ -331,7 +325,7 @@ hotkey | description
 ------ | -----------
 Ctrl+C | 中斷目前工作 ; 終止目前命令
 Ctrl+D | 送出eof or 輸入結束特殊字元
-Ctrl+Z | 暫停目前工作, 利用 `fg`指令, 可以取得暫停的工作
+Ctrl+Z | 暫停目前工作, 利用 `fg` 指令, 可以取得暫停的工作
 
 
 

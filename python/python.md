@@ -37,24 +37,33 @@ $ pip install --upgrade setuptools
 [Anaconda多环境多版本python配置指导](https://www.jianshu.com/p/d2e15200ee9b)
 
 進入虛擬環境 (安裝完anaconda後)
-```
-$ conda create --name <Env Name>
-$ python -m venv <Env Name>
-# 建立虛擬環境
+```sh
+### Python 虛擬環境
+$ conda create -n <Env Name>        # Linux   用法
+$ python -m venv <Env Name>         # Windows 用法
 
 # 印出所有的虛擬環境
-$ conda info --envs
+$ conda env list
 # conda environments:
 #
 ve                       /opt/anaconda3/envs/ve
 root                  *  /opt/anaconda3
 
 # 進入虛擬環境
-$ source activate ve
-$ source vemt/bin/activate
+$ source activate <Env Name>        # Linux 用法
+$ source vemt/bin/activate          # Windows 用法
 
-# 離開許你環境
-$ source deactivate ve
+# 離開虛擬環境
+$ source deactivate <Env Name>
+
+# 移除
+$ conda env remove -n <Env Name>
+
+# Using pip in an environment
+$ conda install -n <Env Name> pip
+
+$ which pip
+~/anaconda3/envs/<Env Name>/bin/pip
 ```
 
 

@@ -34,6 +34,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /crontab                        # 如果有明確指名幾點幾分的排程工作, 建議放這裡
     /default/                       # 
         useradd                         # 使用 useradd 後, 預設的 新使用者 建立相關初始設定
+    /exports                        # NFS 的主要設定檔
     /fstab                          # mount 掛載組態設定檔 (開機時 會依照此設定來作自動掛載; 每次使用 mount時, 預設也會動態更新此檔案)
     /hostname                       # 主機名稱檔
     /hosts                          # ip 與 dns 對照
