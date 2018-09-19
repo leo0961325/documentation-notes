@@ -31,19 +31,16 @@
 
 1. 建立 相關資料夾 && 組態檔案
 
-    D:\mongoDB\data\
-    D:\mongoDB\log\
-    D:\mongoDB\mongod.cfg
+    D:\MongoDB\data\db\
+    D:\MongoDB\log\
+    D:\MongoDB\mongod.cfg
 
 
 `mongod.cfg`, 內容如下:
 
 ```cfg
-systemLog:
-    destination: file
-    path: d:\mongodb\data\log\mongod.log
-storage:
-    dbPath: d:\mongodb\data\db
+dbpath=D:\MongoDB\data\db
+logpath=D:\MongoDB\log\mongod.log
 ```
 
 2. 安裝 MongoDB 服務
@@ -53,15 +50,15 @@ storage:
 ```cmd
 > d:
 > cd mongoDB
-> mongod --config "D:\mongoDB\mongod.cfg" --install
+> mongod --config "D:\MongoDB\mongod.cfg" --install
 > net start MongoDB
 ```
 
 若打字打錯還怎樣的導致安裝失敗, 得先刪除 `安裝失敗的遺跡`, 再重新安裝
 
 ```cmd
-> mongod --config D:\mongodb\mongod.cfg --remove
-> mongod --config D:\mongodb\mongod.cfg --install
+> mongod --config D:\MongoDB\mongod.cfg --remove
+> mongod --config D:\MongoDB\mongod.cfg --install
 ```
 
 
