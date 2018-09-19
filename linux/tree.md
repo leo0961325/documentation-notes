@@ -23,7 +23,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /lp0/                           # 印表機裝置
 /etc/                         # 系統 設定檔. ex: inittab, resolv.conf, fstab, rc.d
     /anacrontab                     # 定期 驅動執行 cron.daily, cron.weekly, cron.monthly 的腳本
-    /auto.master.d/                 # autofs 掛載的組態設定目錄 (其內檔案附檔名為'.autofs')
+    /auto.master                    # autofs 主要設定檔
+    /auto.master.d/                 # autofs 設定副檔(master-map file) (裡面的檔名必須是 *.autofs)
     /chrony.conf                    # 時間校正的服務設定檔
     /cron.d/*                           # Packages 相關的排程應該放這 ; admin 為了方便管理, 也可統一放這邊
         /0hourly                            # 每小時 驅動執行 cron.hourly 的腳本
@@ -33,7 +34,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /cron.weekly/*                      # 每週　 要被驅動執行的 Shell Script 放這
     /crontab                        # 如果有明確指名幾點幾分的排程工作, 建議放這裡
     /default/                       # 
-        useradd                         # 使用 useradd 後, 預設的 新使用者 建立相關初始設定
+        /useradd                        # 使用 useradd 後, 預設的 新使用者 建立相關初始設定
+        /grub                           # 開機程序的組態設定(中介)檔(修改此檔可經由指令檢查, 在放到真正的開機組態執行位置)
     /exports                        # NFS 的主要設定檔
     /fstab                          # mount 掛載組態設定檔 (開機時 會依照此設定來作自動掛載; 每次使用 mount時, 預設也會動態更新此檔案)
     /hostname                       # 主機名稱檔
@@ -53,7 +55,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /login.defs                     # 建立使用者時, 該使用者的 系統愈設初始值
     /my.cnf                         # MySQL 組態 主要設定檔
     /nginx/                         # Nginx 組態檔目錄
-        /conf.d/                        # Nginx ??? 組態目錄
+        /conf.d/                        # Nginx 自訂組態目錄 (裡面的檔名要設定成 *.conf)
             /default.conf                   # Nginx 預設主機配置
         /nginx.conf                     # Nginx 主要設定檔
     /nsswitch.conf                  # 集中驗證相關; User into && Auth service 該如何被系統使用的設定檔

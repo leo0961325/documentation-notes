@@ -21,7 +21,8 @@
 ```
 
 
-### sys-admin
+
+# sys-admin
 
 ```powershell
 # 啟動 Hyper-V - https://docs.microsoft.com/zh-tw/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
@@ -54,59 +55,33 @@ v01  Running 16          1238              00:11:52.2810    正常運作 8.2
 
 # https://www.bountysource.com/issues/40110135-hyper-v-was-unable-to-find-a-virtual-switch-with-name-dockernat
 > powershell -ExecutionPolicy ByPass -File "C:\Program Files\Docker\Docker\resources\MobyLinux.ps1" -create
-
 ```
 
 
 
-
-### 一般指令
+# 一般指令
 
 ```powershell
+### 我是誰
 > whoami /all
-USER INFORMATION
-----------------
 
 使用者名稱                SID
-========================= ==============================================
+========================= ===========================================
 <網域名稱>\tony.jhou S-1-5-21-2132128451-2814014226-1695114138-1174
 
-GROUP INFORMATION
------------------
-
-群組名稱                               類型       SID                                            屬性
-====================================== ========== ============================================== ====================================
-Everyone                               知名的群組 S-1-1-0                                        強制性群組, 預設為啟用, 已啟用的群組
-# (略)...
-BUILTIN\Administrators                 別名       S-1-5-32-544                                   僅用於拒絕的群組
-# (略)...
-
-PRIVILEGES INFORMATION
-----------------------
-
-特殊權限名稱                  描述               狀況
-============================= ================== ======
-SeShutdownPrivilege           關閉系統           已停用
-SeChangeNotifyPrivilege       略過周遊檢查       已啟用
-SeUndockPrivilege             從擴充座移除電腦   已停用
-SeIncreaseWorkingSetPrivilege 增加處理程序工作組 已停用
-SeTimeZonePrivilege           變更時區           已停用
-
-使用者宣告資訊
------------------------
-
-使用者宣告未知。
-```
+群組名稱                  類型       SID              屬性
+========================= ========== ================ ==================================
+Everyone                  知名的群組 S-1-1-0          強制性群組, 預設為啟用, 已啟用的群組
+BUILTIN\Administrators    別名       S-1-5-32-544     僅用於拒絕的群組
+# (僅節錄部分)
 
 
-```powershell
-# And運算
+### And運算
 > 1 -and 1
 True
-```
 
-```powershell
-# 檢視 IPv4 的 路由表資訊
+
+### 檢視 IPv4 的 路由表資訊
 > route print -4
 ===========================================================================
 介面清單
@@ -146,19 +121,20 @@ IPv4 路由表
 ```
 
 
+
 # 設定環境變數
 
 ```powershell
-# 建立環境變數
+### 建立環境變數
 > $Env:uu = "Tony"
 
 
-# 取得環境變數 (後面開啟的 powershell 也吃得到此變數, 但是 cmd 一樣看不到)
+### 取得環境變數 (後面開啟的 powershell 也吃得到此變數, 但是 cmd 一樣看不到)
 > $Env:uu
 Tony
 
 
-# 取得 環境變數 詳細清單 (最後一定要加上「:」, 不指定特定變數的話, 表示查全部)
+### 取得 環境變數 詳細清單 (最後一定要加上「:」, 不指定特定變數的話, 表示查全部)
 > Get-ChildItem Env:        # 只查 uu -> Get-ChildItem Env:uu
 
 Name                           Value
@@ -169,12 +145,14 @@ USERNAME                       tony.jhou
 uu                             Tony
 
 
-# 更改 環境變數
+### 更改 環境變數
 > $Env:uu = "TonyCJ"
 
-# 刪除 環境變數
+
+### 刪除 環境變數
 > Remove-Item Env:tt
 
-# 設定到 系統環境變數 (以系統管理員方式執行 ps)
+
+### 設定到 系統環境變數 (以系統管理員方式執行 ps)
 > setx key "<value>" /M
 ```
