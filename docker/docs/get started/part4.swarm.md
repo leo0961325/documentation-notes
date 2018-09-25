@@ -186,7 +186,6 @@ NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCK
 myvm1   *        virtualbox   Running   tcp://192.168.99.100:2376           v17.09.1-ce
 myvm2   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.09.1-ce
 # 我們可以在本地端, 打開瀏覽器, 只要輸入「192.168.99.100」or「192.168.99.101」, 就可以看到網頁囉~~
-# 為什麼不用打 port呢? 因為 port已經榜定 80:80了
 ```
 
 
