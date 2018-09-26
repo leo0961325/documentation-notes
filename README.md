@@ -33,6 +33,7 @@ windows       | Windows 作業系統相關
 - IP Masquerade: IP掩蔽
 - linter : code 語法 check
 - malformed : 異常
+- masquerade: 偽裝
 - NAT: Network Address Translation
 - Network File System (NFS)
 - on the fly : 動態產生 

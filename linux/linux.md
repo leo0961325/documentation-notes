@@ -159,6 +159,15 @@ repolist: 24,950
 ```
 
 
+
+# 資料夾占用容量
+
+```sh
+$ du -h --max-depth=0 /usr/share/man
+55M     /usr/share/man
+```
+
+
 ---
 ## Linux安裝軟體方式 - 原始碼編譯 && 安裝
 1. 取得原始碼
