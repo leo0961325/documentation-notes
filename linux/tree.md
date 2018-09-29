@@ -69,6 +69,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /passwd                         # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
     /pki/                           # 公私金鑰存放區
     /profile                        # 系統層面的 環境 及 起始程式
+    /profile.d/
+        /vim.sh                         # vim 設定檔
     /rc.d/                          # 各種執行等級的啟動腳本
         /init.d/                        # 
             netconsole                      # 各種模式下的 *netconsole 連結至此
@@ -106,12 +108,15 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /mnt/                           # "暫時性" 檔案系統 掛載目錄; 現在許多裝置都移到 /media/ 了, 所以暫時的, 依舊放這
 /opt/                           # 非 Linux預設安裝的外來軟體 (第三方協作軟體(非原本distribution所提供的)), 早期都習慣放在 /usr/local
 /proc/                          # 虛擬檔案系統(virtual filesystem), 東西都存在於 memory, 不占用 disk; 行程資訊目錄
+    /filesystems                    # 系統已載入的檔案系統
     /partitions                     # Linux 核心分割表資訊
     /swaps                          # 
-    /filesystems                    # 系統已載入的檔案系統
 /run/                           # 系統開機後所產生的各項資訊 (可用記憶體來模擬); 某些服務or程式啟動後, 他們的 pid 會放在這.
     /lock/                          # 某些裝置或檔案, 一次只能一人使用, 使用中會上鎖.
     /log                            # journalctl服務(新Log機制), 預設重開機後, 只會保留最近一次開機前的 log
+    /sys/                           #
+        /net/                           #
+            /ipv4/*                         # Linux Kernel 預設的攻擊抵擋機制
     /systemd/                       # 
         /system/                        # 系統執行過程中所產生的 服務腳本, 此內腳本優先於 /usr/lib/systemd/system/
 /sbin/                          # 系統管理員 用的 工具or指令or執行檔; (連結至 /usr/sbin/)

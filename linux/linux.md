@@ -549,6 +549,17 @@ PasswordAuthentication yes              # (預設) 未禁止 使用密碼來作 
 ```
 
 
+## SSH 若關閉密碼驗證
+
+```sh
+# 私鑰 登入
+$ ssh -i <私鑰憑證> user@IP
+
+# 對於僅能使用 key 登入的機器(禁止密碼驗證), 可用此方式來傳遞 public key
+$ cat ~/.ssh/id_rsa.pub | ssh -i <私鑰憑證> user@IP "cat - >> ~/.ssh/authorized_keys"
+```
+
+
 # 查看誰登入
 
 ```sh
@@ -916,8 +927,10 @@ BC
 ```
 
 ### 跨主機複製 - scp
-> 語法1: `scp <要複製的檔案> <要放置的id>@<要放置的host>:<放在哪邊>`<br>
-  語法2: `scp <要複製的來源id>@<來源host>:<檔案絕對路徑> <放置位置>`
+
+- Local 複製到 Remote : `scp <要複製的檔案> <要放置的id>@<要放置的host>:<放在哪邊>`
+- Remote 複製到 Local : `scp <要複製的來源id>@<來源host>:<檔案絕對路徑> <放置位置>`
+
 ```sh
 $ scp requirement.txt tony@192.168.124.81:/home/tony/tmp
 # 把 requirement.txt 丟到 tony@192.168.124.81的 /home/tony/tmp裏頭
