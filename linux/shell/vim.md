@@ -2,7 +2,7 @@
 
 - 2018/08/03 update
 - [vimrc設定教學](http://wiki.csie.ncku.edu.tw/vim/vimrc)
-
+- [Vim Tips Wiki - All the right moves](http://vim.wikia.com/wiki/All_the_right_moves)
 
 ## Vim 設定檔
 
@@ -112,6 +112,13 @@ x               剪下 (Ctrl + x 的概念)
 u               undo (Ctrl + z 的概念)
 .               redo (Office裏頭, F4 的概念)
 `Ctrl+r`        redo undo (復原 按了太多次... 回復上一個動作)
+
+
+### 頁面捲動
+Ctrl + B        page up
+Ctrl + F        page down
+Ctrl + Y        view pane up
+Ctrl + E        view pane down
 
 
 ### Ex Mode 編輯

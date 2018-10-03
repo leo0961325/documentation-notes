@@ -4,6 +4,7 @@
 
 Directory     | Description
 ------------- | ------------------------
+attach        | 文件附件
 db            | 資料庫
 docker        | Docker v18.03
 front-end     | 網頁前端 (HTML, CSS, BootStrap, JavaScript, jQuery)

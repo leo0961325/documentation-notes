@@ -115,6 +115,8 @@ $ uwsgi --socket bis.sock --chdir /home/tony/bis_emc --module bis_emc.wsgi
 
 ### 使用 Unix Socket
 $ uwsgi --socket bis.sock --chdir /home/tony/doc/bis_emc --wsgi-file bis_emc/wsgi.py
+
+/home/tony/.virtualenvs/bis/bin/uwsgi --master --process 2 --threads 4 --chdir /home/tony/bis_emc/bis_emc --module bis_emc.wsgi:application --chmod-socket=664 --vacuum --socket /run/bis.sock
 ```
 
 

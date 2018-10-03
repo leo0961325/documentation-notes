@@ -19,6 +19,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /sda                            # 第一顆磁碟裝置
     /sdb                            # 第二顆磁碟裝置
     /sd1/                           # SCSI硬碟裝置
+    /md0                            # 第一顆 軟體磁碟陣列裝置
     /hda/                           # IDE硬碟裝置
     /lp0/                           # 印表機裝置
 /etc/                           # 系統 設定檔. ex: inittab, resolv.conf, fstab, rc.d
@@ -68,6 +69,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /pam.d/                         # 集中驗證相關; 各種服務該如何組態 Auth 的設定檔
     /passwd                         # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
     /pki/                           # 公私金鑰存放區
+    /postfix/
+        /master.cf                      # Postfix mail server 主要組態設定檔
     /profile                        # 系統層面的 環境 及 起始程式
     /profile.d/
         /vim.sh                         # vim 設定檔
@@ -99,6 +102,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /systemd/                       # 軟體的啟動腳本
         /journald.conf                  # journalctl 的 組態設定
         /system/                        # 依據系統所要提供的功能所撰寫的 服務腳本, 優先於 /run/systemd/system/ 及 /usr/lib/systemd/system/
+    /unbound/
+        /unbound.conf                   # unbound 主要設定檔 (設定 DNSSEC 使用) 
     /X11/                           # X Window相關設定檔
     /xml/                           # 與 XML 格式相關的設定檔
 /home/                          # 家目錄

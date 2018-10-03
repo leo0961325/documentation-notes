@@ -49,7 +49,7 @@ logpath=D:\MongoDB\log\mongod.log
 
 ```cmd
 > d:
-> cd mongoDB
+> cd MongoDB
 > mongod --config "D:\MongoDB\mongod.cfg" --install
 > net start MongoDB
 ```
