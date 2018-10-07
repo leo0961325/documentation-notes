@@ -23,8 +23,6 @@ If you use Docker Datacenter (DDC), it includes Docker Trusted Registry (DTR).
 
 ## Control groups (cgroups)
 
-# Docker 底層實作知識
-> Docker 使用 Go語言撰寫...
 
 ## 名詞
 ### Namespaces
