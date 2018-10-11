@@ -344,7 +344,7 @@ $# yum install ibus* cjk*
 # net-tools
 
 - 2017/11/26
-- [centos7 最小化安装 無 ifconfig,netstat 的安装](http://www.cnblogs.com/cocoajin/p/4064547.html)
+- [centos7 最小化安装無網路服務](http://www.cnblogs.com/cocoajin/p/4064547.html)
 
 ```
 $ ifconfig

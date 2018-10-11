@@ -369,7 +369,7 @@ $ docker run --rm -d --network host --name my_nginx nginx
 $ ip addr show
 
 # 檢查 80 port 上有什麼服務
-$ sudo netstat -tulpn | grep :80
+$ sudo netstat -tulnp | grep :80
 Proto  Recv-Q  Send-Q  Local Address  Foreign Address  State   PID/Program name
 tcp         0       0  0.0.0.0:80     0.0.0.0:*        LISTEN  23988/nginx: master
 # 因為在建立 nginx docker image時, 已經在 Dockerfile 定義好了「EXPOSR 80」

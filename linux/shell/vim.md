@@ -131,7 +131,8 @@ Ctrl + E        view pane down
 
 
 ### 搜尋
-:/cfg           尋找 「cfg」關鍵字
+/cfg            尋找 「cfg」關鍵字
+/\ccfg          不分大小寫, 搜尋「cfg」
 n               尋找 下一個
 N               尋找 上一個
 :noh            取消搜尋

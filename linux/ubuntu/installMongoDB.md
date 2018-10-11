@@ -34,7 +34,7 @@ child process started successfully, parent exiting
 
 # 查看是否有MongoDB在背執行
 $ ps -aux | grep mongo
-$ netstat -nao |grep 27017
+$ netstat -nao | grep 27017
 ```
 
 

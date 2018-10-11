@@ -15,13 +15,16 @@ Docker version 17.09.0-ce, build afdb6d4
 - [Git Book - 從入門到實踐](https://philipzheng.gitbooks.io/docker_practice/content/)
 - [全面易懂的Docker指令大全](https://www.gitbook.com/book/joshhu/dockercommands/details)
 
----
----
----
 
 ![Container Layer](https://docs.docker.com/v17.09/engine/userguide/storagedriver/images/container-layers.jpg)
 
 > Docker 使用 `storage drivers` 來管理 `image layers` 及 `writable container layer` 的內容. 然而各種 `drivers` 實作方式不同, 但都使用 `stackable image layers` 及 `copy-on-write(CoW)策略`.
+
+
+```sh
+# Volume 位置
+/var/lib/docker/volumes/...
+```
 
 # 1. Docker Command
 
@@ -63,6 +66,76 @@ ACCEPT    udp  --  anywhere    172.17.0.2     udp dpt:domain
 ...(一堆)...
 ```
 
+```sh
+# Container 複製到 Host
+$ docker cp testcopy:/root/file.txt .
+
+# Host 複製到 Container
+$ docker cp host.txt testcopy:/root/host.txt
+```
+
+```sh
+# 追 Container 異動紀錄
+$ docker diff <Container>
+# A: 增
+# C: 改
+# D: 刪
+```
+
+
+# 分享 Containers
+
+- 使用 `save` and `load`, image <-> tarball
+- 使用 `import` and `export`, container <-> tarball
+
+```sh
+### import && export
+$ docker ps -a
+CONTAINER ID    IMAGE           COMMAND                  CREATED        STATUS              PORTS      NAMES
+9eac4abf6565    redis:3.2.12    "docker-entrypoint.s…"   11 days ago    Exited 1 days ago   6379/tcp   redis
+# ↑ 9eac
+
+# 使用 docker export 匯出成 tarball
+$ docker export 9eac > aa.tar
+
+# tarball 還原 Image
+$ docker import - aaimage < aa.tar
+sha256:c1d29501022185ede31996c72336e71f57fcbb4b9e4c964f0bb6c332eb0612be
+
+$ docker images
+REPOSITORY     TAG       IMAGE ID        CREATED          SIZE
+aaimage        latest    c1d295010221    6 minutes ago    73.4MB
+redis          3.2.12    2fef532eadb3    5 weeks ago      76MB
+
+
+### save && load
+$ docker images
+REPOSITORY    TAG      IMAGE ID        CREATED         SIZE
+redis         3.2.12   2fef532eadb3    5 weeks ago     76MB
+# Image ID: 2fef
+
+$ docker save -o aa.tar 2fef
+$ ls
+aa.tar
+
+$ docker rmi 2fef
+$ docker images
+REPOSITORY    TAG      IMAGE ID        CREATED         SIZE
+
+$ docker load < aa.tar
+$ docker images
+
+
+```
+
+
+```sh
+# 溫和移除
+$ docker stop ...
+
+# 暴力移除
+$ docker kill ...
+```
 
 
 ## 操作 Container 
@@ -82,7 +155,30 @@ $ docker attach <ContainerName>
 > `docker run -d --name <Container Name> -h <Host Name> <Image Name> <其他指令>` 使用 Image建立 Container, 並指定 hostname, 然後執行相關指令
 
 
---------------------------------------
+### MySQL 與 WordPress
+
+```sh
+$ docker pull wordpress:latest
+$ docker pull mysql:latest
+
+$ docker run --name mysqlwp -e MYSQL_ROOT_PASSWORD=wordpressdocker -d mysql
+
+# 老舊版本的 Networking 方式
+$ docker run --name wordpress --link mysqlwp:mysql -p 80:80 -d wordpress
+
+# Bind Mound方式, 將本地的 /home/docker/mysql Bind Mound 到 Container 內的 /var/lib/mysql
+$ docker run --name mysqlwp -e MYSQL_ROOT_PASSWORD=wordpressdocker \
+                            -e MYSQL_DATABASE=wordpress \
+                            -e MYSQL_USER=wordpress \
+                            -e MYSQL_PASSWORD=wordpresspwd \
+                            -v /home/docker/mysql:/var/lib/mysql \
+                            -d mysql
+
+# Docker 備份 mysql container
+$ docker exec mysqlwp mysqldump --all-databases \
+                                --password=wordpressdocker > wordpress.backup
+```
+
 
 ## [dockerd 組態](https://docs.docker.com/engine/reference/commandline/dockerd/)
 - 2018/06/19
@@ -92,7 +188,7 @@ os      | default config file path
 Windows | %programdata%\docker\config\daemon.json
 Linux   | /etc/docker/daemon.json
 
---------------------------------------
+
 
 - 每個運行在 service內的單一 container, 都稱為 **task**, 且每個 task都有專屬的 **task id** 
 
@@ -134,23 +230,6 @@ $ docker swarm leave --force
 Node left the swarm.
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
----
----
 
 
 # 2. Dockerfile
@@ -372,26 +451,57 @@ CONTAINER ID    IMAGE    COMMAND                  CREATED    STATUS    PORTS    
 
 > 如果在 `run`和`build` images的時候, 沒有明確指名 `tag`, 則會視為`latest`
 
-```
-1. --links (早期版本的作法, 已經不建議使用)
-可以讓本地端與Container內作安全的傳輸
-
-建立新的container
-$ sudo docker run -d --name db training/postgres
-
-建立名為 web的 Container, 並將它 link到 db Container
-$ sudo docker run -d -P --name web --link db:db training/webapp python app.py
-```
-
-### 在 Windows中, Ctrl+c無法停止運行中的 Container, 必須用此指令 (Linux也可用)
-```cmd
-> docker container stop <Container NAME or ID>
+```sh
+# 建立名為 web的 Container, 並將它 link到 db Container
+$ docker run -d -P --name web --link db:db training/webapp python app.py
 ```
 
 
----
----
----
+## Volume 使用方式
+
+```sh
+# 建立Container後, 獨立建立 Container Volume
+$ docker run -it --name os7A -v /data ubuntu14.04 /bin/bash
+root@7c49:/$# touch /data/foobar
+root@7c49:/$# ls data/
+foobar
+root@7c49:/$# exit
+
+# 查看 Volume
+$ docker inspect -f {{.Mounts}} 7c49
+[{volume b8e1ff 
+/var/lib/docker/volumes/b8e1ff/_data /data local  true }]
+
+# 使用別的 Volume
+$ docker run -it --volumes-from os7A --name os7B ubuntu14.04 /bin/bash
+root@895f:/$# ls /data
+foobar
+```
+
+
+
+## 查看資訊
+
+```sh
+# 查看 Docker Volume
+$ docker inspect -f {{.Mounts}} <Container>
+
+# 查看 Docker Network
+$ docker network inspect <Network>
+```
+
+
+### boot2docker
+
+```sh
+# 使用 Docker Machine 後, 裏頭的 Docker
+$ boot2docker init
+
+# 升級 Docker Machine 內的 Docker version
+$ boot2docker stop
+$ boot2docker upgrade
+$ boot2docker start
+```
 
 
 # 5. 知識

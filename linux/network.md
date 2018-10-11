@@ -18,6 +18,9 @@ $ netstat -[natuplrc]    # 與網路介面相關
 # -c xxx : xxx 秒後自動更新一次
 
 # Note: 可以使用 netstat -ntp 與 netstat -tp 比較後, 就可以知道 `service 對應的 port`
+
+### 常用
+$ netstat -tulnp | grep XXX
 ```
 
 
