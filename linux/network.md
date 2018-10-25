@@ -7,15 +7,15 @@
 查詢主機上的 網路連線資訊 && port 的使用. 語法: `netstat <options>`
 
 ```sh
-$ netstat -[natuplrc]    # 與網路介面相關
-# -n : 用 ip, port 代替 主機名稱, 服務名稱. ex: 將 ssh 改為 22
-# -a : 列出所有連線狀態
+$ netstat -[tulnpacr]    # 與網路介面相關
 # -t : 列出 TCP 連線
 # -u : 列出 UDP 連線
-# -p : 列出 PID && 程式名稱 (每個連線由哪個 process處理)
 # -l : 列出有在 Listen 的服務的網路狀態
-# -r : 列出 route table (功能與 route 相同)
+# -n : 用 ip, port 代替 主機名稱, 服務名稱. ex: 將 ssh 改為 22
+# -p : 列出 PID && 程式名稱 (每個連線由哪個 process處理)
+# -a : 列出所有連線狀態
 # -c xxx : xxx 秒後自動更新一次
+# -r : 列出 route table (功能與 route 相同)
 
 # Note: 可以使用 netstat -ntp 與 netstat -tp 比較後, 就可以知道 `service 對應的 port`
 

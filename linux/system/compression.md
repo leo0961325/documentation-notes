@@ -120,7 +120,7 @@ $ rm aa
 
 $ unzip qq.zip              # 使用 unzip 解壓縮
 Archive:  qq.zip
- extracting: aa     
+ extracting: aa
 
 $ ls
 aa  qq.zip
@@ -245,7 +245,7 @@ $# du -sm /etc
 ```
 
 
-## 壓縮打包系統資料時, 務必加上 「`-p`」, 去除絕對路徑
+## 壓縮打包系統資料時, 務必加上 「`P`」, 去除絕對路徑
 
 ```sh
 $# tar -jtvf /root/etc.tar.bz2

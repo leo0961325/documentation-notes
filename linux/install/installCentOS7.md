@@ -505,14 +505,12 @@ export PATH=$scala_HOME/bin:$PATH
 # install Python (不完整)
 
 ```sh
-$ wget <python>
+$ wget https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tar.xz
 
 $ tar xf <python>.tar.xz
 $ cd <python>
 
-$ ./configure --enable-loadable-sqlite-extensions \
-              --enable-shared \
-              --prefix="\opt\python3"
+$ ./configure --enable-loadable-sqlite-extensions --enable-shared --with-ssl --prefix="~/python3"
 $ make
 $ sudo make install
 $ ldconfig
@@ -522,9 +520,9 @@ $ ldconfig
 
 底下開始安裝python3的pip
 ```sh
-$ wget -0 /tmp/get-pip.py "https://bootstrap.pypa.io/get-pip.py"
+$ wget -O get-pip.py "https://bootstrap.pypa.io/get-pip.py"
 $ export PYTHON_PIP_VERSION=9.0.1
-$ python3 /tmp/get-pip.py "pip==$PYTHON_PIP_VERSION"
+$ python3 get-pip.py "pip==$PYTHON_PIP_VERSION"
 $ pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERSION"
 ```
 

@@ -68,7 +68,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /opt/                           # 第三方協作軟體 /opt/ 的相關設定檔
     /pam.d/                         # 集中驗證相關; 各種服務該如何組態 Auth 的設定檔
     /passwd                         # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
-    /pki/                           # 公私金鑰存放區
+    /pki/                           # 公鑰存放區
+        /rpm-gpg/*                      # rpm Repository 公鑰存放區
     /postfix/
         /master.cf                      # Postfix mail server 主要組態設定檔
     /profile                        # 系統層面的 環境 及 起始程式
