@@ -70,6 +70,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /passwd                         # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
     /pki/                           # 公鑰存放區
         /rpm-gpg/*                      # rpm Repository 公鑰存放區
+            /RPM-GPG-KEY-CentOS-7           # CentOS7 的 原廠GPG數位簽章公鑰檔
     /postfix/
         /master.cf                      # Postfix mail server 主要組態設定檔
     /profile                        # 系統層面的 環境 及 起始程式

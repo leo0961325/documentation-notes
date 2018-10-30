@@ -1353,3 +1353,70 @@ $ nslookup
 # CentOS7 rpm 檢核用的 public key
 $ ll /etc/pki/rpm-gpg/
 ```
+
+
+# 交談
+- 2018/10/30
+- 鳥哥 13.6.2
+
+指令:
+* `wall`
+* `write`
+
+```sh
+### Terminal : tony pts/0
+$ w
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+tony     pts/0    192.168.124.101  12:27    1.00s  0.18s  0.02s w                   # 目前的 Terminal
+tony     pts/2    192.168.124.101  14:25    1:53   0.06s  0.14s sshd: tony [priv]   # 要交談的目標
+# ↑僅節錄部分資訊
+
+$ write tony pts/2
+DAMN U!
+# Ctrl + D 結束
+```
+
+```sh
+### Terminal : tony pts/2
+$ 
+Message from tony@gitserver on pts/0 at 14:32 ...
+DAMN U!
+EOF
+# 不管原本在幹嘛... 都會被騷擾
+
+# 可用 mesg [yn] 來啟用或關閉即時對話
+$ mesg n
+# 但是此封鎖對 root 無效
+```
+
+```sh
+### 發送廣播(所有人都會報掃到XD)
+$ wall 'Hello~~~ every body~~~'
+$
+Broadcast message from tony@gitserver (pts/2) (Tue Oct 30 14:39:47 2018):
+
+Hello~~~ every body~~~
+
+$
+```
+
+
+# mail
+
+站內寄信, 使用 `mail`, 所有使用者都有個 mailbox, 會寄到別人那邊 (`/var/spool/mail/<user>`)
+
+```sh
+### 寄信方式1: 互動式介面寄信
+$ mail -s "主題1" tony
+Hello~~~  I am GOD!!
+.   # 輸入「.」代表結束
+EOT
+
+### 寄信方式2: 使用資料劉重導向
+$ mail -s "主題2" tony < ~/content2tony
+
+### 寄信方式3: 使用管線
+$ ls -al ~ | mail -s "主題3" tony
+```
+
+

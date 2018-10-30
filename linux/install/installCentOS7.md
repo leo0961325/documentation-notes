@@ -299,18 +299,23 @@ $ sudo systemctl start redis
 
 # Git (CentOS7 default git v-1.8 )
 - 2017/11/26
--  [How To Install Git on CentOS 7](https://blacksaildivision.com/git-latest-version-centos) 
+- [How To Install Git on CentOS 7](https://blacksaildivision.com/git-latest-version-centos) 
 - [Choose a version](https://github.com/git/git/releases) ( 以2.14.3版為例 )
+- [Choose a version 有時候Github會掛掉...](https://mirrors.edge.kernel.org/pub/software/scm/git/)
 
 1. Dependancy
 ```sh
 # 所需套件
 $# yum install -y autoconf libcurl-devel expat-devel gcc gettext-devel kernel-headers openssl-devel perl-devel zlib-devel
 
-# 下載
-$ wget https://github.com/git/git/archive/v2.14.3.tar.gz
+# 下載 (v2.14)
+$ wget https://github.com/git/git/archive/v2.14.3.tar.gz                        # 2.14.3
+$ wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.14.5.tar.gz   # 2.14.5
 
-# Install
+# 下載 (v2.19)
+$ wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.19.1.tar.gz
+
+# Install (v2.14)
 $ tar zxf v2.14.3.tar.gz
 $ cd git-2.14.3/
 $ make clean
@@ -320,11 +325,22 @@ GIT_VERSION = 2.14.3
 
 $ ./configure --prefix=/usr/local
 $ make
-
-$# sudo make install
+$# make install
 
 $ git --version
 git version 2.14.3
+
+# Install (v2.19)
+$ mkdir git2.19
+$ tar zxf git-2.19.1.tar.gz
+$ cd git-2.19.1
+$ make configure
+GIT_VERSION = 2.19.1
+    GEN configure
+
+$ ./configure --prefix=/usr/local
+$ make
+$# make install
 ```
 
 
