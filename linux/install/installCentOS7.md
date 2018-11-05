@@ -93,41 +93,91 @@ sudo yum -y install google-chrome-stable
 - 2018/07/01 update
 - [Official Docker](https://docs.docker.com/engine/installation/linux/docker-ce/centos/#install-using-the-repository)
 
-1. Dependancy package && Install
+
 ```sh
-$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+### root
+# 安裝
+$# yum install -y yum-utils device-mapper-persistent-data lvm2
+$# yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+$# yum install -y docker-ce
 
-$ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-
-$ sudo yum install -y docker-ce
-```
-
-2. Authority
-```sh
+### Normal User
+# 確認權限
 $ cat /etc/group | grep docker
 docker:x:983:
 
-$ sudo usermod -aG docker $USER
+$ sudo usermod -aG docker ${USER}
 
 $ cat /etc/group | grep docker
 docker:x:983:tonynb
-```
 
-3. Service
-```sh
+# 服務
 $ sudo systemctl start docker           <-立刻啟用
 $ sudo systemctl enable docker          <-重新後啟用
 $ systemctl status docker
-```
 
-4. Done
-```sh
-$ docker --version
-Docker version 18.03.1-ce, build 9ee9f40
+# 完成
+$ docker version
+Client:
+ Version:           18.06.1-ce
+ API version:       1.38
+ Go version:        go1.10.3
+ Git commit:        e68fc7a
+ Built:             Tue Aug 21 17:23:03 2018
+ OS/Arch:           linux/amd64
+ Experimental:      false
+
+Server:
+ Engine:
+  Version:          18.06.1-ce
+  API version:      1.38 (minimum version 1.12)
+  Go version:       go1.10.3
+  Git commit:       e68fc7a
+  Built:            Tue Aug 21 17:25:29 2018
+  OS/Arch:          linux/amd64
+  Experimental:     false
+
 
 # 無法執行的話, 重新登入就可以了
 $ docker run hello-world
 Hello, World.
+```
+
+
+## Docker-machine
+- [Install Docker Machine]()
+
+```sh
+### root
+# v0.14 Docker Machine
+base=https://github.com/docker/machine/releases/download/v0.14.0 &&
+  curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+  sudo install /tmp/docker-machine /usr/local/bin/docker-machine
+
+# v0.15 Docker Machine
+curl -L https://github.com/docker/machine/releases/download/v0.15.0/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+    chmod +x /tmp/docker-machine &&
+    sudo cp /tmp/docker-machine /usr/local/bin/docker-machine
+```
+
+
+## docker - bash completion
+
+- [Docker-Machine Tab-Completion]()
+```sh
+### root
+$# vim /etc/bash_completion.d/docker-machine-prompt.bash
+base=https://raw.githubusercontent.com/docker/machine/v0.14.0
+for i in docker-machine-prompt.bash docker-machine-wrapper.bash docker-machine.bash
+do
+  sudo wget "$base/contrib/completion/bash/${i}" -P /etc/bash_completion.d
+done
+# 內容如上 ----------------------------------
+
+$# source /etc/bash_completion.d/docker-machine-prompt.bash
+
+# To enable the docker-machine shell prompt, add $(__docker_machine_ps1) to your PS1 setting in ~/.bashrc.
+$ echo "PS1='[\u@\h \W$(__docker_machine_ps1)]\$ '" >> ~/.bashrc
 ```
 
 

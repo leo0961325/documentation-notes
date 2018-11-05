@@ -44,7 +44,7 @@ windows       | Windows 作業系統相關
 - TDD : Test-Driven-Development
 - VPC: Virtual Private Cloud
 - wildcard characters : 萬用字元 (「*」啦)
-
+- ad hoc : 特設, 專案的, 臨時的, 特定目的的
 
 #### 安全性相關
 
