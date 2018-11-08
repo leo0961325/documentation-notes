@@ -60,3 +60,8 @@ windows       | Windows 作業系統相關
 - validate : 驗證
 - Permission denied : 無權使用此指令
 - Operation not permitted : 不具有此指另作用的檔案 的權限
+
+
+by TonyCC
+
+- https://github.com/cool21540125/documentation-notes
