@@ -1420,3 +1420,11 @@ $ ls -al ~ | mail -s "主題3" tony
 ```
 
 
+```sh
+# 找出組態檔內有意義的文字字段
+grep -n -v  -e '^[#;]' /etc/samba/smb.conf.example | grep -v ':$' -
+# 找特定檔案, 列出行號
+# 非 #; 開頭
+# 非 空白行
+# pipeline 給 非 : 結尾(因有行號:)
+```
