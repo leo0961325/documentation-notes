@@ -24,25 +24,16 @@ windows       | Windows 作業系統相關
 
 - alphanumeric : 標點符號
 - back slash : 反斜線
-- Berkeley Software Distribution(BSD)
 - cascade: 串連
 - congestion : 擁塞
-- DHCP: Dynamic Host Configuration Protocol
-- Elastic IP(aws)/Floating IP(openstack)
-- GDPR : General Data Protection Regulation
 - intelliSense : 提示
 - IP Masquerade: IP掩蔽
 - linter : code 語法 check
 - malformed : 異常
 - masquerade: 偽裝
-- NAT: Network Address Translation
-- Network File System (NFS)
 - on the fly : 動態產生 
-- POC : Proof of Concept 概念性驗證
 - snippets : 片段
 - tilde : 波浪號
-- TDD : Test-Driven-Development
-- VPC: Virtual Private Cloud
 - wildcard characters : 萬用字元 (「*」啦)
 - ad hoc : 特設, 專案的, 臨時的, 特定目的的
 
@@ -60,6 +51,30 @@ windows       | Windows 作業系統相關
 - validate : 驗證
 - Permission denied : 無權使用此指令
 - Operation not permitted : 不具有此指另作用的檔案 的權限
+
+
+#### 一些無聊的專有名詞
+
+abbr   | Termonology                           | Category     | Note
+------ | ------------------------------------- | ------------ | ------------
+AD     | Active Directory                      | 集中驗證      | 
+BSD    | Berkeley Software Distribution        | DNS          | 
+CA     | Certificate Authorities               | 資安         | 
+DHCP   | Dynamic Host Configuration Protocol   | TCP/IP       | 
+DN     | Distinguished Name                    | 集中驗證     | 
+EIP    | Elastic IP                            | AWS          | 固定IP
+KDC    | Key Distribution Centers              | 集中驗證     | 
+IPA    | Identiti, Policy and Auditing         | 集中驗證      | 提供 LDAP & Kerberos
+LDAP   | Lightweight Directory Access Protocol | 集中驗證      | 
+NAT    | Network Address Translation           | IPv4         | 
+NFS    | Network File System                   | Linux        | 
+SEO    | Search Engine Optimization            | FrontEnd     | 
+SSG    | Static Site Generator                 | FrontEnd    | 前端框架產生器, ex: Hugo, Hexo, MkDocs
+SSO    | Single Sign-On                        | 集中驗證      | 單點登錄
+TDD    | Test-Driven-Development               | DevOps       | 
+VPC    | Virtual Private Cloud                 | Cloud        | 
+GDPR   | General Data Protection Regulation    | 資安         | 
+POC    | Proof of Concept                      | DevOps       | 
 
 
 by TonyCC

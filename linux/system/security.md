@@ -3,22 +3,6 @@
 - 2018/06/09
 
 
-
-# Firewall
-
-Firewall Zone:
-- block : 
-- dmz : 
-- drop : 
-- external : 
-- home : 
-- internal : 
-- public : 
-- trusted : 
-- work : 
-
-
-
 # 檔案隱藏屬性 (我用 特殊屬性 來理解它...)
 
 - [鳥哥 chattr](http://linux.vbird.org/linux_basic/0220filemanager.php#chattr)

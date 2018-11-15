@@ -186,6 +186,21 @@ server {
 ```
 
 
+### 不管啥網頁, 都找首頁 範例3
+
+```ini
+# 被代理的伺服器 Proxied Server
+server {
+    listen      80;
+    root        /usr/share/nginx/html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+
 ## Load-Balance - 負載平衡模式
 ```ini
 # 作 Load-balance 到兩個 Node

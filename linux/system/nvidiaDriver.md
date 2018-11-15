@@ -64,7 +64,7 @@ An Intel display controller was also detected
 ### ~~到官方網站下載顯卡驅動程式~~
 
 # 開機後, 系統不要載入的相關模組
-$ sudo vi /etc/modprobe.d/blacklist.conf  
+$ sudo vi /etc/modprobe.d/blacklist.conf
 blacklist nouveau
 options nouveau modeset=0
 
