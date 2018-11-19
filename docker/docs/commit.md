@@ -25,7 +25,7 @@ CONTAINER ID   IMAGE      COMMAND      CREATED     STATUS    PORTS    NAMES
 7b82237ee719   centos:7   "/bin/bash"  (pass)      (pass)
 
 # 有點開始燒錄光碟的感覺... 會花點時間
-$ docker commit -a "tonycj" -m "for dev light container" 7b82237ee719 cool21540125/devos7:1.0
+$ docker commit -a "tonycc" -m "for dev light container" 7b82237ee719 cool21540125/devos7:1.0
 sha256:6c24ad6bdb412fe1a65831502c2f6b39c746445a03ad19c70f97161bc45e37af
 # -a : 作者
 # -m : Commit message

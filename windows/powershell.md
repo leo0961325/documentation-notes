@@ -146,7 +146,7 @@ uu                             Tony
 
 
 ### 更改 環境變數
-> $Env:uu = "TonyCJ"
+> $Env:uu = "TonyCC"
 
 
 ### 刪除 環境變數

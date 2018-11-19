@@ -9,6 +9,9 @@
 
 隱藏屬性對於 Linux 來說, 只能在 Ext2/Ext3/Ext4 中完整生效, 像是 CentOS7 預設使用的 `xfs`, 僅有部分支援
 
+- `lsattr` : 查隱藏屬性
+- `chattr` : 改隱藏屬性
+
 ```sh
 $ touch qq
 $ sudo chattr +i qq

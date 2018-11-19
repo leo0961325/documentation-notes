@@ -305,7 +305,7 @@ $ git config -l --local
 $ git config  <Config_Section.Config_Name> # 顯示特定組態
 
 # 設定組態
-$ git config --global user.name "TonyCJ"
+$ git config --global user.name "TonyCC"
 $ git config --global user.email "cool21540125@gmail.com"
 
 # 忽略「空白」所造成的影響
