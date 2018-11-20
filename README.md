@@ -49,6 +49,7 @@ windows       | Windows 作業系統相關
 - permission : 許可
 - token : 就... Token (不會翻@@)
 - validate : 驗證
+- perimeter network : (同 DMZ)
 - Permission denied : 無權使用此指令
 - Operation not permitted : 不具有此指另作用的檔案 的權限
 
@@ -61,6 +62,7 @@ AD     | Active Directory                      | 集中驗證      |
 BSD    | Berkeley Software Distribution        | DNS          | 
 CA     | Certificate Authorities               | 資安         | 
 DHCP   | Dynamic Host Configuration Protocol   | TCP/IP       | 
+DMZ    | Demilitarized Zone                    | 資安         |
 DN     | Distinguished Name                    | 集中驗證     | 
 EIP    | Elastic IP                            | AWS          | 固定IP
 KDC    | Key Distribution Centers              | 集中驗證     | 
