@@ -91,6 +91,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /selinux/                       # CentOS7 的 SELinux組態放置區
         /config                         # SELinux 組態設定檔
     /services                       # 服務 與 port 對映檔
+    /shells                         # 某些服務運作時會來檢查使用者能使用的shells
     /skel/                          # 預設建立使用者後, 使用者家目錄底下的東西
     /ssh/
         /sshd_config                    # 紀錄 sshd 組態
@@ -111,6 +112,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /home/                          # 家目錄
 /lib/                           # 系統的共用函式庫檔案 (連結至 /usr/lib/)
     /modules/                       # 可抽換式的核心相關模組(驅動程式); 不同版本的核心模組
+        /3.10.0-862.el7.x86_64/         # kernel 核心版本 (可由「uname -r」取得)
+            /kernel/                        # 
 /media/                         # 可移除的裝置; 移動式磁碟or光碟 掛載目錄 (可移除的裝置)
 /mnt/                           # "暫時性" 檔案系統 掛載目錄; 現在許多裝置都移到 /media/ 了, 所以暫時的, 依舊放這
 /opt/                           # 非 Linux預設安裝的外來軟體 (第三方協作軟體(非原本distribution所提供的)), 早期都習慣放在 /usr/local
@@ -175,9 +178,14 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
             /cron.monthly                   # 最新一次執行 monthly crontab 的時間
         /cron/                          # 週期性 工作排程
         /mail/                          # 所有使用者的 信件資料夾集中處 ; 系通收到新信, 會放到這; 等待寄出的 email
+            /root
+            /tony
         /mqueue/                        # 信件寄不出去, 會塞到這
         /news/                          # 新聞群組
 ~/                              # 使用者家目錄 (/home/<User>/)
-    /.bashrc                            # 使用者層面的 functions 及 alias
-    /.bash_profile                      # 使用著層次的 環境 及 起始程式
+    /.bashrc                        # 使用者層面的 functions 及 alias 及 自定義 variables
+    /.bash_history                  # 上次登出前, 在 Shell 內下過的指令(域設存1000筆), 登出後才會寫入此檔
+    /.bash_login                    # 
+    /.bash_logout                   # 
+    /.bash_profile                  # 使用著層次的 環境 及 起始程式(Login Shell 才會讀取)
 ```

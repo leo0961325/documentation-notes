@@ -1023,6 +1023,22 @@ $ unalias dv
 # 刪除別名
 ```
 
+
+### type - 查指令特性
+```sh
+# type 主要在找出 執行檔 (而非一般檔案名稱)
+$ type ls
+ls is aliased to 'ls --color=auto'
+
+$ type -t ls
+alias
+
+$ type -a ls
+ls is aliased to 'ls --color=auto'
+ls is /bin/ls
+ls is /usr/bin/ls
+```
+
 ### echo
 ```sh
 $ echo "L1\nL2\nL3"
@@ -1037,6 +1053,10 @@ L3
 
 ### 互動式 input - read
 ```sh
+# read [-pt] variable
+# -p xxx: 提示字元
+# -t xxx: 等待秒數
+
 $ read n
 88   # 自行輸入
 
@@ -1102,6 +1122,10 @@ tony    192.168.124.94
 tony    192.168.124.94
 tony    192.168.124.94
 ```
+
+### mail
+
+- `mail`(指令) 會去取得 MAIL(變數), 依照當時的使用者, 開啟 `/var/spool/mail/USER`
 
 
 ### ncftpget ncftpput

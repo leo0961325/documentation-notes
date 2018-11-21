@@ -156,13 +156,31 @@ $ echo ${v2}
 
 查看 環境變數
 ```sh
-$ env                   # 可看到所有的 環境變數
-HOSTNAME=tonynb
-SELINUX_ROLE_REQUESTED=
-TERM=xterm
+### 可看到所有的 環境變數
+$ env
+HOSTNAME=desktop22                  # 主機名稱
 SHELL=/bin/bash
-HISTSIZE=1000
-...(略)... 約 30 個
+TERM=xterm                          # 終端機環境
+HISTSIZE=1000                       # 紀錄指令的筆數(history筆數)
+USER=root
+SUDO_USER=student
+SUDO_UID=1000
+USERNAME=root
+PATH=/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin    # 執行檔 or 指令 搜尋位置
+MAIL=/var/spool/mail/root           # MailBox 位置
+PWD=/root                           # User 目前位置
+LANG=en_US.UTF-8
+HOME=/root                          # User Home Dir
+LOGNAME=root                        # 登入者用來登入的帳號(疑!?)
+SUDO_GID=1000
+_=/bin/env
+# 節錄大部分
+
+### 看到所有 環境變數、bash相關變數、使用者自定義變數
+$ set
+
+# 總共有2500多筆@@...
+
 
 $ export                # 可看到所有的 環境變數 (還有額外功能)
 declare -x HISTCONTROL="ignoredups"
@@ -181,7 +199,9 @@ $ echo ${RANDOM}
 14852
 ```
 
-## 查看變數 declare
+## 查看 && 宣告 變數 declare (同 typeset?)
+
+bash 環境預設變數都是 `字串`, 如果要計算的話, 頂多只能做 `整數運算`
 
 ```sh
 $ declare [-aipr] variable
@@ -189,15 +209,67 @@ $ declare [-aipr] variable
 # -i : 讓此變數為 整數  (bash環境的計算, 只能有 int, 無法有 float, decimal 等等的鬼東西)
 # -p : 可以看此變數的類型 (類似看到整個變數宣告過程)
 # -r : 讓此變數變成常數的概念 (也不能 unset)
+# -x XXX: XXX 變成環境變數
+# +x XXX: XXX 從環境變數中取消
 
-$ declare [+|-]x variable
-# -x : 設定此變數為 環境變數
-# +x : 將此環境變數取消, 變成區域變數
+$ declare -i ss=80+3
+$ echo $ss
 
-# 產生 [0,9] 得自己組合, 然後把變數丟給 「用數學處理後的容器」
-$ declare -i rand=${RANDOM}*10/32768; echo ${rand}
-8
+### 陣列
+# var[idx]=content
+$ name[1]=tony
+$ name[2]=tiffany
+
+$ echo "${name[1]}'s sister is ${name[2]}"
 ```
+
+
+## 變數替換
+
+```sh
+$ pp=${PATH}
+$ echo ${pp}
+/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/student/.local/bin:/home/student/bin
+
+$ echo ${pp#/*usr/bin:}
+/usr/local/sbin:/usr/sbin:/home/student/.local/bin:/home/student/bin
+
+$ echo ${pp#/*usr/sbin:}
+/home/student/.local/bin:/home/student/bin
+# 以上, 從最一開始往右刪除
+# 「#」 最短的 match
+# 「##」 最長的 match
+
+# 從最後面往前刪除則使用 「%」
+$ echo ${pp%:*bin}
+/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/student/.local/bin  # 為啥 : 不見了....= =
+# 依理, 「%%」可刪除最長的 match
+
+##### 練習 : 
+$ echo ${HOME}
+/home/student
+
+$ echo ${HOME#/home/}   # 取出 student
+student
+
+$ echo ${HOME%/*}       # 取出前面路徑
+/home
+```
+
+## 變數取代
+
+```sh
+$ echo ${HOME/student/smartStudent} # 如果是用 ${HOME//student/smartStudent} , 則會套用所有的 match
+/home/smartStudent
+
+# 如果 userName 存在則印出 ; 若不存在則印出 NOTExist
+$ echo ${userName-NOTExist} # 若 userName='', 則會印出 ''
+NOTExist
+
+$ echo ${userName:-NOTExist}    # 會把 不存在 or "" 當成一樣
+NOTExist
+```
+
 
 
 陣列變數
@@ -223,9 +295,12 @@ Linux為多人多工, 可能同時有 100 個人登入, 分別開啟 1G 的影�
 ```sh
 [tony@tonynb dev]$ set | grep PS1
 PS1='[\u@\h \W]\$ '
+# 即為「[使用者@主機名稱 目前位置]$」
 
 [tony@tonynb dev]$ echo ${PS1}
 [\u@\h \W]\$                ## 預設的 PS 顯示格式, 玩壞了再從這改回去
+# PS1 為命令提示字元
+# 另外也可設定 PS2, 在指令行最後面下「 \」 換行後, 格行的命令提示字元(預設為 > )
 
 [tony@tonynb dev]$
   ↑    ↑      ↑

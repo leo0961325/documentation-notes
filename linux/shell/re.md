@@ -72,3 +72,8 @@ $ grep -i '^Apr 1 15:5[34].*ERROR' /var/log/messages | grep -v '[a-z0-9]\{32\}'
 # 符合 14:40 那行之後的 24 行
 $ grep -A 24 '14:40' proxy.log
 ```
+
+# 萬用字元 && Regex
+
+* [^abc] : 非 [abc] 其中一個字
+* ^[abc] : [abc] 其中一個字開頭

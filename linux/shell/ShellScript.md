@@ -5,3 +5,10 @@
 # 若一次性排程工作 > 0, bash 就睡覺吧~
 while [ $(atq | wc -l) -gt 0 ]; do sleep 1s; done
 ```
+
+
+
+# if
+
+* -r : 讀取權限
+* -f : 檔案存在
