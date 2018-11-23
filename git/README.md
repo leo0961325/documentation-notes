@@ -14,19 +14,24 @@
 
 ```sh
 # 首次設定 PKI
-$ ssh-keygen -t rsa -b 4096 -C "tony@tonynb"
+ssh-keygen -t rsa -b 4096 -C "tony@tonynb"
 
 # 本地分支 push 至 origin
-$ git push --set-upstream origin feature
+git push --set-upstream origin feature
 
 # 設定本地分支追蹤的遠端分支
-$ git branch --set-upstream-to=origin/feature feature
+git branch --set-upstream-to=origin/feature feature
 
 # 改變追蹤 URL
-$ git remote set-url origin git@github.com:cool21540125/documentation-notes.git
+git remote set-url origin git@github.com:cool21540125/documentation-notes.git
 
 # 重新 Commit
-$ git commit --amend -m "<Commit String>"
+git commit --amend -m "<Commit String>"
+
+# 基本重要設定
+git config --global user.name "TonyCC"
+git config --global user.email "cool21540125@gmail.com"
+git config --global alias.tree "log --graph --decorate --pretty=oneline --abbrev-commit"
 ```
 
 ```sh
