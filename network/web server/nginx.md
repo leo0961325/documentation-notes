@@ -268,3 +268,53 @@ Nginx支援 `熱啟動`, 所以改完組態檔後, **不用重啟服務**, 重�
 # 重讀組態
 $ nginx -s reload
 ```
+
+
+
+# 靜態圖片代理
+
+1. 建立資源
+
+```sh
+mkdir -p /data/images
+# 裡面放些圖片吧~
+# Permission, owner(nginx) 0755
+# firewall
+# SELinux
+```
+
+2. a 設定檔 (靜態網頁)
+```sh
+### /etc/nginx/conf.d/vhost.conf
+server {
+    server_name     img.youwillneverknow.com;
+    location /images/ {
+        root            /data;
+        autoindex       on;         # 未指定資源可以 list dir
+    }
+}
+```
+
+2. b 設定檔 (圖片 regex)
+```sh
+### /etc/nginx/conf.d/vhost.conf
+server {
+    listen          80;
+    server_name     img.youwillneverknow.com;
+    location ~ \.(gif|jpg|png)$ {
+        root        /data/images/;
+    }
+}
+```
+
+3. DNS resloution
+
+img.youwillneverknow.com    A   <IP4>
+
+4. URL
+
+* http://img.youwillneverknow.com/images/
+* http://img.youwillneverknow.com/free.png
+
+最後面得要有「/」 才能 list
+
