@@ -41,6 +41,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /exports                        # NFS 的主要設定檔
     /fstab                          # mount 掛載組態設定檔 (開機時 會依照此設定來作自動掛載; 每次使用 mount時, 預設也會動態更新此檔案)
     /firewalld/                     # OS7管理 firewalld 的組態放置區
+    /gdm/                           # CentOS 預設的 DM 為 GNOME 提供的 gdm (殺小...)
+        /custom.conf                    # 
     /hostname                       # 主機名稱檔
     /hosts                          # ip 與 dns 對照
     /httpd/                         # Apache 的組態設定檔
@@ -94,7 +96,9 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /shells                         # 某些服務運作時會來檢查使用者能使用的shells
     /skel/                          # 預設建立使用者後, 使用者家目錄底下的東西
     /ssh/
-        /sshd_config                    # 紀錄 sshd 組態
+        /ssh_config                     # SSH Client 組態
+        /ssh_host_*_key.pub             # SSH Server 公鑰(ecdsa, ed25519, rsa, ...)
+        /sshd_config                    # SSH Server 組態
     /sssd/                          # 集中驗證相關
         /sssd.conf                      # System Security Services Daemon; 網路不通時, 從 cache 作 Login 驗證
     /sudoers                        # 定義 sudo, wheel... 相關事項(建議使用 visudo 來修改, 別直接編輯此檔案)
@@ -120,7 +124,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /proc/                          # 虛擬檔案系統(virtual filesystem), 東西都存在於 memory, 不占用 disk; 行程資訊目錄
     /filesystems                    # 系統已載入的檔案系統
     /partitions                     # Linux 核心分割表資訊
-    /swaps                          # 
+    /swaps                          # 目前 swap 空間
 /run/                           # 系統開機後所產生的各項資訊 (可用記憶體來模擬); 某些服務or程式啟動後, 他們的 pid 會放在這.
     /lock/                          # 某些裝置或檔案, 一次只能一人使用, 使用中會上鎖.
     /log                            # journalctl服務(新Log機制), 預設重開機後, 只會保留最近一次開機前的 log

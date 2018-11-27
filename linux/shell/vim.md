@@ -9,18 +9,20 @@
 ```sh
 $ vi ~/.vimrc
 
-set expandtab          # 空白 取代 Tab
-set tabstop=4          # tab鍵=4空白
-set shiftwidth=4       # 內縮設定為4個空白
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set nu
+set ai
+set autoindent
+
+set nocompatible
+
 
 retab                  # 將文中所有tab換成空白
 .retab                 # 將目前這行的tab換成空白
 
-set nu                 # 顯示行號
-set nonu               # 關閉行號
-
-set ai                 # 自動內縮
-set noai               # 關閉內縮
+set ai  # 內縮
 
 set autoindent         # 啟用自動縮排
 set noautoindent       # 取消自動縮排

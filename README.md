@@ -56,27 +56,28 @@ windows       | Windows 作業系統相關
 
 #### 一些無聊的專有名詞
 
-abbr   | Termonology                           | Category     | Note
------- | ------------------------------------- | ------------ | ------------
-AD     | Active Directory                      | 集中驗證      | 
-BSD    | Berkeley Software Distribution        | DNS          | 
-CA     | Certificate Authorities               | 資安         | 
-DHCP   | Dynamic Host Configuration Protocol   | TCP/IP       | 
-DMZ    | Demilitarized Zone                    | 資安         |
-DN     | Distinguished Name                    | 集中驗證     | 
-EIP    | Elastic IP                            | AWS          | 固定IP
-KDC    | Key Distribution Centers              | 集中驗證     | 
-IPA    | Identiti, Policy and Auditing         | 集中驗證      | 提供 LDAP & Kerberos
-LDAP   | Lightweight Directory Access Protocol | 集中驗證      | 
-NAT    | Network Address Translation           | IPv4         | 
-NFS    | Network File System                   | Linux        | 
-SEO    | Search Engine Optimization            | FrontEnd     | 
-SSG    | Static Site Generator                 | FrontEnd    | 前端框架產生器, ex: Hugo, Hexo, MkDocs
-SSO    | Single Sign-On                        | 集中驗證      | 單點登錄
-TDD    | Test-Driven-Development               | DevOps       | 
-VPC    | Virtual Private Cloud                 | Cloud        | 
-GDPR   | General Data Protection Regulation    | 資安         | 
-POC    | Proof of Concept                      | DevOps       | 
+abbr   | Termonology                           | Category        | Note
+------ | ------------------------------------- | --------------- | ------------
+AD     | Active Directory                      | 集中驗證         | 
+BSD    | Berkeley Software Distribution        | DNS             | 
+CA     | Certificate Authorities               | 資安            | 
+DHCP   | Dynamic Host Configuration Protocol   | TCP/IP          | 
+DMZ    | Demilitarized Zone                    | 資安            | 
+DN     | Distinguished Name                    | 集中驗證         | 
+EIP    | Elastic IP                            | AWS             | 固定IP
+GDPR   | General Data Protection Regulation    | 資安            | 
+IPA    | Identiti, Policy and Auditing         | 集中驗證         | 提供 LDAP & Kerberos
+KDC    | Key Distribution Centers              | 集中驗證         | 
+LDAP   | Lightweight Directory Access Protocol | 集中驗證         | 
+NAT    | Network Address Translation           | IPv4            | 
+NFS    | Network File System                   | Linux           | 
+OCSP   | Online Certificate Status Protocol    | 在線憑證狀態協定 | 
+POC    | Proof of Concept                      | DevOps          | 
+SEO    | Search Engine Optimization            | FrontEnd        | 
+SSG    | Static Site Generator                 | FrontEnd        | 前端框架產生器, ex: Hugo, Hexo, MkDocs
+SSO    | Single Sign-On                        | 集中驗證         | 單點登錄
+TDD    | Test-Driven-Development               | DevOps          | 
+VPC    | Virtual Private Cloud                 | Cloud           | 
 
 
 by TonyCC
