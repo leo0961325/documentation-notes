@@ -358,14 +358,15 @@ $ sudo systemctl start redis
 # 所需套件
 $# yum install -y autoconf libcurl-devel expat-devel gcc gettext-devel kernel-headers openssl-devel perl-devel zlib-devel
 
-# 下載 (v2.14)
-$ wget https://github.com/git/git/archive/v2.14.3.tar.gz                        # 2.14.3
-$ wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.14.5.tar.gz   # 2.14.5
+# 下載 (v2.14.3)
+$ wget https://github.com/git/git/archive/v2.14.3.tar.gz
 
-# 下載 (v2.19)
+# (v2.14.5)
+$ wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.14.5.tar.gz
+# (v2.19)
 $ wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.19.1.tar.gz
 
-# Install (v2.14)
+# Install (v2.14.3)
 $ tar zxf v2.14.3.tar.gz
 $ cd git-2.14.3/
 $ make clean
@@ -379,6 +380,7 @@ $# make install
 
 $ git --version
 git version 2.14.3
+# DONE
 
 # Install (v2.19)
 $ mkdir git2.19
