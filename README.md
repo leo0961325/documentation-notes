@@ -67,6 +67,7 @@ DN     | Distinguished Name                    | 集中驗證         |
 EIP    | Elastic IP                            | AWS             | 固定IP
 GDPR   | General Data Protection Regulation    | 資安            | 
 IPA    | Identiti, Policy and Auditing         | 集中驗證         | 提供 LDAP & Kerberos
+MITM   | Man-In-The-Middle attack              | 資安            | [參考這個](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)
 KDC    | Key Distribution Centers              | 集中驗證         | 
 LDAP   | Lightweight Directory Access Protocol | 集中驗證         | 
 NAT    | Network Address Translation           | IPv4            | 
