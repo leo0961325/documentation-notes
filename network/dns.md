@@ -120,3 +120,20 @@ Ping 140.137.200.141 (使用 32 位元組的資料):
 
 ## Linux
 
+
+# GitLab page, DNS, SSL/TLS
+
+兩者取其一, 無法同時存在
+
+- CNAME : `blog.youwillneverknow.com CNAME cool21540125.gitlab.io.`
+- A     : `blog.youwillneverknow.com A     35.185.44.232`
+
+除非 GitLab admin disable 掉 custom domain 驗證, 否則應有 TXT
+
+- TXT : `_gitlab-pages-verification-code.blog.youwillneverknow.com TXT gitlab-pages-verification-code=e0b85205e0d9b562a7a7e044780652fd`
+
+> If using a DNS A record, you can place the TXT record directly under the domain. If using a DNS CNAME record, the two record types won't co-exist, so you need to place the TXT record in a special subdomain of its own.
+> 若使用 A 紀錄, 則直接把 TXT 紀錄 放在 domain 下. (Domain 還有其他用途)
+> 若使用 CNAME 紀錄, 則把 TXT 紀錄 放在 subdomain 下. (Domain 專門給 GitLab page)
+
+![](/img/A與CNAME.png)

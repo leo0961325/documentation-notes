@@ -56,6 +56,7 @@ yum install -y python2-certbot-apache
 ### 3-1. apahce config
 
 ```conf
+### Virtual Host
 <VirtualHost *:80>
     DocumentRoot    /srv/demo/www
     ServerName      demo.youwillneverknow.com
@@ -230,5 +231,7 @@ certbot renew               # 玩真的
 crontab -e 
 0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew 
 ```
+
+# Hugo + Letsencrypt
 
 
