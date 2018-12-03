@@ -8,46 +8,6 @@ $ mongod --fork --logpath ~/log/mongodb.log     #背景執行，並且把log寫�
 ```
 
 
-## mongodb權限管理
-
-因mongodb預設安裝好後是沒有保護機制的，需自行建立登入機制保護資料
-
-```js
-use admin;
-db.createUser({user:"root",pwd:"password123",roles:[{role:"root",db:"admin"}]});
-// 這樣就有一個root帳號了!
-
-// 接著創建專屬資料庫的帳號
-use test;
-
-// 擁有管理者權限
-db.createUser({user:"admin",pwd:"password123",roles: [{ role: "readWrite", db: "test" }]});
-
-// 擁有使用者權限
-db.createUser({user:"user",pwd:"password123",roles: [{ role: "read", db: "test" }]});
-// 登出 MongoDB
-
-// 登入 MongoDB 再進 MongoDB 就要使用 帳號密碼 登入
-mongod --auth --fork --dbpath ~/mongodb --logpath ~/log/mongodb.log
-```
-
-
-登入遇到
-
-1. about to fork child process, waiting until server is ready for connections ERROR: child process failed, exited with error number 100 - 因為mongodb不正常關閉，刪除DBPATH裡的mongod.lock文件
-2. ERROR:  child process failed ,exited with error number 1 - 增加DBPATH的寫入權限即可
-
-
-```js
-use admin;
-db.auth("root", "password123");         // 以root登入
-use test;
-db.auth("admin", "password123");        // 以admin權限登入test資料庫(讀寫皆可)
-db.auth("user", "password123");         // 以user權限登入test資料庫(只能讀)
-```
-
-
-
 # 規劃實務
 
 - [MongoDB Schema 設計指南](https://blog.toright.com/posts/4483/mongodb-schema-%E8%A8%AD%E8%A8%88%E6%8C%87%E5%8D%97.html)

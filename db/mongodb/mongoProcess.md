@@ -5,14 +5,14 @@
 1. 建立 Mongo Daemon (不使用服務)
 ```sh
 # 先建立空目錄 /tmp/qq
-$ mongod --dbpath /tmp/qq --bind_ip 0.0.0.0 --port 27017 
+mongod --dbpath /tmp/qq --bind_ip 0.0.0.0 --port 27017 
 # 預設只有 localhost 能存取
 # 最起碼要指定 --dbpath, 否則會依照組態來建立
 ```
 
 2. 進入 mongodb
 ```sh
-$ mongo
+mongo
 ```
 
 3. 幫 DB 搞權限
@@ -41,7 +41,7 @@ Successfully added user: {
 4. 使用 tony 登入
 ```sh
 ### 登入方式 1
-$ mongo -u tony -p --authenticationDatabase admin
+mongo -u tony -p --authenticationDatabase admin
 # 輸入密碼, 即可進入 admin DB
 ```
 
@@ -66,7 +66,7 @@ $ mongo
     roles: [ { role: "readWrite", db: "test" },
              { role: "read", db: "reporting" } ]
   }
-)
+);
 // return 
 Successfully added user: {
     "user" : "tony2",
