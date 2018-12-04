@@ -21,6 +21,34 @@
 }
 ```
 
+## Python - Flask
+
+```js
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    // VSCode v1.27.2
+    // IMPORTANT: 「DEBUG=False」 才可以真的進入 interactive debug 模式
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Flask",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "runserver",
+                "--debug",
+                "--no-reload",
+            ],
+            "stopOnEntry": false,
+            "jinja": true,
+        }
+    ]
+}
+```
+
 
 ## Python - Django
 
