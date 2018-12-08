@@ -983,18 +983,46 @@ $ sort -g doc1
 > 搭配 `sort`, 語法: `sort <檔案> | uniq`
 
 
-### 擷取子字串 - cut
+### 同行拆解 && 擷取子字串 - cut (對不特定多空白格很沒輒...)
+
 > 預設處理以「tab分隔」的檔案, 用 `-d` 指定分隔符號, `-f` 指定要取出的欄位
+
 ```sh
+$ cut -d '分隔字元' -f NN /home/tony/file1
+# -d : delimiter
+# -f : 根據 delimiter, 取出第 NN 欄位
+
+$ cut -c 字元區間
+# -c : (ex: -c 8- 表示取第8個字以後)
+
 $ cat doc2
 tom,22,31000
 jack,21,29500
 eric,18,42000
 
-$ cut -d',' -f2 doc2
+$ cut -d ',' -f2 doc2
 22
 21
 18
+
+# 取出 $PATH 的第三個欄位資料
+$ echo ${PATH} | cut -d ':' -f3
+```
+
+
+### 模式搜尋 - grep
+
+```sh
+$ grep -cinv '字串' file
+# -c : 計算找到的次數
+# -i : case-insenstive
+# -n : Line Number
+# -v : 反向選擇
+
+$ grep --color=auto tony /home/tony/user
+# 可以把 grep 找到的東西, 用顏色漂亮的列出來~~
+
+
 ```
 
 
