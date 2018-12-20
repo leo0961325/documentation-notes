@@ -1342,50 +1342,9 @@ Change: 2018-02-27 13:54:29.234444218 +0800
 ```
 
 
-
 # 光碟寫入工具
 - 光碟製作成 iso 鳥哥`mkisofs`
 - 燒光碟 鳥哥`cdrecord`
-
-
-
-# 更改 ip
-
-```sh
-$ ip a
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
-    ...(略)...
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
-    link/ether 00:15:5d:64:05:08 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.137.47/24 brd 192.168.137.255 scope global dynamic eth0    # 原本只有這個
-       valid_lft 604794sec preferred_lft 604794sec
-    inet6 fe80::f044:abf9:731c:462f/64 scope link
-       valid_lft forever preferred_lft forever
-
-# 進入 su
-$ cd /etc/sysconfig/network-scripts/
-$ ls
-ifcfg-eth0   ifdown-eth   ifdown-isdn    ...(大概有三四十個...(略))
-
-$ vi ifcfg-eth0
-IPADDR=192.168.137.99       # 修改 or 增加這行
-
-$ systemctl restart network
-# 重啟網路服務後~~
-
-$ ip a
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
-    ...(略)...
-       valid_lft forever preferred_lft forever
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
-    link/ether 00:15:5d:64:05:08 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.137.99/24 brd 192.168.137.255 scope global eth0    # 多出來的~~
-       valid_lft forever preferred_lft forever
-    inet 192.168.137.47/24 brd 192.168.137.255 scope global secondary dynamic eth0    # 這是原本的
-       valid_lft 604797sec preferred_lft 604797sec
-    inet6 fe80::f044:abf9:731c:462f/64 scope link
-       valid_lft forever preferred_lft forever
-# Host 可以 用 192.168.137.47 及 192.168.137.99 找到它了~
 
 
 # 網路 verify
@@ -1395,11 +1354,12 @@ $ ip route show
 $ cat /etc/resolv.conf
 $ ss
 
+
 # 網路 Test
 $ traceroute  # 追蹤 route
 $ tracepath   # 追蹤 route
 $ nslookup
-```
+
 
 ```sh
 # CentOS7 rpm 檢核用的 public key
