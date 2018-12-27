@@ -1440,3 +1440,14 @@ grep -n -v  -e '^[#;]' /etc/samba/smb.conf.example | grep -v ':$' -
 # 非 空白行
 # pipeline 給 非 : 結尾(因有行號:)
 ```
+
+## 6 vs 7 版
+
+```sh
+systemctl start named
+/etc/init.d/named start
+service named start
+
+systemctl enable named
+chkconfig named on
+```
