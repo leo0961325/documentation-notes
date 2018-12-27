@@ -65,7 +65,7 @@ Redis
 ```
 
 `app.py` 內容如下:
-```
+```py
 from flask import Flask
 from redis import Redis, RedisError
 import os
@@ -185,7 +185,7 @@ $ docker pull cool21540125/firstrepo:1.0
 # 依照自己遠端 Repository頁面內的指令貼上就可以了~
 # 開始下載遠端 Docker image
 
-$ docker run -p 4000:80 cool21540125/firstrepo:1.0 
+$ docker run -p 4000:80 cool21540125/firstrepo:1.0
 # 此指令, 就如同前面描述的那樣, 但其實他會作2件事情
 # 1. 檢查本地有沒有 "cool21540125/firstrepo:1.0" 這東西, 如果沒有則到遠端抓~
 # 2. 建立 + 執行 Container
