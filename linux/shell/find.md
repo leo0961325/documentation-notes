@@ -109,7 +109,7 @@ $ find /var +mtime 4
 
 ### 依 使用者/群組 查找
 # 尋找 /home 下, 屬於 tony 的檔案
-$ find /home --user tony
+$ find /home -user tony
 
 # 尋找 不屬於任何使用者的檔案
 $ sudo ls -l /etc | grep ssmtp

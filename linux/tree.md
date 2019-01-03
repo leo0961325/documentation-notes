@@ -146,7 +146,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /local/                         # sys admin 在本機自行安裝的軟體, 建議放這邊(早期)
           /sbin/                        # 本機自行安裝的軟體所產生的系統執行檔(system binary), ex: fdisk, fsck, ifconfig, mkfs 等
     /sbin/                          # 系統專用的 工具/指令/執行檔, ex: 某些伺服器軟體程式的東西
-        mysqld                          # mysqld (server)
+        /mysqld                         # mysqld (server)
+        /sendmail                       # 老舊的寄信程式(指向 /etc/alternatives/mta, 再指向 /usr/sbin/sendmail.postfix)
     /share/                         # 唯讀架構的資料檔案; 共享文件; 幾乎都是文字檔
           /doc                          # 系統說明文件
           /man                          # 線上操作手冊

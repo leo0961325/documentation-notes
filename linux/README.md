@@ -36,4 +36,7 @@ CentOS Linux release 7.3.1611 (Core)
 # 環境
 $ rpm --query centos-release
 centos-release-7-3.1611.el7.centos.x86_64
+
+# Type Chinese
+$ yum install kde-l10n-Chinese
 ```
