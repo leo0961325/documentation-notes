@@ -62,6 +62,18 @@ $# sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/d
 ```
 
 
+# DotNet Core
+
+- 2019/01/03
+- https://dotnet.microsoft.com/download/linux-package-manager/centos/sdk-current
+
+```sh
+rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm
+yum install dotnet-sdk-2.2
+
+dotnet --version
+```
+
 
 # Google Chrome
 

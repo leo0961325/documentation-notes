@@ -141,3 +141,10 @@ $ find . -type f ! -perm 777
 $ find / size +1M
 # 找出 > 1MB 檔案
 ```
+
+```sh
+# 要幹嘛的還不知道... 讀 hugo 時, 裡頭寫到的
+# 2019/01/04
+find themes -type f | xargs ls -l
+```
+
