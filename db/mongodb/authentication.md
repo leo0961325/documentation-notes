@@ -119,10 +119,51 @@ db.createRole(
 )
 ```
 
+
+
+### mongodb權限管理
+
+因mongodb預設安裝好後是沒有保護機制的，需自行建立登入機制保護資料
+
+```js
+use admin;
+db.createUser({user:"root",pwd:"password123",roles:[{role:"root",db:"admin"}]});
+// 這樣就有一個root帳號了!
+
+// 接著創建專屬資料庫的帳號
+use test;
+
+// 擁有管理者權限
+db.createUser({user:"admin",pwd:"password123",roles: [{ role: "readWrite", db: "test" }]});
+
+// 擁有使用者權限
+db.createUser({user:"user",pwd:"password123",roles: [{ role: "read", db: "test" }]});
+// 登出 MongoDB
+
+// 登入 MongoDB 再進 MongoDB 就要使用 帳號密碼 登入
+mongod --auth --fork --dbpath ~/mongodb --logpath ~/log/mongodb.log
+```
+
+
+登入遇到
+
+1. about to fork child process, waiting until server is ready for connections ERROR: child process failed, exited with error number 100 - 因為mongodb不正常關閉，刪除DBPATH裡的mongod.lock文件
+2. ERROR:  child process failed ,exited with error number 1 - 增加DBPATH的寫入權限即可
+
+
+```js
+use admin;
+db.auth("root", "password123");         // 以root登入
+use test;
+db.auth("admin", "password123");        // 以admin權限登入test資料庫(讀寫皆可)
+db.auth("user", "password123");         // 以user權限登入test資料庫(只能讀)
+```
+
+
 ### 遠端登入
 1. 遠端連線
 ```sh
-$ mongo --host <server ip> --port <server port>
+mongo --host <server ip> --port <server port>
 ```
 
 2. 驗證
@@ -146,7 +187,7 @@ $ mongod --port 27017 --dbpath /tmp/qq --bind_ip 0.0.0.0
 
 2. 進入 mongodb
 ```sh
-$ mongo --port 27017
+mongo --port 27017
 ```
 
 3. 開始搞權限
@@ -175,12 +216,12 @@ Successfully added user: {
 
 4. 再次使用權限進入
 ```sh
-$ mongod --auth --port 27017 --dbpath /tmp/qq
+mongod --auth --port 27017 --dbpath /tmp/qq
 ```
 
 5. 使用剛建立的 `myUserAdmin` User 登入
 ```sh
-$ mongo --port 27017 -u "myUserAdmin" -p "abc123" --authenticationDatabase "admin"
+mongo --port 27017 -u "myUserAdmin" -p "abc123" --authenticationDatabase "admin"
 ```
 或者, 使用 `mongo` 進入 MongoDB, 再進行權限驗證
 ```js
@@ -218,12 +259,12 @@ Successfully added user: {
 7. 使用剛建立的 `myTester` User 登入
 
 ```sh
-$ mongo --port 27017 -u "myTester" -p "xyz123" --authenticationDatabase "test"
+mongo --port 27017 -u "myTester" -p "xyz123" --authenticationDatabase "test"
 ```
 或者, 用 `mongo` 進入 MongoDB, 再進行權限驗證
 ```js
-> user test
-> db.auth("myTester", "xyz123")
+user test
+db.auth("myTester", "xyz123")
 ```
 
 [Manage Users and Roles](https://docs.mongodb.com/v3.4/tutorial/manage-users-and-roles/)
@@ -289,15 +330,15 @@ db.runCommand({ revokeRolesFromUser: 'admin', roles: [ { role: 'readWrite', db: 
 一旦建立完權限機制之後, 往後使用 mongoDB, 都得打帳號密碼了 QQ
 ```sh
 # mongo <host>:<port>/<db> -u<id> -p<pd>
-$ mongo 192.168.124.81:27017/admin -u root -p
+mongo 192.168.124.81:27017/admin -u root -p
 # (下一行打密碼)
 ```
 
 然後, 想為已建立過的使用者, 建立其他的權限
 ```sh
-$ mongo -u root -p --authenticationDatabase admin
+mongo -u root -p --authenticationDatabase admin
 
-$ db.createUser({user: 'admin', pwd: 'admin_pwd', roles: [{ role: 'dbOwner', db: 'db2'}]})
+db.createUser({user: 'admin', pwd: 'admin_pwd', roles: [{ role: 'dbOwner', db: 'db2'}]})
 ```
 
 
@@ -353,3 +394,4 @@ $ db.createUser({user: 'admin', pwd: 'admin_pwd', roles: [{ role: 'dbOwner', db:
 + Internal Roles
     - (讀不懂... 暫時不鳥它)
 ```
+

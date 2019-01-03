@@ -125,7 +125,7 @@ Trx read view will not see trx with id >= 14579, sees < 14579
 | Table        | Non_unique | Key_name           | Seq_in_index | Column_name    | Collation | Sub_part | Packed |
 +--------------+------------+--------------------+--------------+----------------+-----------+----------+--------+
 | data_counter |          0 | PRIMARY            |            1 | id             | A         |     NULL | NULL   |
-|data_counter  |          1 | fk_wod_code_idx    |            1 | fk_wod_serial  | A         |     NULL | NULL   |
+| data_counter |          1 | fk_wod_code_idx    |            1 | fk_wod_serial  | A         |     NULL | NULL   |
 | data_counter |          1 | fk_sensor_code_idx |            1 | fk_sensor_code | A         |     NULL | NULL   |
 +--------------+------------+--------------------+--------------+----------------+-----------+----------+--------+
 --;# 已移除部分欄位

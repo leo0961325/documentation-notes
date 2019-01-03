@@ -37,7 +37,7 @@ Docker version 17.09.0-ce, build afdb6d4
 ```sh
 $ docker run -d --name nginx nginx
 
-# 查看 Container內的 IP Address
+# 查看 Container 內的 IP Address(查Container的IP)
 $ docker inspect --format '{{ .NetworkSettings.IPAddress }}' nginx
 172.17.0.2
 

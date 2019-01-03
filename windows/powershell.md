@@ -156,3 +156,50 @@ uu                             Tony
 ### 設定到 系統環境變數 (以系統管理員方式執行 ps)
 > setx key "<value>" /M
 ```
+
+
+
+```powershell
+### 
+PS > nslookup tonychoucc.com
+伺服器:  pwmisad.portwell.com.tw
+Address:  192.168.2.115
+
+名稱:    tonychoucc.com
+
+### 
+PS > nslookup www.tonychoucc.com
+伺服器:  pwmisad.portwell.com.tw
+Address:  192.168.2.115
+
+未經授權的回答:
+名稱:    www.tonychoucc.com
+Address:  3.112.36.149
+
+### 
+PS > Measure-Command{nslookup www.tonychoucc.com}
+未經授權的回答:
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 68
+Ticks             : 680425
+TotalDays         : 7.87528935185185E-07
+TotalHours        : 1.89006944444444E-05
+TotalMinutes      : 0.00113404166666667
+TotalSeconds      : 0.0680425
+TotalMilliseconds : 68.0425
+
+### 計算指令秒數
+PS > Measure-Command{nslookup www.tonychoucc.com} | select TotalSeconds
+未經授權的回答:
+
+TotalSeconds
+------------
+   0.0303618
+
+###
+PS > 
+```

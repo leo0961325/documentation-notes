@@ -33,19 +33,19 @@
 ```
 
 啟動服務後~~~
-```
+```powershell
 services.msc  # 啟動 Redis服務
 ```
 
 查看 redis組態資訊
-```cmd
+```powershell
 > redis-cli.exe -h 127.0.0.1 -p 6379 info
 
-:: ((約有 70~80個 組態資訊 在此省略))
+#((約有 70~80個 組態資訊 在此省略))
 ```
 
 進入 redis-cli
-```cmd
+```powershell
 > redis-cli.exe -h 127.0.0.1 -p 6379
->127.0.0.1:6374> 
+127.0.0.1:6374 > 
 ```

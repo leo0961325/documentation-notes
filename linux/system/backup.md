@@ -317,6 +317,9 @@ $# diff -r tmp/ /boot/
 預設 dd 是逐磁區去作讀/寫, 所以不用理會 檔案系統, 都可以作備份還原
 
 ```sh
+# 製作空檔案
+$ dd if=/dev/zero of=/tmp/big_file bs=1M count=10
+
 $ dd if="input_file" of="output_file" bs="block_size" count="number"
 # if 為 input file, 也可以是裝置(usb, disk)
 # of 為 output file (同上)

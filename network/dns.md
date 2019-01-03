@@ -1,6 +1,13 @@
 # DNS
 - 2018/06/12
 
+## 名詞
+
+> Recursive (遞迴式) : DNS用戶端向DNS Server的查詢模式，這種方式是將要查詢的封包送出去問，就等待正確名稱的正確回應，這種方式只處理回應回來的封包是否是正確回應或是說是找不到該名稱的錯誤訊息。問的方式是用Iterative的方式。
+
+
+> Iterative（交談式）: DNS Server間的查詢模式，由Client端或是DNS Server上所發出去問，這種方式送封包出去問，所回應回來的資料不一定是最後正確的名稱位置，但也不是如上所說的回應回來是錯誤訊息，也許是另外一台DNS的位址(當該台DNS沒有答案時，會傳回一台 "權威授權者"DNS的位址)。再由Client或DNS自己向" 權威授權者"DNS詢問。 一般說來，name resolver對local DNS server都是recursive query，而DNS server之間的 query多是iterative。大部份的DNS server都可以接受recursive和iterative兩種query方式，但是考量負載問題，root name server只接受iterative query。
+
 > DNS NameSpace:
 將 IP 服務等命名, 並使用階層結構將這些名字組織起來的結果
 
@@ -12,6 +19,8 @@
 
 > Fully Qualified Domain Name(FQDN):
 在 DNS NameSpace中, 節點的完整名稱. 轉換規則: 由下往上, 每層加「.」區隔
+
+## DNS Namespace
 
 ```
 Internet DNS Namespace(部分)
@@ -28,14 +37,21 @@ Internet DNS Namespace(部分)
 |- ...
 ```
 
-Zone Type | 每個 Zone | 有完整的內容 | 管理者權限 | 用途
---------- | --- | --- | --- | --- | --- | ---
-paimary(Master file) | 1個 | Y | R/W | 讓管理者管理 Zone 中的 Resource Record 提供 client 或其他 DNS Server 查詢
-secondary () | N個 | Y | Readonly | 會分擔 Primary Zone 的 DNS Server(Master Server) 的負擔, 或在 Primary Zone 的 DNS Server 故障時仍能提供查詢
+## Resource Record
+
+Zone Type            | Each Zone | Full content | Permission | Application
+-------------------- | --------- | ------------ | ---------- | --------------------
+paimary(Master file) | 1         | Y            | R/W        | 讓管理者管理 Zone 中的 Resource Record 提供 client 或其他 DNS Server 查詢
+secondary            | N         | Y            | Readonly   | 會分擔 Primary Zone 的 DNS Server(Master Server) 的負擔, 或在 Primary Zone 的 DNS Server 故障時仍能提供查詢
 
 
 
 # 名稱解析流程
+
+若 DNS Server 內沒有要查詢的資料庫檔案, 則會前往 下列2者之一查詢:
+- root (.)
+- forwarders
+
 
 ## Windows 10
 
@@ -120,3 +136,20 @@ Ping 140.137.200.141 (使用 32 位元組的資料):
 
 ## Linux
 
+
+# GitLab page, DNS, SSL/TLS
+
+兩者取其一, 無法同時存在
+
+- CNAME : `blog.youwillneverknow.com CNAME cool21540125.gitlab.io.`
+- A     : `blog.youwillneverknow.com A     35.185.44.232`
+
+除非 GitLab admin disable 掉 custom domain 驗證, 否則應有 TXT
+
+- TXT : `_gitlab-pages-verification-code.blog.youwillneverknow.com TXT gitlab-pages-verification-code=e0b85205e0d9b562a7a7e044780652fd`
+
+> If using a DNS A record, you can place the TXT record directly under the domain. If using a DNS CNAME record, the two record types won't co-exist, so you need to place the TXT record in a special subdomain of its own.
+> 若使用 A 紀錄, 則直接把 TXT 紀錄 放在 domain 下. (Domain 還有其他用途)
+> 若使用 CNAME 紀錄, 則把 TXT 紀錄 放在 subdomain 下. (Domain 專門給 GitLab page)
+
+![](/img/A與CNAME.png)

@@ -347,7 +347,7 @@ $ sudo systemctl start redis
 
 
 
-# Git (CentOS7 default git v-1.8 )
+# Git (CentOS7 default repo -> git v-1.8 太舊了~~)
 - 2017/11/26
 - [How To Install Git on CentOS 7](https://blacksaildivision.com/git-latest-version-centos) 
 - [Choose a version](https://github.com/git/git/releases) ( 以2.14.3版為例 )
@@ -356,16 +356,20 @@ $ sudo systemctl start redis
 1. Dependancy
 ```sh
 # 所需套件
-$# yum install -y autoconf libcurl-devel expat-devel gcc gettext-devel kernel-headers openssl-devel perl-devel zlib-devel
+$# yum install -y autoconf libcurl-devel expat-devel gcc kernel-headers openssl-devel perl-devel zlib-devel gettext-devel
+# 上頭的 gettext-devel 會安裝 git 1.8.3
+# 其實可以不安裝它... 只是最後, git 會被安裝在 /usr/local/bin/git
+# root 環境變數裡面沒有它, 所以 root 要再設個軟連結~
 
-# 下載 (v2.14)
-$ wget https://github.com/git/git/archive/v2.14.3.tar.gz                        # 2.14.3
-$ wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.14.5.tar.gz   # 2.14.5
+# 下載 (v2.14.3)
+$ wget https://github.com/git/git/archive/v2.14.3.tar.gz
 
-# 下載 (v2.19)
+# (v2.14.5)
+$ wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.14.5.tar.gz
+# (v2.19)
 $ wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.19.1.tar.gz
 
-# Install (v2.14)
+# Install (v2.14.3)
 $ tar zxf v2.14.3.tar.gz
 $ cd git-2.14.3/
 $ make clean
@@ -379,6 +383,7 @@ $# make install
 
 $ git --version
 git version 2.14.3
+# DONE
 
 # Install (v2.19)
 $ mkdir git2.19
@@ -391,6 +396,26 @@ GIT_VERSION = 2.19.1
 $ ./configure --prefix=/usr/local
 $ make
 $# make install
+```
+
+一般使用者可使用 git 了!!
+
+但是 root 找不到 git, 解法如下:
+
+```sh
+$# git
+bash: git: command not found...
+
+$# echo $PATH
+/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
+
+$# ln -s /usr/local/bin/git /usr/local/sbin/git
+
+$# which git
+/usr/local/sbin/git
+
+$# git --version
+git version 2.14.3
 ```
 
 

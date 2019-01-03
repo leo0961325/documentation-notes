@@ -41,6 +41,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /exports                        # NFS 的主要設定檔
     /fstab                          # mount 掛載組態設定檔 (開機時 會依照此設定來作自動掛載; 每次使用 mount時, 預設也會動態更新此檔案)
     /firewalld/                     # OS7管理 firewalld 的組態放置區
+    /gdm/                           # CentOS 預設的 DM 為 GNOME 提供的 gdm (殺小...)
+        /custom.conf                    # 
     /hostname                       # 主機名稱檔
     /hosts                          # ip 與 dns 對照
     /httpd/                         # Apache 的組態設定檔
@@ -52,7 +54,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         network                         # 各種模式下的 *network 連結至此
     /inittab                        # (舊有的 xwindow服務, os7以後, 已經被 xxx.target 所取代)
     /issue                          # 查看進站歡迎訊息(自己看得爽而已)
-    /krb5.conf                      # 集中驗證相關; central keroeros 架構
+    /krb5.conf                      # kerberos 集中驗證 設定主檔; central keroeros 架構
+    /krb5.conf.d/                   # kerberos 集中驗證 設定副檔目錄
     /locale.conf                    # 系統預設語系定義檔 (一開始安裝就決定了!)
     /localtime/                     # 系統時間
     /login.defs                     # 建立使用者時, 該使用者的 系統愈設初始值
@@ -94,7 +97,9 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /shells                         # 某些服務運作時會來檢查使用者能使用的shells
     /skel/                          # 預設建立使用者後, 使用者家目錄底下的東西
     /ssh/
-        /sshd_config                    # 紀錄 sshd 組態
+        /ssh_config                     # SSH Client 組態
+        /ssh_host_*_key.pub             # SSH Server 公鑰(ecdsa, ed25519, rsa, ...)
+        /sshd_config                    # SSH Server 組態
     /sssd/                          # 集中驗證相關
         /sssd.conf                      # System Security Services Daemon; 網路不通時, 從 cache 作 Login 驗證
     /sudoers                        # 定義 sudo, wheel... 相關事項(建議使用 visudo 來修改, 別直接編輯此檔案)
@@ -120,7 +125,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /proc/                          # 虛擬檔案系統(virtual filesystem), 東西都存在於 memory, 不占用 disk; 行程資訊目錄
     /filesystems                    # 系統已載入的檔案系統
     /partitions                     # Linux 核心分割表資訊
-    /swaps                          # 
+    /swaps                          # 目前 swap 空間
 /run/                           # 系統開機後所產生的各項資訊 (可用記憶體來模擬); 某些服務or程式啟動後, 他們的 pid 會放在這.
     /lock/                          # 某些裝置或檔案, 一次只能一人使用, 使用中會上鎖.
     /log                            # journalctl服務(新Log機制), 預設重開機後, 只會保留最近一次開機前的 log
@@ -130,6 +135,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /systemd/                       # 
         /system/                        # 系統執行過程中所產生的 服務腳本, 此內腳本優先於 /usr/lib/systemd/system/
 /sbin/                          # 系統管理員 用的 工具or指令or執行檔; (連結至 /usr/sbin/)
+    /kdb5_util                      # kerberos 集中驗證, 依照 /etc/krb5.conf 來初始化資料庫到 /var/kerberos/krb5kdc/principal*
 /srv/                           # 網路服務的一些東西 (如果不打算提供給外部網路存取的話, 建議放在 /var/lib/ )
 /sys/                           # 虛擬檔案系統(virtual filesystem), 東西都存在於 memory, 不占用 disk; 紀錄核心與系統硬體資訊
 /tmp/                           # 重開機後會清除
@@ -157,9 +163,14 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /var/                           # 登錄檔, 程序檔案, MySQL資料庫檔案, ... (與系統運作過程有關); 系統開始運作後, 這會慢慢變大;
     /cache/                         # 系統運作過程的快取
         /yum/                           # yum 安裝時, 下載下來的 rpm 檔
+    /kerberos/
+        /krb5kdc/                       # kerberos 集中驗證 KDC 所需的資料庫環境
     /lib/                           # 程式運作過程所需用到的 資料檔案 放置的目錄. ex: MySQL DB 放在 /var/lib/mysql/; rpm DB 放在 /var/lib/rpm/
         /docker/                        # Docker 相關元件存放區
+        /iscsi/
+            /nodes/                         # (iSCSI Client)裡面可以看到 iSCSI target 提供的 LUN
         /mysql/                         # mysql資料庫的資料儲存位置, InnoDB log && System TableSpace
+            /mysql.sock                     # MySQL Connection Socket
     /lock/                          # 某些裝置或檔案, 一次只能一人使用, 使用中會上鎖. (連結至 /run/lock/)
     /log/                           # rsyslog服務(舊Log機制) 放置 log 的位置, 最多保留4份檔案, daily cron 會每天來清理
         /boot.log                       # 系統開機相關

@@ -215,3 +215,45 @@ $ which pip3
 /usr/local/bin/pip3
 ```
 
+# SSH Server
+
+- 2018/11/28
+
+```sh
+apt install -y openssh-server
+```
+
+
+# certbot
+
+- 2018/11/28
+- letsencrypt
+
+1. 安裝
+```sh
+$# apt-get -y install software-properties-common
+$# add-apt-repository ppa:certbot/certbot
+$# apt-get -y update
+$# apt-get -y install certbot
+```
+
+2. 設定檔
+```sh
+# cli.ini
+$# vim cli.ini
+text = True
+domains = YOURDOMAIN.com
+email = MAIL@YOURMAIL
+renew-by-default
+agree-tos
+rsa-key-size = 4096
+logs-dir = /tmp/certbot/logs/
+work-dir = /tmp/certbot/work/
+```
+
+3. 使用
+```sh
+$# certbot certonly -a manual -c cli.ini
+# 然後就去加這個了 「/.well-known/acme-challenge/@^(^*@%#^*@%$*@#&...」
+
+```
