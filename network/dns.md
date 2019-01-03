@@ -39,10 +39,10 @@ Internet DNS Namespace(部分)
 
 ## Resource Record
 
-Zone Type | 每個 Zone | 有完整的內容 | 管理者權限 | 用途
---------- | --- | --- | --- | --- | --- | ---
-paimary(Master file) | 1個 | Y | R/W | 讓管理者管理 Zone 中的 Resource Record 提供 client 或其他 DNS Server 查詢
-secondary | N個 | Y | Readonly | 會分擔 Primary Zone 的 DNS Server(Master Server) 的負擔, 或在 Primary Zone 的 DNS Server 故障時仍能提供查詢
+Zone Type            | Each Zone | Full content | Permission | Application
+-------------------- | --------- | ------------ | ---------- | --------------------
+paimary(Master file) | 1         | Y            | R/W        | 讓管理者管理 Zone 中的 Resource Record 提供 client 或其他 DNS Server 查詢
+secondary            | N         | Y            | Readonly   | 會分擔 Primary Zone 的 DNS Server(Master Server) 的負擔, 或在 Primary Zone 的 DNS Server 故障時仍能提供查詢
 
 
 
