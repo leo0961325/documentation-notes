@@ -4,20 +4,21 @@
 
 Directory     | Description
 ------------- | ------------------------
-attach        | 文件附件
-db            | 資料庫
+attach        | Additional Files
+aws           | AWS
+db            | Database
 docker        | Docker v18.03
 front-end     | 網頁前端 (HTML, CSS, BootStrap, JavaScript, jQuery)
 git           | Git v2.14
-img           | (Markdown內的附圖)
-linux         | Linux相關~ 主要以 CentOS7 為主, Ubuntu16.04 占少數
-network       | 網路架構, 網路連線相關
+img           | (Only pictures within each Markdown documentations)
+linux         | Almost all about CentOS7, some about Ubuntu 16.04
+network       | Networking, Web Server, NAT, TCPIP, RFC...
 node          | Nodejs v6.11
 other         | 不屬於以上的都放這~~
-pg            | 程式語言相關 && Design Pattern
+pg            | Programming(without Python) && Design Pattern
 python        | Python 3.6
-vscode        | 強大的跨平台 && 多數語言通用的 IDE 
-windows       | Windows 作業系統相關
+vscode        | Powerful IDE 
+windows       | Windows Operating System
 
 
 ### 常見常忘的 英翻中...
@@ -33,6 +34,7 @@ windows       | Windows 作業系統相關
 - masquerade: 偽裝
 - on the fly : 動態產生 
 - snippets : 片段
+- sponsor : 發起人
 - tilde : 波浪號
 - wildcard characters : 萬用字元 (「*」啦)
 - ad hoc : 特設, 專案的, 臨時的, 特定目的的
@@ -56,29 +58,30 @@ windows       | Windows 作業系統相關
 
 #### 一些無聊的專有名詞
 
-abbr   | Termonology                           | Category        | Note
------- | ------------------------------------- | --------------- | ------------
-AD     | Active Directory                      | 集中驗證         | 
-BSD    | Berkeley Software Distribution        | DNS             | 
-CA     | Certificate Authorities               | 資安            | 
-DHCP   | Dynamic Host Configuration Protocol   | TCP/IP          | 
-DMZ    | Demilitarized Zone                    | 資安            | 
-DN     | Distinguished Name                    | 集中驗證         | 
-EIP    | Elastic IP                            | AWS             | 固定IP
-GDPR   | General Data Protection Regulation    | 資安            | 
-IPA    | Identiti, Policy and Auditing         | 集中驗證         | 提供 LDAP & Kerberos
-MITM   | Man-In-The-Middle attack              | 資安            | [參考這個](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)
-KDC    | Key Distribution Centers              | 集中驗證         | 
-LDAP   | Lightweight Directory Access Protocol | 集中驗證         | 
-NAT    | Network Address Translation           | IPv4            | 
-NFS    | Network File System                   | Linux           | 
-OCSP   | Online Certificate Status Protocol    | 在線憑證狀態協定 | 
-POC    | Proof of Concept                      | DevOps          | 
-SEO    | Search Engine Optimization            | FrontEnd        | 
-SSG    | Static Site Generator                 | FrontEnd        | 前端框架產生器, ex: Hugo, Hexo, MkDocs
-SSO    | Single Sign-On                        | 集中驗證         | 單點登錄
-TDD    | Test-Driven-Development               | DevOps          | 
-VPC    | Virtual Private Cloud                 | Cloud           | 
+abbr   | Termonology                                 | Category        | Note
+------ | ------------------------------------------- | --------------- | ------------
+AD     | Active Directory                            | 集中驗證         | 
+BSD    | Berkeley Software Distribution              | DNS             | 
+CA     | Certificate Authorities                     | 資安            | 
+DHCP   | Dynamic Host Configuration Protocol         | TCP/IP          | 
+DMZ    | Demilitarized Zone                          | 資安            | 
+DN     | Distinguished Name                          | 集中驗證         | 
+EIP    | Elastic IP                                  | AWS             | 固定IP
+GDPR   | General Data Protection Regulation          | 資安            | 
+IPA    | Identiti, Policy and Auditing               | 集中驗證         | 提供 LDAP & Kerberos
+MITM   | Man-In-The-Middle attack                    | 資安            | [MITM](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)
+KDC    | Key Distribution Centers                    | 集中驗證         | 
+LDAP   | Lightweight Directory Access Protocol       | 集中驗證         | 
+NAT    | Network Address Translation                 | IPv4            | 
+NFS    | Network File System                         | Linux           | 
+OCSP   | Online Certificate Status Protocol          | 在線憑證狀態協定 | 
+PERT   | Program Evaluation and Review Technique     | 專案管理        | [PERT 網路分析法](https://wiki.mbalib.com/zh-tw/PERT%E7%BD%91%E7%BB%9C%E5%88%86%E6%9E%90%E6%B3%95)
+POC    | Proof of Concept                            | DevOps          | 
+SEO    | Search Engine Optimization                  | FrontEnd        | 
+SSG    | Static Site Generator                       | FrontEnd        | 前端框架產生器, ex: Hugo, Hexo, MkDocs
+SSO    | Single Sign-On                              | 集中驗證         | 單點登錄
+TDD    | Test-Driven-Development                     | DevOps          | 
+VPC    | Virtual Private Cloud                       | Cloud           | 
 
 
 by TonyCC
