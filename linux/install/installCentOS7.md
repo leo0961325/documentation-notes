@@ -206,6 +206,60 @@ $ echo "PS1='[\u@\h \W$(__docker_machine_ps1)]\$ '" >> ~/.bashrc
 ```
 
 
+# Ansible
+
+- 2019/01/12
+- [Ansible tar file](https://releases.ansible.com/ansible-tower/setup-bundle/)
+- 2G+ RAM (建議 4G+)
+- 20G Disk
+- 64 bits os
+
+### 1. Download && Install
+
+```sh
+$# wget https://releases.ansible.com/ansible-tower/setup-bundle/ansible-tower-setup-bundle-3.0.3-1.el7.tar.gz
+$# tar -zxf ansible-tower-setup-bundle-3.0.3-1.el7.tar.gz
+$# cd ansible-tower-setup-bundle-3.0.3-1.el7/
+
+$# vim inventory
+### 先設定好 inventory 裏頭的 3 組密碼
+
+$# ./setup.sh   # 會檢查 Disk, RAM ...
+# 好像會偷偷幫你安裝 PostgreSQL, redis, httpd...
+# ~~~ 會安裝一陣子~~~
+
+The setup process completed successfully.   # ← successfully
+Setup log saved to /var/log/tower/setup-2019-01-12-17:53:43.log
+You have new mail in /var/spool/mail/root
+# 安裝完後, 要看到上面的訊息才算 OK
+```
+
+### 2. Setup
+
+安裝完後, 就可透過網頁看到 Ansible Tower 的管理頁面了~
+
+```sh
+### Step 1. 改密碼~
+$# tower-manage changepassword admin
+Changing password for user 'admin'
+Password:
+Password (again):
+Password changed successfully for user 'admin'
+
+### Step 2. 然後就可以登入網頁
+# 因為是個人, 所以選擇申請個人版(只能管理 10 nodes 以下)
+# 且無法使用 LDAP
+# 填妥收信後, 就可以收到 Licenses 了~
+```
+
+```sh
+### PKI
+$# ssh-keygen -f tower_rsa
+$# ssh-copy-id -i ~/.ssh/tower_rsa.pub <RemoteUser>@<RemoteIP>
+$# ssh -i ~/.ssh/tower_rsa <RemoteUser>@<RemoteIP>
+# 將來便可使用 Public Key 方式連線
+```
+
 
 # MySQL Community 5.7
 
