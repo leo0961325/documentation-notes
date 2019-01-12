@@ -644,34 +644,54 @@ $ pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERS
 
 
 
-# Install jdk1.8 (不完整)
+# Install jdk1.8
 
 - 2018/03/21
 - [Official Orical jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
+### 1. 移除 open-jdk...!!?? 
 
-1. 移除 open-jdk...!!?? 網路上有阿貓阿狗會教, 把 open-jdk移除後, 再來安裝 oracle-jdk, 但是這樣會把 libore-office的依賴套件也一併移除(沒辦法使用 Linux的 Excel了QAQ). 所以我不這麼作. 因此, 第一步, 啥都不用作!
+網路上有阿貓阿狗會教, 把 open-jdk 移除後, 再來安裝 oracle-jdk!!
 
-2. Donwload && Install
+但是這樣會把 libore-office 的依賴套件也一併移除(沒辦法使用 Linux 的 Excel 了 QAQ...). 所以我不這麼作. 
+
+因此, 第一步, 啥都不用作!
+
+### 2. Donwload && Install
+
 ```sh
-$ wget http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/jdk-8u161-linux-x64.tar.gz
+$ echo $PATH
+/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/tony/.local/bin:/home/tony/bin
 
-$ tar -zxf jdk-8u161-linux-x64.tar.gz
-$ sudo mv jdk1.8.0_161/ /opt/jdk1.8
-$ echo 'export java_HOME="/opt/jdk1.8/"' >> ~/.bashrc
-$ echo 'export PATH=$java_HOME/bin:$PATH' >> ~/.bashrc
+$ java -version
+openjdk version "1.8.0_161"
+OpenJDK Runtime Environment (build 1.8.0_161-b14)
+OpenJDK 64-Bit Server VM (build 25.161-b14, mixed mode)
+# 安裝之前~
+
+$ wget https://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.tar.gz
+# ↑ 無法直接使用... 網頁上需要點選 Accept License 才能下載XD 發Q~
+
+$ mkdir ~/bin
+$ tar -zxf jdk-8u191-linux-x64.tar.gz
+$ mv jdk1.8.0_191/ ~/bin
+$ echo 'export jdk_HOME="$HOME/bin/jdk1.8.0_191"' >> ~/.bashrc
+$ echo 'export PATH=$jdk_HOME/bin:$PATH' >> ~/.bashrc
 
 # 重起 terminal後
 $ which java
-/opt/jdk1.8/bin/java
+~/bin/jdk1.8.0_191/bin/java
 
 $ which javac
-/opt/jdk1.8/bin/javac
+~/bin/jdk1.8.0_191/bin/javac
 
 $ java -version
-java version "1.8.0_161"
-Java(TM) SE Runtime Environment (build 1.8.0_161-b12)
-Java HotSpot(TM) 64-Bit Server VM (build 25.161-b12, mixed mode)
+java version "1.8.0_191"
+Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)
+
+$ javac -version
+javac 1.8.0_191
 ```
 
 
