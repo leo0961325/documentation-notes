@@ -261,6 +261,41 @@ $# ssh -i ~/.ssh/tower_rsa <RemoteUser>@<RemoteIP>
 ```
 
 
+# ElasticSearch
+
+- 2019/01/12
+
+### 1. Download && Install
+
+```sh
+### Download
+$# wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.4.rpm
+
+### Install
+$# rpm -ivh elasticsearch-6.5.4.rpm
+warning: elasticsearch-6.5.4.rpm: Header V4 RSA/SHA512 Signature, key ID d88e42b4: NOKEY
+Preparing...                          ################################# [100%]
+Creating elasticsearch group... OK
+Creating elasticsearch user... OK
+Updating / installing...
+   1:elasticsearch-0:6.5.4-1          ################################# [100%]
+### NOT starting on installation, please execute the following statements to configure elasticsearch service to start automatically using systemd
+ sudo systemctl daemon-reload
+ sudo systemctl enable elasticsearch.service
+### You can start elasticsearch service by executing
+ sudo systemctl start elasticsearch.service
+Created elasticsearch keystore in /etc/elasticsearch
+
+$# systemctl start elasticsearch
+$# systemctl enalbe elasticsearch
+```
+
+### 2. Config && Service
+
+```sh
+
+```
+
 # MySQL Community 5.7
 
 - 2018/09/14
