@@ -1,0 +1,11 @@
+cd docker/dockerfile/sftp
+
+docker build . -t os7
+
+docker run -p 21:21/tcp -p 20:20/tcp --name ftpd os7
+
+docker run -itd --name ftpd2 os7
+
+docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" ftpd2
+
+// 只是現在還不知道怎麼連進去 =..=
