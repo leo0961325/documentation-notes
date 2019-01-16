@@ -287,7 +287,8 @@ Updating / installing...
 Created elasticsearch keystore in /etc/elasticsearch
 
 $# systemctl start elasticsearch
-$# systemctl enalbe elasticsearch
+$# systemctl enable elasticsearch
+$# systemctl status elasticsearch
 ```
 
 ### 2. Config && Service
@@ -342,6 +343,10 @@ uninstall plugin validate_password;
 --;# 建立 User
 CREATE USER 'tony'@'%' IDENTIFIED BY '<password>';
 GRANT ALL ON *.* TO 'tony'@'%';
+
+-- Example
+create user 'demo'@'localhost' identified by '00';
+grant all on *.* to 'demo'@'localhost';
 ```
 
 

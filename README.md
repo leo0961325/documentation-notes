@@ -23,6 +23,7 @@ windows       | Windows Operating System
 
 ### 常見常忘的 英翻中...
 
+- ad hoc : 特設, 專案的, 臨時的, 特定目的的
 - alphanumeric : 標點符號
 - back slash : 反斜線
 - cascade: 串連
@@ -33,11 +34,13 @@ windows       | Windows Operating System
 - malformed : 異常
 - masquerade: 偽裝
 - on the fly : 動態產生 
+- replica : 即時備援 (同時複製一份到其他節點的概念), 可以想成 HA 啦
+- shard : 
 - snippets : 片段
 - sponsor : 發起人
 - tilde : 波浪號
 - wildcard characters : 萬用字元 (「*」啦)
-- ad hoc : 特設, 專案的, 臨時的, 特定目的的
+
 
 #### 安全性相關
 
@@ -82,6 +85,14 @@ SSG    | Static Site Generator                       | FrontEnd        | 前端�
 SSO    | Single Sign-On                              | 集中驗證         | 單點登錄
 TDD    | Test-Driven-Development                     | DevOps          | 
 VPC    | Virtual Private Cloud                       | Cloud           | 
+
+
+## Software
+
+Software     | Description
+------------ | --------------------------
+fiddler2     | 網路流量監控軟體
+log4j2       | 讓你方便作 Logging 的軟體
 
 
 by TonyCC
