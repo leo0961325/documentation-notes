@@ -25,7 +25,8 @@ strategy     | 策略模式
     - 面對 OCP 應有的態度: 對於系統需求做出適當的提問, 做適當的思考, 用常識去認知, 直到變化發生時, 才採取行動. (別過分未雨綢繆)
     - 實作 OCP 的常用設計模式為 策略模式(strategy mode) && 範本方法模式(template method mode)
     - 模組化, 可插拔. ex: 汽車想提升馬力, 換引擎就好, 不應該要求連輪胎, 傳動軸等等都得換才行 
-- L *(Liskov Substitution Principle)* Liskov替換原則 : `子類別可在不影響 程序正確性 的原則下替換父類別`. ex: 兒子幫爸爸賣車, 跟爸爸自己賣車, 對買車的人來說都是一樣的
+- L ***(LSP, Liskov Substitution Principle)* Liskov替換原則** : `子類別可在不影響 程序正確性 的原則下替換父類別`. ex: 兒子幫爸爸賣車, 跟爸爸自己賣車, 對買車的人來說都是一樣的
+    - 
 - I *(Interface Segregation Principle)* 介面隔離 : 把各種不同功能的功能, 分離到介面.
 - D *(Dependency Inversion Principle)* 依賴倒轉原則 : 高階模組 不應該依賴 低階模組, 兩者都應該依賴在抽象之上. ex: 精品商店說他們賣精品, 但卻不會說死他們是在賣鑽石或是高檔包包
 

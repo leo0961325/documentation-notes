@@ -11,10 +11,11 @@
 
 ## 範例
 
-阿利博士 成立了 智慧機器人股份有限公司, 裏頭專門研發機器人, 機器人可以幫忙做很多事情~  而機器人研發, 以`主菜`為主
+阿利博士 成立了 智慧機器人股份有限公司, 裏頭專門研發機器人, 機器人可以幫忙做很多事情~  而機器人研發, 以`煮菜` 為主
 
 所有機器人, 需要來時做 IMachine
 ```cs
+// IMachine.cs
 interface IMachine
 {
     void SpeedUp();     // 加速
@@ -25,6 +26,7 @@ interface IMachine
 
 考量到所有機器人, 加速減速的方式都不同, 所以又開了另一批的介面...
 ```cs
+// IMachine.cs
 interface ISpeedUp      // 加速介面
 {
     void SpeedUp();
@@ -42,6 +44,7 @@ interface IUseItem      // 用工具介面
 ```
 
 ```cs
+// Cooking.cs
 class BigFire : ISpeedUp        // 實作 加速
 {
     public void SpeedUp()
@@ -77,6 +80,7 @@ class CutVegetables : IUseItem        // 實作 用工具
 
 煮飯機器人類別
 ```cs
+// CookingMachine.cs
 class CookingMachine : IMachine     // 煮飯機器人, 但因為是機器人, 都得實作 IMachine
 {
     private ISpeedUp _speedUp;
@@ -109,6 +113,7 @@ class CookingMachine : IMachine     // 煮飯機器人, 但因為是機器人, �
 
 主程式~ 開始煮飯囉
 ```cs
+// Program.cs
 class Program
 {
     static void Main(string[] args)
@@ -137,15 +142,16 @@ class Program
 打架機器人
 
 ```cs
-// 這包, 只有把上面的 CookingMachine 換成 AttackingMachine
-class AttackingMachine : IMachine     // 打架機器人, 但因為是機器人, 都得實作 IMachine
+// FightingMachine.cs
+// 這包, 只有把上面的 CookingMachine 換成 FightingMachine
+class FightingMachine : IMachine     // 打架機器人, 但因為是機器人, 都得實作 IMachine
 {
     private ISpeedUp _speedUp;
     private ISpeedDown _speedDown;
     private IUseItem _useItem;
 
     // 建構式也得買名字...
-    public AttackingMachine(ISpeedUp speedUp, ISpeedDown speedDown, IUseItem useItem)
+    public FightingMachine(ISpeedUp speedUp, ISpeedDown speedDown, IUseItem useItem)
     {
         this._speedUp = speedUp;
         this._speedDown = speedDown;
@@ -171,6 +177,7 @@ class AttackingMachine : IMachine     // 打架機器人, 但因為是機器人,
 
 然後來實作各種打架時候的動作
 ```cs
+// Fighting.cs
 class SuperPower : ISpeedUp        // 實作 加速
 {
     public void SpeedUp()
@@ -198,6 +205,7 @@ class TakeFire : IUseItem        // 實作 用工具
 
 主程式~~  然後就可以打架了
 ```cs
+// Program.cs
 class Program
     {
         static void Main(string[] args)
@@ -217,7 +225,7 @@ class Program
             ISpeedUp uu = new SuperPower();
             ISpeedDown dd = new EnergySaving();
             IUseItem ii = new TakeFire();
-            IMachine attackMachine1 = new AttackingMachine(uu, dd, ii);
+            IMachine attackMachine1 = new FightingMachine(uu, dd, ii);
             attackMachine1.SpeedUp();
             attackMachine1.UseItem();
 
