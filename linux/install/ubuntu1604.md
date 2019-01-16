@@ -242,18 +242,113 @@ $# apt-get -y install certbot
 # cli.ini
 $# vim cli.ini
 text = True
-domains = YOURDOMAIN.com
-email = MAIL@YOURMAIL
+domains = <YOURDOMAIN.com>
+email = <MAIL@YOURMAIL>
 renew-by-default
 agree-tos
 rsa-key-size = 4096
-logs-dir = /tmp/certbot/logs/
-work-dir = /tmp/certbot/work/
+logs-dir = ./certbot-logs
+work-dir = ./certbot-work
 ```
 
 3. 使用
 ```sh
 $# certbot certonly -a manual -c cli.ini
-# 然後就去加這個了 「/.well-known/acme-challenge/@^(^*@%#^*@%$*@#&...」
+# 然後就會出現下面那些訊息 ~~~
+Saving debug log to /tmp/certbot/logs/letsencrypt.log
+Plugins selected: Authenticator manual, Installer None
+Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org
 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would you be willing to share your email address with the Electronic Frontier
+Foundation, a founding partner of the Let's Encrypt project and the non-profit
+organization that develops Certbot? We'd like to send you email about our work
+encrypting the web, EFF news, campaigns, and ways to support digital freedom.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: Y   ### (這邊應該可以選 N 吧!? LetsEncrypt 會寄信來給你)
+Starting new HTTPS connection (1): supporters.eff.org
+Obtaining a new certificate
+Performing the following challenges:
+http-01 challenge for blog.tonychoucc.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+NOTE: The IP of this machine will be publicly logged as having requested this
+certificate. If you're running certbot in manual mode on a machine that is not
+your server, please ensure you're okay with that.
+
+Are you OK with your IP being logged?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: Y   ### 
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Create a file containing just this data:
+
+YCam9UkUdCLK8-s9BB-S_luJvMciik42HjtWd5cne54.XhNzercNM71QC5uqJcE-hl2NF7dvfFUEHboBKQN06u8	    # 這邊叫做 AA
+
+And make it available on your web server at this URL:
+
+http://blog.tonychoucc.com/.well-known/acme-challenge/YCam9UkUdCLK8-s9BB-S_luJvMciik42HjtWd5cne54	# 這邊叫做 BB
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Press Enter to Continue         # 先別按 Enter 啊!!!
+# (此 Terminal 先擱置著)
+### 這邊是 Terminal 1
 ```
+
+```sh
+### 這是 Web Hosting 那邊的程式碼目錄的 Terminal
+mkdir acme-challenge
+touch acme-challenge/YCam9UkUdCLK8-s9BB-S_luJvMciik42HjtWd5cne54	# 把 BB 後半部複製過來
+echo 'YCam9UkUdCLK8-s9BB-S_luJvMciik42HjtWd5cne54.XhNzercNM71QC5uqJcE-hl2NF7dvfFUEHboBKQN06u8' > acme-challenge/YCam9UkUdCLK8-s9BB-S_luJvMciik42HjtWd5cne54	        # 把 AA 丟到 BB 裏頭
+
+### 這邊是 CI 時要做的事情(寫再 gitlab-ci 裏頭的)
+mkdir -p public/.well-known/acme-challenge/
+cp -R acme-challenge public/.well-known/
+```
+
+以上完成之後, 把專案 push 上去吧~  如果沒發生錯誤的話
+
+「http://blog.tonychoucc.com/.well-known/acme-challenge/YCam9UkUdCLK8-s9BB-S_luJvMciik42HjtWd5cne54」應該就可以看到
+
+AA 那堆字了
+
+```sh
+### 回到 Terminal 1
+# Enter 給他按下去!!
+Waiting for verification...
+Resetting dropped connection: acme-v02.api.letsencrypt.org
+Resetting dropped connection: acme-v02.api.letsencrypt.org
+Cleaning up challenges
+Non-standard path(s), might not work with crontab installed by your operating system package manager
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:  # Congratulations! 驗證成功~
+   /etc/letsencrypt/live/blog.tonychoucc.com/fullchain.pem      # fullchain 在這, 這是 CC
+   Your key file has been saved at:
+   /etc/letsencrypt/live/blog.tonychoucc.com/privkey.pem        # Private Key 在這, 這是 DD
+   Your cert will expire on 2019-04-16. To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot
+   again. To non-interactively renew *all* of your certificates, run
+   "certbot renew"
+ - Your account credentials have been saved in your Certbot
+   configuration directory at /etc/letsencrypt. You should make a
+   secure backup of this folder now. This configuration directory will
+   also contain certificates and private keys obtained by Certbot so
+   making regular backups of this folder is ideal.
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let''s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+
+ - We were unable to subscribe you the EFF mailing list because your
+   e-mail address appears to be invalid. You can try again later by
+   visiting https://act.eff.org.
+
+$# 
+```
+
+後續再到 Gitlab / Pages, 修改你的 Domain
+
+把 上述的 CC 及 DD 分別 copy-paste 到 Certificate (PEM) 及 Key (PEM)
+
+即可完成手動認證~

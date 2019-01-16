@@ -281,6 +281,8 @@ crontab -e
 0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew 
 ```
 
-## 4. Hugo + Letsencrypt
+## 4. Hugo + Letsencrypt on Gitlab
+
+
 
 
