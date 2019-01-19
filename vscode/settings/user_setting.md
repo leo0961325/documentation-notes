@@ -13,22 +13,15 @@
     "editor.minimap.enabled": false,
     "editor.mouseWheelZoom": true,
     "editor.renderWhitespace": "all",
-    "editor.tabCompletion": true,
+    "editor.tabCompletion": "on",
     "extensions.showRecommendationsOnlyOnDemand": true,
-    "workbench.sideBar.location": "right",
     "workbench.startupEditor": "none",
-    // "workbench.iconTheme": "material-icon-theme",   // 需要套件
+    "explorer.openEditors.visible": 0,
 
     // Windows Only
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
 
     // Tab Size
-    "[html]":{
-        "editor.tabSize": 2
-    },
-    "[json]":{
-        "editor.tabSize": 2
-    },
     "[xml]":{
         "editor.tabSize": 2
     },
