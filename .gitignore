@@ -2,3 +2,8 @@
 *.py[cmd]
 package-lock.json
 node_modules/
+*.cache
+*.pdb
+Release/
+Debug/
+obj/
