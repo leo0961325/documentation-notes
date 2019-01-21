@@ -6,8 +6,10 @@ Directory     | Description
 ------------- | ------------------------
 attach        | Additional Files
 aws           | AWS
+cs            | C#
 db            | Database
 docker        | Docker v18.03
+ELK           | Elastic, Logstash, Kibana
 front-end     | 網頁前端 (HTML, CSS, BootStrap, JavaScript, jQuery)
 git           | Git v2.14
 img           | (Only pictures within each Markdown documentations)
@@ -17,6 +19,7 @@ node          | Nodejs v6.11
 other         | 不屬於以上的都放這~~
 pg            | Programming(without Python) && Design Pattern
 python        | Python 3.6
+ssg           | Single Page Generator, ex: HUGO
 vscode        | Powerful IDE 
 windows       | Windows Operating System
 
