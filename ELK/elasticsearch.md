@@ -21,6 +21,7 @@
 
 ElasticSearch | RDBMS
 ------------- | ---------
+Node          | Server
 Index         | Database
 Mapping/Type  | Table
 Document      | Row

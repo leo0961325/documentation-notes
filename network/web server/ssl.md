@@ -25,26 +25,43 @@ CSR   | Certificate Signing Request, 憑證簽署請求
 ## 利用 OpenSSL 來達成 (CentOS7)
 
 ```sh
+# ---------------------------------------------------------------
 # 使用 openssl 產生 private key, 金鑰長度為 2048 bits 
-$ openssl genrsa -out foobar.key 2048
+$# openssl genrsa -out foobar.key 2048	# (寫法1)
+$# openssl genrsa 2048 > foobar.key     # (寫法2)
 # 底下會要你輸入 private key 的一堆基本資料... 包含 private key 密碼
 # 產生出來的 foobar.key 又稱為 "RSA private key"
 
-# 使用 RSA private key 加密生成 未經簽屬的 憑證(CSR)
-$ openssl req -new -key foobar.key -out foobar.csr
+# ---------------------------------------------------------------
+# 使用 RSA private key 加密生成 CERTIFICATE REQUEST, 憑證簽署請求(CSR)
+$# openssl req -new                        -key foobar.key -out foobar.csr
 # 然後又是要你輸入一堆此CA憑證的基本資料
-# 產生出來的 foobar.csr 為 要送到CA機構去申請的文件檔
+# 產生出來的 foobar.csr 是要送到 「CA機構去申請簽證的文件檔」
 
+# (下面一行, 是產生 未加密的自我簽署憑證, 並指定使用天數)
+$# openssl req -new -x509 -nodes -days 365 -key foobar.key -out foobar.csr
+# req : PKCS#10 certificate request and certificate generating utility
+#   -nodes : 若 private key 已建立 && 有給此 -nodes 選項, 則此產生出來的 pem 不會被加密(不太懂)
+#   -x509 : 產生 self signed certificate, 而非 CSR
+#       -days  : self signed certificate 有效天數. Default 30 days
+#   -new : 產生一個 new certificate request; 而此若沒與 -key XXX 一同出現, 則會根據 config 產生一個新的 RSA private key
+# -newkey arg: 建立新的 csr 及 private key.
+
+
+# ---------------------------------------------------------------
 # 可用來檢查 CSR 的內容是否正確(不太懂...)
-$ openssl req -text -in CSR.csr -noout
+$# openssl req -text -in CSR.csr -noout
 
+# ---------------------------------------------------------------
 # 僅產生 私有憑證(不開放到公網域) - 自我簽署憑證
-$ openssl x509 -req -days 3650 -in CSR.csr -signkey private.key -out self-signed.crt
+$# openssl x509 -req -days 3650 -in CSR.csr -signkey private.key -out self-signed.crt
 # 會產生一個 pem格式的憑證內容, 放在 self-signed.crt
 # 
 
+# ---------------------------------------------------------------
 # 直接從 private key 產生 自我簽屬憑證
-$ openssl req -new -x509 -days 365 -key private.key -out self-signed-2.crt
+$# openssl req -new -x509 -days 365 -key private.key -out self-signed-2.crt
+
 ```
 
 
@@ -286,3 +303,9 @@ crontab -e
 
 
 
+    SSLCertificateFile          /etc/pki/tls/certs/www1.crt
+    SSLCertificateFile          /etc/pki/tls/certs/www1.crt
+    SSLCertificateKeyFile       /etc/pki/tls/private/www1.key
+    SSLCertificateKeyFile       /etc/pki/tls/private/www1.key
+    SSLCertificateChainFile     /etc/pki/tls/certs/www1.bundle.crt
+    SSLCACertificateFile        /etc/pki/tls/certs/www1.bundle.crt

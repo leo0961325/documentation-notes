@@ -26,7 +26,7 @@ windows       | Windows Operating System
 
 ### 常見常忘的 英翻中...
 
-- ad hoc : 特設, 專案的, 臨時的, 特定目的的
+- ad-hoc : 特設, 專案的, 臨時的, 特定目的的
 - alphanumeric : 標點符號
 - back slash : 反斜線
 - cascade: 串連
@@ -37,15 +37,14 @@ windows       | Windows Operating System
 - malformed : 異常
 - masquerade: 偽裝
 - on the fly : 動態產生 
-- replica : 即時備援 (同時複製一份到其他節點的概念), 可以想成 HA 啦
-- shard : 
+- sharding : 分片數量; 分頁數
 - snippets : 片段
 - sponsor : 發起人
 - tilde : 波浪號
 - wildcard characters : 萬用字元 (「*」啦)
 
 
-#### 安全性相關
+#### 安全性 && 系統名詞
 
 - authentication : 認證
 - authorization : 授權
@@ -55,6 +54,7 @@ windows       | Windows Operating System
 - elevate : 提升(通常指使用 具有權限 的 使用者)
 - passphrase : 密語; 嚴格來講, 此非密碼 (Not a password)
 - permission : 許可
+- replica : 即時備援 (即時複製一份到其他節點的概念, HA), 資料備份的另一種可行性作法
 - token : 就... Token (不會翻@@)
 - validate : 驗證
 - perimeter network : (同 DMZ)

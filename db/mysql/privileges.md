@@ -22,6 +22,7 @@ DROP USER '<帳號>'@'<HOST>';
 ## 更改密碼
 ```sql
 > ALTER USER '<使用者帳號>' IDENTIFIED BY '<新密碼>';
+ALTER USER 'demo'@'localhost' IDENTIFIED BY 'password123';
 ```
 
 
@@ -68,8 +69,11 @@ select * from ee;
 
 
 ```sql
-mysql> create user 'qq'@'localhost' identified by '1234';
-mysql> grant all on test.* to 'qq'@'localhost';
+-- MySQL 內
+CREATE USER 'qq'@'localhost' IDENTIFIED BY '1234';
+GRANT ALL ON `test`.`*` TO 'qq'@'localhost';
+USE mysql;
+SELECT `USER`, `HOST` FROM `user`;
 ```
 
 ```sql
