@@ -37,7 +37,8 @@ windows       | Windows Operating System
 - malformed : 異常
 - masquerade: 偽裝
 - on the fly : 動態產生 
-- sharding : 分片數量; 分頁數
+- replica : 即時備援 (同時複製一份到其他節點的概念), 可以想成 HA 啦
+- sharding : 分片(把東西拆成幾分的概念吧??)
 - snippets : 片段
 - sponsor : 發起人
 - tilde : 波浪號

@@ -137,3 +137,17 @@ yellow open   customer p4An8JtFQ_aPbiMgOOoWJw   5   1          0            0   
 # rep       1       1 replica(the defaults)
 # docs.cont 0       0 documents
 ```
+
+
+
+```sh
+### bulk
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-batch-processing.html
+
+curl -X POST "localhost:9200/data2/_doc/_bulk?pretty" -H 'Content-Type: application/json' -d'
+{"index":{"_id":"1"}}
+{"name": "John Doe" }
+{"index":{"_id":"2"}}
+{"name": "Jane Doe" }
+'
+```
