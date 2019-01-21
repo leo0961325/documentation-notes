@@ -1,99 +1,138 @@
 # ElasticSearch
 
-可以把 ES 當成 `分散式架構之下的非關聯式資料庫`
+- 2019/01/16
+- ElasticSearch: v6.5.4
+- java: v1.8.0_161
 
-- node : server
-- index : database
-- type : table
-- fields : columns
-- documents : rows
+## General Concept
 
+- open source
+- real-time
+- full-text search
+- RESTful
+- Cross platform (Java)
+- Distributed -> Scalable
+- search engine
+- big data
+- Denormailization (JSON data type)
+
+
+## ES vs RDB
+
+ElasticSearch | RDBMS
+------------- | ---------
+Index         | Database
+Mapping/Type  | Table
+Document      | Row
+Field         | Column/Field
+Mapping       | Schema
+Shard         | Partition/Shard
+(all indexed) | Index
+Query DSL     | SQL
+JSON Object   | Tuple
+
+
+## Config
 
 ```sh
-### 新增
-$# curl -XPOST http://127.0.0.1:9200/logstash-2016.12.23/testPOST -H 'Content-Type: application/json' -d  "{ \"userNme\" : \"weiwei\", \"@timestamp\" : \"2016-12-23T02:50:29.070Z\", \"message\" : \"This is a meaage for testing POST\" }" 
-# return
-{
-    "_index" : "logstash-2016.12.23",
-    "_type" : "testPOST",
-    "_id" : "6n4nPmgBczqAoTW_OB6w",
-    "_version" : 1,"result":"created",
-    "_shards" : {
-        "total" : 2,
-        "successful" : 1,
-        "failed" : 0
-    },
-    "_seq_no" : 0,
-    "_primary_term" : 1
-}
+### ES 目錄位置
+/etc
+    /elasticsearch
+        /elasticsearch.keystore	    # 
+        /elasticsearch.yml	        # 設定主檔
+        /jvm.options	            # JVM 相關設定(含 Memory)
+        /log4j2.properties	        # Logging 機制設定
+        /role_mapping.yml	        # ES role
+        /roles.yml	                # 
+        /users	                    # 
+        /users_roles	            # 
 
-### 查詢
-#                  Host        Port      DB              Table      PK
-$# curl -XGET http://127.0.0.1:9200/logstash-2016.12.23/testPOST/6n4nPmgBczqAoTW_OB6w
-{
-    "_index" : "logstash-2016.12.23",
-    "_type" : "testPOST",
-    "_id" : "6n4nPmgBczqAoTW_OB6w",
-    "_version" : 1,
-    "found" : true,
-    "_source" : {
-        "userNme" : "weiwei",
-        "@timestamp" : "2016-12-23T02:50:29.070Z",
-        "message" : "This is a meaage for testing POST"
-    }
-}
+# Log4j : 
+#   
+#   
+```
 
-### 查詢 特定 type 之下的所有紀錄 (「?pretty」 資料輸出人性化)
-$# curl -XGET http://127.0.0.1:9200/logstash-2016.12.23/testPOST/_search?pretty
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100   543  100   543    0     0    543      0  0:00:01 --:--:--  0:00:01 33937{
-  "took" : 17,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 5,
-    "successful" : 5,
-    "skipped" : 0,
-    "failed" : 0
+### log4j2
+
+方便 Programmer 在 Code 中加入 logging , 並輸出到 目標裝置
+
+- 目標裝置: console, file, streaming, tcp, syslog, ...
+- 5 種 Logging Level: DEBUG, INFO, WARN, ERROR, FATAL
+
+具備 3 大元件:
+- Logger   : Programmer 在程式中使用來作 logging 的元件
+- Appender : 將 Log Message 輸出到各個裝置
+- Layout   : Log Message 格式
+
+
+
+### 設定主檔 elasticsearch.yml
+
+1. Cluster
+    - cluster.name: my-application
+
+2. Node     : Master/Slave 名稱
+    - node.name: node-1
+    - node.attr.rack: r1
+
+3. Paths    : 資料位置
+    - path.data: /var/lib/elasticsearch
+    - path.logs: /var/log/elasticsearch
+
+4. Memory   : 資源配置
+
+5. Network  : Bind addresses
+    - network.host: 192.168.0.1
+    - http.port: 9200
+
+6. Discovery : 新加入的 node, 初始化時要找尋的 hosts
+    - 預設為 ["127.0.0.1", "[::1]"]
+    - discovery.zen.ping.unicast.hosts: ["host1", "host2"]
+
+7. Gateway   : Cluster 重啟之後, 直到 N 個節點啟動後, 才開始作 recovery
+    - gateway.recover_after_nodes: 3
+
+8. Various   : (其他)
+    - action.destructive_requires_name: true
+
+```sh
+$# curl  http://localhost:9200
+{
+  "name" : "_SUWv5v",               # node.name
+  "cluster_name" : "tonyvm95",      # cluster.name
+  "cluster_uuid" : "n9gEE8ucQ1W01HeYox6A2w",
+  "version" : {
+    "number" : "6.5.4",
+    "build_flavor" : "default",
+    "build_type" : "rpm",
+    "build_hash" : "d2ef93d",
+    "build_date" : "2018-12-17T21:17:40.758843Z",
+    "build_snapshot" : false,
+    "lucene_version" : "7.5.0",
+    "minimum_wire_compatibility_version" : "5.6.0",
+    "minimum_index_compatibility_version" : "5.0.0"
   },
-  "hits" : {
-    "total" : 1,
-    "max_score" : 1.0,
-    "hits" : [
-      {
-        "_index" : "logstash-2016.12.23",
-        "_type" : "testPOST",
-        "_id" : "6n4nPmgBczqAoTW_OB6w",
-        "_score" : 1.0,
-        "_source" : {
-          "userNme" : "weiwei",
-          "@timestamp" : "2016-12-23T02:50:29.070Z",
-          "message" : "This is a meaage for testing POST"
-        }
-      }
-    ]
-  }
+  "tagline" : "You Know, for Search"
 }
+```
 
-### POST (有 ?pretty 唷)
-$# curl -XPOST http://127.0.0.1:9200/logstash-2016.12.23/testPOST/6n4nPmgBczqAoTW_OB6w/_update?pretty -H 'Content-Type: application/json' -d '{"doc" : { "userName" : "red queen" }}'
-{
-  "_index" : "logstash-2016.12.23",
-  "_type" : "testPOST",
-  "_id" : "6n4nPmgBczqAoTW_OB6w",
-  "_version" : 2,
-  "result" : "noop",
-  "_shards" : {
-    "total" : 0,
-    "successful" : 0,
-    "failed" : 0
-  }
-}
+### 健康狀態
 
-### DELETE
-$# curl -XDELETE http://127.0.0.1:9200/logstash-2016.12.23
-{"acknowledged":true}
+* `curl http://localhost:9200/_cat/health?v`
+* `curl http://localhost:9200/_cat/indices?v`
 
-### DELETE (也可用「*」)
-$# curl -XDELETE http://127.0.0.1:9200/logstash-2016.12.*
+健康狀態
+
+- Green - everything is good (cluster is fully functional)
+- Yellow - all data is available but some replicas are not yet allocated (cluster is fully functional) 資料還沒作好 HA
+- Red - some data is not available for whatever reason (cluster is partially functional)
+
+```sh
+# Example
+health status index    uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   customer p4An8JtFQ_aPbiMgOOoWJw   5   1          0            0      1.1kb          1.1kb
+
+# pri       5       5 primary shards
+# rep       1       1 replica(the defaults)
+# docs.cont 0       0 documents
 ```

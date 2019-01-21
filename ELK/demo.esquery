@@ -1,0 +1,67 @@
+/*
+    Create a new index with the name lorem
+
+*/
+/* Example 1 ------------------------- */
+PUT /lorem
+{
+    "settings": {
+        "index.number_of_shards": 1
+    },
+    "mappings": {
+        "document": {
+            "properties": {
+                "title": { "type": "text" },
+                "preamble": { "type": "text" },
+                "main": { "type": "text"}
+            }
+        }
+    }
+}
+
+GET /lorem
+{}
+
+DELETE /lorem
+{}
+
+
+/* Example 2 Bulk ------------------------- */
+GET /data2
+{}
+
+DELETE /data2
+{}
+
+/* 404 */
+POST /data2/_doc/_bulk?pretty
+{"index":{"_id":"1"}}
+{"name": "John Doe" }
+{"index":{"_id":"2"}}
+{"name": "Jane Doe" }
+
+GET /data2/_doc/1?pretty
+{}
+
+
+GET /data2/_doc/2?pretty
+{}
+
+/* Named query */
+GET /data2*/
+{}
+
+/* 新增
+curl -H "Content-Type: application/json" -XPOST "localhost:9200/bank/_doc/_bulk?pretty&refresh" --data-binary "@accounts.json"
+ */
+GET /bank
+{}
+
+DELETE /bank
+{}
+
+GET /bank/_search?q=*&sort=account_number:asc&pretty
+{}
+
+GET /_cat/indices?v
+{}
