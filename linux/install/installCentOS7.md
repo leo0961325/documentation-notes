@@ -261,7 +261,7 @@ $# ssh -i ~/.ssh/tower_rsa <RemoteUser>@<RemoteIP>
 ```
 
 
-# ElasticSearch
+# ELK - elasticsearch
 
 - 2019/01/12
 
@@ -291,10 +291,69 @@ $# systemctl enable elasticsearch
 $# systemctl status elasticsearch
 ```
 
-### 2. Config && Service
 
 ```sh
+$# rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+$# vim /etc/yum.repos.d/elasticsearch.repo
+###### 內容如下 ######
+[elasticsearch-6.x]
+name=Elasticsearch repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+###### 內容如上 ######
 
+$# yum install elasticsearch
+
+$# systemctl start elasticsearch
+
+```
+
+
+# ELK - kibana
+
+- 2019/01/24
+- [Install Kibana with RPM](https://www.elastic.co/guide/en/kibana/current/rpm.html)
+
+```sh
+$# rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+$# vim /etc/yum.repos.d/kibana.repo
+###### 內容如下 ######
+[kibana-6.x]
+name=Kibana repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+###### 內容如上 ######
+
+$# yum install kibana
+```
+
+# ELK - logstash
+
+- [Install Logstash](https://www.elastic.co/guide/en/logstash/current/installing-logstash.html)
+
+```sh
+$# rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+$# vim /etc/yum.repos.d/logstash.repo
+[logstash-6.x]
+name=Elastic repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+
+$# yum install -y logstash
 ```
 
 # MySQL Community 5.7
@@ -743,15 +802,38 @@ $ pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERS
 - 2018/03/21
 - [Official Orical jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
-### 1. 移除 open-jdk...!!?? 
+兩種方法:
 
-網路上有阿貓阿狗會教, 把 open-jdk 移除後, 再來安裝 oracle-jdk!!
+1. 拔掉 OpenJDK => OracleJRE,JDK
+2. 純安裝(用環境變數來抓)
 
-但是這樣會把 libore-office 的依賴套件也一併移除(沒辦法使用 Linux 的 Excel 了 QAQ...). 所以我不這麼作. 
+## 1. 連同 openjdk-JRE 一起拔掉, 換成 Oracle jdk
 
-因此, 第一步, 啥都不用作!
+- [How to remove OpenJDK and install Oracle JDK](https://support.cafex.com/hc/en-us/articles/200874471-How-to-remove-OpenJDK-and-install-Oracle-JDK)
 
-### 2. Donwload && Install
+```sh
+$# rpm -qa | grep java
+$# rpm -qa | grep jdk
+# ↑ 慢慢移掉...
+
+### 下載
+$# wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.rpm
+# ↑ 到官方網址, 勾選同意 license 之後, 取代要下載的網址(版本更新的話)
+
+### 安裝
+$# rpm -ivh jdk-8u201-linux-x64.rpm
+
+$# java -version
+java version "1.8.0_191"
+Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)
+
+$# javac -version
+javac 1.8.0_191
+```
+
+
+## 2. 單純安裝其他版本(不動 JRE)
 
 ```sh
 $ echo $PATH
@@ -787,6 +869,9 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)
 $ javac -version
 javac 1.8.0_191
 ```
+
+
+
 
 
 

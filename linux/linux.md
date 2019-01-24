@@ -1441,6 +1441,30 @@ grep -n -v  -e '^[#;]' /etc/samba/smb.conf.example | grep -v ':$' -
 # pipeline 給 非 : 結尾(因有行號:)
 ```
 
+## ps
+
+```sh
+### 可查看系統使用的是 SysV 或 systemd
+$# ps -p 1
+   PID TTY          TIME CMD
+     1 ?        00:00:22 systemd
+
+### enable
+$# systemctl enable XXX     # systemd enable
+$# chkconfig --add XXX      # SysV enable
+
+### start
+$# systemctl start XXX      # systemd start
+$# service XXX start        # SysV start
+
+### status
+$# systemctl status XXX     # systemd status
+$# service XXX status       # SysV status
+```
+
+
+
+
 ## 6 vs 7 版
 
 ```sh
@@ -1451,3 +1475,4 @@ service named start
 systemctl enable named
 chkconfig named on
 ```
+

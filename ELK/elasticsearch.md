@@ -32,6 +32,22 @@ Shard         | Partition/Shard
 Query DSL     | SQL
 JSON Object   | Tuple
 
+```sh
++ node      # ElasticSearch 節點
+    - bank          # Index
+    - customer      # Index
+    + movies        # Index
+        + mappings
+            + movie
+                + properties
+                    + year
+                        + type: date
+        - aliases
+        - settings
+        - statistics
+    - schools       # Index
+```
+
 
 ## Config
 
@@ -48,10 +64,18 @@ JSON Object   | Tuple
         /users	                    # 
         /users_roles	            # 
 
-# Log4j : 
-#   
-#   
+### 設定主檔
+$# vim /etc/elasticsearch/elasticsearch.yml
+cluster.name: "os7-cluster"         # 
+path.data: /var/lib/elasticsearch   # 
+path.logs: /var/log/elasticsearch   # 
+network.host: 0.0.0.0               # 
+discovery.type: single-node         # 
+
+$# systemctl daemon-reload elasticsearch
 ```
+
+
 
 ### log4j2
 

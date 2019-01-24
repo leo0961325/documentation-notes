@@ -1,0 +1,210 @@
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-explore-data.html
+# 
+@endpoint=http://192.168.124.95:9200
+
+# ---------------------------------------
+### 清空
+DELETE {{endpoint}}/bank
+
+### 新增一筆測試資料
+POST {{endpoint}}/bank/_doc
+Content-Type: application/json
+
+{
+    "account_number": 0,
+    "balance": 16623,
+    "firstname": "Bradshaw",
+    "lastname": "Mckenzie",
+    "age": 29,
+    "gender": "F",
+    "address": "244 Columbus Place",
+    "employer": "Euron",
+    "email": "bradshawmckenzie@euron.com",
+    "city": "Hobucken",
+    "state": "CO"
+}
+
+
+### 匯入大量資料吧~ (using shell)
+# curl -H "Content-Type: application/json" -XPOST "localhost:9200/bank/_doc/_bulk?pretty&refresh" --data-binary "@accounts.json"
+# 不知道怎麼在這邊使用@@
+
+### 查詢統計資訊
+GET {{endpoint}}/_cat/indices?v
+
+### 查第一個
+GET {{endpoint}}/bank/_doc/1
+
+### 查詢 bank(這個 index), 搜尋所有 && 依照 account_number 遞增排序, pretty 列出
+# 使用 request line 查詢
+GET {{endpoint}}/bank/_search?q=*&sort=account_number:asc&pretty
+
+### (同上)
+# 使用 request body 查詢
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+    "query": { "match_all": {} },
+    "sort": [
+        { "account_number": "asc" }
+    ]
+}
+
+### 限制查詢回傳筆數( size default: 10)
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+    "query": { "match_all": {} },
+    "size": 20
+}
+
+### 限制查詢筆數(分頁回傳)( from default: 0)
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+    "query": { "match_all": {} },
+    "from": 10,
+    "size": 10
+}
+
+### 僅查詢特定欄位
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+  "query": { "match_all": {} },
+  "_source": ["account_number", "balance"]
+}
+
+### 查特定一筆的概念 (where account_number=20)
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+  "query": { "match": { "account_number": 20 } }
+}
+
+### 查詢符合特定 patter n (mill or lane in address)
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+  "query": { "match": { "address": "mill lane" } }
+}
+
+### 查詢符合特定 pattern ('mill lane' in address)
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+  "query": { "match_phrase": { "address": "mill lane" } }
+}
+
+### 
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "address": "mill" } },
+        { "match": { "address": "lane" } }
+      ]
+    }
+  }
+}
+
+### 查詢範圍
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+    "query": {
+        "bool": {
+            "must": {"match_all": {}},
+            "filter": {
+                "range": {
+                    "balance": {
+                        "gte": 20000,
+                        "lte": 30000
+                    }
+                }
+            }
+        }
+    }
+}
+
+### 依照 XXX.keyword 作群組, 作筆數計算 (size = 0, 是為了不看 hits.hits)
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+  "size": 0,
+  "aggs": {
+    "group_by_state": {
+      "terms": {
+        "field": "state.keyword"
+      }
+    }
+  }
+}
+
+### 計算 count(州筆數), avg(balance)
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+    "size": 0,
+    "aggs": {
+        "group_by_state": {
+            "terms": {
+                "field": "state.keyword"
+            },
+            "aggs": {
+                "average_balance": {
+                    "avg": {
+                        "field": "balance"
+                    }
+                }
+            }
+        }
+    }
+}
+
+### 
+GET {{endpoint}}/bank/_search
+Content-Type: application/json
+
+{
+    "size": 0,
+    "aggs": {
+        "group_by_age": {
+            "range": {
+                "field": "age",
+                "ranges": [
+                    {"from": 20, "to": 30},
+                    {"from": 30, "to": 40},
+                    {"from": 40, "to": 50}
+                ]
+            },
+            "aggs": {
+                "group_by_gender": {
+                    "terms": {
+                        "field": "gender.keyword"
+                    },
+                    "aggs": {
+                        "average_balance": {
+                            "avg": {
+                                "field": "balance"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

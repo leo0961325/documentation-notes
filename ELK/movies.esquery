@@ -1,0 +1,30 @@
+/* http://media.sundog-soft.com/es6/ElasticStack.pdf */
+
+
+GET /
+{}
+
+/* 自行定義 schema */
+PUT /movies
+{
+    "mappings": {
+        "movie": {
+            "properties" : {
+                "year" : {
+                    "type": "date"
+                }
+            }
+        }
+    }
+}
+
+
+/* 塞資料 */
+PUT /movies/movie/109487
+{
+    "genre" : [ "IMAX", "Sci-Fi"],
+    "title" : "Interstellar",
+    "year" : 2014
+}
+
+

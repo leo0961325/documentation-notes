@@ -24,3 +24,18 @@ curl -X POST -d "@data.txt" http://localhost:3000/data
 curl -d '{"k1": "v1", "k2": "v2"}' -H "Content-Type: application/json" -X http://localhost:8000/data
 
 ```
+
+## hacking curl (讓 curl 變好用!? )
+
+```sh
+$# mkdir bin
+$# vim bin/curl
+# ↓↓↓ 內容如下 ↓↓↓
+#! /bin/bash
+/usr/bin/curl -H "Content-Type: application/json" "$@"
+# ↑↑↑ 內容如上 ↑↑↑
+
+$# chmod +x bin/curl
+
+# 將來使用 curl 就可以省略掉 application/json 那一包了~
+```

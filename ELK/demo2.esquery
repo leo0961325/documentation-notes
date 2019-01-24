@@ -1,0 +1,36 @@
+/* 
+    https://www.c-sharpcorner.com/article/getting-started-with-elasticsearch/ 
+*/
+POST /iii/ttt
+{
+    "name": "James",
+    "clothes": {"size":"M", "color":"blue"}
+}
+
+DELETE /testindex
+
+GET /iii/ttt/1
+{
+}
+
+GET /iii/ttt/_doc
+{}
+
+
+DELETE /iii/?pretty
+{}
+
+GET /bank/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        { "match": { "address": "mill" } },
+        { "match": { "address": "lane" } }
+      ]
+    }
+  },
+  "size": 20,
+  "_source": ["address", "account_number"]
+}
+

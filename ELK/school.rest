@@ -1,0 +1,104 @@
+@endpoint=http://192.168.124.95:9200
+# 
+# 3 個學生資料
+# john
+# andy
+# sara
+# 1 個老師資料
+# tony
+# ------------------------------------------------
+### 新增資料
+POST {{endpoint}}/school/student
+Content-Type: application/json
+
+{
+    "name": "john",
+    "score": {
+        "cad": 90,
+        "english": 60
+    },
+    "habbit": "pc game",
+    "height": 175,
+    "weight": 90
+}
+
+### 新增資料
+POST {{endpoint}}/school/student
+Content-Type: application/json
+
+{
+    "name": "andy",
+    "score": {
+        "math": 90,
+        "computer": 80,
+        "music": 40
+    },
+    "habbit": "pc game",
+    "height": 185,
+    "weight": 55
+}
+
+### 新增資料
+POST {{endpoint}}/school/student
+Content-Type: application/json
+
+{
+    "name": "sara",
+    "score": {
+        "cuisine": 95,
+        "computer": 75
+    },
+    "habbit": "biking",
+    "height": 159,
+    "weight": 46
+}
+
+### 新增資料
+POST {{endpoint}}/school/teachers
+Content-Type: application/json
+
+{
+    "color": "red",
+    "status": "good"
+}
+
+### 查 index / type 全部
+GET {{endpoint}}/school/student/_search
+
+### 查特定身分
+POST {{endpoint}}/school/student
+Content-Type: application/json
+
+{
+    "color": "red",
+    "price": 80
+}
+
+### 依照 條件 查詢
+GET {{endpoint}}/school/student/_search
+Content-Type: application/json
+
+{
+    "size": 2,
+    "query": {
+        "match": {"color": "blue"}
+    }
+}
+
+### 依照 條件 查詢
+GET {{endpoint}}/school/student/_search
+Content-Type: application/json
+
+{
+    "query": {
+        "range": {
+            "price": { "gte": 0 }
+        }
+    }
+}
+
+###
+DELETE {{endpoint}}/school
+
+### 
+DELETE {{endpoint}}/school/student/36LPbGgBGDoq-ECQFWl9

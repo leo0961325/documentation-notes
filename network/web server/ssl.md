@@ -14,7 +14,6 @@ CSR   | Certificate Signing Request, 憑證簽署請求
 
 ## enable https
 
-- [`/attach/ssl.xml`](https://www.draw.io/)
 
 要讓 `Web Service` 能夠支援 `SSL`, 必須要作下面幾件事情:
 1. 產生 `Private Key`
@@ -27,8 +26,7 @@ CSR   | Certificate Signing Request, 憑證簽署請求
 ```sh
 # ---------------------------------------------------------------
 # 使用 openssl 產生 private key, 金鑰長度為 2048 bits 
-$# openssl genrsa -out foobar.key 2048	# (寫法1)
-$# openssl genrsa 2048 > foobar.key     # (寫法2)
+$# openssl genrsa -out foobar.key 2048
 # 底下會要你輸入 private key 的一堆基本資料... 包含 private key 密碼
 # 產生出來的 foobar.key 又稱為 "RSA private key"
 
@@ -38,7 +36,7 @@ $# openssl req -new                        -key foobar.key -out foobar.csr
 # 然後又是要你輸入一堆此CA憑證的基本資料
 # 產生出來的 foobar.csr 是要送到 「CA機構去申請簽證的文件檔」
 
-# (下面一行, 是產生 未加密的自我簽署憑證, 並指定使用天數)
+# (下面一行, 是產生 自我簽署憑證, 並指定使用天數)
 $# openssl req -new -x509 -nodes -days 365 -key foobar.key -out foobar.csr
 # req : PKCS#10 certificate request and certificate generating utility
 #   -nodes : 若 private key 已建立 && 有給此 -nodes 選項, 則此產生出來的 pem 不會被加密(不太懂)
