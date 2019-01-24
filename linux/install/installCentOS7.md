@@ -812,16 +812,27 @@ $ pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERS
 - [How to remove OpenJDK and install Oracle JDK](https://support.cafex.com/hc/en-us/articles/200874471-How-to-remove-OpenJDK-and-install-Oracle-JDK)
 
 ```sh
-$# rpm -qa | grep java
+### rpm ================================
 $# rpm -qa | grep jdk
 # ↑ 慢慢移掉...
 
-### 下載
+### 下載 rpm
 $# wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.rpm
 # ↑ 到官方網址, 勾選同意 license 之後, 取代要下載的網址(版本更新的話)
 
 ### 安裝
 $# rpm -ivh jdk-8u201-linux-x64.rpm
+
+
+### tar ball ===========================
+#下載 tarball
+$# wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz
+# ↑ 到官方網址, 勾選同意 license 之後, 取代要下載的網址(版本更新的話)
+
+$# tar -zxf jdk-8u201-linux-x64.tar.gz
+$# mv jdk1.8.0_201/ ~/.
+$# echo 'export JAVA_HOME=/root/jdk1.8.0_201' >> /etc/bashrc
+$# echo 'export PATH=${JAVA_HOME}/bin:${PATH}' >> /etc/bashrc
 
 $# java -version
 java version "1.8.0_191"
