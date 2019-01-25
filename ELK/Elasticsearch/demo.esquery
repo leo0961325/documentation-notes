@@ -30,7 +30,7 @@ DELETE /lorem
 GET /data2
 {}
 
-DELETE /data2
+DELETE /metric*
 {}
 
 POST /data2/_doc/_bulk?pretty
@@ -54,3 +54,24 @@ GET /data2*/
 {}
 
 /*  */
+
+POST /logstash-2016.12.23/testPOST
+{
+  "userNme" : "weiwei",
+  "@timestamp" : "2016-12-23T02:50:29.070Z",
+  "message" : "This is a meaage for testing POST"
+}
+
+POST /logstash-2016.12.23/testPOST/Ma3kgmgBmoawG6htUTIp/_update
+{
+  "doc": {
+      "userNme" : "red queen"
+  }
+}
+
+GET /_cat/indices?v
+{}
+
+GET /_cat/thread_pool?v
+{}
+

@@ -12,6 +12,7 @@ docker        | Docker v18.03
 ELK           | Elastic, Logstash, Kibana
 front-end     | 網頁前端 (HTML, CSS, BootStrap, JavaScript, jQuery)
 git           | Git v2.14
+hadoop        | Hadoop Eco-System
 img           | (Only pictures within each Markdown documentations)
 linux         | Almost all about CentOS7, some about Ubuntu 16.04
 network       | Networking, Web Server, NAT, TCPIP, RFC...

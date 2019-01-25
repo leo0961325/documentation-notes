@@ -265,7 +265,26 @@ $# ssh -i ~/.ssh/tower_rsa <RemoteUser>@<RemoteIP>
 
 - 2019/01/12
 
-### 1. Download && Install
+### 1. 使用 yum 安裝
+
+```sh
+$# rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+$# vim /etc/yum.repos.d/elasticsearch.repo
+###### 內容如下 ######
+[elasticsearch-6.x]
+name=Elasticsearch repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+###### 內容如上 ######
+
+$# yum install elasticsearch
+```
+
+### 2. 使用 rpm 安裝
 
 ```sh
 ### Download
@@ -289,27 +308,6 @@ Created elasticsearch keystore in /etc/elasticsearch
 $# systemctl start elasticsearch
 $# systemctl enable elasticsearch
 $# systemctl status elasticsearch
-```
-
-
-```sh
-$# rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
-$# vim /etc/yum.repos.d/elasticsearch.repo
-###### 內容如下 ######
-[elasticsearch-6.x]
-name=Elasticsearch repository for 6.x packages
-baseurl=https://artifacts.elastic.co/packages/6.x/yum
-gpgcheck=1
-gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
-enabled=1
-autorefresh=1
-type=rpm-md
-###### 內容如上 ######
-
-$# yum install elasticsearch
-
-$# systemctl start elasticsearch
-
 ```
 
 
@@ -344,6 +342,7 @@ $# yum install kibana
 $# rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
 $# vim /etc/yum.repos.d/logstash.repo
+###### 內容如下 ######
 [logstash-6.x]
 name=Elastic repository for 6.x packages
 baseurl=https://artifacts.elastic.co/packages/6.x/yum
@@ -352,9 +351,62 @@ gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
 enabled=1
 autorefresh=1
 type=rpm-md
+###### 內容如上 ######
 
 $# yum install -y logstash
 ```
+
+# ELK - metricbeat
+
+- [Install Metricbeat](https://www.elastic.co/guide/en/beats/metricbeat/6.5/setup-repositories.html)
+- [各種 Logstash 之下的 Beats](https://www.elastic.co/guide/en/elastic-stack-get-started/current/get-started-elastic-stack.html)
+
+```sh
+$# rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+
+$# vim /etc/yum.repos.d/elastic.repo
+###### 內容如下 ######
+[elastic-6.x]
+name=Elastic repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+###### 內容如上 ######
+
+$# yum install -y metricbeat
+
+### enalbe
+$# systemctl enable metricbeat
+$# chkconfig --add metricbeat
+```
+
+# ELK - Filebeat
+
+- [How To Install Elasticsearch, Logstash, and Kibana (ELK Stack) on CentOS/RHEL 7](https://www.tecmint.com/install-elasticsearch-logstash-and-kibana-elk-stack-on-centos-rhel-7/)
+
+```sh
+$# rpm --import http://packages.elastic.co/GPG-KEY-elasticsearch
+
+$# vim /etc/yum.repos.d/filebeat.repo
+###### 內容如下 ######
+[filebeat]
+name=Filebeat for ELK clients
+baseurl=https://packages.elastic.co/beats/yum/el/$basearch
+enabled=1
+gpgkey=https://packages.elastic.co/GPG-KEY-elasticsearch
+gpgcheck=1
+###### 內容如上 ######
+
+$# yum install filebeat
+
+### Config
+$# vim /etc/filebeat/filebeat.yml
+```
+
+
 
 # MySQL Community 5.7
 
@@ -823,7 +875,6 @@ $# wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=acce
 ### 安裝
 $# rpm -ivh jdk-8u201-linux-x64.rpm
 
-
 ### tar ball ===========================
 #下載 tarball
 $# wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz
@@ -1036,8 +1087,6 @@ $ echo "export PATH=/home/${USER}/go/bin:\$PATH" >> ~/.bashrc
 $ go version
 go version go1.11 linux/amd64
 ```
-
-
 
 
 

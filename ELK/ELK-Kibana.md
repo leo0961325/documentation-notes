@@ -43,10 +43,11 @@ $# systemctl start kibana.service
 # 2019/01/24 曾因為啟動後, status 發現成功了, 幾秒後隨即跳失敗, 似乎是 RAM 不夠的問題
 # RAM 加大後, 就可正常 running 了
 
-### 環境變數
+### 環境變數 (如果使用 tar.gz 才需要設定; package 安裝時無須設定)
 $# echo 'export KIBANA_HOME=/usr/share/kibana'   >> ~/.bashrc
 $# echo 'export PATH=${KIBANA_HOME}/bin:${PATH}' >> ~/.bashrc
 $# source ~/.bashrc
+$# echo ${KIBANA_HOME}
 
 ### 設定主檔
 $# vim /etc/kibana/kibana.yml	# 設定檔內, 可使用 ${ENV_VAR} 來接收環境變數
