@@ -307,3 +307,27 @@ crontab -e
     SSLCertificateKeyFile       /etc/pki/tls/private/www1.key
     SSLCertificateChainFile     /etc/pki/tls/certs/www1.bundle.crt
     SSLCACertificateFile        /etc/pki/tls/certs/www1.bundle.crt
+
+
+# ssl
+
+- [SSL certificate](https://www.tecmint.com/install-elasticsearch-logstash-and-kibana-elk-stack-on-centos-rhel-7/)
+
+此篇文章, 似乎是可以自己當 CA Server?
+
+第一次看過... 所以先筆記下來, 不作驗證, 將來遇到再說
+
+```sh
+$# vim /etc/pki/tls/openssl.cnf
+[ v3_ca ]
+subjectAltName = IP: 192.168.124.118	# 原本這行沒東西, 把自己這台的 IP 打進來
+
+$# cd /etc/pki/tls
+
+### 產生自我簽署憑證
+$# openssl req -config /etc/pki/tls/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt
+# -config /etc/pki/tls/openssl.cnf 依照組態方式
+# -days 3650 十年
+# -keyout private/logstash-forwarder.key 私鑰放這
+# -out certs/logstash-forwarder.crt 簽署好的憑證放這
+```
