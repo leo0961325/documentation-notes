@@ -1,6 +1,6 @@
 2018/05前... 目前接觸過
 - MsSQL 2014
-- PostgreSQL ?.?
+- PostgreSQL 9.5
 - MySQL 5.7
 - MariaDB ?.?
 - SQLite3 ?.?
@@ -11,3 +11,5 @@
 - MySQL
 - MongoDB
 - Redis
+- PostgreSQL
+
