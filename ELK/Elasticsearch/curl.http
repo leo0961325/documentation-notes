@@ -3,7 +3,7 @@
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-cluster-health.html
 
 
-@endpoint=http://192.168.124.95:9200
+@endpoint=http://192.168.124.118:9200
 
 # ----------------------- 基本 CRUD -----------------------
 ### 
@@ -23,6 +23,9 @@ PUT {{endpoint}}/customer?pretty
 
 ### 查 Index 資料
 GET {{endpoint}}/customer/_doc/2
+
+### 刪除 Index
+DELETE {{endpoint}}/metr*
 
 ### 修改 or 新增
 PUT {{endpoint}}/customer/_doc/2?pretty
@@ -59,8 +62,7 @@ Content-Type: application/json
     "name": "Jane Doe"
 }
 
-### 刪除 Index
-DELETE {{endpoint}}/customer?pretty
+
 
 ### 刪除特定
 DELETE {{endpoint}}/customer/_doc/2?pretty
@@ -68,48 +70,6 @@ DELETE {{endpoint}}/customer/_doc/2?pretty
 ### 
 GET {{endpoint}}/lorem/_doc/0
 
-# ----------------------- bulk -----------------------
 
-### 刪
-DELETE {{endpoint}}/data2?pretty
-
-### 建立 Index
-PUT {{endpoint}}/data2?pretty
-
-### bulk (新增)
-POST {{endpoint}}/data2/_doc/_bulk?pretty
-Content-Type: application/json
-
-{
-    "index": {
-        "_id": "1"
-    },
-    "name": "John Doe",
-    "index": {
-        "_id": "2"
-    },
-    "name": "Jane Doe",
-}
-
-### 查1
-GET {{endpoint}}/data2/_doc/1?pretty
-
-### 查2
-GET {{endpoint}}/data2/_doc/2?pretty
-
-### bulk 改 1 && 刪 2
-POST {{endpoint}}/data2/_doc/_bulk?pretty
-Content-Type: application/json
-
-{
-    "update": {
-        "_id" : "1"
-    },
-    "doc": {
-        "name": "John Doe becomes Jane Doe"
-    },
-    "delete": {
-        "_id": "2"
-    }
-}
-
+### 
+GET {{endpoint}}/logstash-2019.01.27/

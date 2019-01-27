@@ -75,3 +75,8 @@ GET /_cat/indices?v
 GET /_cat/thread_pool?v
 {}
 
+
+GET /logstash-2019.01.27/8lmSVAu6TUu-QDOKLC2tpQ
+{}
+
+

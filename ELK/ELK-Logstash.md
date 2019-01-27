@@ -1,3 +1,20 @@
+# Logstash
+
+
+## 目錄
+
+```sh
+/etc/logstash/
+            /conf.d                 # 
+            /jvm.options            # 
+            /log4j2.properties      # 
+            /logstash-sample.conf   # 
+            /logstash.yml           # 
+            /pipelines.yml          # 
+            /startup.options        # 
+```
+
+
 
 Logstash filter - 強大的字串切割功能 : grok
 
@@ -27,6 +44,12 @@ testLog
 grok 基本組成 : `%{屬性:自訂切割後屬性名稱}`.
 
 
+## 檢查組態
+
+```sh
+### 檢查組態
+$# /usr/share/logstash/bin/logstash -t logstash.conf
+```
 
 # Running Logstash
 
@@ -100,5 +123,36 @@ $# /usr/share/logstash/bin/logstash -f /Path/To/Logstash.conf
 
 
 ```sh
+# /etc/logstash/conf.d/example_stock_price.conf
+input {
+  file {
+    path => "/root/data/GOOG.csv"
+    start_position => "beginning"
+  }
+}
 
+filter {
+  csv {
+    columns => ["date_of_record","open","high","low","close","adj_close","volume"]
+    separator => ","
+  }
+  date {
+    match => ["date_of_record", "yyyy-MM-dd"]
+    target => "@timestamp"
+  }
+  mutate {
+    convert => ["open", "float"]
+    convert => ["high", "float"]
+    convert => ["low", "float"]
+    convert => ["close", "float"]
+    convert => ["adj_close", "float"]
+    convert => ["volume", "float"]
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["http://localhost:9200"]
+  }
+}
 ```

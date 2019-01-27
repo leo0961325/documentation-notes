@@ -70,3 +70,19 @@ $# /usr/share/logstash/bin/logstash --path.settings /etc/logstash -t
 - 搜尋、分析的 UI
 - 預設使用 5601 port
 
+
+# Other Plugins
+
+- Marvel : Used for monitoring Elastic Search
+    - 安裝: bin/plugin -i elasticsearch/marvel/latest
+- Head   : Used for managing Elastic Search indexes
+    - 安裝: bin/plugin -i mobz/elasticsearch-head
+- Shield : Security for Elastic Search
+    - 安裝: bin/plugin -i license; bin/plugin -i shield
+    - NOT FREE
+- Koph : Simple web administration tool for Elastic Search, it offers an easy way of performing common tasks on an ElasticSearch cluster.
+    - 安裝: bin/plugin -i lmenezes/elasticsearch-kopf
+        - 存取: http://localhost:9200/_plugin/kopf/
+
+
+可看還有哪些 plugins : `bin/plugin -l`
