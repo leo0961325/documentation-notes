@@ -73,3 +73,15 @@ GET {{endpoint}}/lorem/_doc/0
 
 ### 
 GET {{endpoint}}/logstash-2019.01.27/
+
+
+### 
+GET {{endpoint}}/_count?pretty
+Content-Type: application/json
+
+{
+    "query": {
+        "match_all": {}
+    }
+}
+

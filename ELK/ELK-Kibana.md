@@ -60,3 +60,21 @@ server.name: your-hostname  # (default) A human-readable display name that ident
 server.port: 5601           # (default) Kibana is served by a back end server. This setting specifies the port to use.
 
 ```
+
+
+# Visualize
+
+建立圖表時, 可以為欄位建立進階選項, ex: 將收盤量*100
+
+```json
+{"script": "doc['volume'].value * 10"}
+```
+
+
+## 設定檔
+
+
+```sh
+### Kibana 設定主檔
+$# vim /etc/kibana/kibana.yml
+```

@@ -39,17 +39,6 @@ Query DSL     | SQL
 JSON Object   | Tuple
 
 
-```sh
-### useful
-$# curl -X<Verb> '<Protocol>://<Host>:<Port>/<Path>?<Query_String>' -d '<Body>'
-
-# Verb - 下列其一, GET, POST, PUT, HEAD, DELETE
-# Host:Port - Elastic Search Cluster. Default port 為 *9200*
-# Path - API endpoint
-
-# 想查詢所有 ElasticSearch 的 cluster number
-$# curl -XGET http://ES_HOST:9200/_cat/nodes
-```
 
 
 ## Logstash
@@ -73,16 +62,17 @@ $# /usr/share/logstash/bin/logstash --path.settings /etc/logstash -t
 
 # Other Plugins
 
-- Marvel : Used for monitoring Elastic Search
+- Marvel(multicluster 版本需要付費) : Used for monitoring Elastic Search
     - 安裝: bin/plugin -i elasticsearch/marvel/latest
 - Head   : Used for managing Elastic Search indexes
     - 安裝: bin/plugin -i mobz/elasticsearch-head
 - Shield : Security for Elastic Search
     - 安裝: bin/plugin -i license; bin/plugin -i shield
     - NOT FREE
-- Koph : Simple web administration tool for Elastic Search, it offers an easy way of performing common tasks on an ElasticSearch cluster.
+- Koph(only before ES v0.9,v1,v2) : Simple web administration tool for Elastic Search, it offers an easy way of performing common tasks on an ElasticSearch cluster.
     - 安裝: bin/plugin -i lmenezes/elasticsearch-kopf
         - 存取: http://localhost:9200/_plugin/kopf/
-
+- Curator : Help remove old indices and optimize the system
+    - pip install elasticsearch-curator
 
 可看還有哪些 plugins : `bin/plugin -l`

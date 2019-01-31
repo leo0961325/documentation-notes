@@ -1,18 +1,27 @@
 # Logstash
 
+- Since 2019/01
+
+```sh
+### 版本
+$# /usr/share/logstash/bin/logstash --version
+logstash 6.5.4
+```
+
 
 ## 目錄
 
 ```sh
 /etc/logstash/
-            /conf.d                 # 
+            /conf.d                 # 設定副檔目錄
             /jvm.options            # 
             /log4j2.properties      # 
             /logstash-sample.conf   # 
-            /logstash.yml           # 
+            /logstash.yml           # 主要設定檔
             /pipelines.yml          # 
             /startup.options        # 
 ```
+
 
 
 
@@ -20,21 +29,77 @@ Logstash filter - 強大的字串切割功能 : grok
 
 - [grok debug](https://grokdebug.herokuapp.com/)
 
+```sh
+### https://www.elastic.co/guide/en/logstash/6.5/config-examples.html
+### Example: logstash.conf
+# 此範例目的: 自己把 log 貼到 stdin, 然後來看看是否有把你要的 log pattern 拆解出來 (重點是 filter 那段)
+# 然後再用 bin/logstash -f logstash.conf
+/usr/share/logstash/bin/logstash -e '
+input { stdin { } }
+filter {
+  grok {
+    match => { "message" => "%{COMBINEDAPACHELOG}" }
+  }
+  date {
+    match => [ "timestamp" , "dd/MMM/yyyy:HH:mm:ss Z" ]
+  }
+}
+output {
+  stdout { codec => rubydebug }
+}' --path.settings /etc/logstash
+```
+
 現階段的 Log 分析軟體有: splunk, graylog, LOGGLy, logentries, sumologic
 
 ```sh
+### ↓ 一大堆的 input
+### https://www.elastic.co/guide/en/logstash/current/plugins-inputs-stdin.html#plugins-inputs-stdin-codec
 input {
+    file { # 1
+        path => "/path/to/file"
+        add_field => { "input_time" => "%{@timestamp}" } # 為 incoming events 增加欄位, value 為 Hash, 此值預設: {}
+        codec => "XXX"                  # 將 input 作 decode; ex: "json", 則是將 input json 作 decode. 此值預設: "plain"
+        delimiter => "\n"               # 辨識換行
+        exclude => ["*.gz", "*.bz2"]    # 不作 input
+        start_position => "end"         # beginning -> old data  ; end -> live streaming data
+        tags => ["tagName"]             # 此通常與 condition 混搭, ex: filter { if "tagName" in tags[] { ... }}
+        type => "event type"            # different type of incoming streams, ex: "syslog", "apache"
+        sincedb_path => "/path/to/file" # (不懂)
+    }
+    stdin { # 2
+        add_field => ""     # default: {}
+        codec => "line"     # default: line
+        tags => [""]        # 
+        type => ""          # 
+        id => ""            # 若有多個 stdin inputs, 建議給此 unique ID
 
+    }
+    # 3. lumberjack : 
+    # 4. redis : 
+    # ...(超多)
 }
 filter {
-    grok {
-        match => {
-            "message" => "\[(?<date>.+?)\] %{LOGLEVEL:level},ClientIP:%{IPV4:client_ip},ServerIP:%{IPV4:server_ip},%{GREEDYDATA:message}"
-        }
-    }
+    # csv : 
+    # file : 
+    # email : 
+    # elasticsearch : 
+    # ganglia : 
+    # jira : 
+    # kafka : 
+    # lumberjack : 
+    # redis : 
+    # rabbitmq : 
+    # stdout : 
+    # mongodb : 
 }
 output {
-
+    # csv : 
+    # date : 
+    # drop : 
+    # geoip : 
+    # grok : 
+    # mutate : 
+    # sleep : 
 }
 ```
 
@@ -49,9 +114,13 @@ grok 基本組成 : `%{屬性:自訂切割後屬性名稱}`.
 ```sh
 ### 檢查組態
 $# /usr/share/logstash/bin/logstash -t logstash.conf
+
+### 列出目前 logstash 可用的 plugins
+$# /usr/share/logstash/bin/logstash-plugin list
 ```
 
-# Running Logstash
+
+## Running Logstash
 
 ```sh
 ### (Logstash還沒啟動前)
@@ -114,10 +183,10 @@ output {
         hosts => ["http://localhost:9200"]
         index => sample1
     } 
-}' --path.settings /etc/logstash # 但是不知道為什麼會出錯@@
+}' --path.settings /etc/logstash
 
 ### 測試玩法5: 可使用外部檔案寫好的組態
-$# /usr/share/logstash/bin/logstash -f /Path/To/Logstash.conf
+$# /usr/share/logstash/bin/logstash -f /Path/To/Logstash.conf --path.settings /etc/logstash
 ```
 
 
@@ -128,6 +197,9 @@ input {
   file {
     path => "/root/data/GOOG.csv"
     start_position => "beginning"
+    # start_position : beginning, end
+    #  beginning : 歷史資料
+    #  end       : 後續 Streaming
   }
 }
 
@@ -156,3 +228,10 @@ output {
   }
 }
 ```
+
+
+## Grok
+
+- [grok pattern](https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns)
+
+

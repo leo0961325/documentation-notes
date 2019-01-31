@@ -3,6 +3,7 @@
 - 2019/01/16
 - ElasticSearch: v6.5.4
 - java: v1.8.0_161
+- [ElasticSearch Plugins](https://www.elastic.co/guide/en/elasticsearch/plugins/current/index.html)
 
 
 ## Config
