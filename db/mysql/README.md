@@ -44,6 +44,15 @@ db dir: C:\ProgramData\MySQL\MySQL Server 5.7\Data\
 - 第二正規化: `非 Key屬性` 與 `Key 屬性` 完全依賴
 - 第三正規化: `非 Key屬性` 之間相互獨立
 
+![參考完整性](../../img/ER-Relationship.png)
+
+關聯式資料模型 vs 關聯式資料庫管理系統
+RDB Model                                   | RDBMS
+------------------------------------------- | -----------------------
+Collection of objects or relations          | DB Objects
+Set of operations to act on the relations   | Data Operations
+Data integrity for accuracy and consistancy | DB Constraints
+
 
 
 # 連線相關

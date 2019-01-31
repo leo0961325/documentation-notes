@@ -1,3 +1,9 @@
+/*
+    大數據分析班
+    上課範例資料
+    2018/02-03
+*/
+
 CREATE TABLE DEPT 
 (
   DEPTNO             INT NOT NULL,
