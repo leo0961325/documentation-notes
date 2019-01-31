@@ -32,6 +32,9 @@ git commit --amend -m "<Commit String>"
 git config --global user.name "TonyCC"
 git config --global user.email "cool21540125@gmail.com"
 git config --global alias.tree "log --graph --decorate --pretty=oneline --abbrev-commit"
+
+# 設定 git 預設的編輯器 (預設為 vim)
+git config --global core.editor "notepad"
 ```
 
 ```sh
