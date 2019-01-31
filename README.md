@@ -27,11 +27,12 @@ windows       | Windows Operating System
 
 ### 常見常忘的 英翻中...
 
-- ad-hoc : 特設, 專案的, 臨時的, 特定目的的
+- ad-hoc(ad hoc) : 特設, 專案的, 臨時的, 特定目的的
 - alphanumeric : 標點符號
 - back slash : 反斜線
 - cascade: 串連
 - congestion : 擁塞
+- immutable : 不可變的
 - intelliSense : 提示
 - IP Masquerade: IP掩蔽
 - linter : code 語法 check
@@ -42,7 +43,9 @@ windows       | Windows Operating System
 - sharding : 分片(把東西拆成幾分的概念吧??)
 - snippets : 片段
 - sponsor : 發起人
+- throughput : 吞吐量
 - tilde : 波浪號
+- under the hood : 在引擎蓋底下(有點封裝的概念, 複雜的細節人家幫你包好了)
 - wildcard characters : 萬用字元 (「*」啦)
 
 
