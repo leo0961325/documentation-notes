@@ -25,6 +25,7 @@ OK後, 會發現將來此 Database 下的使用者無法刪除, 因為已經變�
 
 Databases > [DB] > Security > Schemas > dbo, 將 Schema owner 改回 dbo 即可
 
+以上, 為了開發方便, 直接給 dbo, 但若都沒給, 別說 CRUD, 連預覽 Table 的權限都沒有
 
 ```powershell
 ### Windows auth login
