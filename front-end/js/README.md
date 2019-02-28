@@ -75,3 +75,12 @@ q();
 q();
 3
 ```
+
+
+
+```js
+// 插入元素
+    javascript: beforebegin     afterbegin          beforeend       afterend
+                            <h1>             HI                </h1>
+    jquery:     before          prepend             append          after
+```

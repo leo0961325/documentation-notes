@@ -32,6 +32,8 @@ windows       | Windows Operating System
 - back slash : 反斜線
 - cascade: 串連
 - congestion : 擁塞
+- enumerable : 可列舉的
+- fabric : 布, 結構, 構造, 品質, 織品
 - immutable : 不可變的
 - intelliSense : 提示
 - IP Masquerade: IP掩蔽
@@ -39,14 +41,20 @@ windows       | Windows Operating System
 - malformed : 異常
 - masquerade: 偽裝
 - on the fly : 動態產生 
+- oval : 橢圓形
+- overlap : 交疊
+- persist : 堅持, 持續
+- portal : 門戶
 - replica : 即時備援 (同時複製一份到其他節點的概念), 可以想成 HA 啦
 - sharding : 分片(把東西拆成幾分的概念吧??)
 - snippets : 片段
+- space bar : 空白鍵
 - sponsor : 發起人
 - throughput : 吞吐量
 - tilde : 波浪號
 - under the hood : 在引擎蓋底下(有點封裝的概念, 複雜的細節人家幫你包好了)
 - wildcard characters : 萬用字元 (「*」啦)
+- wireframe : 線框
 
 
 #### 安全性 && 系統名詞
