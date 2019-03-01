@@ -55,3 +55,24 @@ DOM
     Click to edit
 </div>
 ```
+
+
+## Attribute vs Property
+
+```html
+<input type="text" value="tony" id="demo" />
+
+<script>
+    var a = document.getElementById('demo');
+    a.getAttribute('value');    // tony
+    a.value();                  // tony
+    // tony
+
+    // 但如果在 網頁上, 把輸入框的值改成 chou 以後...
+    a.getAttribute('value');    // tony
+    a.value();                  // chou
+
+    // attribut -> HTML
+    // property -> DOM
+</script>
+```
