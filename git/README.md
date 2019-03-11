@@ -40,18 +40,38 @@ git config --global core.editor "notepad"
 ```sh
 # 作業環境
 $ uname -a
-Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 
+Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64
 
 # 版本
 $ git --version
 git version 2.14.3
 ```
 
+## cherry-pick 合併特定 Commit 節點的特色
+
+```sh
+# 如果 G 節點想要 F 節點的特色, 但不要有 J 節點的東西
+#
+#     G
+#    /|  J
+#   / |  |
+#  |  |  F
+#  D  E /
+#  |  |/
+#  B  C
+#   \ |
+#    \|
+#     A
+
+# (切換到 G )
+$ git cherry-pick J
+```
+
 
 
 # A. 概念
 
-> Git為 `分散式版本控管系統(Distributed Version Control System)`. 
+> Git為 `分散式版本控管系統(Distributed Version Control System)`.
 
 
 ## 示意圖
@@ -123,7 +143,7 @@ $ git merge B
 #
 #  O master (較舊)
 #   \
-#    O 
+#    O
 #    |
 #    O bug/123* (最新)
 
@@ -132,13 +152,13 @@ $ git checkout master
 $ git merge bug/123
 #  O
 #   \
-#    O 
+#    O
 #    |
 #    O bug/123, master*
 
 # Case2 - 合併 master與 bug/123, 使用「--no-ff」 (合併後, 留下歷史紀錄)
 $ git checkout master
-$ git merge bug/123 --no-ff 
+$ git merge bug/123 --no-ff
 #  O
 #  |\
 #  | |
@@ -153,16 +173,16 @@ $ git merge bug/123 --no-ff
 
 因為分支與 master 都有各自 commit了, 導致彼此的歷史沒有重疊
 ```sh
-#         O 
+#         O
 #         |\
-#         O | 
+#         O |
 #         | O bug/123*
 #  master O
 $ git checkout master
 $ git merge bug/123
-#         O 
+#         O
 #         |\
-#         O | 
+#         O |
 #         | O bug/123
 #         O |
 #         |/
@@ -245,25 +265,18 @@ nothing added to commit but untracked files present (use "git add" to track)
 ```sh
 # O C0               (old)
 # |
-# O C1  
+# O C1
 # |
 # O C2 <-master      (new)
 
-$ git revert HEAD   
+$ git revert HEAD
 # O C0
 # |
-# O C1  
+# O C1
 # |
-# O C2  
+# O C2
 # |
 # O C2' <-master
-```
-
-
-## cherry-pick (這...我不是很懂)
-把某一個 commit節點的檔案版本, 合併到資料夾的檔案
-```sh
-$ git cherry-pick commit <節點標籤>
 ```
 
 
@@ -325,7 +338,7 @@ $ git config --global color.ui true
 
 ```sh
 # 查看 分支 及 遠端追蹤情形
-$ cat .git/config 
+$ cat .git/config
 ```
 
 
@@ -350,7 +363,7 @@ $ git config --global alias.tree2 "log --graph --oneline --all --decorate"
 # 將來可用 git tree2 來漂亮的看提交紀錄
 
 $ git config --global push.followTags true  # ※ 好像沒有用處!!?? ※
-# git push時, 連同 tag一起推送, git tag 
+# git push時, 連同 tag一起推送, git tag
 ```
 
 
@@ -396,7 +409,7 @@ $ git branch -u origin/master foo
 
 ## 選項
 
-選項 | 說明 | 範例 
+選項 | 說明 | 範例
 --- | --- | ---
 -s | 簡易資訊 | git status -s
 
@@ -465,8 +478,8 @@ $ git rebase tony           # 把 (落後的)master, 合併到 tony
 
 param   | data in repo | git index | file in dir
 ------- |:------------:|:---------:|:------------:
---soft  | v            |           | 
---mixed | v            | v         | 
+--soft  | v            |           |
+--mixed | v            | v         |
 -- hard | v            | v         | v
 
 
