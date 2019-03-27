@@ -1,3 +1,27 @@
 # node.js
 - 可預見的幾個月內, 這邊應該不會有什麼變動...
 - 2018/04/08
+
+## Script
+
+```sh
+### 建立 package.json
+$ npm init
+```
+
+## Dir
+
+
+> package.json : 專案所用到的套件版本, 專案版本, npm 指令
+
+> package-lock.json : 用來記錄 package.json 更加細節的內容, dependency... (通常不會理他) (npm5 新增的東西)
+
+
+```sh
+### production bundle
+$ npm install --save
+
+### development purpose, ex: linter, testing, libraries, ...
+$ npm install --save-dev
+```
+

@@ -21,7 +21,7 @@ other         | 不屬於以上的都放這~~
 pg            | Programming(without Python) && Design Pattern
 python        | Python 3.6
 ssg           | Single Page Generator, ex: HUGO
-vscode        | Powerful IDE 
+vscode        | Powerful IDE
 windows       | Windows Operating System
 
 
@@ -40,7 +40,7 @@ windows       | Windows Operating System
 - linter : code 語法 check
 - malformed : 異常
 - masquerade: 偽裝
-- on the fly : 動態產生 
+- on the fly : 動態產生
 - oval : 橢圓形
 - overlap : 交疊
 - persist : 堅持, 持續
@@ -79,28 +79,28 @@ windows       | Windows Operating System
 
 abbr   | Termonology                                 | Category        | Note
 ------ | ------------------------------------------- | --------------- | ------------
-AD     | Active Directory                            | 集中驗證         | 
-BSD    | Berkeley Software Distribution              | DNS             | 
-CA     | Certificate Authorities                     | 資安            | 
-DHCP   | Dynamic Host Configuration Protocol         | TCP/IP          | 
-DMZ    | Demilitarized Zone                          | 資安            | 
-DN     | Distinguished Name                          | 集中驗證         | 
+AD     | Active Directory                            | 集中驗證         |
+BSD    | Berkeley Software Distribution              | DNS             |
+CA     | Certificate Authorities                     | 資安            |
+DHCP   | Dynamic Host Configuration Protocol         | TCP/IP          |
+DMZ    | Demilitarized Zone                          | 資安            |
+DN     | Distinguished Name                          | 集中驗證         |
 EIP    | Elastic IP                                  | AWS             | 固定IP
-GDPR   | General Data Protection Regulation          | 資安            | 
+GDPR   | General Data Protection Regulation          | 資安            |
 IPA    | Identiti, Policy and Auditing               | 集中驗證         | 提供 LDAP & Kerberos
 MITM   | Man-In-The-Middle attack                    | 資安            | [MITM](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)
-KDC    | Key Distribution Centers                    | 集中驗證         | 
-LDAP   | Lightweight Directory Access Protocol       | 集中驗證         | 
-NAT    | Network Address Translation                 | IPv4            | 
-NFS    | Network File System                         | Linux           | 
-OCSP   | Online Certificate Status Protocol          | 在線憑證狀態協定 | 
+KDC    | Key Distribution Centers                    | 集中驗證         |
+LDAP   | Lightweight Directory Access Protocol       | 集中驗證         |
+NAT    | Network Address Translation                 | IPv4            |
+NFS    | Network File System                         | Linux           |
+OCSP   | Online Certificate Status Protocol          | 在線憑證狀態協定 |
 PERT   | Program Evaluation and Review Technique     | 專案管理        | [PERT 網路分析法](https://wiki.mbalib.com/zh-tw/PERT%E7%BD%91%E7%BB%9C%E5%88%86%E6%9E%90%E6%B3%95)
-POC    | Proof of Concept                            | DevOps          | 
-SEO    | Search Engine Optimization                  | FrontEnd        | 
+POC    | Proof of Concept                            | DevOps          |
+SEO    | Search Engine Optimization                  | FrontEnd        |
 SSG    | Static Site Generator                       | FrontEnd        | 前端框架產生器, ex: Hugo, Hexo, MkDocs
 SSO    | Single Sign-On                              | 集中驗證         | 單點登錄
-TDD    | Test-Driven-Development                     | DevOps          | 
-VPC    | Virtual Private Cloud                       | Cloud           | 
+TDD    | Test-Driven-Development                     | DevOps          |
+VPC    | Virtual Private Cloud                       | Cloud           |
 
 
 ## Software
@@ -109,6 +109,11 @@ Software     | Description
 ------------ | --------------------------
 fiddler2     | 網路流量監控軟體
 log4j2       | 讓你方便作 Logging 的軟體
+
+
+## Interesting URLs
+
+- [隨機用戶產生器](https://randomuser.me/api/)
 
 
 by TonyCC
