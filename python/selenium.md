@@ -5,6 +5,8 @@
 ### python3安裝完以後,開始安裝selenium
 - 2017/09/23
 - [SeleniumHQ](http://www.seleniumhq.org/)
+- [Selenium Client Driver¶](https://seleniumhq.github.io/selenium/docs/api/py/)
+- [webdriver 顯式等待 vs 隱式等待](https://selenium-python-zh.readthedocs.io/en/latest/waits.html)
 
 
 1. 下載Firefox Selenium Client Driver
@@ -41,7 +43,7 @@ $ pip install -U selenium
 5. 開始使用
 ```python
 from selenium import webdriver
-web = webdriver.Firefox()
+web = webdriver.Firefox('Path to Web Driver')
 web.get('https://google.com.tw')
 # selenium操作~~
 web.close()
