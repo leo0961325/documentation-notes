@@ -310,3 +310,38 @@ Vary: Cookie
   "token": "y6af53p61ce1hf182c48fub2c46b62Qa4ca10g4c"
 }
 ```
+
+
+
+# login 取得 token 做後續操作
+
+```rest
+### Login
+# @name login
+POST http://127.0.0.1:5000/api
+Content-Type: application/json
+
+{
+    "username": "tony",
+    "password": "1234"
+}
+
+###
+GET http://127.0.0.1:5000/api/demo
+Content-Type: application/json
+token: {{login.response.body.$.data.token}}
+
+# 上述的前提: server 端會將 token 包裹在 response body:
+{
+    "data": {
+        "token" : "apgfiurwjngarnhgpuh94"
+    }
+}
+
+# 若 server 直接回傳 response body:
+{
+    "accessToken" : "apgfiurwjngarnhgpuh94"
+}
+
+則直接以 token: {{login.response.body.$.token}} 即可取得 token
+```
