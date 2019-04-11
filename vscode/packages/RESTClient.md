@@ -75,7 +75,7 @@ name=foo
 
 ## 範例2 - 給路徑 (比較少用)
 ```sh
-### 
+###
 POST http://127.0.0.1:8000/comments HTTP/1.1
 Content-Type: application/xml
 Authorization: token xxx
@@ -83,7 +83,7 @@ Authorization: token xxx
 < C:\Users\Default\Desktop\demo.xml
 # (這行是註解) 指定電腦上的絕對路徑
 
-### 
+###
 POST http://127.0.0.1:8000/comments HTTP/1.1
 Content-Type: application/xml
 Authorization: token xxx
@@ -222,7 +222,7 @@ Accept: application/xml
 # @name getFirstReply
 GET {{baseUrl}}/comments/{{createComment.response.body.$.id}}/replies/{{getReplies.response.body.//reply[1]/@id}}
 
-// 使用 createComment 那組 API 的 response.body 的 id 
+// 使用 createComment 那組 API 的 response.body 的 id
 // 搭配 getReplies 那組 API 的 .response.body 的 //reply[1]/@id  <---我看不懂了...
 ```
 
@@ -250,7 +250,7 @@ ms     | Millisecond
 
 
 ```sh
-### 
+###
 POST https://api.example.com/comments HTTP/1.1
 Content-Type: application/xml
 Date: {{$datetime rfc1123}}
@@ -315,8 +315,9 @@ Vary: Cookie
 
 # login 取得 token 做後續操作
 
-```rest
-### Login
+### - Request Variables 接技用法
+```sh
+### Login -------------------------
 # @name login
 POST http://127.0.0.1:5000/api
 Content-Type: application/json
@@ -325,23 +326,67 @@ Content-Type: application/json
     "username": "tony",
     "password": "1234"
 }
-
-###
+# 取得登入 token
+# ---------------------------------
+# 取得到的 response 為
+{
+    "data": {
+        "token": "u~eXAiOiJK?V1QiLCYTYw*YzQ0NTgyNDIxNaMUP.lB3YPXwG2S%w"
+    }
+}
+# ---------------------------------
+### 作 token 驗證的後續請求
 GET http://127.0.0.1:5000/api/demo
 Content-Type: application/json
-token: {{login.response.body.$.data.token}}
+token: {{login.response.body.data.token}}
 
-# 上述的前提: server 端會將 token 包裹在 response body:
 {
     "data": {
         "token" : "apgfiurwjngarnhgpuh94"
     }
 }
-
+# ---------------------------------
 # 若 server 直接回傳 response body:
 {
     "accessToken" : "apgfiurwjngarnhgpuh94"
 }
 
-則直接以 token: {{login.response.body.$.token}} 即可取得 token
+則直接以 token: {{login.response.body.token}} 即可取得 token
+```
+
+### - Request Variables 接技用法(Array)
+
+```sh
+# @name demo1
+GET {{apiEndPoint}}/api/get_array
+Content-Type: application/json
+# ---------------------------------
+# 取得的 response 為:
+HTTP/1.1 200 OK
+Connection: close
+Content-Length: 64
+Content-Type: application/json
+
+{
+  "assets": [
+    {
+      "type": "moto",
+      "value": 100
+    },
+    {
+      "type": "bike",
+      "value": 10
+    }
+  ]
+}
+# ---------------------------------
+### 使用 demo1 的 response body 的 moto 來傳遞的話
+GET {{apiEndPoint}}/api/get_array
+Content-Type: application/json
+
+{
+    "data": {{demo1.response.body.assets[1].type}}
+}
+# ---------------------------------
+
 ```
