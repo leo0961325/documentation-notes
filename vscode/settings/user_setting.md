@@ -17,6 +17,7 @@
     "extensions.showRecommendationsOnlyOnDemand": true,
     "workbench.startupEditor": "none",
     "explorer.openEditors.visible": 0,
+    "files.trimTrailingWhitespace": true,
 
     // Windows Only
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
