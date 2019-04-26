@@ -9,3 +9,4 @@
 - `Win + +` : 放大鏡
 - `Win + i` : 系統設定
 - `Win + l` : 鎖定 User
+- `Win + Shieft + s` : 畫面部分截圖
