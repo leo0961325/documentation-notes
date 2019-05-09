@@ -24,7 +24,7 @@ $ rpm --query centos-release
 centos-release-7-5.1804.4.el7.centos.x86_64
 ```
 
-- RHEL (RedHat Enterprise Linux) : 
+- RHEL (RedHat Enterprise Linux) :
 - EPEL (Extra Packages for Enterprise Linux) : 幾乎都是 RedHat 的實驗品... 正式 Server 別裝這些...
 
 
@@ -49,7 +49,7 @@ $ yum provides semanage
 $ yum list kernel
 
 # 移除本地已安裝的套件 && Dependcies
-$# yum remove httpd 
+$# yum remove httpd
 
 # 查線上可安裝的群組套件
 $ yum group list # 或 yum grouplist
@@ -531,7 +531,6 @@ $# yum -y install code
 ```
 
 
-
 # install Anaconda (python3.6.1)
 
 - 2017/11/26
@@ -579,7 +578,7 @@ $ sudo systemctl start redis
 
 # Git (CentOS7 default repo -> git v-1.8 太舊了~~)
 - 2017/11/26
-- [How To Install Git on CentOS 7](https://blacksaildivision.com/git-latest-version-centos) 
+- [How To Install Git on CentOS 7](https://blacksaildivision.com/git-latest-version-centos)
 - [Choose a version](https://github.com/git/git/releases) ( 以2.14.3版為例 )
 - [Choose a version 有時候Github會掛掉...](https://mirrors.edge.kernel.org/pub/software/scm/git/)
 
@@ -818,9 +817,44 @@ $ cd
 
 $ vi .bashrc
 export scala_HOME="/home/tony/scala-2.12.4"
-export PATH=$scala_HOME/bin:$PATH 
+export PATH=$scala_HOME/bin:$PATH
 ```
 
+
+# Install Python3.7 on CentOS7.6
+
+- 2019/05/10
+- [CentOS 7 下 安装 Python3.7](https://segmentfault.com/a/1190000015628625)
+
+```sh
+### 必要套件
+yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make libffi-devel
+# libffi-devel 專門給 python3.7
+
+### 為了要安裝「python-pip」
+yum -y install epel-release
+
+### 安裝 pip
+yum install -y python-pip
+
+### 下載 Python3.7.1 tar ball
+wget https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tgz
+
+
+tar zxf Python-3.7.1.tgz
+cd Python-3.7.1
+./configure prefix=/usr/local/python3
+
+### 開始 Compile
+make && make install
+
+### 軟連結
+ln -s /usr/local/python3/bin/python3.7 /usr/bin/python3
+ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip3
+
+### 將來使用
+python3
+```
 
 
 # install Python (不完整)
@@ -952,7 +986,7 @@ flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36
 $ sudo yum install -y qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client virt-install virt-viewer bridge-utils
 
 $ lsmod | grep kvm
-kvm_intel             174250  0 
+kvm_intel             174250  0
 kvm                   570658  1 kvm_intel
 irqbypass              13503  1 kvm
 

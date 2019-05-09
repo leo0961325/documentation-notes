@@ -85,3 +85,13 @@ t.start()
 # ...
 s.gg()   # 停止執行續(注意是 s 而非 t)
 ```
+
+
+# uvloop: Blazing fast Python networking
+
+- 2019/04/22
+- https://magic.io/blog/uvloop-blazing-fast-python-networking/
+- `event loop` 為 `asyncio` 的核心
+- `uvloop` 基於 `libuv` 用 Cython 來寫的
+    - `libuv` 為跨平台的異步 I/O lib, 也被 nodejs 所用
+- `uvloop` 實作所有 asyncio event loop APIs
