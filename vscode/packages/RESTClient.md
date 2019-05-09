@@ -390,3 +390,25 @@ Content-Type: application/json
 # ---------------------------------
 
 ```
+
+
+### 上傳附件
+
+```sh
+@img1=1.gif
+###
+# @name fileID
+POST {{apiEndPoint}}/api?m=file
+token: {{token}}
+Content-Type: multipart/form-data; boundary=--upd
+
+--upd
+Content-Disposition: form-data; name="file"; filename="{{img1}}"
+Content-Type: application/octet-stream
+
+< {{img1}}
+--upd--
+```
+- 後端接口為 `file`
+- 僅接收 `file` 參數
+-
