@@ -38,6 +38,25 @@ git config --global core.editor "notepad"
 ```
 
 ```sh
+### 暫存目前變更
+git stash
+
+### 彈出最小暫存
+git stash pop
+# 其實, pop = apply + drop
+
+### 套用特定暫存
+git stash apply stash@{2}
+# 並不會移除 stash@{2}
+
+### 刪除暫存檔
+git stash drop stash@{2}
+
+### 移除所有暫存
+git stash clear
+```
+
+```sh
 # 作業環境
 $ uname -a
 Linux tonynb 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64
