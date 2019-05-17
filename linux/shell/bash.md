@@ -245,7 +245,7 @@ $ echo ${pp%:*bin}
 /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/student/.local/bin  # 為啥 : 不見了....= =
 # 依理, 「%%」可刪除最長的 match
 
-##### 練習 : 
+##### 練習 :
 $ echo ${HOME}
 /home/student
 
@@ -430,10 +430,25 @@ Note: 載入 環境變數 設定檔的指令, `source ~/.bashrc` 與 `. ~/.bashr
 
 ```sh
 # 所以如果看到 bash 的提示字為
--bash-4.2$ 
+-bash-4.2$
 
 # 表示 ~/.bashrc 可能出問題了!! (不影響 bash 使用)
 # 可去複製 /etc/skel/.bashrc 回家目錄, 再來修改~
+```
+
+#### 多行註解
+
+```sh
+#!/bin/bash
+
+:<<BLOCK
+這裡面都是註解~~~
+echo 'none'
+這裡面都是註解~~~
+這裡面都是註解~~~
+BLOCK
+
+echo 'hi'
 ```
 
 # 其他
