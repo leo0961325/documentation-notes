@@ -25,7 +25,7 @@ aptitude 8891 root    4uW  REG   6,47        0 248214 /var/lib/dpkg/lock
 $ sudo kill 8891
 
 # 如果出現
-E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem. 
+E: dpkg was interrupted, you must manually run 'sudo dpkg --configure -a' to correct the problem.
 
 # 就輸入
 $ sudo dpkg --configure -a
@@ -151,7 +151,7 @@ $ apt update
 $ apt install -y git
 $ git --version
 git version 2.7.4
-# ↑ 2018/06 都已經出到 2.18rc 了, 2.7版 有點老舊... 
+# ↑ 2018/06 都已經出到 2.18rc 了, 2.7版 有點老舊...
 
 $ apt remove -y git
 # 所以把它砍了, 自己來編譯~~~
@@ -223,6 +223,32 @@ $ which pip3
 apt install -y openssh-server
 ```
 
+# Intsll Python3.7
+
+- 2019/05/16
+- [Installing The Latest Python 3.7 On Ubuntu 16.04 / 18.04](https://websiteforstudents.com/installing-the-latest-python-3-7-on-ubuntu-16-04-18-04/)
+
+```sh
+### dependencies
+$# apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+
+###
+$# wget https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tar.xz
+
+###
+$# tar -xf Python-3.7.1.tar.xz
+$# cd Python-3.7.1
+$# ./configure --enable-optimizations --prefix=/usr/local
+
+### 開始編譯
+$# make -j 2
+# -j: 使用的核心數
+
+$# make altinstall
+
+$# python3.7 --version
+```
+
 
 # certbot
 
@@ -278,7 +304,7 @@ your server, please ensure you're okay with that.
 
 Are you OK with your IP being logged?
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(Y)es/(N)o: Y   ### 
+(Y)es/(N)o: Y   ###
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Create a file containing just this data:
@@ -344,7 +370,7 @@ IMPORTANT NOTES:
    e-mail address appears to be invalid. You can try again later by
    visiting https://act.eff.org.
 
-$# 
+$#
 ```
 
 後續再到 Gitlab / Pages, 修改你的 Domain
