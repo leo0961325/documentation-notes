@@ -411,4 +411,32 @@ Content-Type: application/octet-stream
 ```
 - 後端接口為 `file`
 - 僅接收 `file` 參數
--
+
+
+### 怎麼取
+
+```sh
+### response 長這樣 --------
+# @name demo
+{
+  "code": 0,
+  "data": [
+    {
+      "id": "b98f2ade72d011e997ce00d8610bac98",
+      "created_at": "2019-05-10 10:53:58",
+      "content": "777 經貿自經區",
+      "remark": "777 經貿自經區"
+    }
+  ]
+}
+
+### 取剛剛的 id ---------------
+GET {{apiEndPoint}}/api
+Content-Type: application/json
+token: {{token}}
+
+{
+    "id": "{{demo.response.body.data[0].id}}"
+}
+```
+

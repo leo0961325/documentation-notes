@@ -9,7 +9,7 @@ ex: C# 鍵盤輸入 `prop` + <code>tab</code>
 
 - [Creating Code Snippets in Visual Studio Code](https://scotch.io/bar-talk/write-less-code-by-creating-snippets-in-visual-studio-code)
 
-> File > Preferences > User Snippets > 
+> File > Preferences > User Snippets >
 
 ```js
 // Example:
@@ -51,3 +51,16 @@ sim      | static int Main Method
 svm      | static void Main Method
 
 
+# python
+
+```js
+{
+    "Print": {
+        "prefix": "pp",
+        "body": [
+            "print(${0})"
+        ],
+        "description": "print()"
+    }
+}
+```

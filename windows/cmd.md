@@ -47,3 +47,13 @@ Tony
 ```cmd
 > bcdedit
 ```
+
+
+## windows 10 作 時間校正
+
+- 2019/05/02
+-
+```cmd
+w32tm /config /update /manualpeerlist:<Remote Server IP>
+w32tm /resync
+```
