@@ -38,7 +38,7 @@ Nmap done: 1 IP address (1 host up) scanned in 1.66 seconds
 ### 切換 postgresql 使用者~
 $# sudo -i -u postgres
 
-### 會換登入目錄
+### 切換登入目錄
 $# pwd
 /var/lib/postgresql
 
@@ -56,9 +56,11 @@ $# psql -l
 
 ### Create DB
 $# createdb tonydb      # (沒有提示QQ...)
+# /bin/bash
 
 ### 進入 DB
 $# psql tonydb
+# /bin/bash, 執行後進入 psql
 ```
 
 ```sh
