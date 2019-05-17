@@ -29,3 +29,19 @@ pip install pylint-django
     ],
 }
 ```
+
+## for python
+
+```js
+{
+    // 環境直譯器
+    "python.pythonPath": "C:\\Users\\twtru\\OneDrive\\work\\venv\\venv_demo\\Scripts\\python.exe",
+
+    // 自動啟動環境
+    "python.terminal.activateEnvironment": true,
+
+    // Linting
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+}
+```

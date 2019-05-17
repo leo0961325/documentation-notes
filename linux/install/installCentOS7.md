@@ -531,7 +531,6 @@ $# yum -y install code
 ```
 
 
-
 # install Anaconda (python3.6.1)
 
 - 2017/11/26
@@ -854,6 +853,41 @@ export scala_HOME="/home/tony/scala-2.12.4"
 export PATH=$scala_HOME/bin:$PATH
 ```
 
+
+# Install Python3.7 on CentOS7.6
+
+- 2019/05/10
+- [CentOS 7 下 安装 Python3.7](https://segmentfault.com/a/1190000015628625)
+
+```sh
+### 必要套件
+yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make libffi-devel
+# libffi-devel 專門給 python3.7
+
+### 為了要安裝「python-pip」
+yum -y install epel-release
+
+### 安裝 pip
+yum install -y python-pip
+
+### 下載 Python3.7.1 tar ball
+wget https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tgz
+
+
+tar zxf Python-3.7.1.tgz
+cd Python-3.7.1
+./configure prefix=/usr/local/python3
+
+### 開始 Compile
+make && make install
+
+### 軟連結
+ln -s /usr/local/python3/bin/python3.7 /usr/bin/python3
+ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip3
+
+### 將來使用
+python3
+```
 
 
 # install Python (不完整)
