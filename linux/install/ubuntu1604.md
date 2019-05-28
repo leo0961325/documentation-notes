@@ -250,6 +250,44 @@ $# python3.7 --version
 ```
 
 
+# PostgreSQL - 9.5
+
+- 2019/01/28
+- [學習資源](https://www.youtube.com/playlist?list=PLliocbKHJNws0zsx5Akn1DVoPznFYYGA9)
+
+
+```bash
+$# apt install -y postgresql
+
+$# psql --version
+psql (PostgreSQL) 9.5.14
+```
+
+
+# Install nmap
+
+- 強大的駭客軟體
+
+```sh
+$# apt-get -y update
+$# apt-get install -y nmap
+
+### Port 掃描
+$# nmap 127.0.0.1
+
+Starting Nmap 7.01 ( https://nmap.org ) at 2019-01-28 02:41 CST
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.0000030s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+631/tcp  open  ipp
+5432/tcp open  postgresql
+
+Nmap done: 1 IP address (1 host up) scanned in 1.66 seconds
+```
+
+
 # certbot
 
 - 2018/11/28

@@ -1,49 +1,14 @@
-# PostgreSQL 9.5
+# PostgreSQL
 
-- 2019/01/28
-- [學習資源](https://www.youtube.com/playlist?list=PLliocbKHJNws0zsx5Akn1DVoPznFYYGA9)
-- On Ubuntu 16.04
-
-### Install
-
-```sh
-$# apt install -y postgresql
-
-$# psql --version
-psql (PostgreSQL) 9.5.14
-
-$# apt-get -y update
-$# apt-get install -y nmap
-
-### Port 掃描
-$# nmap 127.0.0.1
-
-Starting Nmap 7.01 ( https://nmap.org ) at 2019-01-28 02:41 CST
-Nmap scan report for localhost (127.0.0.1)
-Host is up (0.0000030s latency).
-Not shown: 997 closed ports
-PORT     STATE SERVICE
-22/tcp   open  ssh
-631/tcp  open  ipp
-5432/tcp open  postgresql
-
-Nmap done: 1 IP address (1 host up) scanned in 1.66 seconds
-```
+- [PostgreSQL 11 - 官方](https://www.postgresql.org/docs/current/tutorial.html)
 
 ### Usa Postgresql
 
 #### 1. Operate DB
 
 ```sh
-### 切換 postgresql 使用者~
-$# sudo -i -u postgres
-
-### 切換登入目錄
-$# pwd
-/var/lib/postgresql
-
 ### 目前已有哪些 Database
-$# psql -l
+postgres@docker:/root$ psql -l
                                   List of databases
    Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges
 -----------+----------+----------+-------------+-------------+-----------------------
@@ -55,8 +20,7 @@ $# psql -l
 (3 rows)
 
 ### Create DB
-$# createdb tonydb      # (沒有提示QQ...)
-# /bin/bash
+
 
 ### 進入 DB
 $# psql tonydb
@@ -86,10 +50,6 @@ $# dropdb tonydb    # (沒有提示QQ...)
 #### 2. Operate Table
 
 ```sh
-$# createdb tonydb
-
-$# psql tonydb
-# 底下命令提示字元懶得換了... (tonydb=# -> $#)
 
 $# create table posts (title varchar(255), content text);
 CREATE TABLE
@@ -228,8 +188,7 @@ DELETE 1
 
 ```sh
 ### psql tonydb
-$# create table users (id serial primary key, name varchar(16));
-CREATE TABLE
+$#
 
 ### 增加欄位
 $# alter table users add fullname varchar(255);
@@ -259,3 +218,116 @@ $# drop index idx_name;
 
 - [2019/1/28 進度 - 13/16](https://www.youtube.com/watch?v=QtXqViS1OU8&list=PLliocbKHJNws0zsx5Akn1DVoPznFYYGA9&index=14)
 
+
+# psql Command Line
+
+- [postgres-cheatsheet](https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546)
+
+
+## Part 1 - 基本操作
+
+```bash
+### 進入 psql(法一)
+$# psql -U postgres
+postgres=$#         # DONE
+
+### 進入 psql(法二)
+$# su postgres
+$# psql
+postgres=$#         # DONE
+
+### 離開 postgres
+postgres=$# \q
+
+### 建立 tonydb Database
+postgres=$# createdb tonydb
+
+### 使用 DB
+postgres=$# psql tonydb
+postgres-$#                 # 命令提示字有變化喔!
+
+### 列出DB(法一)
+postgres@docker:/$# psql -l
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges
+-----------+----------+----------+------------+------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ tonydb    | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+(4 rows)
+
+### 列出DB(法二)
+postgres=$# \l
+
+### 查看連線的 DB && 目前使用者
+postgres=$# \c
+You are now connected to database "postgres" as user "postgres".
+
+### 連線到 DB
+postgres=$# \c tonydb
+You are now connected to database "tonydb" as user "postgres".
+tonydb=$#       # DONE (切換 DB 了~)
+
+### 列出 Schema (無法在外部使用 「psql \dn」)
+postgres=$# \dn
+  List of schemas
+  Name  |  Owner
+--------+----------
+ public | postgres
+(1 row)
+
+### 列出 indexes
+postgres=$# \di
+Did not find any relations.
+
+### 列出目前使用者
+postgres=$# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of
+-----------+------------------------------------------------------------+-----------
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+###
+```
+
+## Part2 - DDL
+
+```bash
+### 建立 Table - users
+tonydb-$# CREATE TABLE users (
+tonydb($#   id SERIAL PRIMARY KEY,
+tonydb($#   name VARCHAR(16)
+tonydb($# );
+CREATE TABLE
+
+### 查看 Table - users
+tonydb-$# \d users
+                                   Table "public.users"
+ Column |         Type          | Collation | Nullable |              Default
+--------+-----------------------+-----------+----------+-----------------------------------
+ id     | integer               |           | not null | nextval('users_id_seq'::regclass)
+ name   | character varying(16) |           |          |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+
+### 查看所有 Tables     (等同 MySQL : 「Show Tables;」)
+tonydb-$# \d
+              List of relations
+ Schema |     Name     |   Type   |  Owner
+--------+--------------+----------+----------
+ public | users        | table    | postgres
+ public | users_id_seq | sequence | postgres
+(2 rows)
+
+###
+```
+
+## Part3 - DML
+
+```bash
+### 大量 Insert 到 weather Table, 資料來自 ...
+tonydb-$# COPY weather FROM '/home/user/weather.txt';
+```
