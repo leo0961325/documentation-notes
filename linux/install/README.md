@@ -1,10 +1,16 @@
-# 
+#
 
 ## yum 查詢 ( **向 Yum Server 請求** )
 
+```bash
+### 查看版本
+$# cat /etc/centos-release
+CentOS Linux release 7.6.1810 (Core)
+```
+
 ## 個別套件
 
-- yum list 'httpd*' : 
+- yum list 'httpd*' :
 - `yum search '用關鍵字查'` : 用來前往 yum server 尋找有沒有關鍵字描述的軟體
 - yum search search all 'key words' : 同上, 但會額外找 軟體備註欄位有描述到的關鍵字的軟體
 - yum info httpd : info 後面的東西, 名字得完全符合

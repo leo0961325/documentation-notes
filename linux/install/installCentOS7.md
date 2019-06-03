@@ -870,23 +870,40 @@ yum -y install epel-release
 ### 安裝 pip
 yum install -y python-pip
 
-### 下載 Python3.7.1 tar ball
-wget https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tgz
+### 下載 Python3.7.3 tar ball
+wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
 
 
-tar zxf Python-3.7.1.tgz
-cd Python-3.7.1
-./configure prefix=/usr/local/python3
+tar zxf Python-3.7.3.tgz
+cd Python-3.7.3
+./configure prefix=/usr/local
 
 ### 開始 Compile
-make && make install
+make -j 2 && make install
+# -j 2: 使用Core
 
-### 軟連結
-ln -s /usr/local/python3/bin/python3.7 /usr/bin/python3
-ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip3
+### root 軟連結
+ln -s /usr/local/bin/python3 /usr/local/sbin/python3  #
+ln -s /usr/local/bin/pip3 /usr/local/sbin/pip3        # 設定軟連結 pip3, root 可用來安裝
 
-### 將來使用
-python3
+### normal user 軟連結
+ln -s /usr/local/bin/python3 /usr/local/python3
+
+# 進入 使用者 (virtualenv)
+pip install virtualenv virtualenvwrapper    # 是 pip 而非 pip3
+
+echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
+echo "export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3" >> ~/.bashrc
+echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+source ~/.bashrc
+mkvirtualenv -p /usr/local/bin/python3 <ENV_NAME>
+mkdir ~/<ENV_NAME>
+cd <ENV_NAME>
+setvirtualenvproject .
+
+workon <ENV_NAME>
+deactivate <ENV_NAME>
+
 ```
 
 
