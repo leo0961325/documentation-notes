@@ -34,10 +34,18 @@ tonydb=# select now();
  2019-01-28 09:51:34.726395+08
 (1 row)
 
+### Ubuntu16.04 LocalVM
 tonydb=# select version();
                                                       version
 -------------------------------------------------------------------------------------------------------------------
  PostgreSQL 9.5.14 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609, 64-bit
+(1 row)
+
+### AWS-RDS-Postgres
+tony=> select version();
+                                                version
+--------------------------------------------------------------------------------------------------------
+ PostgreSQL 11.2 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 4.8.3 20140911 (Red Hat 4.8.3-9), 64-bit
 (1 row)
 
 ### 離開 DB
