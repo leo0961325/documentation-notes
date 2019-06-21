@@ -7,6 +7,21 @@
 - [Flask 的 Context 机制](https://blog.tonyseek.com/post/the-context-mechanism-of-flask/)
 - 2018/05/30
 
+```py
+### 允許跨站請求 (CORS)
+response.headers.add('Access-Control-Allow-Origin', '*')
+```
+
+```py
+import request
+req = request.get_json()
+
+### Request Body
+page = req.get('page', 0)
+
+### Request Paramaters - Query string
+page = request.args.get('page')
+```
 
 #### SQLAlchemy column types
 Type name | Python type
@@ -41,10 +56,10 @@ default | default value
 #### SQLAlchemy relationship options
 Option name | Description
 --- | ---
-backref | 
-primaryjoin | 
-lazy | 
-uselist | 
-order_by | 
-secondary | 
-secondaryjoin | 
+backref |
+primaryjoin |
+lazy |
+uselist |
+order_by |
+secondary |
+secondaryjoin |
