@@ -104,7 +104,11 @@ Create Table posts (
 );
 
 ### 查看所有 users
-$# \du
+postgres=$# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of
+-----------+------------------------------------------------------------+-----------
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
 
 ### 查看所有 users
 $# SELECT u.usename AS "User name",
@@ -271,7 +275,7 @@ postgres=$# psql tonydb
 postgres-$#                 # 命令提示字有變化喔!
 
 ### 列出DB(法一)
-postgres@docker:/$# psql -l
+postgres=$# psql -l
                                  List of databases
    Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges
 -----------+----------+----------+------------+------------+-----------------------
@@ -290,18 +294,20 @@ postgres=$# \l
 postgres=$# \c
 You are now connected to database "postgres" as user "postgres".
 
-### 連線到 DB
-postgres=$# \c tonydb
-You are now connected to database "tonydb" as user "postgres".
-tonydb=$#       # DONE (切換 DB 了~)
+### 切換資料庫; 連線到資料庫
+postgres=$# \connect python_quiz  # 或是 \c python_quiz
+You are now connected to database "python_quiz" as user "postgres".
+python_quiz=$#    # DONE (切換到 python_quiz 了~)
+
 
 ### 列出 Schema (無法在外部使用 「psql \dn」)
 postgres=$# \dn
   List of schemas
-  Name  |  Owner
---------+----------
- public | postgres
-(1 row)
+  Name    |  Owner
+----------+----------
+ newcomer | postgres
+ public   | postgres
+(2 row)
 
 ### 列出 indexes
 postgres=$# \di
@@ -314,7 +320,18 @@ postgres=$# \du
 -----------+------------------------------------------------------------+-----------
  postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
 
+
+### 列出 newcomer 這個 Schema 底下所有 table
+python_quiz=$# \dt newcomer.*
+           List of relations
+  Schema  |  Name   | Type  |  Owner
+----------+---------+-------+----------
+ newcomer | example | table | postgres
+(1 row)
+# DONE
+
 ###
+python_quiz=$#
 ```
 
 ## Part2 - DDL

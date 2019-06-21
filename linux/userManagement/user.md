@@ -10,7 +10,7 @@
 
 ## 目錄:
 
-- [特殊權限](#特殊權限)
+- [ACL](#ACL)
 - [使用者及群組](#使用者及群組)
 - [協作目錄](#協作目錄)
 - [ACLs](#ACLs)
@@ -19,9 +19,9 @@
 
 
 
-# 特殊權限
+# ACL
 
-- [特殊權限](http://linux.vbird.org/linux_basic/0220filemanager.php#suid)
+- [ACL](http://linux.vbird.org/linux_basic/0220filemanager.php#suid)
 
 1. SUID (權限 4)    `只能用於 檔案`
     - 非擁有者可執行此二進位檔案(runtime 期間, 擁有 owner權限)
@@ -51,7 +51,7 @@ $ chmod 7666 test; ll test
 -rwSrwSrwT. 1 tony tony 0  6月  9 22:01 test    # test為紅底, 且具有空的 SUID/SGID權限 (大寫)
 
 $ $ chmod u=rwxs,go=x test; ls -l test # 「,」前後不能加空白
--rws--x--x. 1 tony tony 0  6月  9 22:01 test    
+-rws--x--x. 1 tony tony 0  6月  9 22:01 test
 
 $ chmod g+s,o+t test; ls -l test
 -rws--s--t. 1 tony tony 0  6月  9 22:01 test
@@ -80,8 +80,8 @@ $# useradd ${uu} ; echo ${uu} | passwd --stdin <new password>
 # 讓此 User 成為 admin
 $# usermod -aG wheel ${uu}
 
-# 
-$# 
+#
+$#
 ```
 
 
@@ -198,7 +198,7 @@ Linux 不會認識帳號, 而是透過 `/etc/passwd` 找到 `帳號` 對映的 `
 ```sh
 $ cat /etc/passwd | grep tony
 tony:x:1000:1000:tony:/home/tony:/bin/bash
-# 上面有 7 個欄位 (由 6 個「:」分隔), 分別為 
+# 上面有 7 個欄位 (由 6 個「:」分隔), 分別為
 # 1 tony         -> 使用者帳號名稱
 # 2 x            -> 密碼(加密存於 /etc/shadow) (Linux 早期把密碼放這)
 # 3 1000         -> 使用者帳號 對映的 UID
@@ -292,7 +292,7 @@ $ groups
 tony wheel docker shared    # tony 有加入的 所有群組 (所有 次要群組 們)
 # 第一個為 有效群組
 
-$ touch a 
+$ touch a
 
 $ newgrp shared             # 以另外一個 子shell 的方式執行 (所以可以 exit 離開)
 $ groups
@@ -353,7 +353,7 @@ daemon:*:17110:0:99999:7:::
 
 重開機進入 `單人維護模式` (會取得約當於 root 權限的 shell), 再使用 `passwd` 修改密碼
 
-or 
+or
 
 `用光碟開機` 掛載到 / , 把 /etc/shadow 的 root 密碼欄位清空, 重開機後再改密碼
 
@@ -366,7 +366,7 @@ $ $ authconfig --test | grep hashing
 
 # wheel
 
-CentOS7 開始, 任何具備 `wheel` 群組的使用者, 都可以使用 `sudo` 來執行任何指令. 
+CentOS7 開始, 任何具備 `wheel` 群組的使用者, 都可以使用 `sudo` 來執行任何指令.
 
 CentOS6 以前, 無法這麼做, 權限設定在 `/etc/sudoers`
 
