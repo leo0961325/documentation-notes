@@ -1,10 +1,10 @@
 
 
-# SSHTunnel
+# SSH Tunnel (跳板)
 
 - 2018/09/29
 
-在 localhost`A` 透過 `C` 訪問 `B`
+在 localhost(`A`) (透過 `C`) 訪問 `B`
 
 - A: 169.254.10.30
 - B: 169.254.10.10 (先安裝 `httpd`)
