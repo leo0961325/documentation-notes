@@ -47,3 +47,31 @@ $# firewall-cmd --add-port=6868/tcp --permanent
 ```
 
 
+# 製作本機端管控遠端登入的組態檔 (可免改 /etc/hosts 或 DNS)
+
+```bash
+### 製作組態
+$ vim ~/.ssh/config
+# --------- 內容如下 ---------
+#!/bin/bash
+Host vm8                        # Remote Server 名稱
+    StrictHostKeyChecking   no              # ??
+    HostName    172.20.61.210               # Remote Server IP
+    Port    22                              # Remote Server ssh port
+    ForwardAgent    yes                     # ??
+    User    tony                            # Remote username
+    Controlpath ~/.ssh/ssh-$r@%h:%p.sock    # ??
+
+Host aws
+    HostName    87.87.87.87
+    User        ec2-user
+    Port        22
+    IdentityFile    /home/tony/aws.pem      # 登入私鑰 or 「D:\key\aws.pem」 for Win10
+# --------- 內容如上 ---------
+
+
+### 登入
+$ ssh tony@vm8
+tony@172.20.61.210's password:
+
+```
