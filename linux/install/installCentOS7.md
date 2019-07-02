@@ -875,20 +875,21 @@ wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
 
 tar zxf Python-3.7.3.tgz
 cd Python-3.7.3
-./configure prefix=/usr/local
+./configure --enable-optimizations
 
 ### 開始 Compile
 make -j 2 && make install
 # -j 2: 使用Core
 
-### root 軟連結
-ln -s /usr/local/bin/python3 /usr/local/sbin/python3  #
-ln -s /usr/local/bin/pip3 /usr/local/sbin/pip3        # 設定軟連結 pip3, root 可用來安裝
+### root 環境變數 (一般使用者可直接使用...)
+echo 'PYTHON_HOME=/usr/local/bin' >> ~/.bash_profile
+echo 'PATH=${PYTHON_HOME}:${PATH}' >> ~/.bash_profile
 
-### normal user 軟連結
-ln -s /usr/local/bin/python3 /usr/local/python3
+### pipenv
+pip3 install pipenv
 
-# 進入 使用者 (virtualenv)
+
+### virtualenv
 pip install virtualenv virtualenvwrapper    # 是 pip 而非 pip3
 
 echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
