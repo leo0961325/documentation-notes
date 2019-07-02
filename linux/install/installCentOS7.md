@@ -206,6 +206,17 @@ $ echo "PS1='[\u@\h \W$(__docker_machine_ps1)]\$ '" >> ~/.bashrc
 ```
 
 
+# bash_completion
+
+ - 2019/07/03
+ - https://www.tecmint.com/install-and-enable-bash-auto-completion-in-centos-rhel/
+
+```bash
+$# yum install -y bash-completion bash-completion-extras
+$# locate bash_completion.sh
+$# source /etc/profile.d/bash_completion.sh
+```
+
 # Ansible
 
 - 2019/01/12
