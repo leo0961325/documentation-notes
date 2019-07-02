@@ -2,6 +2,7 @@
 - 2018/07
 
 ```sh
+### 「-m django」使用 django 模組, 執行後面指令
 $ python -m django --version
 1.11.4
 
@@ -37,7 +38,7 @@ $ python manage.py shell
 $ python manage.py migrate
 
 
-$ 
+$
 ```
 
 # Models
