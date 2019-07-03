@@ -9,7 +9,7 @@ $ tar xf Python-3.5.2.tar.xz
 # 編譯及安裝
 $ ./configure --prefix=/opt/python352
 $ make
-$ sudo make install 
+$ sudo make install
 
 # 改變擁有者
 $ sudo chown -R tonynb:tonynb /opt/python352
@@ -60,7 +60,7 @@ True
 >>> dict.fromkeys('hello', 2)
 {'h': 2, 'e': 2, 'l': 2, 'o': 2}
 
->>> 
+>>>
 ```
 
 # configureParser
@@ -103,4 +103,32 @@ sql_pd=12345687
 ```py
 import os
 os.environ['PATH']
+```
+
+```python
+### 順序: arguments -> *args -> default -> **kwargs
+def display_info(a, b, *args, name='Tony', **kwargs):
+    return [a, b, args, name, kwargs]
+
+display_info(1, 2, 3, lastname='Chou', job='Programmer')
+# [1, 2, (3,), 'Tony', {'lastname': 'Chou', 'job': 'Programmer'}]
+
+
+###
+a = (1,2,3,4,5,6)
+print(*a)   # 1 2 3 4 5 6
+print(a)    # (1, 2, 3, 4, 5, 6)
+
+
+### dictionary unpacking
+def display_name(first, last):
+    print(f'{first} {last}')
+
+names={'first': 'chou', 'last': 'tony'}
+display_name(**names)
+​# chou tony
+​
+
+###
+
 ```
