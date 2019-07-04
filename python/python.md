@@ -1,40 +1,13 @@
 
-# Install python by tar ball
-- 2018/02/23
-```sh
-$ wget https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tar.xz
-
-$ tar xf Python-3.5.2.tar.xz
-
-# 編譯及安裝
-$ ./configure --prefix=/opt/python352
-$ make
-$ sudo make install 
-
-# 改變擁有者
-$ sudo chown -R tonynb:tonynb /opt/python352
-
-# 建立呼叫指令
-$ mkdir ~/bin
-$ ln -s /opt/python352/bin/python3.5 ~/bin/py
-
-# 環境變數
-$ echo 'alias py="/opt/python352/bin/python3.5"' >> ~/.bashrc
-# or
-$ echo 'export python_home=~/bin/' >> ~/.bashrc
-$ echo 'export PATH=$python_home:$PATH' >> ~/.bashrc
-
-```
 
 
-```sh
-$ pip install --upgrade setuptools
+```bash
+### 使用 doctest 這模組(or套件) 執行 abc.py, 並列出詳細執行情況
+python -m doctest -v abc.py
 ```
 
 
 
-
----
 Python中, 任何資料夾內如果有包含`__init__.py`的話, 這個資料夾就被視為是一個`package`, 如此一來就可以被 import
 
 
@@ -60,7 +33,7 @@ True
 >>> dict.fromkeys('hello', 2)
 {'h': 2, 'e': 2, 'l': 2, 'o': 2}
 
->>> 
+>>>
 ```
 
 # configureParser
@@ -104,3 +77,19 @@ sql_pd=12345687
 import os
 os.environ['PATH']
 ```
+
+# metaclass
+
+- 2019/07/03
+- [What are metaclasses in Python?](https://stackoverflow.com/questions/100003/what-are-metaclasses-in-python)
+
+- object 為 class     的 instance
+- class  為 metaclass 的 instance
+
+> `type` is the usual metaclass in python, `type` is itself a class, and it is its own type.
+
+---
+
+- 鴨子定型: duck typing
+- 鵝定型法: goose typing (Python技術手冊 3ed p233)
+-
