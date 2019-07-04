@@ -93,3 +93,30 @@ os.environ['PATH']
 - 鴨子定型: duck typing
 - 鵝定型法: goose typing (Python技術手冊 3ed p233)
 -
+```python
+### 順序: arguments -> *args -> default -> **kwargs
+def display_info(a, b, *args, name='Tony', **kwargs):
+    return [a, b, args, name, kwargs]
+
+display_info(1, 2, 3, lastname='Chou', job='Programmer')
+# [1, 2, (3,), 'Tony', {'lastname': 'Chou', 'job': 'Programmer'}]
+
+
+###
+a = (1,2,3,4,5,6)
+print(*a)   # 1 2 3 4 5 6
+print(a)    # (1, 2, 3, 4, 5, 6)
+
+
+### dictionary unpacking
+def display_name(first, last):
+    print(f'{first} {last}')
+
+names={'first': 'chou', 'last': 'tony'}
+display_name(**names)
+​# chou tony
+​
+
+###
+
+```
