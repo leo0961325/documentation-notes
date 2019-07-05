@@ -29,6 +29,7 @@ windows       | Windows Operating System
 
 - ad-hoc(ad hoc) : 特設, 專案的, 臨時的, 特定目的的
 - alphanumeric : 標點符號
+- backlog : 積壓
 - back slash : 反斜線
 - cascade: 串連
 - congestion : 擁塞
@@ -109,6 +110,12 @@ Software     | Description
 ------------ | --------------------------
 fiddler2     | 網路流量監控軟體
 log4j2       | 讓你方便作 Logging 的軟體
+
+
+## 相似詞彙
+
+- attributes (headers)
+- payload (body)
 
 
 ## Interesting URLs
