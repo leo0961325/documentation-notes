@@ -62,6 +62,10 @@ $# sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/d
 ```
 
 
+# Apache - kafka
+
+- [看這邊](../../other/kafka.md)
+
 # DotNet Core
 
 - 2019/01/03
