@@ -23,6 +23,12 @@ c7fdf1313520c9b30c68cb826122afe2397a0a1c6c8e22da6e0831ea6f092de4
 # 然後就可以開始玩了
 ```
 
+# 更細節閱讀
+
+- [Production Checklist](https://www.rabbitmq.com/production-checklist.html)
+- [Monitoring](https://www.rabbitmq.com/monitoring.html)
+- [Consumer Acknowledgements and Publisher Confirms](https://www.rabbitmq.com/confirms.html)
+
 ## 實作
 
 程式端 與 `RabbitMQ` 溝通, 使用 `AMQP` 傳輸協定, 所以需要支援 AMQP Library
