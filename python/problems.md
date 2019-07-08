@@ -11,7 +11,7 @@
 - 2018/05/30
 
 ```powershell
-> systeminfo 
+> systeminfo
 作業系統名稱:         Microsoft Windows 10 專業版
 作業系統版本:         10.0.17134 N/A 組建 17134
 
@@ -36,3 +36,11 @@ Command "python setup.py egg_info" failed with error code 1 in C:\Users\...\pip-
 ```
 
 搞屁阿!! `Windows 10 沒辦法用 uwsgi啦!!`
+
+```python
+# 下列的寫法, 似乎可以請 pylint 閉嘴
+class Parameters(object):  # pylint: disable=R0902
+    pass
+
+
+```

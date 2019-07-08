@@ -34,6 +34,11 @@ pip install pylint-django
         "--disable=C0103",                  // Argument name snake_case naming style
         "--disable=C0301",                  // Line too Long
     ],
+
+    // 依賴其他套件的路徑
+    "python.linting.pylintArgs": [
+        "--init-hook='import sys; sys.path.append(\"C:\\Users\\tony\\Documents\\proj\\src\")'"
+    ]
 }
 ```
 

@@ -2,24 +2,8 @@
 
 - 2018/08 以前
 - v1.24(應該吧)
-
-## Python - file
-
 - [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial)
 
-```js
-{
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}"
-        }
-    ]
-}
-```
 
 ## Python - Flask
 
@@ -93,24 +77,6 @@
 }
 ```
 
-
-## Python - Tornado
-
-```js
-// launch.json
-{
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "tornado",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/manage.py",
-            "pythonPath": "${config:python.pythonPath}"
-        },
-    ]
-}
-```
 
 
 ## go
