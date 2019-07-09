@@ -38,8 +38,12 @@ $ docker network disconnect <Network Name> <Container ID>
 $ docker network ls
 
 # 查看 Network
-$ docker network inspect <Network Name> 
+$ docker network inspect <Network Name>
 # 或
 $ docker inspect <Network Name>
 
 ```
+
+- 2019/07/09
+- [Networking for Docker Containers (a Primer) Part I](https://mesosphere.com/blog/networking-docker-containers/)
+- 有附圖解說網路架構... 改天讀
