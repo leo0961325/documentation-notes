@@ -3,9 +3,29 @@
 - 2019/07/05
 - [Rabbit MQ 官網](https://www.rabbitmq.com/)
 - [AMQP, RabbitMQ and Celery - A Visual Guide For Dummies](https://www.abhishek-tiwari.com/amqp-rabbitmq-and-celery-a-visual-guide-for-dummies/) 簡明扼要
+- [Part 3: The RabbitMQ Management Interface](https://www.cloudamqp.com/blog/2015-05-27-part3-rabbitmq-for-beginners_the-management-interface.html) 監控 web GUI
 - [Part 4: RabbitMQ Exchanges, routing keys and bindings](https://www.cloudamqp.com/blog/2015-09-03-part4-rabbitmq-for-beginners-exchanges-routing-keys-bindings.html) 圖表流程清晰
 
-![RabbitMQ](../../img/RabbitMQ.png)
+# 觀念
+
+RabbitMQ 是個 message-queueing software, 被稱為 *message broker* or *queue manager*
+
+![RabbitMQ](/img/RabbitMQ.png)
+
+Exchange Type 分為下列 4 種:
+
+* Direct: A direct exchange delivers messages to queues based on a message routing key. In a direct exchange, the message is routed to the queues whose `binding key` exactly matches the routing key of the message. **If the queue is bound to the exchange with the `binding key` pdfprocess, a message published to the exchange with a routing key pdfprocess is routed to that queue.**
+* Fanout: A fanout exchange routes messages to all of the queues that are bound to it.
+* Topic: The topic exchange does a wildcard match between the routing key and the routing pattern specified in the binding.
+* Headers: Headers exchanges use the message header attributes for routing.
+
+![Different Exchange](https://www.cloudamqp.com/img/blog/exchanges-topic-fanout-direct.png)
+###### Source: https://www.cloudamqp.com/blog/2015-05-18-part1-rabbitmq-for-beginners-what-is-rabbitmq.html
+
+下面兩者非常容易搞混, 且有點重要!
+
+* Binding: A binding is a link between a queue and an exchange.
+* Routing key: The routing key is a key that the exchange looks at to decide how to route the message to queues. The routing key is like an address for the message.
 
 # 安裝
 
