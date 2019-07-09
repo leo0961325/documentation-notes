@@ -50,6 +50,8 @@ JSON Object   | Tuple
 ```sh
 ### 檢查 Logstash 設定檔有沒有設錯
 $# /usr/share/logstash/bin/logstash --path.settings /etc/logstash -t
+# 預設會檢查 /etc/logstash/conf.d/*.conf
+# 除非改寫 /etc/logstash/pipelines.yml
 ```
 
 
