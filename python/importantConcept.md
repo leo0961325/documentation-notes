@@ -35,9 +35,13 @@ A.m3(1)     # 1
 
 attribute     | description
 ------------- | -------------------------
-\_\_name__    | class 名稱
-\_\_bases__   | class 的 父類別 們 (父類別1, 父類別2,)
-\_\_dict__    | C1範例
+\_\_name__    | class 名稱; instance 無此方法
+\_\_bases__   | class 的 父類別 們 (父類別1, 父類別2,) ; 無父類別的類別, 都會得出 「「(object,)」
+\_\_init__    | 建構式 ; 用途為: `binding(繫結)`
+\_\_dict__    | 其他屬性映射, 回傳 dictionary ((C1範例))
+\_\_get__     | 類別物件內, 若有定義這個, 則此類別稱為 `descriptor(描述器)` ; 若為唯獨, `nonoverriding descriptor(非覆寫式描述器)` or `nondata descriptor(非資料描述器)`
+\_\_set__     | 類別內, 若有定義這個, 則稱此類別為 `覆寫式描述器(overriding descriptor)` or `data descriptor(資料描述器)`(比較老舊的稱呼)
+\_\_doc__     | 抓 類別說明
 
 ----------------------------------------------------------
 

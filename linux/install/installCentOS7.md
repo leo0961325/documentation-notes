@@ -1196,6 +1196,18 @@ go version go1.11 linux/amd64
 $# yum install -y supervisor
 ```
 
+
+# chromedriver
+
+```bash
+### selenium 用
+echo "Installing Chromedriver..."
+wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+sudo cp chromedriver /usr/local/bin
+```
+
+
 # 備註
 
 - $basearch : x86_64 (位元架構)
