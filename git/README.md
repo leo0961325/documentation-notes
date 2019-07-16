@@ -37,6 +37,19 @@ git config --global alias.tree "log --graph --decorate --pretty=oneline --abbrev
 git config --global core.editor "notepad"
 ```
 
+## git 記住密碼
+
+```bash
+git config --global credential.helper 'cache --timeout=86400'
+
+### 永久記錄 (https) git 密碼
+git config --global credential.helper store
+# 密碼會存在 「~/.git-credential-cache/socket」 (v2.19)
+# 早期版本似乎會明碼儲存在 「~/.git-credentials」 (v?.?? 以前)
+```
+
+
+
 ```sh
 ### 暫存目前變更
 git stash
