@@ -40,12 +40,12 @@ git config --global core.editor "notepad"
 ## git 記住密碼
 
 ```bash
+### 快取記憶密碼 (應該是存在 RAM 吧)
 git config --global credential.helper 'cache --timeout=86400'
 
-### 永久記錄 (https) git 密碼
+### 永久紀錄密碼 (https)
 git config --global credential.helper store
-# 密碼會存在 「~/.git-credential-cache/socket」 (v2.19)
-# 早期版本似乎會明碼儲存在 「~/.git-credentials」 (v?.?? 以前)
+# 密碼會存到 「~/.git-credentials」, 以明碼的方式儲存
 ```
 
 
