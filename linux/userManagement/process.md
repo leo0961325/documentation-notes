@@ -11,7 +11,7 @@
 
 ```sh
 $ ps aux        # u : 看到 user name
-$ ps alx        # l : 
+$ ps alx        # l :
 $ ps afx
 $ pstree -p
 $ ps au --sort=...      # 指定排序欄位
@@ -205,6 +205,38 @@ root  3547   0.4   1.7 1012544  67576  pts/1  SLl+ 20:16  0:04 mongod --dbpath /
 # u : 增加顯示 Process Owner, Memory, CPU 等欄位資訊
 ```
 
-```sh
-$ 
+
+## fuser
+
+- 2019/07/19
+
+`程序` 在啟動過程中 `開啟了多少檔案`.
+
+如果卸載時, 看到 「device is busy」, 表示某個 PID 正在使用這個檔案系統, 可用 fuser 來追查
+
+```bash
+###
+$# fuser [-umv] [-k [i] [-signal]] file/dir
+# -u: 列出 PID owner
+# -v: 列出 file 與 PID 及 指令的相關性
+# -i: 刪除 PID 前, 會先詢問是否刪除 (需搭配 -k)
+# -k: 列出使用這個 file/dir 的 PID, 並試圖以 SIGKILL 訊號給這個 PID (kill -9 啦)
+# -signal: 例如「-2」, 「-15」. 預設是「-9」
+
+# 因為鳥哥舉的範例, 看了沒啥感覺... 就不列範例了orz
+```
+
+## lsof
+
+- 2019/07/19
+
+`某個程序開啟 or 使用中` 的 `檔案`
+
+```bash
+###
+$# lsof [-aUu] [+d]
+# -a: 多項資料需要同時成立才列出
+# -U: 僅列出 Unix-like socket
+# -u <user>: 列出該使用者相關程序所開啟的檔案
+# +d <dir name>: 該目錄下, 已經被開啟的檔案
 ```

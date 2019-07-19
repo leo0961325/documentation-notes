@@ -35,14 +35,14 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /cron.monthly/*                     # 每月　 要被驅動執行的 Shell Script 放這
     /cron.weekly/*                      # 每週　 要被驅動執行的 Shell Script 放這
     /crontab                        # 如果有明確指名幾點幾分的排程工作, 建議放這裡
-    /default/                       # 
+    /default/                       #
         /useradd                        # 使用 useradd 後, 預設的 新使用者 建立相關初始設定
         /grub                           # 開機程序的組態設定(中介)檔(修改此檔可經由指令檢查, 在放到真正的開機組態執行位置)
     /exports                        # NFS 的主要設定檔
     /fstab                          # mount 掛載組態設定檔 (開機時 會依照此設定來作自動掛載; 每次使用 mount時, 預設也會動態更新此檔案)
     /firewalld/                     # OS7管理 firewalld 的組態放置區
     /gdm/                           # CentOS 預設的 DM 為 GNOME 提供的 gdm (殺小...)
-        /custom.conf                    # 
+        /custom.conf                    #
     /hostname                       # 主機名稱檔
     /hosts                          # ip 與 dns 對照
     /httpd/                         # Apache 的組態設定檔
@@ -80,7 +80,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /profile.d/
         /vim.sh                         # vim 設定檔
     /rc.d/                          # 各種執行等級的啟動腳本
-        /init.d/                        # 
+        /init.d/                        #
             netconsole                      # 各種模式下的 *netconsole 連結至此
             network                         # 各種模式下的 *network 連結至此
         /rc1.d/                         # 單人維護模式
@@ -111,28 +111,50 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /journald.conf                  # journalctl 的 組態設定
         /system/                        # 依據系統所要提供的功能所撰寫的 服務腳本, 優先於 /run/systemd/system/ 及 /usr/lib/systemd/system/
     /unbound/
-        /unbound.conf                   # unbound 主要設定檔 (設定 DNSSEC 使用) 
+        /unbound.conf                   # unbound 主要設定檔 (設定 DNSSEC 使用)
     /X11/                           # X Window相關設定檔
     /xml/                           # 與 XML 格式相關的設定檔
 /home/                          # 家目錄
 /lib/                           # 系統的共用函式庫檔案 (連結至 /usr/lib/)
     /modules/                       # 可抽換式的核心相關模組(驅動程式); 不同版本的核心模組
         /3.10.0-862.el7.x86_64/         # kernel 核心版本 (可由「uname -r」取得)
-            /kernel/                        # 
+            /kernel/                        #
 /media/                         # 可移除的裝置; 移動式磁碟or光碟 掛載目錄 (可移除的裝置)
 /mnt/                           # "暫時性" 檔案系統 掛載目錄; 現在許多裝置都移到 /media/ 了, 所以暫時的, 依舊放這
 /opt/                           # 非 Linux預設安裝的外來軟體 (第三方協作軟體(非原本distribution所提供的)), 早期都習慣放在 /usr/local
 /proc/                          # 虛擬檔案系統(virtual filesystem), 東西都存在於 memory, 不占用 disk; 行程資訊目錄
-    /filesystems                    # 系統已載入的檔案系統
-    /partitions                     # Linux 核心分割表資訊
+    /1/                             # 開機時所執行的第一支程式 systemd 的 PID=1
+    /<某個PID>/                     # 某個開機後被執行的程式(or服務)
+        /cmdline                        # 啟動這個程序的指令, ex: python manage.py runserver
+        /cwd                            # 很特別! 指向「完全獨立的 /」, 進程運行目錄 (獨立的運行空間, 裡面有/bin, /boot, /dev, /etc, ...) (chroot 的概念?)
+        /exe                            # 指向上面 /cmdline 所指的 python (可執行程式) (binary)
+        /environ                        # 該程序的環境變數內容
+        /fd/                            # 進程打開的每個文件的 file descriptor. 指向實體文件的連結符號(握把值的概念)
+        /limits                         # 進程使用資源的限制資訊
+        /task/                          # 當前 進程 所包含的每個 線程 的相關資訊.
+            /<某個TID1>                     # 進程之下的線程
+    /cmdline                        # 系統載入 kernal 時, 所嚇得的指令與參數 (通常由 grub 來傳遞)
+    /cpuinfo                        # CPU 詳細資訊 (N核心的話, 裏頭就有 N 個部分)
+    /devices                        # 系統已經載入的 Block Device && Character devices(這啥?)
+    /diskstats                      # Disk I/O 統計資訊清單
+    /filesystems                    # 系統已載入的檔案系統(目前系統有支援的檔案系統)
+    /loadavg                        # 保存了系統負載平均值(1, 5, 15 分鐘)
+    /meminfo                        # free 指令查到的東西 (但這裡頭更加詳細)
+    /mounts                         # 系統已掛載的檔案系統
+    /net/                           #
+        /dev                            # 網路封包 流入/流出/錯誤... 統計資訊 (ifconfig 看到的那些, 但這裡的東西我看不懂XD)
+    /partitions                     # Linux 核心分割表資訊, 欄位分別為 major/minor/Block數量/磁區 (fdisk -l 看到的)
     /swaps                          # 目前 swap 空間
+    /uptime                         # 累計開機時間(單位是啥阿~~) (uptime 看到的)
+    /version                        # 當前系統版本 (uname -a 看到的)
+    /vmstat                         # 目前系統 虛擬內存 的統計資訊
 /run/                           # 系統開機後所產生的各項資訊 (可用記憶體來模擬); 某些服務or程式啟動後, 他們的 pid 會放在這.
     /lock/                          # 某些裝置或檔案, 一次只能一人使用, 使用中會上鎖.
     /log                            # journalctl服務(新Log機制), 預設重開機後, 只會保留最近一次開機前的 log
     /sys/                           #
         /net/                           #
             /ipv4/*                         # Linux Kernel 預設的攻擊抵擋機制
-    /systemd/                       # 
+    /systemd/                       #
         /system/                        # 系統執行過程中所產生的 服務腳本, 此內腳本優先於 /usr/lib/systemd/system/
 /sbin/                          # 系統管理員 用的 工具or指令or執行檔; (連結至 /usr/sbin/)
     /kdb5_util                      # kerberos 集中驗證, 依照 /etc/krb5.conf 來初始化資料庫到 /var/kerberos/krb5kdc/principal*
@@ -140,13 +162,13 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 /sys/                           # 虛擬檔案系統(virtual filesystem), 東西都存在於 memory, 不占用 disk; 紀錄核心與系統硬體資訊
 /tmp/                           # 重開機後會清除
 /usr/                           # (unix software resource) Linux系統安裝過程中必要的 packages (軟體安裝/執行相關); 系統剛裝完, 這裡最占空間
-    /bin/                           # 一般使用者 用的 工具or指令or執行檔; 
+    /bin/                           # 一般使用者 用的 工具or指令or執行檔;
         /mysql*                         # 底下有 20 個左右的 MySQL 工具
     /games/                         # 與遊戲相關
     /include/                       # c++ 的 header 與 include 放置處; 使用 tarball 方式安裝軟體時, 會用到裡面超多東西
     /lib/                           # 系統的共用函式庫檔案
         /locale/                        # 存放語系檔
-        /systemd/                       # 
+        /systemd/                       #
             /system/                        # 每個服務最主要的 啟動腳本設定 , 類似CentOS6前的 /etc/init.d 底下的東西
     /libexec/                       # 大部分的 X window 的操作指令都放這. (不被使用這慣用的執行檔or腳本)
     /local/                         # sys admin 在本機自行安裝的軟體, 建議放這邊(早期)
@@ -197,7 +219,31 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 ~/                              # 使用者家目錄 (/home/<User>/)
     /.bashrc                        # 使用者層面的 functions 及 alias 及 自定義 variables
     /.bash_history                  # 上次登出前, 在 Shell 內下過的指令(域設存1000筆), 登出後才會寫入此檔
-    /.bash_login                    # 
-    /.bash_logout                   # 
+    /.bash_login                    #
+    /.bash_logout                   #
     /.bash_profile                  # 使用著層次的 環境 及 起始程式(Login Shell 才會讀取)
 ```
+
+## proc
+
+- in-memory pseudo-file system
+- Linux 的控制中心
+- 可透過裏頭的文件, 來查找相關系統硬體, 當前正在運行進程的訊息.
+- 裏頭檔案名稱為 `數字的目錄`(ps 的 id), 保存的是 `進程的訊息`.
+- 可透過判讀 /proc 底下的 `數字的目錄` 數量, 來判斷 `當前系統的進程數量`
+
+```python
+### python 監控, 目前有多少進程數量
+import os
+pids = [item for item in os.listdir('/proc') if item.isdigit()]
+len(pids)
+# 397
+```
+
+```bash
+### 獲得系統的啟動參數
+$# cat /proc/cmdline
+BOOT_IMAGE=/vmlinuz-3.10.0-862.el7.x86_64 root=/dev/mapper/centos-root ro crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet LANG=en_US.UTF-8
+```
+
+

@@ -1208,6 +1208,16 @@ sudo cp chromedriver /usr/local/bin
 ```
 
 
+# fuser
+
+- 2019/07/19
+
+```bash
+### 這個套件包含了 fuser
+$# yum install -y psmisc
+```
+
+
 # 備註
 
 - $basearch : x86_64 (位元架構)
