@@ -22,10 +22,21 @@ Exchange Type 分為下列 4 種:
 ![Different Exchange](https://www.cloudamqp.com/img/blog/exchanges-topic-fanout-direct.png)
 ###### Source: https://www.cloudamqp.com/blog/2015-05-18-part1-rabbitmq-for-beginners-what-is-rabbitmq.html
 
-下面兩者非常容易搞混, 且有點重要!
+## 名詞解釋
 
-* Binding: A binding is a link between a queue and an exchange.
-* Routing key: The routing key is a key that the exchange looks at to decide how to route the message to queues. The routing key is like an address for the message.
+* Producer: 發送 Message/Task 的一方
+* Consumer: 處理 Message/Task 的一方
+* Queue: 儲存 Message/Task 的地方
+* Message: Producer 透過 RabbitMQ 送給 Consumer 的資訊
+* Connection: 與 RabbitMQ Server(Broker) 所做的 TCP 連線
+* Channel: 處於 Connection 之間的 虛擬 Connection. Producer 發送 Message 與 Consumer 提取 Message 的過程, 都是透過此 Channel 來進行.
+* Exchange: 依據 `Exchange Type 準則`, 來分配 **從 Producer 發送的 Message** 應該要給那些 Queue(每個 Queue 都應該 bind 到至少一個 Exchange) (郵局的概念)
+* Binding: Queue 與 Exchange 之間的連結
+* Routing key: 讓 Exchange 知道它如何配送 Message 到那些 Queue(s) 的關鍵. (郵件地址的概念)
+* AMQP(Advanced Message Queuing Protocol): RabbitMQ 用來做 messaging 的協定.
+* Vhost, virtual host: A Virtual host provides a way to segregate applications using the same RabbitMQ instance. Different users can have different access privileges to different vhost and queues and exchanges can be created, so they only exist in one vhost.
+* Users: 透過 http://<HOST>:15672 連到 RabbitMQ 管理介面時, 所需要登入的使用者帳戶. 一般來說, 特定用戶都有搭配特定權限(Read, Write, Configuration...等)
+
 
 # 安裝
 
