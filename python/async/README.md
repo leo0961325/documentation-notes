@@ -1,6 +1,6 @@
 # asynchronous 非同步架構
 
-如果一支程式經常 存取磁碟 (CPU總是得等待磁碟回覆才能接著作事), 那表示這支程式是 `I/O bound` 的程式碼. 改善效率的解法, 把此程式改成 `非同步 (async)`, 改完後, 此程式就變成 `非阻斷 (nonblocking)`, 可以大幅增進效能. 而 `非同步async 架構`, 有時候也被稱為 `事件驅動(event-driven) 架構`, 
+如果一支程式經常 存取磁碟 (CPU總是得等待磁碟回覆才能接著作事), 那表示這支程式是 `I/O bound` 的程式碼. 改善效率的解法, 把此程式改成 `非同步 (async)`, 改完後, 此程式就變成 `非阻斷 (nonblocking)`, 可以大幅增進效能. 而 `非同步async 架構`, 有時候也被稱為 `事件驅動(event-driven) 架構`,
 
 非同步的架構分為三類:
 1. 多工 (multiplexed async architecture)
@@ -95,3 +95,23 @@ s.gg()   # 停止執行續(注意是 s 而非 t)
 - `uvloop` 基於 `libuv` 用 Cython 來寫的
     - `libuv` 為跨平台的異步 I/O lib, 也被 nodejs 所用
 - `uvloop` 實作所有 asyncio event loop APIs
+
+
+# Transports && Protocols
+
+- transport && protocols 共同定義了使用 `network I/O` 及 `interprocess I/O` 的 抽象介面
+- transport && protocol 永遠都是 1:1 的關係
+- protocol 呼叫 transport 方法來 `send` data; transport 調用 protocol 方法來 `pass` 它所收到的 data
+-
+
+## @ Transports
+
+- How to transmit bytes
+- Abstraction for socket
+
+## @ Protocols
+
+- Which bytes to transmit(When to transmit)
+- Abstraction for application
+
+
