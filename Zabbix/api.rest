@@ -1,0 +1,61 @@
+### https://www.zabbix.com/documentation/4.0/manual/api
+# 多數 APIs 都包含了 get, create, update, delete 方法
+
+@ApiEndpoint=http://192.168.1.220:7777
+
+
+### 尋找 API methods version (4.0.10)
+GET {{ApiEndpoint}}/api_jsonrpc.php HTTP/1.1
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "apiinfo.version",
+    "params": {},
+    "id": 1,
+    "auth": null
+}
+
+
+### 登入
+# @name login
+GET {{ApiEndpoint}}/api_jsonrpc.php HTTP/1.1
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "user.login",
+    "params": {
+        "user": "Admin",
+        "password": "zabbix"
+    },
+    "id": 1,
+    "auth": null
+}
+
+@token="{{login.response.body.result}}"
+
+
+### 查詢 被監控站台 清單
+GET {{ApiEndpoint}}/api_jsonrpc.php HTTP/1.1
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "host.get",
+    //"params": {},
+    "params": {
+        "output": [
+            "hostid",
+            "host"
+        ],
+        "selectInterfaces": [
+            "interfaceid",
+            "ip"
+        ]
+    },
+    "id": 1,
+    "auth": {{token}}
+}
+
+###

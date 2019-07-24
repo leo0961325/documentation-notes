@@ -1218,6 +1218,64 @@ $# yum install -y psmisc
 ```
 
 
+# zabbix-agent
+
+- 2019/07/24
+- [How to Install Zabbix Agent on CentOS/RHEL 7/6](https://tecadmin.net/install-zabbix-agent-on-centos-rhel/)
+
+```bash
+### 安裝 (2019/07 選擇 4.0 LTS)
+$# rpm -Uvh http://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-agent-4.0.10-1.el7.x86_64.rpm
+$# yum install zabbix-agent
+
+### Config
+$# vim /etc/zabbix/zabbix_agentd.conf
+# ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+#Server=[zabbix server ip]
+#Hostname=[ Hostname of client system ]
+
+Server=192.168.2.158,192.168.1.200  # ← 誰可以監控我
+Hostname=vm157                      # ← 我這台 Agent 叫啥
+# ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
+$# systemctl start zabbix-agent
+
+### 防火牆, SELinux...
+```
+
+# zabbix-server
+
+- 2019/07/24
+- [How to Install Zabbix Server 4.0 on CentOS 7](https://computingforgeeks.com/how-to-install-zabbix-server-4-0-on-centos-7/)
+- [How To Install Zabbix Server 3.4 on CentOS/RHEL 7/6](https://tecadmin.net/install-zabbix-network-monitoring-on-centos-rhel-and-fedora/)
+
+Zabbix-Server 是一整包的東西... 它包含了:
+
+- zabbix-server
+- database(mysql/postgres)
+- monitor GUI(php, apache)
+
+```bash
+### mysql 部分 (安裝完後)
+mysql> CREATE DATABASE zabbixdb CHARACTER SET UTF8;
+mysql> GRANT ALL PRIVILEGES on zabbixdb.* to zabbix@localhost IDENTIFIED BY 'password';
+mysql> FLUSH PRIVILEGES;
+$# zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uroot -p zabbixdb
+$# zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz | mysql -uroot -p zabbixdb
+# 建立 zabbix server 存資料的地方 && 倒 schema 進去
+
+$# vim /etc/zabbix/zabbix_server.conf
+# ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+  DBHost=localhost
+  DBName=zabbixdb
+  DBUser=zabbix
+  DBPassword=password
+# ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
+$# systemctl start zabbix-server
+```
+
+
 # 備註
 
 - $basearch : x86_64 (位元架構)

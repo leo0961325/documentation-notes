@@ -114,6 +114,9 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /unbound.conf                   # unbound 主要設定檔 (設定 DNSSEC 使用)
     /X11/                           # X Window相關設定檔
     /xml/                           # 與 XML 格式相關的設定檔
+    /zabbix/                        # 監控軟體
+        /zabbix_server.conf             # Zabbix Server 設定主檔
+        /zabbix_agentd.conf             # Zabbix Agent 設定主檔
 /home/                          # 家目錄
 /lib/                           # 系統的共用函式庫檔案 (連結至 /usr/lib/)
     /modules/                       # 可抽換式的核心相關模組(驅動程式); 不同版本的核心模組
