@@ -13,6 +13,8 @@ $# docker run --name zabapp \
     -p 7777:80 \
     -p 7778:10051 \
     -d zabbix/zabbix-appliance:centos-4.0.10
+# 80 為 Web GUI 管理介面
+# 10051 用作資料傳遞(接收)
 
 
 ### Agent image
@@ -21,11 +23,12 @@ $# docker pull zabbix/zabbix-agent:centos-4.0-latest
 ### Agent run
 $# docker run --name zab-agent \
     -e ZBX_HOSTNAME="zabagent" \
-    -e ZBX_SERVER_HOST="192.168.1.220" \
+    -e ZBX_SERVER_HOST="zabapp" \
     -d zabbix/zabbix-agent:centos-4.0-latest
 # -v 外頭, 先準備好一份 Agent Config
 # ZBX_HOSTNAME: Container hostname ; 設定檔的 Hostname
 # ZBX_SERVER_HOST(default: zabbix-server): Zabbix Server/Proxy 的 IP or DNS. 設定檔的 Server
+# (預設) 10050 用作資料傳遞(傳送)
 
 ### firewall
 $# firewall-cmd --add-port=7777/tcp
@@ -54,5 +57,3 @@ Running with OpenSSL 1.1.1c  28 May 2019
 
 id: Admin
 pd: zabbix
-
-

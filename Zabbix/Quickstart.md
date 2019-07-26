@@ -46,3 +46,8 @@ Configuration > Hosts > Create host > (輸入被監控端)
   - Agent interfaces: 被監控端 的位址 (被監控端需要安裝 zabbix-agent)
   - (其他略)
 
+# 3. New item
+
+Overview: 如何設定 被監控項目 (沒設定的話, 就啥資料都蒐集不到)
+
+
