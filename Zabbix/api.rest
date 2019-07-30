@@ -1,8 +1,11 @@
 ### https://www.zabbix.com/documentation/4.0/manual/api
 # 多數 APIs 都包含了 get, create, update, delete 方法
 
-@ApiEndpoint=http://192.168.2.158/zabbix
 @ApiEndpoint=http://192.168.1.220:7777
+@ApiEndpoint=http://192.168.2.158/zabbix
+
+#@ApiEndpoint=http://zabbix.gbbos.com:3001  // 我根本不知道密碼
+
 
 
 // https://www.zabbix.com/documentation/4.0/manual/api/reference/user/login
@@ -22,11 +25,12 @@ Content-Type: application/json
     "auth": null
 }
 
-@token="{{login.response.body.result}}"
+@token={{login.response.body.result}}
 
 
-//
+// https://www.zabbix.com/documentation/4.0/manual/api/reference/host/get
 ### 查詢 被監控站台 清單
+# @name hosts
 GET {{ApiEndpoint}}/api_jsonrpc.php
 Content-Type: application/json
 
@@ -35,6 +39,7 @@ Content-Type: application/json
     "method": "host.get",
     //"params": {},
     "params": {
+        //"countOutput": true,
         "output": [
             "hostid",
             "host"
@@ -45,25 +50,105 @@ Content-Type: application/json
         ]
     },
     "id": "{{$guid}}",
-    "auth": {{token}}
+    "auth": "{{token}}"
 }
 
 
-//
-### 查出被監控端
+// https://www.zabbix.com/documentation/4.0/manual/api/reference/item/get
+### 查詢 監控項目
 GET {{ApiEndpoint}}/api_jsonrpc.php
 Content-Type: application/json
 
 {
     "jsonrpc": "2.0",
-    "method": "service.get",
+    "method": "item.get",
     "params": {
-        "output": "extend",
-        "selectDependencies": "extend"
+        "output": [
+            "itemid", "type", "hostid", "name", "key_",
+            "history", "trends", "status", "value_type", "units"
+        ],
+        "hostids": "10084",
+        //"countOutput": true,
+        "search": {
+            "key_": "system"
+        },
+        "fileter": {
+            "history": "1w"
+        }
+        //"sortfield": ""
     },
     "id": "{{$guid}}",
-    "auth": {{token}}
+    "auth": "{{token}}"
 }
+
+@hostid=10084
+
+// https://www.zabbix.com/documentation/4.0/manual/api/reference/trend/get
+### 查詢 trend data @@?
+GET {{ApiEndpoint}}/api_jsonrpc.php
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "trend.get",
+    "params": {
+        // "output": [
+        //     "itemid", "clock", "num",
+        //     "value_min", "value_avg", "value_max"
+        // ],
+        "itemids": [
+            "23296"
+        ]
+        //,"limit": "30"
+    },
+    "id": "{{$guid}}",
+    "auth": "{{token}}"
+}
+
+
+// https://www.zabbix.com/documentation/4.0/manual/api/reference/history/get
+### 抓出歷史資料 (監控資料)
+GET {{ApiEndpoint}}/api_jsonrpc.php
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "history.get",
+    "params": {
+        //"output": [
+        //    //"itemid",
+        //    "clock",
+        //    "value",
+        //    "ns"
+        //],
+        "history": 0,
+        "itemids": "23296"
+        //,"sortfield": "clock"
+        //,"sortorder": "DESC"
+        //,"limit": 100
+    },
+    "id": "{{$guid}}",
+    "auth": "{{token}}"
+}
+
+
+// https://www.zabbix.com/documentation/4.0/manual/api/reference/application/get
+### retrieve applications
+GET {{ApiEndpoint}}/api_jsonrpc.php
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "application.get",
+    "params": {
+        "output": "extend",
+        "hostids": "10084"
+        //,"sortfield": "name"
+    },
+    "id": "{{$guid}}",
+    "auth": "{{token}}"
+}
+
 
 // https://www.zabbix.com/documentation/4.0/manual/api/reference/problem/get
 ### 查詢 尚未解決的問題
@@ -74,24 +159,16 @@ Content-Type: application/json
     "jsonrpc": "2.0",
     "method": "problem.get",
     "params": {
-        "output": "extend",
-        "selectAcknowledges": "extend",
-        "selectTags": "extend",
-        "selectSuppressionData": "extend",
-        //"objectids": "15112",
-        "recent": "true",
-        "sortfield": ["eventid"],
-        "sortorder": "DESC"
+        //,"selectAcknowledges": "extend"
+        //,"selectTags": "extend"
+        //,"selectSuppressionData": "extend"
+        //,"recent": "true"
+        //,"sortfield": ["eventid"]
+        //,"sortorder": "DESC"
     },
     "id": "{{$guid}}",
-    "auth": {{token}}
+    "auth": "{{token}}"
 }
-
-
-
-
-
-
 
 
 // https://www.zabbix.com/documentation/4.0/manual/api/reference/user/logout
@@ -104,10 +181,8 @@ Content-Type: application/json
     "method": "user.logout",
     "params": [],
     "id": "{{$guid}}",
-    "auth": {{token}}
+    "auth": "{{token}}"
 }
-
-
 
 
 # ******************************* Useless *******************************

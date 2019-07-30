@@ -33,7 +33,7 @@ Overview: 如何增加 被監控端. 任何的 physical server, network switch, 
 
 Configuration > Hosts
 
-這頁可以定義 被監控端 有哪些, 預設會有一個 **Zabbix server**(也就是 監控端本身, 預設定義了監控自己). 它的 Availability 出現 `紅色的 ZBX`(無法監控), 後續再說...
+這頁可以定義 被監控端 有哪些, 預設會有一個 **Zabbix server**(也就是 監控端本身, 預設定義了監控自己). 它的 Availability 出現 `紅色的 ZBX`(無法監控). 我這遇到的解法是, 把 SELinux 問題解決掉就沒問題了
 
 Configuration > Hosts > Create host > (輸入被監控端)
 
