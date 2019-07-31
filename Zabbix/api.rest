@@ -6,6 +6,12 @@
 
 #@ApiEndpoint=http://zabbix.gbbos.com:3001  // 我根本不知道密碼
 
+// CPU Load (vm158=28637, vm157=28638, Newtemplate=28647)
+@itemId=28638
+
+// host (vm158=10263, vm157=10264, Newtemplate=10267)
+@hostId=10264
+
 
 
 // https://www.zabbix.com/documentation/4.0/manual/api/reference/user/login
@@ -198,3 +204,31 @@ Content-Type: application/json
     "id": "{{$guid}}",
     "auth": null
 }
+
+
+
+
+/////////////////// TESTING ///////////////////
+### 抓出歷史資料 (監控資料)
+GET {{ApiEndpoint}}/api_jsonrpc.php
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "method": "history.get",
+    "params": {
+        //"countOutput": true,              // 無法使用
+        "history": 0,
+        "hostids": "{{hostId}}",
+        "itemids": "{{itemId}}"
+        ,"sortfield": "clock"
+        ,"sortorder": "DESC"
+        ,"limit": 10
+        //,"time_from": ""
+        //,"time_till": ""
+    },
+    "id": "22",
+    "auth": "{{token}}"
+}
+
+
