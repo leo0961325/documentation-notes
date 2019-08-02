@@ -25,7 +25,12 @@ Python有許多 低階模組 支援多工的非同步架構, 但建議使用高�
 
 
 
+# 執行緒 thread
 
+- 一個 **行程(process)** 是 `執行中的程式 的 一個實體`.
+- os 確保 processes 之間不互相干擾
+- process 之間想互相通訊, 需透過 `行程間通訊(inter-process communication, IPC)` 的機制來做安排
+- process 之間, 可透過 file/DB 來做溝通
 
 
 
