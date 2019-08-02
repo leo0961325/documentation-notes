@@ -1,3 +1,15 @@
+# 快速設定固定 IP
+
+```bash
+### 設定
+nmcli con mod eth0 ipv4.addresses 192.168.2.157/24 ipv4.gateway 192.168.2.254 ipv4.method manual autoconnect yes
+nmcli con mod eth0 ipv4.dns 192.168.1.251 +ipv4.dns 192.168.1.250
+nmcli con up eth0
+
+### 測試
+ping google.com.tw
+```
+
 # Network
 
 - 2018/08/18
@@ -56,7 +68,7 @@ ex: `wlp2s0`, `enp1s0`
 - s0 : 網卡上第 1 個孔
 
 
-範例: 
+範例:
 ```
 wlp2s0 : PCI介面第二孔的第一張無線網卡
 enp1s0 : 第一孔PCI介面第一張乙太網卡
@@ -158,7 +170,7 @@ LISTEN   0      128                 :::ssh                  :::*        # 監聽
 
 # NetworkManager服務 與 network服務(比較傳統的方式)
 
-NetworkManager服務(NM) 專門設計用來給 `移動設備(ex: NB)` 使用, 可以在各種場合切換連線方式. 所以像是 Server或是一般桌電, 大都不使用 NM, 而是使用 network服務. **兩者則一啟用即可**. 
+NetworkManager服務(NM) 專門設計用來給 `移動設備(ex: NB)` 使用, 可以在各種場合切換連線方式. 所以像是 Server或是一般桌電, 大都不使用 NM, 而是使用 network服務. **兩者則一啟用即可**.
 
 NM 這東西從 OS6 時期就有了, 但是 BUG 一大堆~~, 值到 OS7 的時候, 進階使用時, 一樣會有某些 BUG, 基本 BUG 幾乎都修好了
 
@@ -172,7 +184,7 @@ Device
     |  + Ip address1
     |  + Ip address2
     |  + ...
-    |  
+    |
     + Connection3
     + ...
 ```
@@ -203,7 +215,7 @@ $ systemctl status network.service
 
 ```sh
 # 服務程式位置
-/etc/init.d/network   
+/etc/init.d/network
 
 # network服務會讀取 「系統網路組態目錄」內的設定檔, 並配置所有網路的組態
 $ ls /etc/sysconfig/network-scripts/
@@ -262,9 +274,9 @@ virbr0-nic       tun       不受管理的  --
 
 # 查電腦上的連線
 $ nmcli connection show
-NAME           UUID                                  TYPE             DEVICE 
+NAME           UUID                                  TYPE             DEVICE
 14f-classroom  7249c377-ce83-4233-a40c-ddc5c4021be9  802-11-wireless  wlp2s0  # 目前啟用的無線網路連線
-virbr0         9dcffbd1-d53f-4c7e-8c3a-f3b261ece9de  bridge           virbr0 
+virbr0         9dcffbd1-d53f-4c7e-8c3a-f3b261ece9de  bridge           virbr0
 
 $  nmcli connection show "14f-classroom"
 connection.id:                          14f-classroom

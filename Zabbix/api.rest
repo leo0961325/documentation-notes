@@ -74,7 +74,7 @@ Content-Type: application/json
             "history", "trends", "status", "value_type", "units"
         ],
         "hostids": "10084",
-        //"countOutput": true,
+        "countOutput": true,
         "search": {
             "key_": "system"
         },
@@ -122,10 +122,8 @@ Content-Type: application/json
     "method": "history.get",
     "params": {
         //"output": [
-        //    //"itemid",
         //    "clock",
-        //    "value",
-        //    "ns"
+        //    "value"
         //],
         "history": 0,
         "itemids": "23296"

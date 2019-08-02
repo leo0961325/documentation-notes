@@ -2,6 +2,7 @@
 
 - 2019/07/24
 - v4.0
+- Zabbix 官方說明文件, Quickstart 部分
 
 
 # 1. Login and configuration user
@@ -49,5 +50,17 @@ Configuration > Hosts > Create host > (輸入被監控端)
 # 3. New item
 
 Overview: 如何設定 被監控項目 (沒設定的話, 就啥資料都蒐集不到)
+
+
+
+# 4. New trigger
+
+
+
+# 5. Receiving problem notification
+
+
+
+# 6. New template
 
 

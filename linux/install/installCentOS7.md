@@ -66,6 +66,8 @@ $# sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/d
 
 - [看這邊](../../other/kafka.md)
 
+
+
 # DotNet Core
 
 - 2019/01/03
@@ -1246,6 +1248,7 @@ $# systemctl start zabbix-agent
 # zabbix-server
 
 - 2019/07/24
+- [官網](https://www.zabbix.com/documentation/4.0/manual/installation/install_from_packages/rhel_centos)
 - [How to Install Zabbix Server 4.0 on CentOS 7](https://computingforgeeks.com/how-to-install-zabbix-server-4-0-on-centos-7/)
 - [How To Install Zabbix Server 3.4 on CentOS/RHEL 7/6](https://tecadmin.net/install-zabbix-network-monitoring-on-centos-rhel-and-fedora/)
 
@@ -1254,6 +1257,18 @@ Zabbix-Server 是一整包的東西... 它包含了:
 - zabbix-server
 - database(mysql/postgres)
 - monitor GUI(php, apache)
+
+```bash
+### 安裝
+$# rpm -ivh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
+$# yum-config-manager --enable rhel-7-server-optional-rpms
+$# yum -y install zabbix-server-mysql zabbix-web-mysql
+
+### 若要使用 zabbix-proxy...
+$# yum install zabbix-proxy-mysql
+
+$# systemctl start mysqld
+```
 
 ```bash
 ### mysql 部分 (安裝完後)
