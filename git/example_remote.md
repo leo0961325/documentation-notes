@@ -1,15 +1,19 @@
-# 使用 git remote 
+# 使用 git remote
+
 - 2018/3/22
 
 ```sh
-# 這些先寫起來放, 隨時可用... 
+# 這些先寫起來放, 隨時可用...
 git branch -a       # 顯示所有本地分支 && 遠端分支
 
 git branch          # 顯示所有本地分支
 git branch -v       # 顯示所有本地分支 -詳細一點點
 git branch -vv      # 顯示所有本地分支 -超級詳細
 ```
-# Prerequest: 
+
+
+# Prerequest:
+
 1. 安裝好 git
 2. 註冊 git hub
 3. 底下會扯到的關鍵字及概念:
@@ -22,11 +26,11 @@ git branch -vv      # 顯示所有本地分支 -超級詳細
     - git push
 
 
-
 # 故事開始~
-> 模擬情境: Tony與 Andy共同開發 qq專案(`開啟2個 Terminal`), 一開始由 Tony建立專案, 完成一部分後, Andy開始介入開發, 爾後又有 Joshua加入, 完成後會 push到 **遠端分支**. **`需要開啟3個 Git Bash來模擬 3個本地端專案`**
 
-### Tony Terminal
+> 模擬情境: Tony 與 Andy 共同開發 qq專案, 一開始由 Tony 建立專案, 完成一部分後, Andy 開始介入開發, 爾後又有 Joshua 加入, 完成後會 push 到 **遠端分支**. **`需要開啟3個 Git Bash 來模擬 3 個本地端專案`**
+
+### Terminal 1 - Tony
 ```sh
 ### Tony建立初始專案, 完成了 Hello.java, 並且標註為1.0版
 git init 'qq'
@@ -42,7 +46,7 @@ git log --graph --oneline
 ### Git Repository
 - 到 Github建立新的專案, 名為 `qq-proj`
 
-### Terminal - Tony
+### Terminal 1 - Tony
 ```sh
 ### 上傳專案到 github - "qq-proj"
 git remote add origin git@github.com:cool21540125/qq-proj.git
@@ -50,7 +54,7 @@ git push -u origin master
 git push origin 1.0
 ```
 
-### Terminal - Andy
+### Terminal 2 - Andy
 ```sh
 ### 新進員工 Andy, 加入開發團隊, 著手開發 Idiot.java
 git clone git@github.com:cool21540125/qq-proj.git
@@ -72,7 +76,7 @@ git push origin 2.0
 # Andy push後, Tony可能已經在開發其他東西了(而不知道 Andy作了啥), 時空開始分歧...
 ```
 
-### Terminal - Tony
+### Terminal 1 - Tony
 ```sh
 ### Tony開始著手開發新功能 Wahaha.py, 完成一部份, 推送到遠端後, 等待新人來接手
 git checkout -b feature
@@ -84,7 +88,7 @@ ls
 git push --set-upstream origin feature
 ```
 
-### Terminal - Joshua
+### Terminal 3 - Joshua
 ```sh
 ### 業界顧問 Joshua加入開發, 接手 Tony的 Wahaha.py
 git clone git@github.com:cool21540125/qq-proj.git joshua
@@ -121,7 +125,7 @@ git push
 git push origin 3.0
 ```
 
-### Terminal - Andy
+### Terminal 2 - Andy
 ```sh
 ### 持續朝向下一版邁進~~ 新增了 Powerful.java, 但發現了自己之前寫的 Idiot.java有 bug...
 git checkout develop
@@ -154,7 +158,7 @@ git push origin 3.1
 git log --graph --oneline
 ```
 
-### Terminal - Joshua
+### Terminal 3 - Joshua
 ```sh
 cat Idiot.java
 git pull
@@ -164,7 +168,7 @@ git push
 ```
 
 
-### Terminal - Andy
+### Terminal 2 - Andy
 ```sh
 # 改完bug後, 繼續回去開發 Powerful.java
 ls
@@ -187,7 +191,7 @@ git push origin 4.0
 git log --graph --oneline
 ```
 
-### Terminal - Tony
+### Terminal 1 - Tony
 ```sh
 # Tony打算看看現在專案改成什麼德行...
 git checkout master
