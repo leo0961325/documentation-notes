@@ -13,3 +13,27 @@
 # bind 127.0.0.1
 bind 0.0.0.0
 ```
+
+
+# Redis-GUI
+
+參考 redis-desktop-manager
+
+
+# Redis-CLI
+
+```bash
+### Usage
+# redis-cli -h <HOST> -p <PORT> -a <PASSWORD>
+
+### 查看 目前狀態
+$# redis-cli --stat
+------- data ------ --------------------- load -------------------- - child -
+keys       mem      clients blocked requests            connections
+41         1.46M    29      0       778682 (+0)         2054
+41         1.46M    29      0       778683 (+1)         2054
+41         1.46M    29      0       778684 (+1)         2054
+# 以上, 每秒鐘會跳一個
+
+
+```
