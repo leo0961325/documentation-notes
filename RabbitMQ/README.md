@@ -5,6 +5,19 @@
 - [AMQP, RabbitMQ and Celery - A Visual Guide For Dummies](https://www.abhishek-tiwari.com/amqp-rabbitmq-and-celery-a-visual-guide-for-dummies/) 簡明扼要
 - [Part 3: The RabbitMQ Management Interface](https://www.cloudamqp.com/blog/2015-05-27-part3-rabbitmq-for-beginners_the-management-interface.html) 監控 web GUI
 - [Part 4: RabbitMQ Exchanges, routing keys and bindings](https://www.cloudamqp.com/blog/2015-09-03-part4-rabbitmq-for-beginners-exchanges-routing-keys-bindings.html) 圖表流程清晰
+- [RabbitMQ笔记三：四种类型Exchange](https://www.jianshu.com/p/04f443dcd8bd)
+
+# port
+
+- [Networking and RabbitMQ](https://www.rabbitmq.com/networking.html)
+
+- 4369 : epmd, a peer discovery service used by RabbitMQ nodes and CLI tools * 5672, 5671: used by AMQP 0-9-1 and 1.0 clients without and with TLS
+- 5671 :
+- 5672 : 監聽監聽資料的 default port
+- 15671:
+- 15672 : Web UI. HTTP API clients, management UI and rabbitmqadmin (only if the management plugin is enabled)
+- 25672: used for inter-node and CLI tools communication (Erlang distribution server port) and is allocated from a dynamic range (limited to a single port by default, computed as AMQP port + 20000). Unless external connections on these ports are really necessary (e.g. the cluster uses federation or CLI tools are used on machines outside the subnet), these ports should not be publicly exposed. See networking guide for details.
+
 
 # 觀念
 
