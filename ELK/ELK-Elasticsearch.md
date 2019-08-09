@@ -5,6 +5,11 @@
 - java: v1.8.0_161
 - [ElasticSearch Plugins](https://www.elastic.co/guide/en/elasticsearch/plugins/current/index.html)
 
+### vscode 外掛
+
+- Elasticsearch for VSCode
+- Elasticsearch Developer tool
+
 
 ## Config
 
@@ -12,14 +17,14 @@
 ### ES 目錄位置
 /etc
     /elasticsearch
-        /elasticsearch.keystore	    # 
+        /elasticsearch.keystore	    #
         /elasticsearch.yml	        # 設定主檔
         /jvm.options	            # JVM 相關設定(含 Memory)
         /log4j2.properties	        # Logging 機制設定
         /role_mapping.yml	        # ES role
-        /roles.yml	                # 
-        /users	                    # 
-        /users_roles	            # 
+        /roles.yml	                #
+        /users	                    #
+        /users_roles	            #
 
 
 ### 設定主檔
@@ -27,14 +32,14 @@ $# vim /etc/elasticsearch/elasticsearch.yml
 # ------------- Context -------------
 cluster.name: os7-Cluster                               # 此 Cluster 名稱
 node.name: node-1	                                    # 此 ElasticSearch Node 名稱
-node.attr.rack: r1	                                    # 
+node.attr.rack: r1	                                    #
 path.data: /var/lib/elasticsearch	                    # Data 路徑
 path.logs: /var/log/elasticsearch	                    # Log 路徑
 network.host: 0.0.0.0	                                # 不限定存取來源
 http.port: 9200	                                        # 服務窗口
 discovery.zen.ping.unicast.hosts: ["host1", "host2"]    # 預設為「["127.0.0.1", "[::1]"]」; 新加入的 node, 初始化時要找尋的 hosts
 gateway.recover_after_nodes: 3	                        # Cluster 重啟之後, 直到 N 個節點啟動後, 才開始作 recovery
-action.destructive_requires_name: true	                # 
+action.destructive_requires_name: true	                #
 # ------------- Context -------------
 
 ### JVM 資源問題 (There is insufficient memory for the Java Runtime Environment to continue...)
@@ -72,7 +77,7 @@ $# vim /etc/elasticsearch/jvm.options
 
 
 
-### ElasticSearch 
+### ElasticSearch
 
 ```sh
 ### 健康狀態

@@ -771,11 +771,11 @@ $ 7za x <fileName>
 
 ```sh
 # 1. 匯入 GPG-Key
-$ curl http://nginx.org/keys/nginx_signing.key > nginx_signing.key
-$ sudo rpm --import nginx_signing.key
+$# curl http://nginx.org/keys/nginx_signing.key > nginx_signing.key
+$# rpm --import nginx_signing.key
 
 # 2. 建立 Yum Repo
-$ sudo vim /etc/yum.repos.d/nginx.repo
+$# vim /etc/yum.repos.d/nginx.repo
 ###### 內容如下 ######
 [nginx]
 name=Nginx Repo
@@ -792,6 +792,10 @@ $# yum install -y nginx
 
 $ nginx -v
 nginx version: nginx/1.14.0
+
+$# nginx -t
+$# nginx -s reload
+$# systemctl start nginx
 ```
 
 
@@ -1288,6 +1292,25 @@ $# vim /etc/zabbix/zabbix_server.conf
 # ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 $# systemctl start zabbix-server
+```
+
+
+# Redis GUI
+
+- 2019/08/06
+- [Win 及 Mac 似乎要 License, 但 Linux 似乎不用...?](https://github.com/uglide/RedisDesktopManager)
+- [How to install RedisDesktopManager on CentOS](https://snapcraft.io/install/redis-desktop-manager/centos#install)
+- [Redis Desktop Manager - Quick Start](http://docs.redisdesktop.com/en/latest/quick-start/)
+
+```bash
+### Install
+$# yum install snapd
+$# systemctl start snapd
+
+$# ln -s /var/lib/snapd/snap /snap
+
+$# snap install redis-desktop-manager
+
 ```
 
 

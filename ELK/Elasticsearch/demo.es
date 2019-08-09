@@ -31,7 +31,7 @@ PUT /megacorp/employee/3
 /* ========== 原始資料 ========== */
 
 /* 找出 last_name 為 Smith 的人 */
-GET /megacorp/employee/_search
+GET /megacorp/abc/_search
 {
     "query": {
         "match": {
@@ -112,7 +112,7 @@ GET /megacorp/employee/_search
 {
     "aggs": {
         "all_interests": {
-            "terms": { 
+            "terms": {
                 "field": "interests"
             }
         }
@@ -129,7 +129,7 @@ GET /megacorp/employee/_search
     },
     "aggs": {
         "all_interests": {
-            "terms": { 
+            "terms": {
                 "field": "interests"
             }
         }
