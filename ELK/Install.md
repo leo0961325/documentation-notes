@@ -15,3 +15,17 @@ cd docker-elk
 
 docker-compose up   # 要先安裝好 docker compose 「sudo yum install -y docker-compose」
 ```
+
+# ElasticSearch GUI
+
+- 2019/08/09
+- [ElasticHQ](https://www.elastichq.org/index.html)
+- [Docker - elastichq/elasticsearch-hq](https://hub.docker.com/r/elastichq/elasticsearch-hq/)
+
+```bash
+$# docker pull elastichq/elasticsearch-hq
+
+$# docker run -p 9222:5000 elastichq/elasticsearch-hq
+```
+
+直接進 web 囉~ http://localhost:9222
