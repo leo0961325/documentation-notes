@@ -78,3 +78,20 @@ group by
 | "howard" | "[{"city":"Newyork","phone":"0987-555555"}]"
 +----------+------------------------------------------------
 ```
+
+
+# select all index
+
+```sql
+SELECT
+    tablename,
+    indexname,
+    indexdef
+FROM
+    pg_indexes
+WHERE
+    schemaname = 'schemaName'
+ORDER BY
+    tablename,
+    indexname;
+```

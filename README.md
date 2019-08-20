@@ -31,6 +31,7 @@ windows       | Windows Operating System
 - alphanumeric : 標點符號
 - backlog : 積壓
 - back slash : 反斜線
+- bootstrap configuration file : 引導程序配置文件
 - cascade: 串連
 - congestion : 擁塞
 - enumerable : 可列舉的
