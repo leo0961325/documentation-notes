@@ -800,6 +800,31 @@ $# systemctl start nginx
 
 
 
+# Install tcping
+
+- 2019/08/16
+- 用來檢測域名可否正常訪問
+
+```bash
+$# vim /etc/yum.repos.d/tcping.repo
+[tcping]
+name=tcping repo
+baseurl=https://download-ib01.fedoraproject.org/pub/epel/7/$basearch/
+gpgcheck=0
+enabled=1
+
+$# yum repolist | grep tcping
+tcping/x86_64            tcping repo                                      13,341
+
+$# yum install -y tcping
+
+### usage
+$# tcping -t 5 www.google.com 80
+www.google.com port 80 open.
+```
+
+
+
 # Install Apache
 
 - 2018/02/27
@@ -896,7 +921,7 @@ wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
 
 tar zxf Python-3.7.3.tgz
 cd Python-3.7.3
-./configure --enable-optimizations
+./configure --enable-optimizations --enable-loadable-sqlite-extensions
 
 ### 開始 Compile
 make -j 2 && make install
