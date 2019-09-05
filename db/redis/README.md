@@ -17,7 +17,7 @@ bind 0.0.0.0
 
 # Redis-GUI
 
-參考 redis-desktop-manager
+參考 [redis-desktop-manager](https://redisdesktop.com/pricing)
 
 
 # Redis-CLI
