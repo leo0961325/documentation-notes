@@ -57,3 +57,17 @@ Tony
 w32tm /config /update /manualpeerlist:<Remote Server IP>
 w32tm /resync
 ```
+
+## netstat
+
+- https://stackoverflow.com/questions/39632667/how-to-kill-the-process-currently-using-a-port-on-localhost-in-windows
+- [關於 TIME_WAIT](https://blog.miniasp.com/post/2010/11/17/How-to-deal-with-TIME_WAIT-problem-under-Windows)
+
+```cmd
+### 等同於 linux 的 netstat | grep XXX
+> netstat -ano | findstr :6007
+
+
+### kill
+> taskkill /PID XXX /F
+```

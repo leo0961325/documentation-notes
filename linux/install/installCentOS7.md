@@ -800,6 +800,31 @@ $# systemctl start nginx
 
 
 
+# Install tcping
+
+- 2019/08/16
+- 用來檢測域名可否正常訪問
+
+```bash
+$# vim /etc/yum.repos.d/tcping.repo
+[tcping]
+name=tcping repo
+baseurl=https://download-ib01.fedoraproject.org/pub/epel/7/$basearch/
+gpgcheck=0
+enabled=1
+
+$# yum repolist | grep tcping
+tcping/x86_64            tcping repo                                      13,341
+
+$# yum install -y tcping
+
+### usage
+$# tcping -t 5 www.google.com 80
+www.google.com port 80 open.
+```
+
+
+
 # Install Apache
 
 - 2018/02/27
@@ -896,7 +921,7 @@ wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
 
 tar zxf Python-3.7.3.tgz
 cd Python-3.7.3
-./configure --enable-optimizations
+./configure --enable-optimizations --enable-loadable-sqlite-extensions
 
 ### 開始 Compile
 make -j 2 && make install
@@ -1304,13 +1329,23 @@ $# systemctl start zabbix-server
 
 ```bash
 ### Install
-$# yum install snapd
+$# yum install -y snapd
 $# systemctl start snapd
 
 $# ln -s /var/lib/snapd/snap /snap
 
 $# snap install redis-desktop-manager
 
+### 如果發生下面的錯誤訊息 ----
+error: cannot perform the following tasks:
+- Download snap "core" (7396) from channel "stable" (Get https://fastly-global.cdn.snapcraft.io/download-origin/fastly/99T7MUlRhtI3U0QFgl5mXXESAiSwt776_7396.snap?token=1567663200_c1175619102aaa846a99bebd0325ea39d4555194: x509: certificate has expired or is not yet valid)
+# ---------------------------
+# 作時間校正後, 即可安裝. 參考 https://stackoverflow.com/questions/55234385/how-to-ignore-certificates-check-in-snap-on-ubuntu
+
+### 時間校正
+$# systemctl start chronyd
+$# chronyc sources -v
+# 以上是透過 time server 作校時, 視情況用手動
 ```
 
 

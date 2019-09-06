@@ -24,7 +24,7 @@ Codename:       Core
 
 
 # EPEL(Extra Packages for Enterprise Linux)
-> Linux在安裝許多軟體的時候(ex: yum install ...), 會有軟體相依性的問題, 若發現相依軟體尚未被安裝, yum會自己去`本地 repository`裡頭找有記載的`遠端 repository`去下載相依套件. 而 EPEL就是專門 for CentOS的套件庫, 裡頭有許多CentOS的核心套件. <br>查看補充說明: 
+> Linux在安裝許多軟體的時候(ex: yum install ...), 會有軟體相依性的問題, 若發現相依軟體尚未被安裝, yum會自己去`本地 repository`裡頭找有記載的`遠端 repository`去下載相依套件. 而 EPEL就是專門 for CentOS的套件庫, 裡頭有許多CentOS的核心套件. <br>查看補充說明:
 [What is EPEL](https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/)
 ```sh
 $ sudo yum install -y epel
@@ -188,7 +188,7 @@ $ du -h --max-depth=0 /usr/share/man
 
 > CentOS7前: 網路介面卡名稱, eth0, eth1, ... 分別代表第1張網卡, 第2張網卡, ...; 名稱由 **開機時核心偵測的時機** 決定, 故可能因為更換硬體設備而異動. 網卡名稱變動可能造成防火牆錯誤.
 
-> CentOS7: 裝置名稱改為 `p1p1, p2p1, p3p1`等 BIOS名稱, 目的是為了維持設備名稱的一致性, 並以 **名稱得知網路卡在主機板上插槽的位置**. 
+> CentOS7: 裝置名稱改為 `p1p1, p2p1, p3p1`等 BIOS名稱, 目的是為了維持設備名稱的一致性, 並以 **名稱得知網路卡在主機板上插槽的位置**.
 
 ```sh
 $ ifconfig enp1s0
@@ -205,12 +205,12 @@ $ ifconfig enp1s0 up          # 開啟 enp1s0網路卡
 $ ifconfig enp1s0 down        # 關閉 enp1s0網路卡 (別白痴到在 ssh時使用阿XD )
 
 # 重新手動指定 ip
-$ ifconfig enp1s0 <new IP>   
+$ ifconfig enp1s0 <new IP>
 
 # 重新手動指定 ip及 mask
 $ ifconfig enp1s0 <new IP> netmask <new Mask>
 
-$ ip address show   # 
+$ ip address show   #
 
 $ ip link show      # 類似 ip address show, 但省略 ip位址資訊
 ```
@@ -353,8 +353,9 @@ $ sudo hdparm -Tt /dev/sda
 
 
 
----
+
 ## date
+
 ```sh
 $ date
 公曆 20十八年 三月 六日 週二 十一時39分廿四秒
@@ -366,6 +367,10 @@ $ date +%Y%m%d
 $ touch bck_`date +\%H\%M`.sql
 $ ls
 bck_1608.sql
+
+### timestamp 轉 datetime
+$# date "+%Y-%m-%d %H:%M:%S" --date=@1565596800
+2019-08-12 16:00:00
 ```
 
 script | desc
@@ -414,13 +419,13 @@ tony     pts/2    :0               14:06   18:13   0.26s  0.12s bash
 
 ```sh
 # 10分鐘後關機
-$ sudo shutdown -h +10 
+$ sudo shutdown -h +10
 
 # 15分鐘後重新開機
-$ sudo shutdown -r +15 
+$ sudo shutdown -r +15
 
 # 點選視窗後,就可以把相關程序殺掉(GUI專用)
-$ xkill   
+$ xkill
 
 # 使用預設的 15訊號, 讓 terminal結束訊號
 $ kill 8888
@@ -585,7 +590,7 @@ tony     pts/0    192.168.124.101  18:46    3.00s  0.19s  0.02s w
 
 > 語法: `firewall-cmd --zone=public --add-port=3333/tcp --permanent`  對外永久開放 3333 port, 支援 TCP連線
 
-> `firewall-cmd --reload` 重新讀取 firewall設定 
+> `firewall-cmd --reload` 重新讀取 firewall設定
 ```sh
 # 看看 FirewallD是否執行中
 $ firewall-cmd --state
@@ -625,14 +630,14 @@ public (active)
   target: default
   icmp-block-inversion: no
   interfaces: wlp2s0
-  sources: 
+  sources:
   services: dhcpv6-client ssh
   ports: 3333/tcp                  # <--- 對外開放了
-  protocols: 
+  protocols:
   masquerade: no
-  forward-ports: 
-  sourceports: 
-  icmp-blocks: 
+  forward-ports:
+  sourceports:
+  icmp-blocks:
   rich rules:
 ```
 
@@ -670,7 +675,7 @@ public
   interfaces: ens0s3 wlp2s0
 
 # 永久改變
-$ firewall-cmd --permanent --zone=dmz --change-interface=ens0s3 
+$ firewall-cmd --permanent --zone=dmz --change-interface=ens0s3
 ```
 
 Service服務在 FirewallD中代表 1~多個 port所組成的一個服務.
@@ -695,7 +700,7 @@ public (active)
   ...(略)...
   services: dhcpv6-client ssh
   ...(略)...
-  
+
 # 防火牆允許 http服務(永久)
 $ firewall-cmd --permanent --add-service=http
 
@@ -743,7 +748,7 @@ uid=1000(tonynb) gid=1000(tonynb) groups=1000(tonynb),10(wheel),983(docker) cont
  id root
 uid=0(root) gid=0(root) groups=0(root)
 
-$ 
+$
 
 $ id -u
 1000
@@ -837,7 +842,7 @@ $ echo $?
 $ vi ex3.sh
 n1=$1
 n2=$2
-if test $n1 -gt $n2   # if 參數1 > 參數2 
+if test $n1 -gt $n2   # if 參數1 > 參數2
   then
     echo "n1:$n1 is bigger than n2:$n2"
   else
@@ -888,7 +893,7 @@ $ ll /dev | more
 # more只能往下頁
 
 $ ll /dev | less
-# less可搜尋, 到第幾行, 往上頁, 往下頁 
+# less可搜尋, 到第幾行, 往上頁, 往下頁
 ```
 > 語法: `less <options> <file>`
 
@@ -899,7 +904,7 @@ options | description
 /\<str> | 搜尋特定文字(向下找)
 n       | 使用 / 後, 向下找
 N       | 使用 / 後, 向上找
-h       | 顯示 help介面       
+h       | 顯示 help介面
 
 
 ### 計數(word count) - wc
@@ -1190,7 +1195,7 @@ $ echo $?
 ```
 option         | description
 -------------- | -------------
-file           | 
+file           |
   -d           | 為 dir
   -e           | 存在
   -s           | 大小 >0
@@ -1198,12 +1203,12 @@ file           |
   -w           | writable
   -x           | executable
   -L           | 為連結
-string         | 
+string         |
 -n \<str>      | 長度 >0
 -z \<str>      | 是否 =0
 \<str>==\<str> | 字串相等
 \<str>!=\<str> | 字串不相等
-number         | 
+number         |
 n1 -eq n2      | n1 == n2
 -ne, -gt, ...  | (略)
 
@@ -1234,7 +1239,7 @@ $ LANG=en_US.utf8
 $ export LANG=${LANG}
 $ locale
 LANG=en_US.utf8     # 底下一切都變了 en_US.utf8
-LC_CTYPE="en_US.utf8"   
+LC_CTYPE="en_US.utf8"
 LC_NUMERIC="en_US.utf8"
 LC_TIME="en_US.utf8"
 LC_COLLATE="en_US.utf8"
@@ -1275,7 +1280,7 @@ $ nl /etc/nginx/nginx.conf
 # 列出檔案內容(用來查看二進制檔案)
 $ sudo od /usr/bin/passwd
 
-$ 
+$
 ```
 
 
@@ -1283,7 +1288,7 @@ $
 # umask : 讓目前使用者 建立 檔案 or 目錄 時的權限設定值
 # 預設上, 檔案 最多應為 666
 # 預設上, 目錄 最多可為 777
-# umask 的分數指 該預設值需要檢調的權限!! 
+# umask 的分數指 該預設值需要檢調的權限!!
 # 適用情境: 不同使用者, 要各自登入 linux, 要共同合作開發某資料夾下的專案, 可先改好 umask後, 便可方便將來合作
 
 
@@ -1390,7 +1395,7 @@ DAMN U!
 
 ```sh
 ### Terminal : tony pts/2
-$ 
+$
 Message from tony@gitserver on pts/0 at 14:32 ...
 DAMN U!
 EOF
@@ -1463,7 +1468,26 @@ $# service XXX status       # SysV status
 ```
 
 
+# lsof
 
+```bash
+$# lsof -i
+COMMAND  PID USER FD  TYPE  DEVICE SIZE/OFF NODE NAME
+python3 3705 root 17u IPv4 3383170      0t0  TCP *:commplex-main (LISTEN)
+python3 3705 root 19u IPv4 3387478      0t0  TCP tgfc-220:39544->tgfc-220:6379 (ESTABLISHED)
+python3 3705 root 23u IPv4 3387483      0t0  TCP tgfc-220:52422->tgfc-220:postgres (ESTABLISHED)
+python3 3705 root 24u IPv4 3387486      0t0  TCP tgfc-220:39548->tgfc-220:6379 (ESTABLISHED)
+python3 3705 root 25u IPv4 3387488      0t0  TCP tgfc-220:39550->tgfc-220:6379 (ESTABLISHED)
+python3 3705 root 26u IPv4 3387489      0t0  TCP tgfc-220:52428->tgfc-220:postgres (ESTABLISHED)
+python3 3705 root 27u IPv4 3387490      0t0  TCP tgfc-220:52430->tgfc-220:postgres (ESTABLISHED)
+python3 3705 root 28u IPv4 3387491      0t0  TCP tgfc-220:52432->tgfc-220:postgres (ESTABLISHED)
+python3 3705 root 29u IPv4 3387492      0t0  TCP tgfc-220:52434->tgfc-220:postgres (ESTABLISHED)
+python3 3705 root 30u IPv4 3387493      0t0  TCP tgfc-220:52436->tgfc-220:postgres (ESTABLISHED)
+python3 3705 root 31u IPv4 3387494      0t0  TCP tgfc-220:52438->tgfc-220:postgres (ESTABLISHED)
+python3 3705 root 32u IPv4 3387495      0t0  TCP tgfc-220:52440->tgfc-220:postgres (ESTABLISHED)
+python3 3705 root 33u IPv4 3387496      0t0  TCP tgfc-220:52442->tgfc-220:postgres (ESTABLISHED)
+python3 3705 root 34u IPv4 3387497      0t0  TCP tgfc-220:52444->tgfc-220:postgres (ESTABLISHED)
+```
 
 ## 6 vs 7 版
 

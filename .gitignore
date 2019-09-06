@@ -9,3 +9,4 @@ Debug/
 obj/
 bin/
 .ipynb_checkpoints
+venv/

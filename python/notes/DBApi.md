@@ -1,3 +1,18 @@
+# mysqlclient
+
+- 2019/08/14
+- https://stackoverflow.com/questions/51294268/pip-install-mysqlclient-returns-fatal-error-c1083-cannot-open-file-mysql-h
+
+如果 windows 10 上出現 `pip install mysqlclient` 錯誤
+
+1. https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient
+2. 下載相關版本的 mysqlclient 套件
+3. 使用相關 venv python
+4. pip install "path/to/mysqlclient/mysqlclient-1.4.4-cp37-cp37m-win_amd64.whl" (以 python37 win10 X64 為例)
+
+即可完成
+
+
 # Python Database API (DBAPI) 2.0
 - 2018/06/21
 - [PEP249 -- Python Database API Specification v2.0](https://www.python.org/dev/peps/pep-0249/)
@@ -23,7 +38,7 @@ conn.commit()      # Commit
 conn.rollback()    # Rollback
 c = conn.cursor()  # 取得 Cursor
 
-c.DB方法()  
+c.DB方法()
 c.DB屬性
 
 # c.execute(<SQL Statement>)

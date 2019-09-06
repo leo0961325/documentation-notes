@@ -6,6 +6,16 @@
 - [Redis bind IP](https://dotblogs.com.tw/colinlin/2017/06/26/150257)
 - [Flask SSE官方 - redis](http://flask-sse.readthedocs.io/en/latest/quickstart.html)
 
+# login
+
+密碼登入
+
+```bash
+$# redis-cli -h <HOST> -p <PORT> -a
+<PASSWORD>
+```
+
+
 
 ### 跨 Host使用 redis
 - 更改組態裏頭的 config的 bind
@@ -17,7 +27,7 @@ bind 0.0.0.0
 
 # Redis-GUI
 
-參考 redis-desktop-manager
+參考 [redis-desktop-manager](https://redisdesktop.com/pricing)
 
 
 # Redis-CLI
