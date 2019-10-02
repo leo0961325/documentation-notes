@@ -83,3 +83,7 @@ Python 可用下列套件來實作:
 - py-amqplib
 - txAMQP
 - Pika
+
+
+
+docker run -d -p 5672:5672 -p 15672:15672 -e RABBITMQ_NODENAME=mq1 --name=mq --hostname=tonyhost rabbitmq:management

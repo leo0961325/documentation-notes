@@ -45,5 +45,6 @@ keys       mem      clients blocked requests            connections
 41         1.46M    29      0       778684 (+1)         2054
 # 以上, 每秒鐘會跳一個
 
-
+### 列出所有 keys
+$# keys '*'
 ```

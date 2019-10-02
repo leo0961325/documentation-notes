@@ -1225,6 +1225,7 @@ go version go1.11 linux/amd64
 
 ```sh
 $# yum install -y supervisor
+$# systemctl start supervisord
 ```
 
 
