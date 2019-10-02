@@ -36,3 +36,18 @@ $ docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management
 # ???? localhost:5672
 ```
 
+
+# Redis
+
+- 2019/08/23
+- [docker redis](https://hub.docker.com/_/redis)
+
+```bash
+$# docker pull redis
+
+### redis
+$# docker run --name myredis --restart always -d -p 6379:6379 redis redis-server --appendonly yes
+
+### Usage
+$#
+```

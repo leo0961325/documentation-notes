@@ -32,7 +32,7 @@ Docker version 17.09.0-ce, build afdb6d4
 
 > **依照 Dockerfile, 建立 Image**. 語法: `docker build -t <要建立的 Images名稱> <Dockerfile位置>`
 
-> **執行 Image(建立 Container)**. 語法: `docker run -it <Image名稱> <依照啥指令執行此 Image>` 
+> **執行 Image(建立 Container)**. 語法: `docker run -it <Image名稱> <依照啥指令執行此 Image>`
 
 ```sh
 $ docker run -d --name nginx nginx
@@ -60,7 +60,7 @@ $ docker run -d -p 5000/tcp -p 53/udp --name nginx nginx
 $ sudo iptables -L
 ...(一堆)...
 Chain DOCKER (2 references)
-target    prot opt source      destination    
+target    prot opt source      destination
 ACCEPT    tcp  --  anywhere    172.17.0.2     tcp dpt:commplex-main
 ACCEPT    udp  --  anywhere    172.17.0.2     udp dpt:domain
 ...(一堆)...
@@ -138,7 +138,7 @@ $ docker kill ...
 ```
 
 
-## 操作 Container 
+## 操作 Container
 ```sh
 # 啟動睡著的 Container
 $ docker start <ContainerName>
@@ -190,7 +190,7 @@ Linux   | /etc/docker/daemon.json
 
 
 
-- 每個運行在 service內的單一 container, 都稱為 **task**, 且每個 task都有專屬的 **task id** 
+- 每個運行在 service內的單一 container, 都稱為 **task**, 且每個 task都有專屬的 **task id**
 
 ```
 
@@ -237,18 +237,18 @@ Node left the swarm.
 
  起手式 | 範例 | 說明 |
  --- | --- | --- |
- ADD | ADD . /app | 把本地目前資料夾底下的東西, 複製到指定 container的 /app內 |  
- CMD | CMD ["python", "app.py"] | container啟動後, 執行 app.py  
- COPY |  |  
- ENTRYPOINT |  |  
- ENV | ENV NAME World <br />ENV https_proxy host:port | 設定環境變數 NAME 為 World <br /> 可以設定 Proxy Server  
- EXPOSE | EXPOSE 80 | 開放 80 port  
- FROM |  |  
- MAINTAINER |  |  
- ONBUILD |  |  
+ ADD | ADD . /app | 把本地目前資料夾底下的東西, 複製到指定 container的 /app內 |
+ CMD | CMD ["python", "app.py"] | container啟動後, 執行 app.py
+ COPY |  |
+ ENTRYPOINT |  |
+ ENV | ENV NAME World <br />ENV https_proxy host:port | 設定環境變數 NAME 為 World <br /> 可以設定 Proxy Server
+ EXPOSE | EXPOSE 80 | 開放 80 port
+ FROM |  |
+ MAINTAINER |  |
+ ONBUILD |  |
  RUN |  | 執行腳本
- USER |  |  
- VOLUME |  |  
+ USER |  |
+ VOLUME |  |
  WORKDIR | 進入Container後的起始路徑<br /> 對於`RUN`, `CMD`, `ENTRYPOINT`, `COPY`, `ADD`皆有效 <br /> 可以設定絕對/相對路徑 |
 
 
@@ -258,7 +258,7 @@ Node left the swarm.
 
 
 
---- 
+---
 ---
 ---
 
@@ -334,7 +334,7 @@ $ docker run -p 4000:80 c8d0
 
 
 #### 範例 - ENTRYPOINT
-- 2018/01/30 
+- 2018/01/30
 
 1. dockerfile
 ```dockerfile
@@ -364,7 +364,7 @@ d13e1f5a3f72    ac41     "/bin/echo HIII~~"    ...        ...                sto
 ```
 
 #### 範例 - CMD
-- 2018/01/30 
+- 2018/01/30
 
 1. dockerfile
 ```dockerfile
@@ -390,7 +390,7 @@ CONTAINER ID    IMAGE    COMMAND        CREATED          STATUS    PORTS    NAME
 ```
 
 
-#### 範例 - 
+#### 範例 -
 - 2018/01/30
 
 1. dockerfile
@@ -469,7 +469,7 @@ root@7c49:/$# exit
 
 # 查看 Volume
 $ docker inspect -f {{.Mounts}} 7c49
-[{volume b8e1ff 
+[{volume b8e1ff
 /var/lib/docker/volumes/b8e1ff/_data /data local  true }]
 
 # 使用別的 Volume
@@ -558,3 +558,81 @@ $ docker cp 463d2b6f28cf:/root/.ssh/ .
 $ docker ps -s
 ```
 
+# Windows vs Linux Container
+
+- 2018/09/20
+
+
+```powershell
+### Linux Container
+> docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+7280e8a0597c        bridge              bridge              local
+a26f1acc48e6        host                host                local
+5c32253289c9        none                null                local
+
+
+### Windows Container
+> docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+45f5073a72bf        ExternalSwitch      transparent         local
+619942edbcff        nat                 nat                 local
+b26d7431a85e        none                null                local
+3432c65f886b        預設切換             ics                 local
+```
+
+![HyperV Linux Container](../img/HypervLinuxContainer.jpg)
+
+MobyLinuxVM 是啟用 Linux Container 之後才出現的, 原本我使用 Windows Container 時, 還看不到它, 但要使用 Linux Images 時, 發現 Windows Container 無法使用, 切換到 Linux Container 之後, 它就出現了!!
+
+
+```powershell
+> ipconfig
+
+
+### 1 手動新增的 Internal Switch
+乙太網路卡 vEthernet (InternalSwitch):
+
+   連線特定 DNS 尾碼 . . . . . . . . :
+   連結-本機 IPv6 位址 . . . . . . . : fe80::c941:1ad4:5463:ad66%7
+   自動設定 IPv4 位址 . . . . . . . .: 169.254.173.102
+   子網路遮罩 . . . . . . . . . . . .: 255.255.0.0
+   預設閘道 . . . . . . . . . . . . .:
+
+### 2 手動新增的 External Switch
+乙太網路卡 vEthernet (ExternalSwitch):
+
+   連線特定 DNS 尾碼 . . . . . . . . :
+   連結-本機 IPv6 位址 . . . . . . . : fe80::80f5:8c6f:43f9:dd4f%21
+   IPv4 位址 . . . . . . . . . . . . : 192.168.124.101
+   子網路遮罩 . . . . . . . . . . . .: 255.255.255.0
+   預設閘道 . . . . . . . . . . . . .: 192.168.124.254
+
+### 3 Windows Container 使用的 NAT
+乙太網路卡 vEthernet (nat):
+
+   連線特定 DNS 尾碼 . . . . . . . . :
+   連結-本機 IPv6 位址 . . . . . . . : fe80::690f:d8e:dec8:255a%29
+   IPv4 位址 . . . . . . . . . . . . : 172.25.144.1
+   子網路遮罩 . . . . . . . . . . . .: 255.255.240.0
+   預設閘道 . . . . . . . . . . . . .:
+
+### 5 Hyper-V 預設的 NAT
+乙太網路卡 vEthernet (預設切換):
+
+   連線特定 DNS 尾碼 . . . . . . . . :
+   連結-本機 IPv6 位址 . . . . . . . : fe80::6d63:b9d7:b1eb:229a%18
+   IPv4 位址 . . . . . . . . . . . . : 172.22.35.1
+   子網路遮罩 . . . . . . . . . . . .: 255.255.255.240
+   預設閘道 . . . . . . . . . . . . .:
+
+### 6 Linux Container 使用的 NAT
+乙太網路卡 vEthernet (DockerNAT):
+
+   連線特定 DNS 尾碼 . . . . . . . . :
+   IPv4 位址 . . . . . . . . . . . . : 10.0.75.1
+   子網路遮罩 . . . . . . . . . . . .: 255.255.255.0
+   預設閘道 . . . . . . . . . . . . .:
+```
+
+![HyperV Virtual Switch](../img/vSwitch.jpg)

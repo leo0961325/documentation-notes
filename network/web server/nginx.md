@@ -110,7 +110,7 @@ http {
 server {
     listen                  80;         # 若為 default server, 此行隱含了 「listen       80 default_server;」
     server_name             localhost;  # Request Http header 為 localhost 者, 套用此 server, 否則找 default server
-    client_max_body_size    1024M;      # 
+    client_max_body_size    1024M;      #
 
     location / {        # URL pattern: /
         root        /data/www;          # 存取 /data/www/...
@@ -209,10 +209,10 @@ upstream test {
     server localhost:8081;
 }
 
-server {  
+server {
     # 監聽 本地 80 port 的請求
     listen       80;
-    server_name  localhost;   
+    server_name  localhost;
 
     # request body 上限大小
     client_max_body_size 1024M;
@@ -231,7 +231,7 @@ server {
 
 ```ini
 upstream test {
-    server 192.168.10.10:8080 weight=5; 
+    server 192.168.10.10:8080 weight=5;
     server 192.168.10.11:8080 weight=2;
 }
 ```
@@ -318,3 +318,14 @@ img.youwillneverknow.com    A   <IP4>
 
 最後面得要有「/」 才能 list
 
+
+# other
+
+```conf
+### 可查 public IP
+location /ip {
+    default_type text/plain;
+    return 200 $remote_addr;
+}
+# curl XXXX/ip
+```
