@@ -12,7 +12,7 @@
 
 ```sh
 # 建立 db的 Container
-$ docker run -d --name database -e MYSQL_ROOT_PASSWORD=root mysql
+$ docker run -d --name db -e MYSQL_ROOT_PASSWORD=root mysql:5.7
 # -e 用來設定環境變數
 
 # 建立 web的 Container

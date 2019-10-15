@@ -921,7 +921,7 @@ wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
 
 tar zxf Python-3.7.3.tgz
 cd Python-3.7.3
-./configure --enable-optimizations --enable-loadable-sqlite-extensions
+./configure --enable-loadable-sqlite-extensions --enable-optimizations
 
 ### 開始 Compile
 make -j 2 && make install
