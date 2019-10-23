@@ -5,7 +5,7 @@
 
 ```bash
 ### Run Container
-$# docker run -d -p 54321:5432 -v /var/data/container/postgres:/var/data/postgres -v /var/data/container/xlog_archive:/var/data/xlog_archive -v /var/data/container/backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=app-postgres postgres
+$# docker run -d -p 5432:5432 -v ~/DockerVolumes/pg_finance/postgres:/var/data/postgres -v ~/DockerVolumes/pg_finance/xlog_archive:/var/data/xlog_archive -v ~/DockerVolumes/pg_finance/backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=pg_finance postgres
 
 ### ps
 $# docker ps
