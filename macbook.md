@@ -23,3 +23,25 @@ do
     open -a "Visual Studio Code" "$f"
 done
 ```
+
+
+```bash
+### ~/.bash_profile
+alias ls='ls -G'
+alias ll='ls -lG'
+alias lla='ll -a'
+
+PS1='[\u@\h \W]\$ '
+```
+
+
+```bash
+### ~/.vimrc
+et expandtab
+set tabstop=4
+set shiftwidth=4
+set nu
+set ai
+set autoindent
+set nocompatible
+```
