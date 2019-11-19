@@ -9,11 +9,13 @@
         "command": "editor.action.toggleMinimap"
     },
     {   // IntelliSence
-        "key": "ctrl+i",                "command": "editor.action.triggerSuggest",
+        "key": "ctrl+i",                
+        "command": "editor.action.triggerSuggest",
         "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly" 
     },
     {   // Current Line
-        "key": "ctrl+l",                "command": "expandLineSelection",
+        "key": "ctrl+l",                
+        "command": "expandLineSelection",
         "when": "textInputFocus" 
     },
 ]
