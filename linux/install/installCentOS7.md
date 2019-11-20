@@ -924,7 +924,7 @@ cd Python-3.7.3
 ./configure --enable-loadable-sqlite-extensions --enable-optimizations
 
 ### 開始 Compile
-make -j 2 && make install
+make -j 4 && make install
 # -j 2: 使用Core
 
 ### root 環境變數 (一般使用者可直接使用...)
