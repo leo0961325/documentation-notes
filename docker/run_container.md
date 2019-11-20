@@ -5,7 +5,8 @@
 
 ```bash
 ### Run Container
-$# docker run -d -p 5433:5432 -v ~/DockerVolumes/pg_finance/postgres:/var/data/postgres -v ~/DockerVolumes/pg_finance/xlog_archive:/var/data/xlog_archive -v ~/DockerVolumes/pg_finance/backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=pg_finance postgres
+# https://www.postgresql.org/docs/11/runtime-config-logging.html
+$# docker run -d -p 5433:5432 -v ~/DockerVolumes/pg_finance/postgres:/var/data/postgres -v ~/DockerVolumes/pg_finance/xlog_archive:/var/data/xlog_archive -v ~/DockerVolumes/pg_finance/backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=pg_finance postgres -c logging_collector=on
 
 ### ps
 $# docker ps
@@ -18,6 +19,14 @@ $# psql -h <HOST> -p <PORT> -U postgres -W <PASSWORD> <DATABASE>
 
 ### 進入 Shell
 $# docker exec -it app-postgres /bin/bash
+```
+
+```sql
+-- postgresql 產生
+CREATE OR REPLACE FUNCTION "public"."gen_random_uuid"()
+  RETURNS "pg_catalog"."uuid" AS '$libdir/pgcrypto', 'pg_random_uuid'
+  LANGUAGE c VOLATILE
+  COST 1
 ```
 
 
