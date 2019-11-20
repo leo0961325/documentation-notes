@@ -120,3 +120,12 @@ s.gg()   # 停止執行續(注意是 s 而非 t)
 - Abstraction for application
 
 
+# asyncio
+- https://docs.python.org/3.7/library/asyncio-task.html
+
+執行 asyncio 的 3 種方式:
+1. asyncio.run(<async fn>)
+2. 在 async fn 裏頭, 去做 `await <async fn>()`
+3. 在 async fn 裏頭, 去做 `task = asyncio.create_task(<async fn>())` && `await task`
+
+主要的 3 種 awaitable 物件有: **coroutines**, **Tasks**, **Futures**

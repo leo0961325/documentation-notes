@@ -1,5 +1,20 @@
 # Python dunder methods
 
+
+## getattr
+
+```python
+class People:
+    def __init__(self, name):
+        self.name = name
+
+p = People('tony')
+
+p.name
+# 等同於
+getattr(p, 'name')
+```
+
 ## `__init__`
 - 建構式
 - 用途為: binding(繫結)
@@ -53,6 +68,24 @@ Car.__bases__ # (__main__.Traffic,)
 ## `__get__`
 - 類別物件內, 若有定義此方法, 則此類別稱為 `descriptor(描述器)`
 - 若為唯讀(無 `__set__`), 則稱為 `nonoverriding descriptor(非覆寫式描述器)` or `nondata descriptor(非資料描述器)`
+
+
+## `__getattr__`
+
+- 如果要取得物件內不存在的屬性時, 會透過這個方法
+
+```py
+class People:
+    def __init__(self, name):
+        self.name = name
+
+    def __getattr__(self, item):
+        return f'沒 {item} 這東西'
+
+p = People('tony')
+print(p.age)
+# 沒 age 這東西
+```
 
 
 ## `__getattribute__`
