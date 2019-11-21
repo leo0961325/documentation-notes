@@ -120,6 +120,14 @@ s.gg()   # 停止執行續(注意是 s 而非 t)
 - Abstraction for application
 
 
+
+```bash
+### 直接建立共享網頁介面
+$ python3 -m http.server
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+```
+
+
 # asyncio
 - https://docs.python.org/3.7/library/asyncio-task.html
 
