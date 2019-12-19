@@ -14,6 +14,10 @@ $# vim /etc/sudoers
 <user>=(ALL)   ALL
 # 存檔離開
 
+# 如果覺得每次都要打密碼很麻煩 把下列寫入即可
+tony ALL=(ALL) NOPASSWD: ALL
+# 上 su 免輸入密碼, 使用 「:x!」 儲存
+
 # chmod u-w /etc/sudoers
 # 重新登入terminal即可
 ```
