@@ -247,6 +247,11 @@ s      | Second
 ms     | Millisecond
 
 
+# 關於 時間 變數
+
+- {{$datetime iso8601}} : `2019-12-05T03:17:20.638Z`
+- {{$datetime rfc1123}} : `Thu Dec 05 2019 03:17:05 GMT+0000`
+- {{$localDatetime iso8601}} : `2019-12-05T11:20:17.617+08:00`
 
 
 ```sh
