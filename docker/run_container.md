@@ -40,9 +40,9 @@ $ docker search rabbitmq:management
 
 $ docker pull rabbitmq:management
 
-$ docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management
+$ docker run -d -p 5672:5672 -p 15672:15672 --name mq --rm rabbitmq:management
 # 管理介面 localhost:15672
-# ???? localhost:5672
+# 資料傳輸 localhost:5672
 ```
 
 
