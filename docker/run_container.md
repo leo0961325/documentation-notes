@@ -23,6 +23,14 @@ $# psql -h <HOST> -p <PORT> -U postgres -W <PASSWORD> <DATABASE>
 $# docker exec -it app-postgres /bin/bash
 ```
 
+```sql
+-- postgresql 產生
+CREATE OR REPLACE FUNCTION "public"."gen_random_uuid"()
+  RETURNS "pg_catalog"."uuid" AS '$libdir/pgcrypto', 'pg_random_uuid'
+  LANGUAGE c VOLATILE
+  COST 1
+```
+
 
 # RabbitMQ
 

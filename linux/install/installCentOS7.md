@@ -877,28 +877,6 @@ DB=# \t
 ```
 
 
-# install scala (不完整)
-- 2017/06/??
-- [Official Scala](https://www.scala-lang.org/download/)
-
-1. **Install JRE first**
-
-2. Download tar-ball
-```
-$ wget https://github.com/scala/scala/archive/v2.12.4.tar.gz
-```
-
-3. Install
-```
-$ tar zxf scala-2.12.4.tar.gz
-
-$ cd
-
-$ vi .bashrc
-export scala_HOME="/home/tony/scala-2.12.4"
-export PATH=$scala_HOME/bin:$PATH
-```
-
 
 # Install Python3.7 on CentOS7.6
 
@@ -921,10 +899,13 @@ wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
 
 tar zxf Python-3.7.3.tgz
 cd Python-3.7.3
-./configure --enable-loadable-sqlite-extensions --enable-optimizations
+./configure --enable-loadable-sqlite-extensions --enable-optimizations  # 這個會跑很久很久(會執行測試)
+# 或者可改成下一行
+./configure --enable-loadable-sqlite-extensions # 比較快
+
 
 ### 開始 Compile
-make -j 2 && make install
+make -j 4 && make install
 # -j 2: 使用Core
 
 ### root 環境變數 (一般使用者可直接使用...)
@@ -951,32 +932,6 @@ workon <ENV_NAME>
 deactivate <ENV_NAME>
 
 ```
-
-
-# install Python (不完整)
-
-```sh
-$ wget https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tar.xz
-
-$ tar xf <python>.tar.xz
-$ cd <python>
-
-$ ./configure --enable-loadable-sqlite-extensions --enable-shared --with-ssl --prefix="~/python3"
-$ make
-$ sudo make install
-$ ldconfig
-```
-
-安裝完後,開始設定環境變數（略）
-
-底下開始安裝python3的pip
-```sh
-$ wget -O get-pip.py "https://bootstrap.pypa.io/get-pip.py"
-$ export PYTHON_PIP_VERSION=9.0.1
-$ python3 get-pip.py "pip==$PYTHON_PIP_VERSION"
-$ pip3 install --no-cache-dir --upgrade --force-reinstall "pip==$PYTHON_PIP_VERSION"
-```
-
 
 
 # Install jdk1.8
@@ -1366,3 +1321,4 @@ $# chronyc sources -v
 
 - $basearch : x86_64 (位元架構)
 - $releasever : CentOS7 的 7 (大版本號)
+
