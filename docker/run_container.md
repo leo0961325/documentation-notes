@@ -4,8 +4,11 @@
 - 2019/05/16
 
 ```bash
-### Run Container
+### Run Container - MacOS
 $# docker run -d -p 5433:5432 -v ~/DockerVolumes/pg_finance/postgres:/var/data/postgres -v ~/DockerVolumes/pg_finance/xlog_archive:/var/data/xlog_archive -v ~/DockerVolumes/pg_finance/backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=pg_finance postgres
+
+### Run Container - Windows
+$# docker run -d -p 5433:5432 -v D:\DockerVolumes\pg_finance\postgres:/var/data/postgres -v D:\DockerVolumes\pg_finance\xlog_archive:/var/data/xlog_archive -v D:\DockerVolumes\pg_finance\backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=pg_finance postgres
 
 ### ps
 $# docker ps
