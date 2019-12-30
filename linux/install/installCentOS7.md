@@ -1276,6 +1276,18 @@ $# systemctl start zabbix-server
 ```
 
 
+# Install squid
+
+- 2019/12/30
+
+```bash
+### Proxy 伺服器
+yum install -y squid
+
+systemctl start squid
+```
+
+
 # Redis GUI
 
 - 2019/08/06
