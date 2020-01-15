@@ -4,9 +4,11 @@
 - 2019/05/16
 
 ```bash
-### Run Container
-# https://www.postgresql.org/docs/11/runtime-config-logging.html
-$# docker run -d -p 5433:5432 -v ~/DockerVolumes/pg_finance/postgres:/var/data/postgres -v ~/DockerVolumes/pg_finance/xlog_archive:/var/data/xlog_archive -v ~/DockerVolumes/pg_finance/backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=pg_finance postgres -c logging_collector=on
+### Run Container - MacOS
+$# docker run -d -p 5433:5432 -v ~/DockerVolumes/pg_finance/postgres:/var/data/postgres -v ~/DockerVolumes/pg_finance/xlog_archive:/var/data/xlog_archive -v ~/DockerVolumes/pg_finance/backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=pg_finance postgres
+
+### Run Container - Windows
+$# docker run -d -p 5433:5432 -v D:\DockerVolumes\pg_finance\postgres:/var/data/postgres -v D:\DockerVolumes\pg_finance\xlog_archive:/var/data/xlog_archive -v D:\DockerVolumes\pg_finance\backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=pg_finance postgres
 
 ### ps
 $# docker ps
@@ -40,9 +42,9 @@ $ docker search rabbitmq:management
 
 $ docker pull rabbitmq:management
 
-$ docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management
+$ docker run -d -p 5672:5672 -p 15672:15672 --name mq --rm rabbitmq:management
 # 管理介面 localhost:15672
-# ???? localhost:5672
+# 資料傳輸 localhost:5672
 ```
 
 

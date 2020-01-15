@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="output"></div>
+</body>
+<script>
+    var socket = new WebSocket('ws://localhost:8001');
+    socket.onmessage = function(event) {
+        var msg = JSON.parse(event.data);
+        msg.counter = parseInt(msg.counter) +1;
+        msg.string+= msg.counter + '-';
+        var html = '<p>' + msg.string + '</p>';
+        document.getElementById('output').innerHTML = html;
+        socket.send(JSON.stringify(msg))
+    }
+</script>
+</html>

@@ -96,3 +96,37 @@ $# docker rm gitlab --force
 
 ###### HTTP Response 422 : Bad Cookie 問題... 清空 storage 即可
 
+
+# Docker gitlab
+
+- 2020/01/15
+- macbook
+- https://docs.gitlab.com/ee/ci/quick_start/
+- https://docs.gitlab.com/runner/install/docker.html
+
+```bash
+### GitLab
+$# docker pull gitlab/gitlab-ce
+
+### 起 Container
+$# docker run -d --name gitlab-runner --restart always \
+  -v /Users/Shared/gitlab-runner/config:/etc/gitlab-runner \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  gitlab/gitlab-runner:latest
+
+```
+
+
+# Docker Gitlab-Runner
+
+```bash
+### 2020/01/15
+### GitLab-Runner
+$# docker pull gitlab/gitlab-runner
+# v12.6.0 (ac8e767a)
+
+### 如何使用
+$# docker run --rm -it gitlab/gitlab-runner --help
+
+
+```

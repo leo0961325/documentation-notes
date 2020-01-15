@@ -25,7 +25,7 @@ CSR   | Certificate Signing Request, 憑證簽署請求
 
 ```sh
 # ---------------------------------------------------------------
-# 使用 openssl 產生 private key, 金鑰長度為 2048 bits 
+# 使用 openssl 產生 private key, 金鑰長度為 2048 bits
 $# openssl genrsa -out foobar.key 2048
 # 底下會要你輸入 private key 的一堆基本資料... 包含 private key 密碼
 # 產生出來的 foobar.key 又稱為 "RSA private key"
@@ -54,7 +54,7 @@ $# openssl req -text -in CSR.csr -noout
 # 僅產生 私有憑證(不開放到公網域) - 自我簽署憑證
 $# openssl x509 -req -days 3650 -in CSR.csr -signkey private.key -out self-signed.crt
 # 會產生一個 pem格式的憑證內容, 放在 self-signed.crt
-# 
+#
 
 # ---------------------------------------------------------------
 # 直接從 private key 產生 自我簽屬憑證
@@ -292,8 +292,8 @@ $# certbot --nginx
 certbot renew --dry-run     # 玩假的
 certbot renew               # 玩真的
 
-crontab -e 
-0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew 
+crontab -e
+0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew
 ```
 
 ## 4. Hugo + Letsencrypt on Gitlab
@@ -331,3 +331,7 @@ $# openssl req -config /etc/pki/tls/openssl.cnf -x509 -days 3650 -batch -nodes -
 # -keyout private/logstash-forwarder.key 私鑰放這
 # -out certs/logstash-forwarder.crt 簽署好的憑證放這
 ```
+
+
+- https 依賴 ssl, ssl 依賴 `數位憑證`
+- `數位憑證` 可以自簽 or 送給第三方公正機關簽署, 之後安裝到自己的網站

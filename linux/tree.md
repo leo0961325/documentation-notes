@@ -96,6 +96,9 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /services                       # 服務 與 port 對映檔
     /shells                         # 某些服務運作時會來檢查使用者能使用的shells
     /skel/                          # 預設建立使用者後, 使用者家目錄底下的東西
+    /squid/                         # Proxy Server
+        /squid.config                   # squid 設定主檔
+        /mime.conf                      # squid 支援 Internet 上的檔案格式(沒事別亂動)
     /ssh/
         /ssh_config                     # SSH Client 組態
         /ssh_host_*_key.pub             # SSH Server 公鑰(ecdsa, ed25519, rsa, ...)
