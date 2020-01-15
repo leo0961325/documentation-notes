@@ -105,7 +105,7 @@ sudo yum -y install google-chrome-stable
 
 
 
-# Docker CE
+# Install Docker CE
 
 - 2017/11/25
 - 2018/07/01 update

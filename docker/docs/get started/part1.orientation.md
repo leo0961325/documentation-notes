@@ -5,7 +5,7 @@
 ##### 2. [Containers](./part2.containers.md)
 ##### 3. [Services](./part3.services.md)
 ##### 4. [Swarms](./part4.swarm.md)
-##### 5. [Stacks](./part5.stacks.md) 
+##### 5. [Stacks](./part5.stacks.md)
 ##### 6. [Deploy your app](./part6.deploy.md)
 
 ---
@@ -37,7 +37,7 @@ docker:x:983:
 $ sudo groupadd docker
 
 # 3. 把目前使用者, 加入 docker的群組~
-$ sudo usermod -aG docker $USERNAME
+$ sudo usermod -aG docker ${USER}
 
 # 4. 再次看看~
 $ cat /etc/group | grep docker

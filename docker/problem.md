@@ -239,6 +239,13 @@ PrivateVirtualSwitch External   Intel(R) Ethernet Connection (7) I219-V
 - [docker/labs/Setup-Windows10](https://github.com/docker/labs/blob/master/windows/windows-containers/Setup-Win10.md)
 - [about_Execution_Policies](https://technet.microsoft.com/zh-TW/library/hh847748.aspx)
 
+
+```cmd
+# 強制更新執行原則
+gpupdate /force
+```
+
+
 ```powershell
 # 前往這邊~~ 「C:\Program Files\Docker\Docker\resources」
 > .\MobyLinux.ps1 -create -switchname DockerNAT
