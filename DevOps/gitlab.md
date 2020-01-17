@@ -44,14 +44,14 @@ $# docker pull gitlab/gitlab-ce
 ### Run image
 $# docker run --detach \
   --hostname gitlab.example.com \
-  --publish 80:80 \
-  --publish 2222:22 \
-  --name gitlab \
+  --publish 28080:80 \
+  --publish 22222:22 \
+  --name gitlab-157 \
   --restart always \
   --volume /srv/gitlab/config:/etc/gitlab:Z \
   --volume /srv/gitlab/logs:/var/log/gitlab:Z \
   --volume /srv/gitlab/data:/var/opt/gitlab:Z \
-  --env GITLAB_OMNIBUS_CONFIG="external_url 'http://gitlab.example.com'; gitlab_rails['lfs_enabled'] = true;" \
+  --env GITLAB_OMNIBUS_CONFIG="external_url 'http://gitlab157.com'; gitlab_rails['lfs_enabled'] = true;" \
   gitlab/gitlab-ce:latest
 # 記得 hike 自己的 /etc/hosts 設好名稱解析
 # GitLab 資料都放在 「/srv/gitlab」
@@ -108,11 +108,8 @@ $# docker rm gitlab --force
 ### GitLab
 $# docker pull gitlab/gitlab-ce
 
-### 起 Container
-$# docker run -d --name gitlab-runner --restart always \
-  -v /Users/Shared/gitlab-runner/config:/etc/gitlab-runner \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  gitlab/gitlab-runner:latest
+### Run (Windows)
+
 
 ```
 
@@ -128,5 +125,11 @@ $# docker pull gitlab/gitlab-runner
 ### 如何使用
 $# docker run --rm -it gitlab/gitlab-runner --help
 
+
+### Run
+$# docker run -d --name gitlab-runner --restart always \
+  -v /Users/Shared/gitlab-runner/config:/etc/gitlab-runner \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  gitlab/gitlab-runner:latest
 
 ```
