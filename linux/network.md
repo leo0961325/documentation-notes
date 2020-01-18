@@ -333,4 +333,37 @@ hi~
 # 其他
 
 - ifup, ifdown : 只能針對 `/etc/sysconfig/network-scripts/` 內的 `ifcfg-ethXX` 進行動作
-- route
+
+
+```bash
+### route
+$# route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         gateway         0.0.0.0         UG    100    0        0 enp0s3  # 路由規則找不到的話, 送往這
+192.168.0.0     0.0.0.0         255.255.255.0   U     100    0        0 enp0s3  # 網域路由
+# Destionation + Genmask 組合成 host/domain
+#
+```
+
+
+# CentOS6 以前的作法
+
+```bash
+### 重新載入網路參數 /etc/sysconfig/network-scripts/
+$# /etc/init.d/network restart
+
+### 這是在 macbook 起的 CentOS7 的 VM
+$# /etc/init.d/network status
+設定好的裝置：
+lo enp0s3
+目前作用中的裝置：
+lo enp0s3
+
+### 啟動/關閉 某張網路介面
+$# ifup enp0s3
+$# ifdown enp0s3
+# 啟動/關閉 /etc/sysconfig/network-scripts/ifcfg-enp0s3
+
+
+```
