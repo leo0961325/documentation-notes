@@ -35,7 +35,9 @@ set noignorecase       # 搜尋區分大小寫(預設)
 
 set cursorline         # 所在行會有底線
 
-set mouse=a            # 可以使用滑鼠點選位置(這有點猛)
+if has('mouse')
+  set mouse=a          # 可以使用滑鼠點選位置(這有點猛)
+endif
 set mouse=""           # 取消滑鼠點選位置的功能
 
 # Ubuntu Vim 相容模式 (Ubuntu Vim 超難用~)
@@ -163,8 +165,8 @@ Vim + re 語法 : `ranges/pattern/string/flags`
 重點就是 : `:s///` 一定要有
 
 - range: Line Number(ex: `42`) 或 Line Numbers(ex: `1,7` 表示1-7行) 或 目標單字 (ex: `README\.txt`) 或 全文: `%` 或 `'<`, `'>` for the current visual selection
-- pattern : 
-- string : 
+- pattern :
+- string :
 - flags : `g`, `i`
     - g : replacing more than one occurrence of pattern per line (每行多次)
     - i : 不分大小寫

@@ -105,7 +105,7 @@ sudo yum -y install google-chrome-stable
 
 
 
-# Docker CE
+# Install Docker CE
 
 - 2017/11/25
 - 2018/07/01 update
@@ -895,22 +895,24 @@ yum -y install epel-release
 yum install -y python-pip
 
 ### 下載 Python3.7.3 tar ball
+yum install -y wget
 wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
 
 tar zxf Python-3.7.3.tgz
 cd Python-3.7.3
-./configure --enable-loadable-sqlite-extensions --enable-optimizations  # 這個會跑很久很久(會執行測試)
+# ./configure --enable-loadable-sqlite-extensions --enable-optimizations  # 這個會跑很久很久(會執行測試)
 # 或者可改成下一行
 ./configure --enable-loadable-sqlite-extensions # 比較快
 
 
 ### 開始 Compile
-make -j 4 && make install
+make && make install
 # -j 2: 使用Core
 
 ### root 環境變數 (一般使用者可直接使用...)
 echo 'PYTHON_HOME=/usr/local/bin' >> ~/.bash_profile
 echo 'PATH=${PYTHON_HOME}:${PATH}' >> ~/.bash_profile
+source ~/.bash_profile
 
 ### pipenv
 pip3 install pipenv
