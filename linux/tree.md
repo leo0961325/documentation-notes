@@ -45,6 +45,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /custom.conf                    #
     /hostname                       # 主機名稱檔
     /hosts                          # ip 與 dns 對照
+    /hosts.allow                    # 防火牆白名單(先)
+    /hosts.deny                     # 防火牆黑名單(後)
     /httpd/                         # Apache 的組態設定檔
         /conf/                          # Apache 主設定檔dir
             httpd.conf                      # Apache 主設定檔
