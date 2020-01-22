@@ -13,3 +13,30 @@
 
 ```
 
+
+
+# 異部
+
+- 2020/01/22
+- https://realpython.com/python-concurrency/#cpu-bound-synchronous-version
+
+```py
+import asyncio
+import aiohttp
+
+# ... 略...
+
+async def download_all_sites(sites):
+    async with aiohttp.ClientSession() as session:  # <- context manager
+    # Inside that context manager, it creates a list of tasks using asyncio.ensure_future(), which also takes care of starting them. Once all the tasks are created, this function uses asyncio.gather() to keep the session context alive until all of the tasks have completed.
+        tasks = []
+        for url in sites:
+            task = asyncio.ensure_future(download_site(session, url))
+            tasks.append(task)
+        await asyncio.gather(*tasks, return_exceptions=True)
+
+if __name__ == "__main__":
+    # ... 略...
+    asyncio.get_event_loop().run_until_complete(download_all_sites(sites))  # py3.7, 可使用 asyncio.run(XXX) 來代替
+    # ... 略...
+```
