@@ -110,7 +110,40 @@ $# docker pull gitlab/gitlab-ce
 
 ### Run (Windows)
 
+### Run (Macbook)
+$# docker run --detach \
+  --hostname mygitlab.com \
+  --publish 12200:22 \
+  --publish 18000:80 \
+  --publish 14430:443 \
+  --name mygitlab \
+  --restart always \
+  --volume ~/DockerVolumes/mygitlab/etc:/etc/gitlab \
+  --volume ~/DockerVolumes/mygitlab/log:/var/log/gitlab \
+  --volume ~/DockerVolumes/mygitlab/opt:/var/opt/gitlab \
+  --env GITLAB_OMNIBUS_CONFIG="external_url 'http://mygitlab.com'; gitlab_rails['lfs_enabled'] = true;" \
+  gitlab/gitlab-ce:latest
 
+### Run (Linux)
+$# docker run --detach \
+  --hostname gitlab.example.com \
+  --publish 12200:22 \
+  --publish 18000:80 \
+  --publish 14430:443 \
+  --name mygitlab \
+  --restart always \
+  --volume /srv/gitlab/config:/etc/gitlab:Z \
+  --volume /srv/gitlab/logs:/var/log/gitlab:Z \
+  --volume /srv/gitlab/data:/var/opt/gitlab:Z \
+  --env GITLAB_OMNIBUS_CONFIG="external_url 'http://mygitlab.com'; gitlab_rails['lfs_enabled'] = true;" \
+  gitlab/gitlab-ce:latest
+# 記得 hike 自己的 /etc/hosts 設好名稱解析
+# GitLab 資料都放在 「/srv/gitlab」
+# 「:Z」確保 Docker process 具備 SELinux 的權限
+# 設定主檔在 「/srv/gitlab/config/gitlab.rb:/etc/gitlab/gitlab.rb」
+#「--publish 2222:22」 是因為 22 port 已經被 vm 的 ssh 占用
+# 關於 env 那邊, 可在執行 Container 時, 就先定義好 external_url
+# 另 lfs_enalbed 是允許 Git Large File Storage (movie, image, DB, ...)
 ```
 
 
@@ -126,7 +159,7 @@ $# docker pull gitlab/gitlab-runner
 $# docker run --rm -it gitlab/gitlab-runner --help
 
 
-### Run
+### Run (Macbook)
 $# docker run -d --name gitlab-runner --restart always \
   -v /Users/Shared/gitlab-runner/config:/etc/gitlab-runner \
   -v /var/run/docker.sock:/var/run/docker.sock \
