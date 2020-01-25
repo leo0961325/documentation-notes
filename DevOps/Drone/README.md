@@ -11,13 +11,13 @@ ngrok http -host-header=rewrite mydrone.com:8081
 
 ## GitLab
 
-> User Setting > Applications > Redirect URI 填入 `https://DRONE_HOST/authorize`
+> User Setting > Applications > Redirect URI 填入 `https://DRONE_HOST/login`
   DRONE_HOST 可使用 ngrok 來做本地測試, 我使用 `ngrok http -host-header mydrone.com 17777`
 
 Scopes 選擇 `api` && `read_user`, 取得底下:
 
-- Application ID: 14dc7b022c890e5dd603981b9f8c1e6e78485fd79c5c0cea80112b04c61a48cc
-- Secret: 4080059c8902246284f0fc36e6b432154f84f527697c13869b03ad0fa4b012ea
+- Application ID:
+- Secret:
 
 填入 `.docker-compose.yml` 對應的 GitLab 環境變數對應的 CLIENT && SECRET
 
@@ -55,37 +55,23 @@ Drone 基於 Container 的 CI/CD 系統(所有流程都在 Docker Container). Gi
 drone 0.8 版以後, 拆成: `drone-server` && `drone-agent`
 
 
-```yml
-version: '2'
+# Usage
 
-services:
-  drone-server:  # drone agent 參考這裡
-    image: drone/drone
-    ports:
-      - 28080:8000  # Drone Server web 介面
-      - 29000:9000  # Server && Agent 溝通
-    volumes:
-      - ./:/var/lib/drone/  # 預設使用 sqlite, DB 位置就在這
-    restart: always
-    environment:
-      - DRONE_HOST=http://mydrone.com  # 跑 Drone 的 public domain
-      - DRONE_OPEN=true  # 後台是否開放 Drone 註冊
-      - DRONE_SECRET=@@abc__xyz%%  # server 與 agnet 溝通的 key (需相同)
-      - DRONE_ADMIN=tony  # 可用 "," 區隔, ex: admin,tony
-      # GitLab Config
-      - DRONE_GITLAB=true
-      - DRONE_GITLAB_CLIENT=${CLIENT}
-      - DRONE_GITLAB_SECRET=${SECRET}
-      - DRONE_GITLAB_URL=http://mygitlab.com
-    drone-agent:  # 完全依靠 docker container 來做事情
-      image: drone/agent
-      restart: always
-      depends_on:
-        - drone-server
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-      environment:
-        - DRONE_SERVER=drone-server:9000  # 根據 drone/server 的 service name:PORT 來命名
-        - DRONE_SECRET=@@abc__xyz%%
-        - DRONE_MAX_PROCS=3  # agent 可同時 build 幾個 commit or project
+1. ngrok http -host-header=rewrite mydrone.com:8081
+2. 把 Forwarding 貼到 Gitlab User Settings > Applications > [PROJECT_NAME](替換 Callback URL)
+3. 替換 .env 的 DRONE_SERVER_HOST
+4. export `DRONE_GITLAB_CLIENT_ID` && `DRONE_GITLAB_CLIENT_SECRET`
+5. docker-compose up
+6. http://mydrone.com:8081
+
+
+```bash
+### https://gist.github.com/danielepolencic/2b43329495d018dc6bfe790a79b559d4
+export DRONE_SERVER=https://8d903309.ngrok.io  # Ngrok 的 public domain
+export DRONE_TOKEN=XXXXX  # Drone Server 的 Personal Token
+
+### 若成功的話, 表示正確連到 Drone Server 了
+$# drone info
+User: cool21540125
+Email: cool21540125@gmail.com
 ```

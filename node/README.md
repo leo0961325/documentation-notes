@@ -25,3 +25,8 @@ $ npm install --save
 $ npm install --save-dev
 ```
 
+```bash
+# 會把 express 儲存到 package.json 當作 dependencies, 將來可直接 `npm install`
+$ npm install --save express
+
+```
