@@ -145,6 +145,8 @@ $ git branch -a
 
 ## HEAD節點標籤
 
+HEAD(代表最新版本) - 為`參照名稱`的一種 (tag 也是)
+
 此節點標籤, 永遠代表最新的 commit
 ```sh
 $ git show HEAD
@@ -222,12 +224,26 @@ $ git merge bug/123
 ```
 
 
-## git reset 取消提交
+## [索引](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/07.md)
 
-將 git檔案庫回復到某一個舊節點的狀態.
-- 取消最近一次的合併動作
-- **無法對 remote branch作用!!!!**
+> 索引(index) 就是已經做了 `git add` 的地方, 底下這些名詞是相同的:
+
+- Index (索引)
+- Cache (快取)
+- Directory cache (目錄快取)
+- Current directory cache (當前目錄快取)
+- Staging area (等待被 commit 的地方)
+- Staged files (等待被 commit 的檔案)
+
+
+
+## git reset 還原索引狀態
+
+- `git reset`: 此次版本, 已做 `git add` 的檔案們, 全部變成沒做的狀態
+- `git reset --hard`: 此次版本, 不管有沒有做 `git add`, 總之把 `current index` 變乾淨
+
 > `git reset HEAD^ --hard`, --hard, 表示資料夾中的檔案也要一起回復
+
 ```sh
 # O C0               (old)
 # |
@@ -336,6 +352,44 @@ $ git cherry-pick --abort
 
 ```
 
+## git diff
+
+- 2020/02/03
+- https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/09.md
+
+指令:
+
+- `git diff` : 比對 `working dir` 與 `current index` 的差異 (工作目錄 vs 索引)
+- `git diff <id1>`: 比對 `working dir` 與 <cmid> 的差異
+- `git diff --cached <cmid>` : 比對 `current index` 與 <cmid> 的差異
+- `git diff <cmid1> <cmid2>` : 比對 `<cmid1>` 到 `<cmid2>` 變化了那些
+- `git diff HEAD` : 工作目錄 vs HEAD
+- `git diff --cached HEAD` : 索引 vs HEAD
+- `git diff --cached` : 索引 vs HEAD
+- `git diff HEAD^ HEAD` : HEAD^ vs HEAD (次新版 commit vs 最新版 commit)
+
+```bash
+### Example:
+mkdir git-demo
+cd git-demo
+git init
+
+echo 1 > a.txt
+echo 2 > b.txt
+git add .
+git commit -m "Initial commit"  # 2f04fb
+
+echo 3 > a.txt
+echo 4 > b.txt
+git add .
+git commit -m "Update a.txt and b.txt to 3 and 4"    # 038de9
+
+### 比較兩個版本的差異
+$# git diff 038d 2f04
+# 會印出內容比較, 直覺意義是, 從 038d -> 2f04 變化了哪些內容
+# - 開頭的是少掉了那些內容
+# + 開頭的是增加了哪些內容
+```
 
 
 # C. Git 組態
