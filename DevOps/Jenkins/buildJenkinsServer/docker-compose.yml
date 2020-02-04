@@ -1,0 +1,34 @@
+version: "3"
+services:
+    # db:
+    #   image: postgres
+    #   environment:
+    #     POSTGRES_PASSWORD: password123
+    #   ports:
+    #     - "5432:5432"
+    #   volumes:
+    #     - pgdata_jenkins_host:/var/lib/postgresql/data/
+
+    # api:
+    #   build: ./api
+    #   restart: always
+    #   command: python manage.py runserver 0.0.0.0:8000
+    #   ports:
+    #     - "8002:8000"
+    #   volumes:
+    #     - ./workspace/workspace/demo/api:/docker_api
+    #   depends_on:
+    #     - db
+
+    jenkins:
+        #   build: ./jenkins
+        image: jenkins/jenkins:2.203-alpine
+        container_name: my_jenkins_server
+        restart: always
+        ports:
+            - "8080:8080"
+            - "50000:50000"
+        # volumes:
+            # - /srv/docker_data/jenkins_server:/var/jenkins_home
+volumes:
+    pgdata_jenkins_host:

@@ -1,0 +1,6 @@
+rm -rf /srv/docker_data/jenkins_server
+rm -rf /srv/docker_data/postgres
+docker rm --force my_jenkins-2.203
+docker rm --force my_jenkins-pg
+
+docker-compose up

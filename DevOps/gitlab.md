@@ -158,6 +158,10 @@ $# docker pull gitlab/gitlab-runner
 ### 如何使用
 $# docker run --rm -it gitlab/gitlab-runner --help
 
+### ※※※※※※※※※※※※※
+# 要先到 gitlab 去把 Overview > Runners > URL && token 複製出來
+### ※※※※※※※※※※※※※
+
 
 ### Run (Macbook)
 $# docker run -d --name gitlab-runner --restart always \
@@ -165,4 +169,15 @@ $# docker run -d --name gitlab-runner --restart always \
   -v /var/run/docker.sock:/var/run/docker.sock \
   gitlab/gitlab-runner:latest
 
+### Run (Centos7) - https://blog.samchu.dev/2019/05/02/%E8%A8%BB%E5%86%8A-GitLab-Runner-use-Docker/
+$# GITLAB_URL=
+$# GITLAB_RUNNER_TOKEN=
+$# docker run -d --restart always \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /srv/gitlab-runner/config:/etc/gitlab-runner:Z \
+  --name gitlab-runner-158 \
+  gitlab/gitlab-runner:latest register \
+  --executor "docker" \
+  --url ${GITLAB_URL} \
+  --registration-token ${GITLAB_RUNNER_TOKEN}
 ```
