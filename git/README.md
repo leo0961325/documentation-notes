@@ -145,6 +145,8 @@ $ git branch -a
 
 ## HEAD節點標籤
 
+HEAD(代表最新版本) - 為`參照名稱`的一種 (tag 也是)
+
 此節點標籤, 永遠代表最新的 commit
 ```sh
 $ git show HEAD
@@ -222,12 +224,26 @@ $ git merge bug/123
 ```
 
 
-## git reset 取消提交
+## [索引](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/07.md)
 
-將 git檔案庫回復到某一個舊節點的狀態.
-- 取消最近一次的合併動作
-- **無法對 remote branch作用!!!!**
+> 索引(index) 就是已經做了 `git add` 的地方, 底下這些名詞是相同的:
+
+- Index (索引)
+- Cache (快取)
+- Directory cache (目錄快取)
+- Current directory cache (當前目錄快取)
+- Staging area (等待被 commit 的地方)
+- Staged files (等待被 commit 的檔案)
+
+
+
+## git reset 還原索引狀態
+
+- `git reset`: 此次版本, 已做 `git add` 的檔案們, 全部變成沒做的狀態
+- `git reset --hard`: 此次版本, 不管有沒有做 `git add`, 總之把 `current index` 變乾淨
+
 > `git reset HEAD^ --hard`, --hard, 表示資料夾中的檔案也要一起回復
+
 ```sh
 # O C0               (old)
 # |
@@ -336,6 +352,44 @@ $ git cherry-pick --abort
 
 ```
 
+## git diff
+
+- 2020/02/03
+- https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/09.md
+
+指令:
+
+- `git diff` : 比對 `working dir` 與 `current index` 的差異 (工作目錄 vs 索引)
+- `git diff <id1>`: 比對 `working dir` 與 <cmid> 的差異
+- `git diff --cached <cmid>` : 比對 `current index` 與 <cmid> 的差異
+- `git diff <cmid1> <cmid2>` : 比對 `<cmid1>` 到 `<cmid2>` 變化了那些
+- `git diff HEAD` : 工作目錄 vs HEAD
+- `git diff --cached HEAD` : 索引 vs HEAD
+- `git diff --cached` : 索引 vs HEAD
+- `git diff HEAD^ HEAD` : HEAD^ vs HEAD (次新版 commit vs 最新版 commit)
+
+```bash
+### Example:
+mkdir git-demo
+cd git-demo
+git init
+
+echo 1 > a.txt
+echo 2 > b.txt
+git add .
+git commit -m "Initial commit"  # 2f04fb
+
+echo 3 > a.txt
+echo 4 > b.txt
+git add .
+git commit -m "Update a.txt and b.txt to 3 and 4"    # 038de9
+
+### 比較兩個版本的差異
+$# git diff 038d 2f04
+# 會印出內容比較, 直覺意義是, 從 038d -> 2f04 變化了哪些內容
+# - 開頭的是少掉了那些內容
+# + 開頭的是增加了哪些內容
+```
 
 
 # C. Git 組態
@@ -446,7 +500,24 @@ $ git branch -u origin/master foo
 -s | 簡易資訊 | git status -s
 
 
+## Git cat-file
+
+```bash
+###
+$# git cat-file -p XXX
+# XXX 可為 `commit` or `Tag` or `branch`
+```
+
 ## Git tag
+
+- [Git Tag](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/15.md)
+- 2020/02/04
+
+git tag 分為 2 種:
+
+- lightweight : 只是在 commit 上, 貼上參考名稱 新增到 ~/.git/refs/tags/<TAG_NAME>
+- annotated : 產生 git object 到 ~/.git/objects/ 底下
+
 
 [推送 tag問題](https://stackoverflow.com/questions/5195859/how-to-push-a-tag-to-a-remote-repository-using-git)
 > 推送 tag到遠端, 語法: `git push <遠端名稱> <tag name>`
@@ -503,7 +574,7 @@ $ git rebase tony           # 把 (落後的)master, 合併到 tony
 - `git stash apply "stash@{1}"` 把特定 stash 的 暫存版名字 作 pop
 
 - [參考這邊](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/13.md)
-- [保證簡單好懂得範例](./stash_example.md)
+- [簡單好懂得範例](./stash_example.md)
 
 
 ## git reset 改變範圍
@@ -515,22 +586,7 @@ param   | data in repo | git index | file in dir
 -- hard | v            | v         | v
 
 
-## 建立新的git repo
 
-> 參考: [共用儲存庫](https://ithelp.ithome.com.tw/articles/10132804)
-```sh
-$ git init
-$ git init --bare
-```
-
-
-## 遠端分支
-
-```sh
-$ git config -l | grep master
-branch.master.remote=origin
-branch.master.merge=refs/heads/master
-```
 
 ```sh
 # 查看本地/遠端分支
@@ -638,26 +694,6 @@ $ git tree
 ```
 
 
-## 加入至stage狀態
-
-[git add 差異說明](https://stackoverflow.com/questions/572549/difference-between-git-add-a-and-git-add)
-
-> ※ 以下 `不保證完全正確`, 因為有版本問題...
-
-script | New Files | Modified Files | Deleted Files | Sub-Folder Files
---- |:---:|:---:|:---:|:---:
-git add -A | V | V | V | V
-git add . | V | V | **`X`** | **`X`**
-git add -u | **`X`** | V | V | ?
-
-```sh
-$ git add -i    # 建議使用互動式模式來加入檔案到stage狀態
-$ git add .     # (不建議使用, 請用上者來代替)
-
-# 把已經 git add 的檔案, 從已追蹤名單中移除
-$ git rm --cached <檔名>
-# ((--cached 也可以解釋成, 從快取中... 或 從 index中...))
-```
 
 
 ## 回到過去
@@ -673,42 +709,10 @@ $ git branch -f master HEAD~3
 ```
 
 
-## 刪除分支 移除分支
-
-```sh
-$ git branch -d <要刪除的分支名稱>
-# 若該分支還沒作 merge, 則無法刪除
-
-$ git branch -D <要刪除的分支名稱>
-# 強制刪除
-```
-
-
-## 重新命名分支
-
-```sh
-$ git branch -m <新的分支名稱>
-```
-
-
-## 清理檔案庫
-
-Git經過一段時間之後, .git的資料夾會變得無比的巨大, 可以使用下列指令來清理此檔案庫, 指令為
-```sh
-$ git gc
-```
-
-option       |                 說明
------------- | ----------------------------------------
-N/A          | (預設) 會用比較快速的方式檢查&&清理
---aggressive | 最慢、最仔細
---auto       | Git自動判斷是否需要清理, 情況良好則不動作
---no-prune   | 不要清除repo, 而是用整了的方式
-
 
 ## 查詢歷史紀錄
 
-> 語法: `git reflog <branchName>` , 查詢任何分支變動的歷史紀錄<br>
+> 語法: `git reflog <branchName>` , 查詢任何分支變動的歷史紀錄
   若只有打 `git reflog` or `git reflog HEAD`, 則表示列出 HEAD變動的歷史紀錄
 ```sh
 $ git reflog HEAD
@@ -741,3 +745,5 @@ $ git branch -f master HEAD~3
 
 $ git checkout HEAD~1
 ```
+
+
