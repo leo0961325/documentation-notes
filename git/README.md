@@ -500,7 +500,24 @@ $ git branch -u origin/master foo
 -s | 簡易資訊 | git status -s
 
 
+## Git cat-file
+
+```bash
+###
+$# git cat-file -p XXX
+# XXX 可為 `commit` or `Tag` or `branch`
+```
+
 ## Git tag
+
+- [Git Tag](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/15.md)
+- 2020/02/04
+
+git tag 分為 2 種:
+
+- lightweight : 只是在 commit 上, 貼上參考名稱 新增到 ~/.git/refs/tags/<TAG_NAME>
+- annotated : 產生 git object 到 ~/.git/objects/ 底下
+
 
 [推送 tag問題](https://stackoverflow.com/questions/5195859/how-to-push-a-tag-to-a-remote-repository-using-git)
 > 推送 tag到遠端, 語法: `git push <遠端名稱> <tag name>`
@@ -557,7 +574,7 @@ $ git rebase tony           # 把 (落後的)master, 合併到 tony
 - `git stash apply "stash@{1}"` 把特定 stash 的 暫存版名字 作 pop
 
 - [參考這邊](https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/13.md)
-- [保證簡單好懂得範例](./stash_example.md)
+- [簡單好懂得範例](./stash_example.md)
 
 
 ## git reset 改變範圍
@@ -569,22 +586,7 @@ param   | data in repo | git index | file in dir
 -- hard | v            | v         | v
 
 
-## 建立新的git repo
 
-> 參考: [共用儲存庫](https://ithelp.ithome.com.tw/articles/10132804)
-```sh
-$ git init
-$ git init --bare
-```
-
-
-## 遠端分支
-
-```sh
-$ git config -l | grep master
-branch.master.remote=origin
-branch.master.merge=refs/heads/master
-```
 
 ```sh
 # 查看本地/遠端分支
@@ -692,26 +694,6 @@ $ git tree
 ```
 
 
-## 加入至stage狀態
-
-[git add 差異說明](https://stackoverflow.com/questions/572549/difference-between-git-add-a-and-git-add)
-
-> ※ 以下 `不保證完全正確`, 因為有版本問題...
-
-script | New Files | Modified Files | Deleted Files | Sub-Folder Files
---- |:---:|:---:|:---:|:---:
-git add -A | V | V | V | V
-git add . | V | V | **`X`** | **`X`**
-git add -u | **`X`** | V | V | ?
-
-```sh
-$ git add -i    # 建議使用互動式模式來加入檔案到stage狀態
-$ git add .     # (不建議使用, 請用上者來代替)
-
-# 把已經 git add 的檔案, 從已追蹤名單中移除
-$ git rm --cached <檔名>
-# ((--cached 也可以解釋成, 從快取中... 或 從 index中...))
-```
 
 
 ## 回到過去
@@ -727,42 +709,10 @@ $ git branch -f master HEAD~3
 ```
 
 
-## 刪除分支 移除分支
-
-```sh
-$ git branch -d <要刪除的分支名稱>
-# 若該分支還沒作 merge, 則無法刪除
-
-$ git branch -D <要刪除的分支名稱>
-# 強制刪除
-```
-
-
-## 重新命名分支
-
-```sh
-$ git branch -m <新的分支名稱>
-```
-
-
-## 清理檔案庫
-
-Git經過一段時間之後, .git的資料夾會變得無比的巨大, 可以使用下列指令來清理此檔案庫, 指令為
-```sh
-$ git gc
-```
-
-option       |                 說明
------------- | ----------------------------------------
-N/A          | (預設) 會用比較快速的方式檢查&&清理
---aggressive | 最慢、最仔細
---auto       | Git自動判斷是否需要清理, 情況良好則不動作
---no-prune   | 不要清除repo, 而是用整了的方式
-
 
 ## 查詢歷史紀錄
 
-> 語法: `git reflog <branchName>` , 查詢任何分支變動的歷史紀錄<br>
+> 語法: `git reflog <branchName>` , 查詢任何分支變動的歷史紀錄
   若只有打 `git reflog` or `git reflog HEAD`, 則表示列出 HEAD變動的歷史紀錄
 ```sh
 $ git reflog HEAD
@@ -795,3 +745,5 @@ $ git branch -f master HEAD~3
 
 $ git checkout HEAD~1
 ```
+
+
