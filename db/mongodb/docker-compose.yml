@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo:4.2
+    ports:
+      - "27017:27017"
+    volumes_from:
+      - mongodata
+  mongodata:
+    image: tianon/true
+    volumes:
+      - ~/docker_data/mongo_training/:/data/db
