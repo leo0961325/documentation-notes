@@ -49,6 +49,3 @@ INFO  [alembic.runtime.migration] Context impl MySQLImpl.
 INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
 
 ```
-
-
-##

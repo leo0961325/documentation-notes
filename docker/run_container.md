@@ -5,7 +5,21 @@
 
 ```bash
 ### Run Container - MacOS
-$# docker run -d -p 5433:5432 -v ~/DockerVolumes/pg_finance/postgres:/var/data/postgres -v ~/DockerVolumes/pg_finance/xlog_archive:/var/data/xlog_archive -v ~/DockerVolumes/pg_finance/backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=pg_finance postgres
+$# docker run -d --restart=always \
+    -v ~/docker_data/pg/data:/var/lib/postgresql/data \
+    -p 5433:5432 \
+    -e POSTGRES_PASSWORD=postgres \
+    --name=mypg postgres:11
+
+$# docker run --name mysql57 \
+    -p 3306:3306 \
+    -v ~/docker_data/mysql57/data:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=mysql57 \
+    -d mysql:5.7
+
+#   vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv 給裡頭塞組態
+    -v ~/docker_data/mysql57/my.cnf:/etc/mysql/my.cnf \
+# 不指定密碼, 也可使用 docker logs mysql57 查看 root password
 
 ### Run Container - Windows
 $# docker run -d -p 5433:5432 -v D:\DockerVolumes\pg_finance\postgres:/var/data/postgres -v D:\DockerVolumes\pg_finance\xlog_archive:/var/data/xlog_archive -v D:\DockerVolumes\pg_finance\backup:/var/data/backup -e POSTGRES_PASSWORD=postgres --name=pg_finance postgres
@@ -42,7 +56,10 @@ $ docker search rabbitmq:management
 
 $ docker pull rabbitmq:management
 
-$ docker run -d -p 5672:5672 -p 15672:15672 --name mq --rm rabbitmq:management
+$ docker run -d \
+    -p 5672:5672 -p 15672:15672 \
+    -v  ~/docker_data/rabbitmq:/var/lib/rabbitmq \
+    --name mymq --rm rabbitmq:management
 # 管理介面 localhost:15672
 # 資料傳輸 localhost:5672
 ```

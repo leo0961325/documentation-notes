@@ -103,6 +103,10 @@
     "powermode.enableStatusBarComboCounter": false,
     "powermode.enableStatusBarComboTimer": false,
     "powermode.presets": "flames",
+
+    // golang
+    // https://github.com/Microsoft/vscode-go/wiki/GOPATH-in-the-VS-Code-Go-extension
+    // "go.gopath": "~/go"  // 可蓋掉 gopath
 }
 ```
 

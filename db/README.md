@@ -1,6 +1,6 @@
 2018/05前... 目前接觸過
 - MsSQL 2014
-- PostgreSQL 9.5
+- PostgreSQL 11
 - MySQL 5.7
 - MariaDB ?.?
 - SQLite3 ?.?
