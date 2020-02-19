@@ -3,7 +3,8 @@
 
 ```sh
 # 連到遠端 redis
-redis-cli -h <host> -p <port> -a <password>
+redis-cli -h <host> -p <port> -a <password> -n <db>
+# -n: 可選擇使用哪個 db
 ```
 
 Native Data Type 分為底下 6 類
