@@ -5,7 +5,7 @@
 
 ```bash
 ### Run Container - MacOS
-$# docker run -d --restart=always \
+$# docker run -d \
     -v ~/docker_data/pg/data:/var/lib/postgresql/data \
     -p 5433:5432 \
     -e POSTGRES_PASSWORD=postgres \
@@ -57,9 +57,11 @@ $ docker search rabbitmq:management
 $ docker pull rabbitmq:management
 
 $ docker run -d \
-    -p 5672:5672 -p 15672:15672 \
+    -p 5672:5672 \
+    -p 15672:15672 \
     -v  ~/docker_data/rabbitmq:/var/lib/rabbitmq \
-    --name mymq --rm rabbitmq:management
+    --name mymq \
+    rabbitmq:management
 # 管理介面 localhost:15672
 # 資料傳輸 localhost:5672
 ```

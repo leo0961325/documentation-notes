@@ -913,26 +913,6 @@ make && make install
 echo 'PYTHON_HOME=/usr/local/bin' >> ~/.bash_profile
 echo 'PATH=${PYTHON_HOME}:${PATH}' >> ~/.bash_profile
 source ~/.bash_profile
-
-### pipenv
-pip3 install pipenv
-
-
-### virtualenv
-pip install virtualenv virtualenvwrapper    # 是 pip 而非 pip3
-
-echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
-echo "export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3" >> ~/.bashrc
-echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
-source ~/.bashrc
-mkvirtualenv -p /usr/local/bin/python3 <ENV_NAME>
-mkdir ~/<ENV_NAME>
-cd <ENV_NAME>
-setvirtualenvproject .
-
-workon <ENV_NAME>
-deactivate <ENV_NAME>
-
 ```
 
 
