@@ -21,19 +21,23 @@
 
 # 觀念
 
+- `routing key` 是 message 的屬性
+
 RabbitMQ 是個 message-queueing software, 被稱為 *message broker* or *queue manager*
 
 ![RabbitMQ](/img/RabbitMQ.png)
 
 Exchange Type 分為下列 4 種:
 
-* Direct: A direct exchange delivers messages to queues based on a message routing key. In a direct exchange, the message is routed to the queues whose `binding key` exactly matches the routing key of the message. **If the queue is bound to the exchange with the `binding key` pdfprocess, a message published to the exchange with a routing key pdfprocess is routed to that queue.**
-* Fanout: A fanout exchange routes messages to all of the queues that are bound to it.
-* Topic: The topic exchange does a wildcard match between the routing key and the routing pattern specified in the binding.
-* Headers: Headers exchanges use the message header attributes for routing.
+1. Direct Exchange: 依照 message 的 routing key 來分發此 message 到 Queue name 為 routing key 的 Queue. (看起來就很像是, 直接把 message 丟到名為 routing key 的 Queue)
+> A direct exchange delivers messages to queues based on a message routing key. In a direct exchange, the message is routed to the queues whose `binding key` exactly matches the routing key of the message. **If the queue is bound to the exchange with the `binding key` pdfprocess, a message published to the exchange with a routing key pdfprocess is routed to that queue.**
+2. Fanout Exchange: A fanout exchange routes messages to all of the queues that are bound to it.
+3. Topic Exchange : The topic exchange does a wildcard match between the routing key and the routing pattern specified in the binding.
+4. Headers Exchange: Headers exchanges use the message header attributes for routing.
 
 ![Different Exchange](https://www.cloudamqp.com/img/blog/exchanges-topic-fanout-direct.png)
 ###### Source: https://www.cloudamqp.com/blog/2015-05-18-part1-rabbitmq-for-beginners-what-is-rabbitmq.html
+
 
 ## 名詞解釋
 
@@ -49,6 +53,20 @@ Exchange Type 分為下列 4 種:
 * AMQP(Advanced Message Queuing Protocol): RabbitMQ 用來做 messaging 的協定.
 * Vhost, virtual host: A Virtual host provides a way to segregate applications using the same RabbitMQ instance. Different users can have different access privileges to different vhost and queues and exchanges can be created, so they only exist in one vhost.
 * Users: 透過 http://<HOST>:15672 連到 RabbitMQ 管理介面時, 所需要登入的使用者帳戶. 一般來說, 特定用戶都有搭配特定權限(Read, Write, Configuration...等)
+
+
+## 路由機制
+
+exchange 收到 message 之後, 會依照 `exchange type` && `binding rules` 來把 message 分發到 queues
+
+RabbitMQ 預設的 Exchanges 如下:
+
+Exchange type | Default pre-declared names
+------------- | --------------------------------
+Direct        | (Empty string) && `amq.direct`
+Fanout        | `amq.fanout`
+Topic         | `amq.topic`
+Headers       | `amq.headers`  (AMQP 0-9-1 協議上, 定義的名稱為 `amq.match`)
 
 
 # 安裝
