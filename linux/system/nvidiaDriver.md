@@ -1,5 +1,5 @@
 # 在 CentOS7 安裝 NVIDIA 顯示卡驅動程式 (有問題!)
-- 2018/03/24 
+- 2018/03/24
 - [Installing Nvidia GPU Driver with Nvidia Detect](https://www.youtube.com/watch?v=C9Yf71qh0i4)
 - [Please Help with NVIDIA Driver installation on Centos 7](https://www.centos.org/forums/viewtopic.php?t=61162)
 - [鳥哥-顯卡驅動](http://linux.vbird.org/linux_basic/0590xwindow.php#nvidia)

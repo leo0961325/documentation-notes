@@ -2,7 +2,7 @@
 
 ```bash
 ### 設定
-nmcli con mod eth0 ipv4.addresses 192.168.2.157/24 ipv4.gateway 192.168.2.254 ipv4.method manual autoconnect yes
+nmcli con mod eth0 ipv4.addresses 192.168.0.101/24 ipv4.gateway 192.168.0.1 ipv4.method manual autoconnect yes
 nmcli con mod eth0 ipv4.dns 192.168.1.251 +ipv4.dns 192.168.1.250
 nmcli con up eth0
 

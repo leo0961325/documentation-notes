@@ -48,15 +48,10 @@ CREATE OR REPLACE FUNCTION "public"."gen_random_uuid"()
 
 # RabbitMQ
 
-- 2019/05/03
-- [Docker 安裝部署 RabbitMQ](https://www.jianshu.com/p/14ffe0f3db94)
-
 ```bash
-$ docker search rabbitmq:management
+$# docker pull rabbitmq:management
 
-$ docker pull rabbitmq:management
-
-$ docker run -d \
+$# docker run -d \
     -p 5672:5672 \
     -p 15672:15672 \
     -v  ~/docker_data/rabbitmq:/var/lib/rabbitmq \
@@ -69,15 +64,25 @@ $ docker run -d \
 
 # Redis
 
-- 2019/08/23
-- [docker redis](https://hub.docker.com/_/redis)
-
 ```bash
 $# docker pull redis
 
 ### redis
-$# docker run --name myredis --restart always -d -p 6379:6379 redis redis-server --appendonly yes
+$# docker run -d \
+    -p 6379:6379 \
+    --name myredis \
+    redis redis-server --appendonly yes
+```
 
-### Usage
-$#
+
+# CentOS7
+
+```bash
+$# docker pull centos:7
+$# docker run -itd \
+    -p 8080:80 \
+    -p 2222:22 \
+    --name myos7 \
+    --hostname myos7 \
+    centos:7
 ```
