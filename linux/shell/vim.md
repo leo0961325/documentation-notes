@@ -42,6 +42,9 @@ set mouse=""           # 取消滑鼠點選位置的功能
 
 # Ubuntu Vim 相容模式 (Ubuntu Vim 超難用~)
 set nocompatible
+
+autocmd FileType yaml setlocal ai sw=2 ts=2 et
+# enable auto-indenting, tab-stop and shift-width to be 2 spaces and tabs are saved as spaces in the file
 ```
 
 

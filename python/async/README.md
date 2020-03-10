@@ -137,3 +137,12 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 3. 在 async fn 裏頭, 去做 `task = asyncio.create_task(<async fn>())` && `await task`
 
 主要的 3 種 awaitable 物件有: **coroutines**, **Tasks**, **Futures**
+
+
+
+```py
+awaitable asyncio.gather(*aws, loop=None, return_exceptions=False)
+# return_exceptions
+# False -> 第一個錯誤發生時, 立即傳播到 gather() 所等候的 task, 但其餘 aws 不會被中斷
+# True  -> 發生例外的任務, 將與正常的任務視為一樣並且回傳.
+```

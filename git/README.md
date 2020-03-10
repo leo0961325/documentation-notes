@@ -284,7 +284,6 @@ Changes not staged for commit:              # 即將消失----------------------
 Untracked files:    # 這裡的不會變動, 因為從頭到尾 git 都不認識
   (use "git add <file>..." to include in what will be committed)
 
-        .vimrc
         bis.ini
 
 no changes added to commit (use "git add" and/or "git commit -a")
@@ -301,7 +300,6 @@ Your branch is up-to-date with 'origin/structuremove'.
 Untracked files:    # 這裡的不會變動, 因為從頭到尾 git 都不認識
   (use "git add <file>..." to include in what will be committed)
 
-        .vimrc
         bis.ini
 
 nothing added to commit but untracked files present (use "git add" to track)
