@@ -24,6 +24,10 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /lp0/                           # 印表機裝置
 /etc/                           # 系統 設定檔. ex: inittab, resolv.conf, fstab, rc.d
     /anacrontab                     # 定期 驅動執行 cron.daily, cron.weekly, cron.monthly 的腳本
+    /ansible/
+        /ansible.cfg                    # ansible 設定主檔
+        /hosts                          #
+        /roles/                         #
     /auto.master                    # autofs 主要設定檔
     /auto.master.d/                 # autofs 設定副檔(master-map file) (裡面的檔名必須是 *.autofs)
     /bashrc                         # 系統層面的 functions 及 alias
