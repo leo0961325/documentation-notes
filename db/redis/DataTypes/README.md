@@ -1,4 +1,4 @@
-# [Data Types](https://redis.io/topics/data-types)
+# [Data Types]()
 - 2018/05/11
 
 ```sh
@@ -7,7 +7,7 @@ redis-cli -h <host> -p <port> -a <password> -n <db>
 # -n: 可選擇使用哪個 db
 ```
 
-Native Data Type 分為底下 6 類
+[Redis原生的資料格式(Native Data Type)]((https://redis.io/topics/data-types)), 分為底下 6 類
 
 1. Strings
 2. Lists
