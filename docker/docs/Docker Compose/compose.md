@@ -111,3 +111,17 @@ CONTAINER ID  IMAGE        COMMAND                 CREATED        STATUS        
 $ docker-compose down
 ```
 
+```bash
+### 可看目前 compose 底下有哪些 container
+$# docker-compose ps
+       Name                      Command               State           Ports
+-------------------------------------------------------------------------------------
+composetest_redis_1   docker-entrypoint.sh redis ...   Up      6379/tcp
+composetest_web_1     flask run                        Up      0.0.0.0:5000->5000/tcp
+
+### 連同 volumes, 整個移除 compose
+$# docker-compose down --volumes
+
+### 查看 compose 內的服務的 環境變數
+$# docker-compose run <ServiceName> env
+```

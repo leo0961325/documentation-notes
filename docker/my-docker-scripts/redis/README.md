@@ -12,6 +12,7 @@
 - by docker run
 - by docker-compose
 
+
 ```bash
 ### 2020/03/27 的現在, latest 為 5.0.8 版
 $# docker pull redis
