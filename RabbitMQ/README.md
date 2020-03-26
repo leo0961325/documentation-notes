@@ -69,23 +69,6 @@ Topic         | `amq.topic`
 Headers       | `amq.headers`  (AMQP 0-9-1 協議上, 定義的名稱為 `amq.match`)
 
 
-# 安裝
-
-使用 Docker 來做示範:
-
-```bash
-### 來個 RabbitMQ 吧
-$# docker run -d \
-    -p 5672:5672 \
-    -p 15672:15672 \
-    -e RABBITMQ_NODENAME=mq1 \
-    --name=mq \
-    --hostname=tonyhost \
-    rabbitmq:management
-c7fdf1313520c9b30c68cb826122afe2397a0a1c6c8e22da6e0831ea6f092de4
-# 然後就可以開始玩了
-```
-
 # 更細節閱讀
 
 - [Production Checklist](https://www.rabbitmq.com/production-checklist.html)
@@ -101,7 +84,3 @@ Python 可用下列套件來實作:
 - py-amqplib
 - txAMQP
 - Pika
-
-
-
-docker run -d -p 5672:5672 -p 15672:15672 -e RABBITMQ_NODENAME=mq1 --name=mq --hostname=tonyhost rabbitmq:management

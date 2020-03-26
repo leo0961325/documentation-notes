@@ -45,36 +45,6 @@ CREATE OR REPLACE FUNCTION "public"."gen_random_uuid"()
   COST 1
 ```
 
-
-# RabbitMQ
-
-```bash
-$# docker pull rabbitmq:management
-
-$# docker run -d \
-    -p 5672:5672 \
-    -p 15672:15672 \
-    -v  ~/docker_data/rabbitmq:/var/lib/rabbitmq \
-    --name mymq \
-    rabbitmq:management
-# 管理介面 localhost:15672
-# 資料傳輸 localhost:5672
-```
-
-
-# Redis
-
-```bash
-$# docker pull redis
-
-### redis
-$# docker run -d \
-    -p 6379:6379 \
-    --name myredis \
-    redis redis-server --appendonly yes
-```
-
-
 # CentOS7
 
 ```bash

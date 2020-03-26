@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  redis:
+    restart: always
+    container_name: myredis
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - ~/docker_data/myredis:/data
