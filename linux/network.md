@@ -367,3 +367,12 @@ $# ifdown enp0s3
 
 
 ```
+
+### 設定自動取得 ip 的 connection
+
+```bash
+NEW_CONN=auto
+IFNAME=eth0
+nmcli con add con-name ${NEW_CONN} ifname ${IFNAME} type ethernet ipv4.method auto autoconnect yes
+nmcli con up ${NEW_CONN}
+```
