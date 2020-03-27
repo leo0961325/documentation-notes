@@ -37,13 +37,16 @@ $# docker run -d \
 
 ### 起 MongoClient 連入 MongoServer
 # 使用前先檢查 mongo server `docker inspect mymongo42`
-MongoServerNetwork=bridge
-MongoServerHost=172.17.0.2
+MongoServerNetwork=mongodb_default
+Ctn=mongodb_mymongo42_1
+MongoServerHost=$(docker inspect "${Ctn}" | grep '"IPAddress": ".\+"' | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
+USER=root
+DB=admin
 # 進入 mongo shell
 $# docker run -it \
     --network  ${MongoServerNetwork} \
     --rm mongo:4.2 \
-    mongo --host ${MongoServerHost} test
+    mongo --host ${MongoServerHost} -u${USER} -p --authenticationDatabase ${DB}
 # 查看 Networks 使用的 driver. ex: bridge
 # 查看 Networks 內的 IPAddress. ex: 172.17.0.2
 # 最後面的 test 似乎可免...

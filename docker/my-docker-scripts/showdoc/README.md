@@ -6,9 +6,6 @@
 ```bash
 docker pull star7th/showdoc
 
-### 環境 (權限若要控制的話, 後續再來開必要的就好...)
-mkdir -p ./showdoc_data/html
-chmod -R 777 ./showdoc_data
 
 ### 測試用
 docker run --rm \
@@ -16,7 +13,10 @@ docker run --rm \
     --name myshowdoc \
     star7th/showdoc
 
+
 ### 用久執行用 (無有 SELinux 問題的話, 再把底下的 「:Z」拿掉)
+mkdir -p ./showdoc_data/html
+chmod -R 777 ./showdoc_data
 docker run -d \
     -p 4999:80 \
     -v ./showdoc_data/html:/var/www/html:Z \
