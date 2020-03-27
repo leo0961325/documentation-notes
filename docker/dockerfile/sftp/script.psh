@@ -1,10 +1,14 @@
 cd docker/dockerfile/sftp
 
-docker build . -t os7
+docker build . -t demo_os7
 
-docker run -p 21:21/tcp -p 20:20/tcp --name ftpd os7
+docker run \
+    -p 21:21/tcp \
+    -p 20:20/tcp \
+    --name ftpd \
+    --rm demo_os7
 
-docker run -itd --name ftpd2 os7
+docker run -itd --name ftpd2 demo_os7
 
 docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" ftpd2
 

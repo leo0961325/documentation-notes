@@ -1,5 +1,5 @@
 
-
+- [安裝與使用 registry](https://peihsinsu.gitbooks.io/docker-note-book/content/registory-install-and-use.html)
 
 ```bash
 ### 自架 docker registry (192.168.2.158)

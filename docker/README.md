@@ -545,7 +545,6 @@ $ docker cp 463d2b6f28cf:/root/.ssh/ .
 
 
 ## 名詞
-> Docker Trusted Registry, 此為 Docker私有雲服務, 簡稱 DTR.
 
 > yml: 用來表達資料序列的格式
 
