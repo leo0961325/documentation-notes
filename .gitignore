@@ -10,3 +10,4 @@ obj/
 bin/
 .ipynb_checkpoints
 venv/
+.env
