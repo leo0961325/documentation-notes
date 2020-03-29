@@ -147,6 +147,7 @@ OPTIONAL    | (同 MAY)
 
 Code                       | Description
 -------------------------- | ---------------------------------
+301 Moved Permanently      | 資源已經被明確移動到 `Location` 標頭所指示的 URL (範例1) [301](https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status/301)
 401 Unauthorized           | 認證沒過的請求, 應提示 `WWW-Authenticate` or 導向 404
 403 Forbidden              | 認證沒過的請求, 不包含 `WWW-Authenticate`
 405 Method Not Allowed     | Request Line 不支援此方法
@@ -173,7 +174,7 @@ Code                       | Description
 
 ## Hypertext Transfer Protocol Version 2 (HTTP/2)
 
-> 
+>
 
 - `HTTP/2` 為 `HTTP/1.1` 的 替代方案
 - `HTTP/2` 藉由引入 「header field compression(表頭壓縮)」 及 「allow multiple concurrent exchange on the same(允許共時)」來提升網路傳輸效能, 減少前端網路延遲的知覺.
@@ -182,3 +183,21 @@ Code                       | Description
     - `HTTP/1.1` : 相較於 `1.0`, 增加了 `request pipeline`, 部份解決 `addressed request concurrency`
 
 
+```bash
+### 範例1
+$# curl http://127.0.0.1:5000/snippets  # 301
+# 沒東西
+
+$# curl http://127.0.0.1:5000/snippets/  # 200
+[
+  {
+    "id": 1,
+    "title": "",
+    "code": "foo = \"bar\"\n",
+    "linenos": false,
+    "language": "python",
+    "style": "friendly"
+  }
+]
+
+```
