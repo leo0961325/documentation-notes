@@ -100,3 +100,13 @@ Token          | Django User  | rest_framework.authtoken.models.Token
 RemoteUser     | Django User  | None
 
 
+# 序列化 && 反序列化
+
+序列化
+
+> ex: Django Model: User 的實例 um, 可透過自行定義 UserSerializer, 使用 `us = UserSerializer(um); us.data`, 拿到 `python native type 的 User`, 此動作稱為 marshalling (*translated the model instance into Python native datatypes*) ;
+> 爾後再將此 dict/OrderedDict -> 網路通用格式動作, 稱之為 serialize: 使用 `bu = rest_framework.renders.JSONRenderer().render(us.data)` -> **bytes(json)** (我把它理解成, 長得很像 json 的 bytes)
+
+反序列化
+
+> 透過 `strm = io.BytesIO(bu); data = JSONParser().parse(strm)` 可反序列化回 Python native datatypes(dict)
