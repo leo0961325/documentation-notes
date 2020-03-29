@@ -55,12 +55,13 @@ $ vim ~/.ssh/config
 # --------- 內容如下 ---------
 #!/bin/bash
 Host vm8                        # Remote Server 名稱
-    StrictHostKeyChecking   no              # ??
+    StrictHostKeyChecking   no              # 忽略 known_hosts 的檢查 (參考最下面的連結)
     HostName    172.20.61.210               # Remote Server IP
     Port    22                              # Remote Server ssh port
     ForwardAgent    yes                     # ??
     User    tony                            # Remote username
     Controlpath ~/.ssh/ssh-$r@%h:%p.sock    # ??
+
 
 Host aws
     HostName    87.87.87.87
@@ -75,3 +76,8 @@ $ ssh tony@vm8
 tony@172.20.61.210's password:
 
 ```
+
+
+## 參考
+
+- [如何在ssh登入主機遠端主機時不要有key的檢查](https://ssorc.tw/1288/%E5%A6%82%E4%BD%95%E5%9C%A8ssh%E7%99%BB%E5%85%A5%E4%B8%BB%E6%A9%9F%E9%81%A0%E7%AB%AF%E4%B8%BB%E6%A9%9F%E6%99%82%E4%B8%8D%E8%A6%81%E6%9C%89key%E7%9A%84%E6%AA%A2%E6%9F%A5/)

@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  drone-server:
+    image: drone/drone:1
+    ports:
+      - 8080:80
+    volumes:
+      - drone_db:/data
+    restart: always
+    environment:
+      - DRONE_SERVER_HOST=${DRONE_SERVER_HOST}
+      - DRONE_SERVER_PROTO=${DRONE_SERVER_PROTO}
+      - DRONE_RPC_SECRET=${DRONE_RPC_SECRET}
+      - DRONE_AGENTS_ENABLED=true
+      # GitLab Config
+    #   - DRONE_GITLAB_SERVER=https://gitlab.com
+    #   - DRONE_GITLAB_CLIENT_ID=${DRONE_GITLAB_CLIENT_ID}
+    #   - DRONE_GITLAB_CLIENT_SECRET=${DRONE_GITLAB_CLIENT_SECRET}
+    #   - DRONE_LOGS_PRETTY=true
+    #   - DRONE_LOGS_COLOR=true
+
+volumes:
+  drone_db: {}

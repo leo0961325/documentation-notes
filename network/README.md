@@ -10,7 +10,7 @@
 截至 2018/07/07, Wireshark v2.6.1 ; WinPcap v4.1.3
 
 
-## REST 
+## REST
 
 以 REST 的架構來講, 具有下列6個特色
 
@@ -25,3 +25,12 @@
 ## 其他備註...
 - ipv4 127.0.0.1:8000
 - ipv6 [::1]:8000
+
+
+# HTTP Headers
+```bash
+
+X-Request-Type: GraphQL  # GraphQL 查詢, 所送的 Request Header
+
+
+```

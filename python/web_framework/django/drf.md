@@ -81,13 +81,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',            # 預設啟用
         'rest_framework.authentication.SessionAuthentication',          # 預設啟用
-        'rest_framework.authentication.TokenAuthentication',            # 
+        'rest_framework.authentication.TokenAuthentication',            #
         'rest_framework.authentication.RemoteUserAuthentication',       # Web Server 代理 App Server 作認證
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # 3rd 認證 - OAuth2
         'rest_framework_digestauth.authentication.DigestAuthentication' # 3rd 認證 - Digest
     )
 }
 ```
+
+> 接收請求時, 進到 view 處理前, 就會先做 `authentication(認證)` (優先於 `permission` && `throttling checks` && `any check`)
 
 
 Authentication | request.user | request.auth
