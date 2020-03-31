@@ -15,3 +15,25 @@ $# git config --global http.sslBackend schannel
 $# git pull
 # 即可正常
 ```
+
+
+
+********************************
+
+- 2020/03/30
+
+要嘗試 clone 專案, 發生錯誤: **Peer's Certificate issuer is not recognized.**
+
+```bash
+$# git clone https://HOST/PROJECT_OWNER/PROJECT.git demo
+Cloning into 'demo'...
+fatal: unable to access 'https://HOST/PROJECT_OWNER/PROJECT.git': Peer's Certificate issuer is not recognized.
+```
+
+參考: [這裡](https://stackoverflow.com/questions/19461833/what-does-this-error-message-imply-fatal-unable-to-access-httpsurl-peers)
+
+```bash
+### 比較不建議的做法
+$# env GIT_SSL_NO_VERIFY=true git clone https://HOST/PROJECT_OWNER/PROJECT.git
+
+```
