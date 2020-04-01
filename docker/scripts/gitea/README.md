@@ -2,6 +2,7 @@
 - 2020/03/27
 - [docker-gitea](https://hub.docker.com/r/gitea/gitea/)
 - [git-gitea](https://github.com/go-gitea/gitea)
+- [gitea container 參數](https://hub.docker.com/r/webhippie/gitea)
 
 
 ## 使用 docker run
@@ -59,4 +60,24 @@ $# docker-compose down
 
 ### 看狀況
 $# docker-compose logs -f
+```
+
+
+# SELinux Problem
+
+- [](https://github.com/gidcs/gitea-selinux-policy/blob/master/README.md)
+
+install gitea selinux policy
+
+```bash
+### 基本上用這個就可以了 (如果有用 nginx 反代 80 -> 3000)
+$# semanage port -a -t http_port_t -p tcp 3000
+
+
+### 底下這個網路上查到的, 不知道在幹嘛, 可能底層問題再來用吧
+$# curl -o gitea.te https://raw.githubusercontent.com/gidcs/gitea-selinux-policy/master/gitea.te
+$# checkmodule -M -m -o gitea.mod gitea.te
+$# semodule_package -o gitea.pp -m gitea.mod
+$# semodule -i gitea.pp
+$# rm -f gitea.*
 ```

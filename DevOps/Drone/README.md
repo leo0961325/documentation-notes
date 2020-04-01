@@ -31,6 +31,11 @@ Scopes 選擇 `api` && `read_user`, 取得底下:
 ### Macbook
 curl -L https://github.com/drone/drone-cli/releases/latest/download/drone_darwin_amd64.tar.gz | tar zx
 sudo cp drone /usr/local/bin
+
+### Linux
+curl -L https://github.com/drone/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar zx
+install -t /usr/local/bin drone
+# Note: 記得加環境變數
 ```
 
 在存有 `.drone.yml` 的地方使用 `drone exec`, 就算沒有 drone server, 依舊可以執行測試
