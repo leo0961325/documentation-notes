@@ -1,40 +1,15 @@
 
 # Docker 自學筆記
 
-- [2017/12/08進度](https://docs.docker.com/get-started/part3/)
-- [Play with Docker](https://labs.play-with-docker.com/)
 - [Docker 網路架構](https://github.com/docker/libnetwork/blob/master/docs/design.md)
 - [Docker daemon.json - 寫得還不錯](https://blog.csdn.net/u013948858/article/details/79974796)
-- [官方 Docker Compose File](https://docs.docker.com/compose/compose-file/)
-
-```sh
-$ docker --version
-Docker version 17.09.0-ce, build afdb6d4
-```
-
-參考如下
-- [官方網站 Docker reference](https://docs.docker.com/engine/reference/builder/)
-- [Git Book - 從入門到實踐](https://philipzheng.gitbooks.io/docker_practice/content/)
-- [全面易懂的Docker指令大全](https://www.gitbook.com/book/joshhu/dockercommands/details)
-
-
-![Container Layer](https://docs.docker.com/v17.09/engine/userguide/storagedriver/images/container-layers.jpg)
 
 > Docker 使用 `storage drivers` 來管理 `image layers` 及 `writable container layer` 的內容. 然而各種 `drivers` 實作方式不同, 但都使用 `stackable image layers` 及 `copy-on-write(CoW)策略`.
 
 
-```sh
-# Volume 位置
-/var/lib/docker/volumes/...
-```
-
 # 1. Docker Command
 
 ## 指令
-
-> **依照 Dockerfile, 建立 Image**. 語法: `docker build -t <要建立的 Images名稱> <Dockerfile位置>`
-
-> **執行 Image(建立 Container)**. 語法: `docker run -it <Image名稱> <依照啥指令執行此 Image>`
 
 ```sh
 $ docker run -d --name nginx nginx
