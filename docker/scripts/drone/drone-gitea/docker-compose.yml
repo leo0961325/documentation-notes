@@ -1,0 +1,41 @@
+# https://docs.drone.io/server/provider/gitea/
+# https://github.com/auxilincom/deploy-drone/blob/master/local/docker-compose.yml
+version: "3"
+
+services:
+  mydrone.com:
+    image: drone/drone:1
+    container_name: drone-server
+    ports:
+      - 8082:80
+      - 8443:443
+    volumes:
+      - drone-server:/data
+    restart: always
+    environment:
+      - DRONE_SERVER_HOST: ${DRONE_SERVER_HOST}
+      - DRONE_SERVER_PROTO: ${DRONE_SERVER_PROTO}
+      - DRONE_RPC_SECRET: ${DRONE_RPC_SECRET}
+      - DRONE_AGENTS_ENABLED: true
+      # Gitea
+      - DRONE_GITEA_SERVER: http://mygitea.com
+      - DRONE_GITEA_CLIENT_ID: 7c736702-edc2-4c97-98bf-13b2d8a7fd5d
+      - DRONE_GITEA_CLIENT_SECRET: k0Ft4gqQxaAe0II_2wxGkvAV0J6CIN3de7WRT-OwfJM=
+      - DRONE_LOGS_PRETTY: true
+      - DRONE_LOGS_COLOR: true
+
+#   drone-agent:
+#     image: drone/agent:1
+#     container_name: mydrone_agent
+#     restart: always
+#     depends_on:
+#       - mydrone.com
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock
+#     environment:
+#       - DRONE_RPC_SERVER=http://mydrone.com:8082
+#       - DRONE_RPC_SECRET=${DRONE_RPC_SECRET}
+#       - DRONE_RUNNER_CAPACITY=3
+
+volumes:
+  drone-server: {}
