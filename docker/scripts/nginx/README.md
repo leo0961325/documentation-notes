@@ -2,22 +2,20 @@
 
 - 2020/04/01
 - [DockerHub Nginx](https://hub.docker.com/_/nginx)
+- [mapping Config 參考](https://github.com/go-gitea/gitea/issues/6883)
+
+可以把組態映射進去 Container 內來代理 Docker Host
 
 ```bash
 ### 2020/04/01 的今天, latest 為 1.17, 而最新的 stable 為 1.16
 docker pull nginx:1.17
 
-### 測試
-$# docker run --rm \
-    --name mynginx \
-    nginx:1.17
-
-
-$# mkdir ./conf.d
+### docker run
 $# docker run -d \
     --restart always \
     -v ./conf.d:/etc/nginx/conf.d \
     nginx:1.17
 
-$#
+### compose
+$# docker-compose up
 ```
