@@ -1,0 +1,3 @@
+http://mygitea.com {
+    redir http://mygitea.com:3000
+}
