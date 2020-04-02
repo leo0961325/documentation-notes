@@ -1,7 +1,26 @@
 # Django REST framework
 
-- 2018/08/12
-- v3.8.2
+- 2018/08/12 v3.8.2
+- 2020/03/30 v3.11.0
+
+
+## Request && Response
+
+DRF 的 Request 擴展了 Django 的 HttpRequest.
+
+```bash
+### Request
+request.POST  # Only headers from data. 只能用在 POST
+request.data  # Handles arbitrary data. 適用於 POST, PUT, PATCH
+
+### Response
+return Response(data)  # 會依照 client 指定的 content type 來做 render
+
+```
+
+### status code
+
+`from rest_framework import status` 可處理 status_code
 
 
 ## Request parsing
