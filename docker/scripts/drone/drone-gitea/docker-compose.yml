@@ -13,16 +13,16 @@ services:
       - drone-server:/data
     restart: always
     environment:
-      - DRONE_SERVER_HOST: ${DRONE_SERVER_HOST}
-      - DRONE_SERVER_PROTO: ${DRONE_SERVER_PROTO}
-      - DRONE_RPC_SECRET: ${DRONE_RPC_SECRET}
-      - DRONE_AGENTS_ENABLED: true
+      - DRONE_SERVER_HOST=${DRONE_SERVER_HOST}
+      - DRONE_SERVER_PROTO=${DRONE_SERVER_PROTO}
+      - DRONE_RPC_SECRET=${DRONE_RPC_SECRET}
+      - DRONE_AGENTS_ENABLED=true
       # Gitea
-      - DRONE_GITEA_SERVER: http://mygitea.com
-      - DRONE_GITEA_CLIENT_ID: 7c736702-edc2-4c97-98bf-13b2d8a7fd5d
-      - DRONE_GITEA_CLIENT_SECRET: k0Ft4gqQxaAe0II_2wxGkvAV0J6CIN3de7WRT-OwfJM=
-      - DRONE_LOGS_PRETTY: true
-      - DRONE_LOGS_COLOR: true
+      - DRONE_GITEA_SERVER=mygitea.com
+      - DRONE_GITEA_CLIENT_ID=
+      - DRONE_GITEA_CLIENT_SECRET=
+      - DRONE_LOGS_PRETTY=true
+      - DRONE_LOGS_COLOR=true
 
 #   drone-agent:
 #     image: drone/agent:1

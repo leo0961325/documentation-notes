@@ -3,6 +3,10 @@
 - [Drone.io-ByGitea](https://docs.drone.io/server/provider/gitea/)
 - 2020/04/02
 
+## 截至今天, 似乎依然無法使用!!
+
+參考這篇 https://www.youtube.com/watch?v=OX7WpJ5X19g
+
 
 ## 法一 dockerfile
 ```bash
