@@ -1,12 +1,13 @@
 # Install Gitlab by docker
 
-- 2020/03/28
+- 2020/04/02
 - [dockerhub-gitlab-ce](https://hub.docker.com/r/gitlab/gitlab-ce)
 
 
+### 使用 Docker Run
 ```bash
-### 2020/03/28 的今天, latest 版大概是 v12.9.1
-$# docker pull gitlab/gitlab-ce:latest
+### 2020/04/02 的今天, latest 版本為 gitlab/gitlab-ce:12.9.2-ce.0
+$# docker pull gitlab/gitlab-ce:12.9.2-ce.0
 
 ### Variable && Volumes
 GitServer_HOST=mygitlab.com
@@ -33,6 +34,17 @@ $# docker run -d \
 ### 初始化程序要等上一陣子... 追蹤 Log
 $# docker logs -f gitlab
 ```
+
+### 使用 docker-compose
+```bash
+$# vim .env
+
+
+$# docker-compose up -d
+
+$# docker-compose logs -f
+```
+
 
 
 ## Notes
