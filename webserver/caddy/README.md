@@ -43,3 +43,44 @@ Activating privacy features... done.
 Serving HTTP on port 80
 http://mygitea.com
 ```
+
+
+
+# 對照
+
+- 2020/04/03
+- [使用 Caddy 替代 Nginx](https://diamondfsd.com/caddy-instand-nginx-support-https/)
+
+
+```ini
+### caddy
+diamondfsd.com {  # 启动 http 和 https，访问 http 会自动转跳到 https
+        log access_log.log  # 日志
+        gzip  # 使用gzip压缩
+        proxy / http://127.0.0.1:3999 { # 路径转发
+                header_upstream Host {host}
+                header_upstream X-Real-IP {remote}
+                header_upstream X-Forwarded-For {remote}
+                header_upstream X-Forwarded-Proto {scheme}
+        }
+}
+```
+```ini
+server {
+		server_name diamondfsd.com www.diamondfsd.com;
+		listen 443;
+		ssl on;
+		ssl_certificate /etc/letsencrypt/live/diamondfsd.com/fullchain.pem;
+		ssl_certificate_key /etc/letsencrypt/live/diamondfsd.com/privkey.pem;
+
+		location / {
+		   proxy_pass http://127.0.0.1:3999;
+		   proxy_http_version 1.1;
+		   proxy_set_header X_FORWARDED_PROTO https;
+		   proxy_set_header X-Real-IP $remote_addr;
+			   proxy_set_header X-Forwarded-For $remote_addr;
+		   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			   proxy_set_header Host $host;
+		}
+    }
+```
