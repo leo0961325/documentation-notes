@@ -35,6 +35,9 @@ git config --global alias.tree "log --graph --decorate --pretty=oneline --abbrev
 
 # 設定 git 預設的編輯器 (預設為 vim)
 git config --global core.editor "notepad"
+
+# 檔案改變權縣(chmod)後, git 不會把他們視為變更
+git config --global core.fileMode false
 ```
 
 ## git 記住密碼
