@@ -1,0 +1,20 @@
+# 這裡將記錄一堆寫法
+kind: pipeline
+
+steps:
+# from https://drone.io/
+- name: test
+  image: node
+  commands:
+  - npm install
+  - npm test
+
+# https://www.youtube.com/watch?v=B1aZ9-gYVTE
+- name: demo
+  deploy:
+    image: python:3.7
+    commands:
+      - echo "Hello World"
+    when:
+      local: false  # 使用 drone CLI 執行的話,忽略本地 deploy
+

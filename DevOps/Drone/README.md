@@ -2,13 +2,6 @@
 
 - 2020/01/23
 
-## Ngrok
-
-```bash
-$# ngrok http -host-header=rewrite <DOMAIN HEADER>:<PORT>
-ngrok http -host-header=rewrite mydrone.com:8081
-```
-
 ## GitLab
 
 > User Setting > Applications > Redirect URI 填入 `https://DRONE_HOST/login`
@@ -60,15 +53,7 @@ Drone 基於 Container 的 CI/CD 系統(所有流程都在 Docker Container). Gi
 drone 0.8 版以後, 拆成: `drone-server` && `drone-agent`
 
 
-# Usage
-
-1. ngrok http -host-header=rewrite mydrone.com:8081
-2. 把 Forwarding 貼到 Gitlab User Settings > Applications > [PROJECT_NAME](替換 Callback URL)
-3. 替換 .env 的 DRONE_SERVER_HOST
-4. export `DRONE_GITLAB_CLIENT_ID` && `DRONE_GITLAB_CLIENT_SECRET`
-5. docker-compose up
-6. http://mydrone.com:8081
-
+# 使用 Drone CLI
 
 ```bash
 ### https://gist.github.com/danielepolencic/2b43329495d018dc6bfe790a79b559d4
@@ -80,3 +65,30 @@ $# drone info
 User: cool21540125
 Email: cool21540125@gmail.com
 ```
+
+## Drone Exec Runner
+
+```bash
+### 非 root 的 exec runner 配置檔
+# https://docs.drone.io/runner/exec/configuration/reference/
+$# vim ~/.drone-runner-exec/config
+### ------- 如下 -------
+# 呼叫遠端 Drone Server 的協定
+DRONE_RPC_PROTO=https
+
+# Drone Server
+DRONE_RPC_HOST=drone.company.com
+
+# Drone Server 用來驗證 http request 的 共享密鑰(Shared Secret)
+DRONE_RPC_SECRET=super-duper-secret
+
+# 能找到 drone 指令工具的位置
+DRONE_RUNNER_PATH=/usr/local/bin:/usr/bin:/usr/sbin:/sbin
+
+# log file path (資料夾需要先建好)
+DRONE_LOG_FILE=/Users/<user>/.drone-runner-exec/log.txt
+### ------- 如上 -------
+
+```
+
+exec runner 會在 host 端寫 log,
