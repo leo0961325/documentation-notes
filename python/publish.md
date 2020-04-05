@@ -18,7 +18,7 @@
 因為以上建立的 pypi server 不安全, 所以下面啟用驗證
 
 1. `create .htpasswd`
-2. `htpasswd -b -m -c .htpasswd terrence mypassword`
+2. `htpasswd -b -m -c .htpasswd myuser mypassword`
 3. `pypi-server -p 8999 -P ./.htpasswd ./packages &`
 
 後續要使用的話...

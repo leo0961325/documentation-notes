@@ -11,3 +11,5 @@ bin/
 .ipynb_checkpoints
 venv/
 .env
+.htpasswd
+packages/*

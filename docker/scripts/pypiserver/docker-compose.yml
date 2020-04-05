@@ -1,0 +1,15 @@
+version: '3'
+services:
+  pypiserver:
+    image: pypiserver/pypiserver:latest
+    container_name: mypypi
+    restart: always
+    ports:
+      - 28888:8080
+    volumes:
+      - ./auth/:/data/
+      - pypiserver:/data/packages
+    command: ["-P", ".htpasswd", "packages"]
+
+volumes:
+  pypiserver:
