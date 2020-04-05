@@ -13,3 +13,4 @@ venv/
 .env
 .htpasswd
 packages/*
+.idea/

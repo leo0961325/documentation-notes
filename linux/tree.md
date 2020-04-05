@@ -203,6 +203,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /krb5kdc/                       # kerberos 集中驗證 KDC 所需的資料庫環境
     /lib/                           # 程式運作過程所需用到的 資料檔案 放置的目錄. ex: MySQL DB 放在 /var/lib/mysql/; rpm DB 放在 /var/lib/rpm/
         /docker/                        # Docker 相關元件存放區
+            /volumes/                       # DockerVolume 位置
         /iscsi/
             /nodes/                         # (iSCSI Client)裡面可以看到 iSCSI target 提供的 LUN
         /mysql/                         # mysql資料庫的資料儲存位置, InnoDB log && System TableSpace
