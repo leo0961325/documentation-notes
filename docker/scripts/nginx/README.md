@@ -10,10 +10,10 @@
 ### 2020/04/01 的今天, latest 為 1.17, 而最新的 stable 為 1.16
 docker pull nginx:1.17
 
-### docker run
+### docker run (目前目錄需要有 ./conf.d/)
 $# docker run -d \
     --restart always \
-    -v ./conf.d:/etc/nginx/conf.d \
+    -v $(pwd)/conf.d:/etc/nginx/conf.d \
     nginx:1.17
 
 ### compose
