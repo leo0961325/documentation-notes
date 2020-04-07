@@ -68,11 +68,3 @@ services:
         image: "redis:alpine"
 ```
 
-```bash
-### 執行~
-$ docker-compose up             # 前景執行
-$ docker-compose up -d          # 背景執行
-
-### 可針對 service, 執行一次性命令
-$ docker-compose run web env     # 可看環境變數
-```

@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  service1:
+    image: doproj
+    build:
+      context: .
+      dockerfile: Dockerfile1  # 建立 image 所用的 dockerfile
+    ports:
+      - 5000:5000
+  service2:
+    image: doproj

@@ -4,6 +4,12 @@
 - [Docker 網路架構](https://github.com/docker/libnetwork/blob/master/docs/design.md)
 - [Docker daemon.json - 寫得還不錯](https://blog.csdn.net/u013948858/article/details/79974796)
 
+```bash
+### 2020/04/06 的今天, 目前為 19.03 版, 底下可看離線教學文件
+$# docker run --rm -p 4000:4000 --name doc docs/docker.github.io:latest
+```
+
+
 > Docker 使用 `storage drivers` 來管理 `image layers` 及 `writable container layer` 的內容. 然而各種 `drivers` 實作方式不同, 但都使用 `stackable image layers` 及 `copy-on-write(CoW)策略`.
 
 
@@ -612,3 +618,27 @@ MobyLinuxVM 是啟用 Linux Container 之後才出現的, 原本我使用 Window
 ```
 
 ![HyperV Virtual Switch](../img/vSwitch.jpg)
+
+
+### 額外備註
+
+在 `centos:7` 的 docker image內, 編譯 git 時, 因為缺乏許多套件, 發生下列錯誤
+
+```sh
+$ make
+    * new build flags
+    CC credential-store.o
+In file included from credential-store.c:1:0:
+cache.h:42:18: fatal error: zlib.h: No such file or directory
+ #include <zlib.h>
+                  ^
+compilation terminated.
+make: *** [credential-store.o] Error 1
+```
+
+解法: [Install Git](https://tecadmin.net/install-git-2-0-on-centos-rhel-fedora/)
+
+```sh
+$ sudo yum install zlib-devel
+# 之後即可正常 make
+```
