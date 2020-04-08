@@ -98,11 +98,7 @@ IEEE 802.15  | Wireless PAN (藍芽)
 - 進行 `封包切割`, 用以連接 `MTU(最大傳輸單位)` 大小不一致的異質性網路
     - ex: LAN data frame 1.5k ; WAN data frame 0.5k
 - 路由(Routing) : 透過 `路由表(Routing Table)`, 來為封包選擇傳遞時可以行走的路徑, 指出網路資料的傳遞方向, 以及為它找出最佳的傳遞路線而予以送出.
-
-```sh
-# 查看路由過程
-$ traceroute <ip>
-```
+- `traceroute` 可察看路由過程
 
 ## 6. 閘道器(Gateway)
 
@@ -171,9 +167,9 @@ Source: https://www.distributednetworks.com/dhcp-tcp-ip/module3/images/protocol_
 - 具備 `流量控制` + `錯誤控制`
 - 只支援 `unitcast`(因為得三向交握); 無 multicast、broadcast
 - 等待ˋ緩衝的資料量之後才進行傳送, 也允許「Push」機制強行送出
-- 可靠 
+- 可靠
     - Sequence numbers 序號
-    - Acknowledgements 確認 
+    - Acknowledgements 確認
 
 
 ## User Datagram Protocol (UDP)

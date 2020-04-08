@@ -1360,12 +1360,6 @@ $ cat /etc/resolv.conf
 $ ss
 
 
-# 網路 Test
-$ traceroute  # 追蹤 route
-$ tracepath   # 追蹤 route
-$ nslookup
-
-
 ```sh
 # CentOS7 rpm 檢核用的 public key
 $ ll /etc/pki/rpm-gpg/

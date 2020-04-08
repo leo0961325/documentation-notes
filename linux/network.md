@@ -125,23 +125,7 @@ rtt min/avg/max/mdev = 2.721/2.806/2.891/0.085 ms
 ```
 
 
-## traceroute - 追蹤網路主機路徑
 
-網路主機路徑追蹤工具, 找出 icmp封包到目的主機的路徑(中途節點, 可能因為安全性考量, 而無法回應)
-
-```sh
-# traceroute -[IT]
-# -I : 使用 ICMP
-# -T : 使用 TCP
-# -U : (default) UDP
-
-$ sudo traceroute -I access.redhat.com
-traceroute to access.redhat.com (23.193.97.178), 30 hops max, 60 byte packets
- 1  gateway (192.168.124.254)  2.416 ms  2.393 ms  2.388 ms
- 2  vpn.portwell.com.tw (192.168.2.7)  0.719 ms  0.751 ms  0.748 ms
- ...PASS...
-15  a23-193-97-178.deploy.static.akamaitechnologies.com (23.193.97.178)  135.276 ms  135.337 ms  135.311 ms
-```
 
 
 ## ss - socket 統計
