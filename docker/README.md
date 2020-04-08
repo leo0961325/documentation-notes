@@ -464,7 +464,6 @@ foobar
 
 
 ## 查看資訊
-
 ```sh
 # 查看 Docker Volume
 $ docker inspect -f {{.Mounts}} <Container>
@@ -641,4 +640,21 @@ make: *** [credential-store.o] Error 1
 ```sh
 $ sudo yum install zlib-devel
 # 之後即可正常 make
+```
+
+
+# Useful docker CLI
+
+```bash
+# 查看容器, 透過 -f 可使用 Golang 的範本來提取資訊
+$# docker inspect -f '{{.NetworkSettings.IPAddress}}' myredis
+172.17.0.2
+
+# 查看容器, 啟用了那些 process
+$# docker exec mypg ps aux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+postgres     1  0.0  0.2 330360 41176 ?        Ss   Mar24   2:16 postgres
+postgres    25  0.0  0.8 330920 139896 ?       Ss   Mar24   1:27 postgres: checkpointer
+postgres    26  0.0  0.8 330620 138256 ?       Ss   Mar24   4:49 postgres: background writer
+# ...(超多)...f
 ```

@@ -221,14 +221,19 @@ PS1='[\u@\h \W$(__docker_machine_ps1)]\$ '
 
 # bash_completion
 
- - 2019/07/03
- - https://www.tecmint.com/install-and-enable-bash-auto-completion-in-centos-rhel/
+ - 2020/04/08
+ - [How to Install and Enable Bash Auto Completion in CentOS/RHEL](https://www.tecmint.com/install-locate-command-to-find-files-in-centos/)
 
 ```bash
 $# yum install -y bash-completion bash-completion-extras
-$# locate bash_completion.sh
+$# locate bash_completion.sh   # 如果出現 locate command not found, 參考底下解法
 $# source /etc/profile.d/bash_completion.sh
+
+### locate - command not found
+$# yum install -y mlocate
+$# updatedb
 ```
+
 
 # Ansible
 
@@ -238,9 +243,9 @@ $# source /etc/profile.d/bash_completion.sh
 - 20G Disk
 - 64 bits os
 
-### 1. Download && Install
 
 ```sh
+### 1. Download && Install
 $# wget https://releases.ansible.com/ansible-tower/setup-bundle/ansible-tower-setup-bundle-3.0.3-1.el7.tar.gz
 $# tar -zxf ansible-tower-setup-bundle-3.0.3-1.el7.tar.gz
 $# cd ansible-tower-setup-bundle-3.0.3-1.el7/
@@ -256,28 +261,22 @@ The setup process completed successfully.   # ← successfully
 Setup log saved to /var/log/tower/setup-2019-01-12-17:53:43.log
 You have new mail in /var/spool/mail/root
 # 安裝完後, 要看到上面的訊息才算 OK
-```
 
-### 2. Setup
 
-安裝完後, 就可透過網頁看到 Ansible Tower 的管理頁面了~
-
-```sh
-### Step 1. 改密碼~
+### 2. Setup 安裝完後, 就可透過網頁看到 Ansible Tower 的管理頁面了~
+# 2-1. 改密碼~
 $# tower-manage changepassword admin
 Changing password for user 'admin'
 Password:
 Password (again):
 Password changed successfully for user 'admin'
 
-### Step 2. 然後就可以登入網頁
+# 2-2. 然後就可以登入網頁
 # 因為是個人, 所以選擇申請個人版(只能管理 10 nodes 以下)
 # 且無法使用 LDAP
 # 填妥收信後, 就可以收到 Licenses 了~
-```
 
-```sh
-### PKI
+### 3. PKI
 $# ssh-keygen -f tower_rsa
 $# ssh-copy-id -i ~/.ssh/tower_rsa.pub <RemoteUser>@<RemoteIP>
 $# ssh -i ~/.ssh/tower_rsa <RemoteUser>@<RemoteIP>
@@ -1310,4 +1309,3 @@ $# chronyc sources -v
 
 - $basearch : x86_64 (位元架構)
 - $releasever : CentOS7 的 7 (大版本號)
-

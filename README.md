@@ -70,7 +70,6 @@ windows       | Windows Operating System
 - passphrase : 密語; 嚴格來講, 此非密碼 (Not a password)
 - permission : 許可
 - replica : 即時備援 (即時複製一份到其他節點的概念, HA), 資料備份的另一種可行性作法
-- token : 就... Token (不會翻@@)
 - validate : 驗證
 - perimeter network : (同 DMZ)
 - Permission denied : 無權使用此指令
