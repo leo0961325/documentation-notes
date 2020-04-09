@@ -319,6 +319,8 @@ $ docker run -p 4000:80 c8d0
 #### 範例 - ENTRYPOINT
 - 2018/01/30
 
+> ENTRYPOINT 建立 Image 時不執行; 啟動 Container 時才執行
+
 1. dockerfile
 ```dockerfile
 FROM ubuntu:14.04
