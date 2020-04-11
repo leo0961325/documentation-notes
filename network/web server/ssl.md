@@ -1,88 +1,129 @@
-# ssl 觀念
+# PKI 基礎架構 - 觀念 && 實作
 
-- 2018/08/06
+- 2020/04/12 (使用版本: *OpenSSL 1.0.2k-fips  26 Jan 2017*)
 - [金鑰與憑證的管理](http://ijecorp.blogspot.com/2014/03/openssl.html)
 - [OpenSSL官網](https://www.openssl.org/)
+- [實作取得CA_Bundle](https://ephrain.net/maclinux-%E7%94%A8-openssl-%E4%B8%8B%E8%BC%89-https-%E7%B6%B2%E7%AB%99%E6%86%91%E8%AD%89%EF%BC%8C%E8%A7%A3%E6%B1%BA-curl-%E6%8A%B1%E6%80%A8-self-signed-certificate-%E7%9A%84%E5%95%8F%E9%A1%8C/)
 
-Terms | Description
------ | ---------------------------------------------
-TLS   | Transport Layer Security
-SSL   | Secure Sockets Layer
-CA    | Certification Authority, 憑證授權中心
-CSR   | Certificate Signing Request, 憑證簽署請求
+*****************************************************************************
 
+# 自建 CA Server && 簽署公司內部使用
 
-## enable https
+```bash
+## 產生 私鑰 && 憑證(要四處發行的)
 
-
-要讓 `Web Service` 能夠支援 `SSL`, 必須要作下面幾件事情:
-1. 產生 `Private Key`
-2. 產生 `CSR`, 並將此 CSR 傳給 `CA`
-3. 把 CA 所提供的 `憑證(Certificate)` 安裝在 Web Server
-
-
-## 利用 OpenSSL 來達成 (CentOS7)
-
-```sh
-# ---------------------------------------------------------------
-# 使用 openssl 產生 private key, 金鑰長度為 2048 bits
-$# openssl genrsa         -out foobar.key 2048
-$# openssl genrsa -aes128 -out vbird.key 2048  # (鳥站看到的)
-$# openssl genrsa -des3   -out ca-key.pem 2048  # (書上看到的)(Triple-DES Cipher)
-# 底下會要你輸入 private key 的一堆基本資料... 包含 private key 密碼
-# 產生出來的 foobar.key 又稱為 "RSA private key"
-
-# ---------------------------------------------------------------
-# 使用 RSA private key 加密生成 CERTIFICATE REQUEST, 憑證簽署請求(CSR)
-$# openssl req -new                        -key foobar.key -out foobar.csr
-# 然後又是要你輸入一堆此CA憑證的基本資料
-# 產生出來的 foobar.csr 是要送到 「CA機構去申請簽證的文件檔」
-
-# (下面一行, 是產生 自我簽署憑證, 並指定使用天數)
-$# openssl req -new -x509 -nodes -days 365 -key foobar.key -out foobar.csr
-$# openssl req -new -x509        -days 365 -key foobar.key -out foobar2.csr
-# req : PKCS#10 certificate request and certificate generating utility
-#   -nodes : 若 private key 已建立 && 有給此 -nodes 選項, 則此產生出來的 pem 不會被加密(不太懂)
-#   -x509 : 產生 self signed certificate, 而非 CSR
-#       -days  : self signed certificate 有效天數. Default 30 days
-#   -new : 產生一個 new certificate request; 而此若沒與 -key XXX 一同出現, 則會根據 config 產生一個新的 RSA private key
-# -newkey arg: 建立新的 csr 及 private key.
-
-
-# ---------------------------------------------------------------
 ### CA Server, 產生 CA private key
-$# openssl genrsa -des3 -out rootCA.key 4096
-# 產生 rootCA.key
+$# openssl genrsa -des3 -out myrootCA.key 4096
+# 產生 myrootCA.key
+# 若設定了 -des3, 將來使用此 private key, 都會要求輸入 passphases (比較安全)
+# 鳥哥網站則是使用 -aes128 (差在哪我就不知道了)
 
 ### CA Server, 產生 CA certificate
-$# openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 36500 -out rootCA.crt -subj '/C=TW/ST=Taiwan/L=TaipeiCity/O=FakeCA/OU=swrd/CN=fakeca.tonychoucc.com'
-# 產生 rootCA.crt
+$# CA_DOMAIN=os7vm.com
+$# openssl req -x509 -new -nodes -key myrootCA.key -sha256 -days 36500 -out myrootCA.crt -subj "/C=TW/ST=Taiwan/L=TaichungCity/O=SelfCA/OU=swrd/CN=${CA_DOMAIN}"
+# 產生 myrootCA.crt
+# req: PKCS#10 certificate request and certificate generating utility
+# -x509: 產生 self signed certificate, 而非 CSR
+# -new: 產生一個 certificate request; 若沒與 -key 一同出現, 則會根據 config 產生一個新的 RSA private key
+# -nodes: if this option is specified then if a private key is created it will not be encrypted.
+# -key OOO: 指定要用哪個 private key 來簽發此 憑證
+# -sha256: (未知... 多一層加密吧?)
+# -days OOO: self signed certificate 有效天數. Default 30 days
+# -out OOO: 產出的 憑證 名稱
+# -subj: 省略後續的 inter-active input
 
+## APP Server - 自己製作一份憑證簽署請求(CSR), 請 CA Server 幫忙簽署
 
-### App Server, 產生 private key
-$# openssl genrsa -out tonychoucc-com.key 2048
-# 產生 tonychoucc-com.key
-# 之所以用 tonychoucc-com, 只是為了表示想讓 *.tonychoucc.com 都可通用
+### APP Server, 產生 APP Server private key
+$# APP_DOMAIN=os7vm.com
+$# openssl genrsa -out ${APP_DOMAIN}.key 2048
+# 產生 {APP_DOMAIN}.key
+# 之所以用 {APP_DOMAIN}, 只是想表達 {APP_DOMAIN} 這組(命名上方便識別)
 
-### App Server, 產生 certificat sign request (CSR)
-$# openssl req -new -key tonychoucc-com.key -subj "/C=TW/ST=Taiwan/L=TaichungCity/O=tonychoucc.com/OU=swrd/CN=registry.tonychoucc.com"  -sha256  -out tonychoucc-com.csr
-# 產生 tonychoucc-com.csr
-# 直接帶參數(免得後面又得 interactive 輸入一堆)
-# 使用 host.key (要申請的 Server 的 private key)
-# 製作出憑證簽署請求 host.csr
+### APP Server, 產生 certificat sign request (CSR)
+$# openssl req -new -key ${APP_DOMAIN}.key -subj "/C=TW/ST=Taiwan/L=TaichungCity/O=tonychoucc.com/OU=swrd/CN=${APP_DOMAIN}"  -sha256  -out ${APP_DOMAIN}.csr
+# 產生 {APP_DOMAIN}.csr (憑證簽署請求)
+
+## CA Server 收到 CSR 之後(收完錢以後), 幫忙製作 APP Server Certificate
 
 ### CA Server, 使用 CA private key && CA certificate, 來簽署 CSR
-$# openssl x509 -req -in tonychoucc-com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out tonychoucc-com.crt -days 36500 -sha256
-# 產生 tonychoucc-com.crt
+$# DAYS=3650
+$# openssl x509 -req -in ${APP_DOMAIN}.csr -CA myrootCA.crt -CAkey myrootCA.key -CAcreateserial -out ${APP_DOMAIN}.crt -days ${DAYS} -sha256
+# 產生 {APP_DOMAIN}.crt
+# -CAcreateserial: 需與 -CA 一同使用, 產生 CA serial number file
+
+$# ll
+-rw-r--r--.  1 root root  3311  4月 12 00:12 myrootCA.key   # CA Server Private Key
+-rw-r--r--.  1 root root  2021  4月 12 00:15 myrootCA.crt   # CA Server Certificate (把它散播出去~)
+-rw-r--r--.  1 root root  1017  4月 12 01:08 os7vm.com.csr  # APP Server CSR  (APP Server 給的)
+-rw-r--r--.  1 root root  1566  4月 12 01:09 os7vm.com.crt  # APP Server Certificate (要給 APP Server 的)
+-rw-r--r--.  1 root root    17  4月 12 01:09 myrootCA.srl   # CA serial number file
+
+## 收到 CA Server 簽署後的憑證以後, 開始安裝
+
+### APP Server, 公/私金鑰安裝到 Nginx
+$# ll
+-rw-r--r--.  1 root root  1679  4月 12 01:08 os7vm.com.key  # APP Server Private Key
+-rw-r--r--.  1 root root  1017  4月 12 01:08 os7vm.com.csr  # APP Server CSR  (現在這個暫時沒用了~)
+-rw-r--r--.  1 root root  1566  4月 12 01:09 os7vm.com.crt  # APP Server Certificate
+
+$# cp ./os7vm.com.crt /etc/pki/tls/certs/.
+$# cp ./os7vm.com.key /etc/pki/tls/private/.
+
+$# vim /etc/nginx/conf.d/os7vm.conf
+# ------------- 內容摘要如下 -------------
+server {
+    if ($host = os7vm.com) {
+            return 301 https://$host$request_uri;
+    }
+}
+server {
+    listen 443 ssl;
+    server_name os7vm.com;
+    root /STATIC_FILE_PATH;
+
+    ssl_certificate "/etc/pki/tls/certs/os7vm.com.crt";
+    ssl_certificate_key "/etc/pki/tls/private/os7vm.com.key";
+
+    location / {
+    }
+}
+# ------------- 內容摘要如上 -------------
+
+$# nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+$# nginx -s reload
+
+## 往後, 區網內的 Client, 要讓系統信任 CA Server 簽發的憑證(os7vm.com.crt)
+# 所以要先拿到 myrootCA.crt
+
+### 底下步驟開始安裝 CA Server 憑證
+$# cp myrootCA.crt /etc/pki/ca-trust/source/anchors/.
+$# update-ca-trust
+
+### 如此一來, 不需要加上 -k, 作業系統就自動信任 os7vm.com 囉~
+$# curl -I https://os7vm.com
+HTTP/1.1 200 OK
+Server: nginx/1.16.1
+Date: Sat, 11 Apr 2020 17:38:00 GMT
+Content-Type: text/html
+Content-Length: 4833
+Last-Modified: Fri, 16 May 2014 15:12:48 GMT
+Connection: keep-alive
+ETag: "53762af0-12e1"
+Accept-Ranges: bytes
 ```
 
+*****************************************************************************
 
-# ssl 實作
+# letsencrypt
 
 - 2018/11/20
 - [SSL For Free](https://www.sslforfree.com/)
 
-## 1. Apache Manual
+Example: 以 Apache 為例
 
 1. DNS 設好 A 紀錄
 
@@ -110,7 +151,11 @@ Name   | Type | Value       | TTL
     9. 重啟 httpd
     10. https://YOUR_FQDN   新鮮的 https 出爐~
 
-## 2. Apache Letsencrypt
+*****************************************************************************
+
+# Certbot
+
+## 1. Apache Letsencrypt
 
 - 2018/11/26
 - https://certbot.eff.org/lets-encrypt/centosrhel7-apache
@@ -248,7 +293,7 @@ certbot renew
 
 
 
-## 3. Nginx Letsencrypt
+## 2. Nginx Letsencrypt
 
 ### 1. 安裝
 
@@ -310,17 +355,9 @@ crontab -e
 0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew
 ```
 
-## 4. Hugo + Letsencrypt on Gitlab
+## 3. Hugo + Letsencrypt on Gitlab
 
-
-
-
-    SSLCertificateFile          /etc/pki/tls/certs/www1.crt
-    SSLCertificateFile          /etc/pki/tls/certs/www1.crt
-    SSLCertificateKeyFile       /etc/pki/tls/private/www1.key
-    SSLCertificateKeyFile       /etc/pki/tls/private/www1.key
-    SSLCertificateChainFile     /etc/pki/tls/certs/www1.bundle.crt
-    SSLCACertificateFile        /etc/pki/tls/certs/www1.bundle.crt
+- 
 
 
 # ssl

@@ -76,13 +76,14 @@ windows       | Windows Operating System
 - Operation not permitted : 不具有此指另作用的檔案 的權限
 
 
-#### 一些無聊的專有名詞
+#### 一些名詞
 
 abbr   | Termonology                                 | Category        | Note
 ------ | ------------------------------------------- | --------------- | ------------
 AD     | Active Directory                            | 集中驗證         |
 BSD    | Berkeley Software Distribution              | DNS             |
-CA     | Certificate Authorities                     | 資安            |
+CA     | Certification Authority, 憑證授權中心         | 資安            |
+CSR    | Certificate Signing Request, 憑證簽署請求     | 資安            |
 DHCP   | Dynamic Host Configuration Protocol         | TCP/IP          |
 DMZ    | Demilitarized Zone                          | 資安            |
 DN     | Distinguished Name                          | 集中驗證         |
@@ -99,8 +100,10 @@ PERT   | Program Evaluation and Review Technique     | 專案管理        | [PE
 POC    | Proof of Concept                            | DevOps          |
 SEO    | Search Engine Optimization                  | FrontEnd        |
 SSG    | Static Site Generator                       | FrontEnd        | 前端框架產生器, ex: Hugo, Hexo, MkDocs
+SSL   | Secure Sockets Layer                         | 資安            |
 SSO    | Single Sign-On                              | 集中驗證         | 單點登錄
 TDD    | Test-Driven-Development                     | DevOps          |
+TLS   | Transport Layer Security                     | 資安            |
 VPC    | Virtual Private Cloud                       | Cloud           |
 
 
