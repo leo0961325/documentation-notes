@@ -81,17 +81,9 @@ Terminal B - Mongo Client 連線
 
 # 安裝後檢查是否安裝成功
 
-```cmd
-> mongo --version
-MongoDB shell version v3.4.9
-git version: 876ebee8c7dd0e2d992f36a848ff4dc50ee6603e
-OpenSSL version: OpenSSL 1.0.1u-fips  22 Sep 2016
-allocator: tcmalloc
-modules: none
-build environment:
-    distmod: 2008plus-ssl
-    distarch: x86_64
-    target_arch: x86_64
+```bash
+$# mongo --version
+# 3.4.9
 ```
 
 MongoDB 進入畫面

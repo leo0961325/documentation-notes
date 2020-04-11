@@ -512,15 +512,7 @@ $# yum install -y mongodb-org
 $# systemctl start mongod.service
 
 $ mongod --version
-db version v3.4.17
-git version: 7c14a47868643bb691a507a92fe25541f998eca4
-OpenSSL version: OpenSSL 1.0.1e-fips 11 Feb 2013
-allocator: tcmalloc
-modules: none
-build environment:
-    distmod: rhel70
-    distarch: x86_64
-    target_arch: x86_64
+# v3.4.17
 
 $ ps auxw | grep mongod
 mongod  8562  1.1  1.0 972408 41188 ?      Sl  20:43  0:01 /usr/bin/mongod -f /etc/mongod.conf
@@ -1303,6 +1295,19 @@ $# systemctl start chronyd
 $# chronyc sources -v
 # 以上是透過 time server 作校時, 視情況用手動
 ```
+
+
+
+# htpasswd
+
+- 2020/04/10
+
+為了能夠使用 htpasswd CLI
+
+```bash
+$# yum install -y httpd-tools
+```
+
 
 
 # 備註

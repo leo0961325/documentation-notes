@@ -8,9 +8,7 @@ $ uname -r
 3.10.0-693.21.1 el7.x86_64
 
 $ nginx -V
-nginx version: nginx/1.12.2
-built by gcc 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC)
-built with OpenSSL 1.0.2k-fips 26 Jan 2017
+# 1.12.2
 ```
 
 

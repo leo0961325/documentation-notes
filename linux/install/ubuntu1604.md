@@ -1,6 +1,21 @@
 # Ubuntu 16.04
 
 
+## Install nginx
+
+- 2020/04/11
+- [Ubuntu 16.04 安裝 Nginx](https://www.opencli.com/linux/ubuntu-16-04-install-nginx-mysql-php-lemp)
+
+```bash
+$# sudo apt-get install nginx
+```
+
+
+## Install nodejs
+
+- [GitHub-Nodejs](https://github.com/nodesource/distributions/blob/master/README.md)
+
+
 ## apt 無法執行動作 (被lock住的解法)
 - [更新套件被占用](http://hep1.phys.ntu.edu.tw/~phchen/apfel/linux/install/problem-solving.txt)
 - 2018/04/23

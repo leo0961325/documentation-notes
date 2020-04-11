@@ -26,7 +26,9 @@ CSR   | Certificate Signing Request, 憑證簽署請求
 ```sh
 # ---------------------------------------------------------------
 # 使用 openssl 產生 private key, 金鑰長度為 2048 bits
-$# openssl genrsa -out foobar.key 2048
+$# openssl genrsa         -out foobar.key 2048
+$# openssl genrsa -aes128 -out vbird.key 2048  # (鳥站看到的)
+$# openssl genrsa -des3   -out ca-key.pem 2048  # (書上看到的)(Triple-DES Cipher)
 # 底下會要你輸入 private key 的一堆基本資料... 包含 private key 密碼
 # 產生出來的 foobar.key 又稱為 "RSA private key"
 
@@ -38,6 +40,7 @@ $# openssl req -new                        -key foobar.key -out foobar.csr
 
 # (下面一行, 是產生 自我簽署憑證, 並指定使用天數)
 $# openssl req -new -x509 -nodes -days 365 -key foobar.key -out foobar.csr
+$# openssl req -new -x509        -days 365 -key foobar.key -out foobar2.csr
 # req : PKCS#10 certificate request and certificate generating utility
 #   -nodes : 若 private key 已建立 && 有給此 -nodes 選項, 則此產生出來的 pem 不會被加密(不太懂)
 #   -x509 : 產生 self signed certificate, 而非 CSR
@@ -47,19 +50,30 @@ $# openssl req -new -x509 -nodes -days 365 -key foobar.key -out foobar.csr
 
 
 # ---------------------------------------------------------------
-# 可用來檢查 CSR 的內容是否正確(不太懂...)
-$# openssl req -text -in CSR.csr -noout
+### CA Server, 產生 CA private key
+$# openssl genrsa -des3 -out rootCA.key 4096
+# 產生 rootCA.key
 
-# ---------------------------------------------------------------
-# 僅產生 私有憑證(不開放到公網域) - 自我簽署憑證
-$# openssl x509 -req -days 3650 -in CSR.csr -signkey private.key -out self-signed.crt
-# 會產生一個 pem格式的憑證內容, 放在 self-signed.crt
-#
+### CA Server, 產生 CA certificate
+$# openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 36500 -out rootCA.crt -subj '/C=TW/ST=Taiwan/L=TaipeiCity/O=FakeCA/OU=swrd/CN=fakeca.tonychoucc.com'
+# 產生 rootCA.crt
 
-# ---------------------------------------------------------------
-# 直接從 private key 產生 自我簽屬憑證
-$# openssl req -new -x509 -days 365 -key private.key -out self-signed-2.crt
 
+### App Server, 產生 private key
+$# openssl genrsa -out tonychoucc-com.key 2048
+# 產生 tonychoucc-com.key
+# 之所以用 tonychoucc-com, 只是為了表示想讓 *.tonychoucc.com 都可通用
+
+### App Server, 產生 certificat sign request (CSR)
+$# openssl req -new -key tonychoucc-com.key -subj "/C=TW/ST=Taiwan/L=TaichungCity/O=tonychoucc.com/OU=swrd/CN=registry.tonychoucc.com"  -sha256  -out tonychoucc-com.csr
+# 產生 tonychoucc-com.csr
+# 直接帶參數(免得後面又得 interactive 輸入一堆)
+# 使用 host.key (要申請的 Server 的 private key)
+# 製作出憑證簽署請求 host.csr
+
+### CA Server, 使用 CA private key && CA certificate, 來簽署 CSR
+$# openssl x509 -req -in tonychoucc-com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out tonychoucc-com.crt -days 36500 -sha256
+# 產生 tonychoucc-com.crt
 ```
 
 
