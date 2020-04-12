@@ -4,6 +4,7 @@
 - [金鑰與憑證的管理](http://ijecorp.blogspot.com/2014/03/openssl.html)
 - [OpenSSL官網](https://www.openssl.org/)
 - [實作取得CA_Bundle](https://ephrain.net/maclinux-%E7%94%A8-openssl-%E4%B8%8B%E8%BC%89-https-%E7%B6%B2%E7%AB%99%E6%86%91%E8%AD%89%EF%BC%8C%E8%A7%A3%E6%B1%BA-curl-%E6%8A%B1%E6%80%A8-self-signed-certificate-%E7%9A%84%E5%95%8F%E9%A1%8C/)
+- [使用 Openssl 建立憑證](https://raix852.github.io/2016/06/20/use-openssl-generate-certificate/)
 
 *****************************************************************************
 
@@ -13,10 +14,11 @@
 ## 產生 私鑰 && 憑證(要四處發行的)
 
 ### CA Server, 產生 CA private key
-$# openssl genrsa -des3 -out myrootCA.key 4096
+$# openssl genrsa -aes256 -out myrootCA.key 4096
 # 產生 myrootCA.key
-# 若設定了 -des3, 將來使用此 private key, 都會要求輸入 passphases (比較安全)
+# 若設定了 [-des3, -aes256], 將來使用此 private key, 都會要求輸入 passphases (比較安全)
 # 鳥哥網站則是使用 -aes128 (差在哪我就不知道了)
+# 2020/04 的現在, -aes256 是比較安全的 (最近關於 Zoom 的新聞有爆出來)
 
 ### CA Server, 產生 CA certificate
 $# CA_DOMAIN=os7vm.com

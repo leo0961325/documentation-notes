@@ -80,8 +80,17 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /pam.d/                         # 集中驗證相關; 各種服務該如何組態 Auth 的設定檔
     /passwd                         # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
     /pki/                           # 公鑰存放區
+        /CA/                            # 如果自己這台 Server 當成 CA, 建議把 PrivateKey && Certificate && Serial 放這邊
+            /certs/                         # CA Server 的 Certificates
+            /crl/                           # CA Server 簽署的 CSR 所產生的 *.crl
+            /private/                       # CA Server 的 Private Keys
+        /ca-trust/                      #
+            /source/anchours/               # 自己信任的 CA Authority 所發放的憑證, 都放到這邊
         /rpm-gpg/*                      # rpm Repository 公鑰存放區
             /RPM-GPG-KEY-CentOS-7           # CentOS7 的 原廠GPG數位簽章公鑰檔
+        /tls/                           # APP Server 存放 公私鑰的 建議存放位置
+            /certs/                         # APP Server 的 Certificates
+            /private/                       # APP Server 的 Private Keys
     /postfix/
         /master.cf                      # Postfix mail server 主要組態設定檔
     /profile                        # 系統層面的 環境 及 起始程式
