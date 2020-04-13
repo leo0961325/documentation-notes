@@ -12,8 +12,10 @@
 $# docker pull pypiserver/pypiserver:latest
 
 ### 新增帳號密碼 -> .htpasswd
-$# htpasswd -bm -c ./auth/.htpasswd user01 password01  # 首次使用 (建立 .htpasswd)
-$# htpasswd -bm ./auth/.htpasswd user02 password02     # 後續使用 (append User)
+$# touch .auth/htpasswd
+$# htpasswd -Bb ./auth/htpasswd user01 password01  # 建立 user && password
+# -B, docker 身分驗證 htpasswd 僅支援 bcrypt 格式, 故一定要給(否則預設為-m)
+# -b, 後面接著給 <file> <user> <password>
 
 ### 測試用
 $# docker run --rm \
