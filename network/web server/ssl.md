@@ -124,6 +124,7 @@ Accept-Ranges: bytes
 
 - 2018/11/20
 - [SSL For Free](https://www.sslforfree.com/)
+- [使用須知-限額](https://letsencrypt.org/zh-tw/docs/rate-limits/)
 
 Example: 以 Apache 為例
 
