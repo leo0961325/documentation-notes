@@ -388,3 +388,14 @@ $# openssl req -config /etc/pki/tls/openssl.cnf -x509 -days 3650 -batch -nodes -
 
 - https 依賴 ssl, ssl 依賴 `數位憑證`
 - `數位憑證` 可以自簽 or 送給第三方公正機關簽署, 之後安裝到自己的網站
+
+
+# certbot
+
+刪除不要的域名
+
+```bash
+$# certbot delete
+# or
+$# certbot delete --cert-name host.domain.com
+```
