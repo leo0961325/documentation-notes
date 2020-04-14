@@ -3,8 +3,13 @@
 
 ### ping
 GET https://{{MyRegistryHost}}/v2
+Authorization: Basic user01 password01
+
+### ping
+GET https://{{MyRegistryHost}}/v2
+Authorization: Basic 190126c613daf6af79a920bc6dc5a95a
 
 
 ### Login
 POST https://{{MyRegistryHost}}
-Authorization: Basic user01 password01
+Authorization: Basic 190126c613daf6af79a920bc6dc5a95a

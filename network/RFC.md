@@ -149,7 +149,7 @@ Code                       | Description
 -------------------------- | ---------------------------------
 301 Moved Permanently      | 資源已經被明確移動到 `Location` 標頭所指示的 URL (範例1) [301](https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status/301)
 401 Unauthorized           | 認證沒過的請求, 應提示 `WWW-Authenticate` or 導向 404
-403 Forbidden              | 認證沒過的請求, 不包含 `WWW-Authenticate`
+403 Forbidden              | 權限不足已訪問, 不包含 `WWW-Authenticate`
 405 Method Not Allowed     | Request Line 不支援此方法
 415 Unsupported Media Type | 要給 `Content-Type`
 
