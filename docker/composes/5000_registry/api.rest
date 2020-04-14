@@ -1,0 +1,10 @@
+
+
+
+### ping
+GET https://{{MyRegistryHost}}/v2
+
+
+### Login
+POST https://{{MyRegistryHost}}
+Authorization: Basic user01 password01
