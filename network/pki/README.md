@@ -348,6 +348,11 @@ $# certbot --nginx
 # 然後就很簡單了
 ```
 
+```bash
+### nginx 配置
+
+```
+
 ### 5. auto encrypt
 
 ```sh
@@ -360,24 +365,12 @@ crontab -e
 
 ## 3. Hugo + Letsencrypt on Gitlab
 
-- 
+- 哪天心血來潮再來寫
 
 
 # ssl
 
-- [SSL certificate](https://www.tecmint.com/install-elasticsearch-logstash-and-kibana-elk-stack-on-centos-rhel-7/)
-
-此篇文章, 似乎是可以自己當 CA Server?
-
-第一次看過... 所以先筆記下來, 不作驗證, 將來遇到再說
-
-```sh
-$# vim /etc/pki/tls/openssl.cnf
-[ v3_ca ]
-subjectAltName = IP: 192.168.124.118	# 原本這行沒東西, 把自己這台的 IP 打進來
-
-$# cd /etc/pki/tls
-
+```bash
 ### 產生自我簽署憑證
 $# openssl req -config /etc/pki/tls/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt
 # -config /etc/pki/tls/openssl.cnf 依照組態方式
@@ -387,16 +380,17 @@ $# openssl req -config /etc/pki/tls/openssl.cnf -x509 -days 3650 -batch -nodes -
 ```
 
 
-- https 依賴 ssl, ssl 依賴 `數位憑證`
-- `數位憑證` 可以自簽 or 送給第三方公正機關簽署, 之後安裝到自己的網站
-
-
-# certbot
-
-刪除不要的域名
+# certbot 指令備註
 
 ```bash
+### 刪除不要的域名
 $# certbot delete
 # or
 $# certbot delete --cert-name host.domain.com
 ```
+
+
+# 其他備註
+
+- https 依賴 ssl, ssl 依賴 `數位憑證`
+- `數位憑證` 可以自簽 or 送給第三方公正機關簽署, 之後安裝到自己的網站
