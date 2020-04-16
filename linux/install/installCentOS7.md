@@ -1161,6 +1161,9 @@ go version go1.11 linux/amd64
 ```sh
 $# yum install -y supervisor
 $# systemctl start supervisord
+
+$# vim /etc/supervisord.conf
+# 裏頭的 [unix_http_server] 段, chown 改成 0777 會比較好做事情... 但安全性就不曉得了@_@
 ```
 
 

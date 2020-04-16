@@ -124,6 +124,9 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /sssd.conf                      # System Security Services Daemon; 網路不通時, 從 cache 作 Login 驗證
     /sudoers                        # 定義 sudo, wheel... 相關事項(建議使用 visudo 來修改, 別直接編輯此檔案)
     /sudoers.tmp                    # 使用 visudo 指令來更改 /etc/sudoers 的安全中介檔
+    /supervisord.conf               # supervisord 設定主檔 (USE supervisorctl)
+    /supervisord.d/                 # supervisord 設定副檔
+        /*.ini                          # supervisor 自定義
     /sysconfig/                     # CentOS6 舊時代的組態設定
         /network-scripts/               # 網路設定資料
         /selinux                        # SELinux 組態設定檔 (連結至 /etc/selinux/config)
