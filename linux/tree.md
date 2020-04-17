@@ -64,6 +64,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /issue                          # 查看進站歡迎訊息(自己看得爽而已)
     /krb5.conf                      # kerberos 集中驗證 設定主檔; central keroeros 架構
     /krb5.conf.d/                   # kerberos 集中驗證 設定副檔目錄
+    /letsencrypt/                   # 安裝 Certbot 後, 儲存 CSR, Certificate, PrivKey, ... 的地方
     /locale.conf                    # 系統預設語系定義檔 (一開始安裝就決定了!)
     /localtime/                     # 系統時間
     /login.defs                     # 建立使用者時, 該使用者的 系統愈設初始值
