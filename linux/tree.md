@@ -244,6 +244,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /mqueue/                        # 信件寄不出去, 會塞到這
         /news/                          # 新聞群組
 ~/                              # 使用者家目錄 (/home/<User>/)
+    /.aws/credentials               # aws CLI 組態位置
     /.bashrc                        # 使用者層面的 functions 及 alias 及 自定義 variables
     /.bash_history                  # 上次登出前, 在 Shell 內下過的指令(域設存1000筆), 登出後才會寫入此檔
     /.bash_login                    #
