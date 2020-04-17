@@ -6,6 +6,10 @@
 - [實作取得CA_Bundle](https://ephrain.net/maclinux-%E7%94%A8-openssl-%E4%B8%8B%E8%BC%89-https-%E7%B6%B2%E7%AB%99%E6%86%91%E8%AD%89%EF%BC%8C%E8%A7%A3%E6%B1%BA-curl-%E6%8A%B1%E6%80%A8-self-signed-certificate-%E7%9A%84%E5%95%8F%E9%A1%8C/)
 - [使用 Openssl 建立憑證](https://raix852.github.io/2016/06/20/use-openssl-generate-certificate/)
 
+- https 依賴 ssl, ssl 依賴 `數位憑證`
+- `數位憑證` 可以自簽 or 送給第三方公正機關簽署, 之後安裝到自己的網站
+
+
 *****************************************************************************
 
 # 自建 CA Server && 簽署公司內部使用
@@ -367,17 +371,7 @@ crontab -e
 
 - [SSL certificate](https://www.tecmint.com/install-elasticsearch-logstash-and-kibana-elk-stack-on-centos-rhel-7/)
 
-此篇文章, 似乎是可以自己當 CA Server?
-
-第一次看過... 所以先筆記下來, 不作驗證, 將來遇到再說
-
 ```sh
-$# vim /etc/pki/tls/openssl.cnf
-[ v3_ca ]
-subjectAltName = IP: 192.168.124.118	# 原本這行沒東西, 把自己這台的 IP 打進來
-
-$# cd /etc/pki/tls
-
 ### 產生自我簽署憑證
 $# openssl req -config /etc/pki/tls/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt
 # -config /etc/pki/tls/openssl.cnf 依照組態方式
@@ -385,10 +379,6 @@ $# openssl req -config /etc/pki/tls/openssl.cnf -x509 -days 3650 -batch -nodes -
 # -keyout private/logstash-forwarder.key 私鑰放這
 # -out certs/logstash-forwarder.crt 簽署好的憑證放這
 ```
-
-
-- https 依賴 ssl, ssl 依賴 `數位憑證`
-- `數位憑證` 可以自簽 or 送給第三方公正機關簽署, 之後安裝到自己的網站
 
 
 # certbot
