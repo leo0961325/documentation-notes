@@ -1,5 +1,25 @@
 # bash
 
+
+## Win10 GitBash 問題
+
+- 2020/04/16
+
+最近不知道怎麼了, win10 開啟 GitBash, 偶爾會看到這個
+
+![GitBashError](../../img/GitBashError.png)
+
+```bash
+### 打開 cmd
+$# taskkill /F /IM ssh.exe
+# 下場, 已經正常 work 中的 terminal 可能會無法動作
+# 要把 (所有) GitBash 關掉!?
+# 重新開啟 GitBash 即可恢復正常
+```
+
+
+---------------
+
 ```sh
 # 看前3行
 $ cat /etc/passwd | head -3
