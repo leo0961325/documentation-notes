@@ -20,8 +20,8 @@ certificate. The most common SUBCOMMANDS and flags are:
 
 obtain, install, and renew certificates:
     (default) run   Obtain & install a certificate in your current webserver
-    certonly        Obtain or renew a certificate, but do not install it
-    renew           Renew all previously obtained certificates that are near expiry
+    certonly        Obtain or renew a certificate, but do not install it  # 若有此參數, 表示「只作申請憑證」, 不要讓 certbot 主動幫忙安裝憑證到 Web Server(ex: 幫作 nginx.conf 相關配置)
+    renew           Renew all previously obtained certificates that are near expiry  # 重新更換先前 「已申請 && 即將到期」 的憑證
     enhance         Add security enhancements to your existing configuration
    -d DOMAINS       Comma-separated list of domains to obtain a certificate for
 
@@ -110,7 +110,7 @@ optional arguments:
                         hook commands are not called. (default: False)
   --debug-challenges    After setting up challenges, wait for user input
                         before submitting to CA (default: False)
-  --preferred-challenges PREF_CHALLS
+  --preferred-challenges PREF_CHALLS  # 
                         A sorted, comma delimited list of the preferred
                         challenge to use during authorization with the most
                         preferred challenge listed first (Eg, "dns" or
@@ -141,7 +141,7 @@ optional arguments:
 automation:
   Flags for automating execution & other tweaks
 
-  --keep-until-expiring, --keep, --reinstall
+  --keep-until-expiring, --keep, --reinstall  # 與 --force-renewal 相反
                         If the requested certificate matches an existing
                         certificate, always keep the existing one until it is
                         due for renewal (for the 'run' subcommand this means
@@ -150,7 +150,7 @@ automation:
                         requested names, always expand and replace it with the
                         additional names. (default: Ask)
   --version             show program''s version number and exit
-  --force-renewal, --renew-by-default
+  --force-renewal, --renew-by-default  # 與 --keep-until-expiring 相反. 強制立即換新的憑證
                         If a certificate already exists for the requested
                         domains, renew it now, regardless of whether it is
                         near expiry. (Often --keep-until-expiring is more
@@ -404,7 +404,7 @@ unregister:
 install:
   Options for modifying how a certificate is deployed
 
-rollback:
+rollback:  # ex: `certbot --nginx rollback`
   Options for rolling back server configuration changes
 
   --checkpoints N       Revert configuration N number of checkpoints.

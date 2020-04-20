@@ -398,11 +398,11 @@ $# certbot certonly \
     --manual-public-ip-logging-ok \
     --manual \
     --preferred-challenges=http \
-    --manual-auth-hook /var/dayu/sh/certbot-auth.sh \
+    --manual-auth-hook /var/sh/certbot-auth.sh \
     --dry-run \
     --test-cert \
-    -d 543346.com \
-    -d www.543346.com \
+    -d dmoain.com \
+    -d www.dmoain.com \
     --register-unsafely-without-email \
     --keep-until-expiring
 ```
