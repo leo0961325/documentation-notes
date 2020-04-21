@@ -1,6 +1,8 @@
 
 # Certbot
 
+- [查看Domain證書生成紀錄](https://crt.sh/)
+
 - 2020/04/17
   
 certbot 所有指令工具, 僅供查詢...
@@ -20,7 +22,7 @@ certificate. The most common SUBCOMMANDS and flags are:
 
 obtain, install, and renew certificates:
     (default) run   Obtain & install a certificate in your current webserver
-    certonly        Obtain or renew a certificate, but do not install it  # 若有此參數, 表示「只作申請憑證」, 不要讓 certbot 主動幫忙安裝憑證到 Web Server(ex: 幫作 nginx.conf 相關配置)
+    certonly        Obtain or renew a certificate, but do not install it             # 只作申請憑證. 不要讓 certbot 主動幫忙安裝憑證到 Web Server(ex: 幫作 nginx.conf 相關配置)
     renew           Renew all previously obtained certificates that are near expiry  # 重新更換先前 「已申請 && 即將到期」 的憑證
     enhance         Add security enhancements to your existing configuration
    -d DOMAINS       Comma-separated list of domains to obtain a certificate for
@@ -32,8 +34,13 @@ obtain, install, and renew certificates:
   --manual          Obtain certificates interactively, or using shell script hooks
 
    -n               Run non-interactively
-  --test-cert       Obtain a test certificate from a staging server
-  --dry-run         Test "renew" or "certonly" without saving any certificates to disk
+  --test-cert       Obtain a test certificate from a staging server                     # 從 Staging Server 取得 Certificate
+  --dry-run         Test "renew" or "certonly" without saving any certificates to disk  # (使用測試環境)嘗試做 renew + certonly, 但不儲存 Certificate
+  # 每個註冊域名的憑證頒發數量限制為每個星期 30000 張
+  # 重複憑證限制為每隔星期 30000 張
+  # 驗證失敗限制為每小時 60 次
+  # 註冊帳號限制為每個 IP 3 小時內能註冊 50 個帳號
+  # 使用 ACME v2，新請求限制為每個帳號 3 小時內 1500 個
 
 manage certificates:
     certificates    Display information about certificates you have from Certbot
