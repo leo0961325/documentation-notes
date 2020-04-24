@@ -94,6 +94,32 @@ $ atrm 7
 ```
 
 
+### 範例: 快照每兩分鐘的記憶體狀況
+
+```bash
+### Step1 - 腳本
+$# vim /root/memory_script
+# --------------------------------
+#!/bin/bash
+aa=$(date +%H:%M:%S)
+bb=$(free -m | head -2 | tail -1 | awk '{print $2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7}')
+echo -e "$aa\t$bb" >> /root/memory_record
+# --------------------------------
+
+### Step2 - chmod
+$# chmod a+x /root/memory_script
+
+### Step3 - 掛排程
+$# crontab -e
+# --------------------------------
+*/1 * * * * /root/memory_script
+# --------------------------------
+
+### Step4 - 追蹤 (要等一分鐘=.=")
+$# tail -f /root/memory_record
+```
+
+
 
 # System cron 系統排程
 

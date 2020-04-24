@@ -232,6 +232,7 @@ GET {{baseUrl}}/comments/{{createComment.response.body.$.id}}/replies/{{getRepli
 - `{{$randomInt 2 5}}` 為 隨機 2~5
 - `{{$guid}}` RFC 4122 v4 UUID (不知道幹嘛...)
 - `{{$timestamp [offset option]}}` : UTC timestamp, ex: `{{$timestamp -3 h}}` 3小時前
+- `"{{$datetime 'YYYY-MM-DD HH:mm:ss'}}"` : 可產生目前時間, ex: "2020-04-23 13:58:32"
 
 
 Option | Description

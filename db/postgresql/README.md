@@ -372,3 +372,18 @@ tonydb-$# \d
 ### 大量 Insert 到 weather Table, 資料來自 ...
 tonydb-$# COPY weather FROM '/home/user/weather.txt';
 ```
+
+
+# AUTO_INCREMENT
+
+欄位設定方式:
+
+```sql
+-- SQL 寫法
+  "COLUMNNAME" int4 NOT NULL DEFAULT nextval('"SCHEMA".seq_COLUMNNAME'::regclass),
+```
+
+```py
+### SQA 寫法
+  sa.Column('COLUMNNAME', sa.Integer(), server_default=sa.text("nextval('SCHEMA.seq_COLUMNNAME')"), nullable=False, comment='auto_increment'),
+```
