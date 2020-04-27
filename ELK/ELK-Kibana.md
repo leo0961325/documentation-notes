@@ -7,7 +7,7 @@
 ```sh
 /etc/
     /kibana/
-        /kibana.yml         # Kibana 主設定檔
+        /kibana.yml         # Kibana 設定主檔
 /usr/
     /share/
         /kibana/            # ${KIBANA_HOME}

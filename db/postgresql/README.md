@@ -380,10 +380,22 @@ tonydb-$# COPY weather FROM '/home/user/weather.txt';
 
 ```sql
 -- SQL 寫法
-  "COLUMNNAME" int4 NOT NULL DEFAULT nextval('"SCHEMA".seq_COLUMNNAME'::regclass),
+  "COLUMNNAME" int4 NOT NULL DEFAULT nextval('"SCHEMA".seq_COLUMNNAME'::regclass),  -- 似乎無法執行...
+  -- OR
+  "COLUMNNAME" SERIAL,
 ```
 
 ```py
 ### SQA 寫法
   sa.Column('COLUMNNAME', sa.Integer(), server_default=sa.text("nextval('SCHEMA.seq_COLUMNNAME')"), nullable=False, comment='auto_increment'),
 ```
+
+
+# CLI
+
+```bash
+### postgres admin USER 才可使用
+$# /usr/lib/postgresql/11/bin/pg_ctl reload
+# reload config
+```
+

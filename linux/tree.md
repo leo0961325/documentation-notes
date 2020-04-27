@@ -54,8 +54,8 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
     /hosts.allow                    # 防火牆白名單(先)
     /hosts.deny                     # 防火牆黑名單(後)
     /httpd/                         # Apache 的組態設定檔
-        /conf/                          # Apache 主設定檔dir
-            httpd.conf                      # Apache 主設定檔
+        /conf/                          # Apache 設定主檔dir
+            httpd.conf                      # Apache 設定主檔
         /conf.d/                        # Apache 附加設定檔dir
     /init.d/                        # (CentOS6前, 所有的 服務啟動腳本) CentOS7仍在(但已經不使用 init 來管理服務了), 只剩部分東西還在這 (連結至 rc.d/init.d)
         netconsole                      # 各種模式下的 *netconsole 連結
@@ -221,6 +221,9 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
             /nodes/                         # (iSCSI Client)裡面可以看到 iSCSI target 提供的 LUN
         /mysql/                         # mysql資料庫的資料儲存位置, InnoDB log && System TableSpace
             /mysql.sock                     # MySQL Connection Socket
+        /postgres/                      #
+            /data/                          #
+                /postgresql.conf                # PostgreSQL 設定主檔
     /lock/                          # 某些裝置或檔案, 一次只能一人使用, 使用中會上鎖. (連結至 /run/lock/)
     /log/                           # rsyslog服務(舊Log機制) 放置 log 的位置, 最多保留4份檔案, daily cron 會每天來清理
         /boot.log                       # 系統開機相關

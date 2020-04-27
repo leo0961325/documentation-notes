@@ -11,7 +11,7 @@ Apache伺服器在 CentOS的套件名稱為 httpd, 將關套件為 `hpptd` 及 `
 
 - 主要安裝目錄: `/etc/httpd/`
 - 設定檔: `/etc/httpd/conf/httpd.conf` 所有和伺服器有關的設定值
-- 附加設定檔放置目錄: `/etc/httpd/conf.d` 這裡頭的`.conf`都會被主設定檔`httpd.conf`引入 (為了模組化管理)
+- 附加設定檔放置目錄: `/etc/httpd/conf.d` 這裡頭的`.conf`都會被設定主檔`httpd.conf`引入 (為了模組化管理)
 - 紀錄檔: `/etc/httpd/logs/` -> `/var/log/httpd`
 - 模組目錄: `/etc/httpd/modules/` -> `/usr/lib64/httpd/modules` 編譯好的模組放在此內
 - 網頁根目錄: `/var/www/html/` 
