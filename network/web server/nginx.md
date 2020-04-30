@@ -327,3 +327,15 @@ location /ip {
 }
 # curl XXXX/ip
 ```
+
+
+## 使用變數
+
+```conf
+location / {
+    root web;
+    set $file index.html;
+
+    index $file;
+}
+```

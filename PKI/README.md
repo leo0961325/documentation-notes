@@ -51,10 +51,18 @@ $# APP_DOMAIN=os7vm.com
 $# openssl genrsa -out ${APP_DOMAIN}.key 2048
 # 產生 {APP_DOMAIN}.key
 # 之所以用 {APP_DOMAIN}, 只是想表達 {APP_DOMAIN} 這組(命名上方便識別)
+# 建議 APP Server 的 Private Key 不要設定密碼!!
 
 ### APP Server, 產生 certificat sign request (CSR)
 $# openssl req -new -key ${APP_DOMAIN}.key -subj "/C=TW/ST=Taiwan/L=TaichungCity/O=tonychoucc.com/OU=swrd/CN=${APP_DOMAIN}"  -sha256  -out ${APP_DOMAIN}.csr
 # 產生 {APP_DOMAIN}.csr (憑證簽署請求)
+
+$# openssl x509 -req -in server.csr -text -days 3650 \
+  -extfile /etc/pki/tls/openssl.cnf -extensions v3_ca \
+  -signkey server.key -out server.crt
+
+### 使用 OpenSSL 檢查 SCR (可不理會)
+$# openssl req -in ${APP_DOMAIN}.csr -noout -text
 
 ## CA Server 收到 CSR 之後(收完錢以後), 幫忙製作 APP Server Certificate
 
@@ -133,6 +141,7 @@ Accept-Ranges: bytes
 
 - TODO: 2020/04/28 研究 ↓
 - https://www.postgresql.org/docs/11/ssl-tcp.html
+- [](https://hackmd.io/Gbub0_EJS9eaeghyvuBj0g#PFX%E3%80%81P12)
 - [Navicat-SSL 設定](https://www2.navicat.com/manual/online_manual/en/navicat/mac_manual/SSLSettings.html)
 - [建立安全SSL连接PostgreSQL数据库服务器](https://blog.csdn.net/zhu4674548/article/details/71248365)
 
