@@ -16,6 +16,11 @@
 # 首次設定 PKI
 ssh-keygen -t rsa -b 4096 -C "tony@tonynb"
 
+### ed25519 (比 rsa 更有效率 && 安全)
+# https://docs.gitlab.com/ee/ssh/README.html#ed25519-ssh-keys
+$# ssh-keygen -t ed25519 -C "tony@tonynb"
+# 產生 id_ed25519 && id_ed25519.pub
+
 # 本地分支 push 至 origin
 git push --set-upstream origin feature
 
