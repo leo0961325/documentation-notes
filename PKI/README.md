@@ -5,10 +5,7 @@
 - [OpenSSL官網](https://www.openssl.org/)
 - [實作取得CA_Bundle](https://ephrain.net/maclinux-%E7%94%A8-openssl-%E4%B8%8B%E8%BC%89-https-%E7%B6%B2%E7%AB%99%E6%86%91%E8%AD%89%EF%BC%8C%E8%A7%A3%E6%B1%BA-curl-%E6%8A%B1%E6%80%A8-self-signed-certificate-%E7%9A%84%E5%95%8F%E9%A1%8C/)
 - [使用 Openssl 建立憑證](https://raix852.github.io/2016/06/20/use-openssl-generate-certificate/)
-
-- https 依賴 ssl, ssl 依賴 `數位憑證`
-- `數位憑證` 可以自簽 or 送給第三方公正機關簽署, 之後安裝到自己的網站
-
+- [SSL/TLS and PKI History](https://www.feistyduck.com/ssl-tls-and-pki-history/)
 
 *****************************************************************************
 
