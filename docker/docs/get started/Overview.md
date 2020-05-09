@@ -14,7 +14,20 @@ Docker Client 與 Docker Daemon透過 REST API與 `UNIX sockets` 或 `a network 
 
 
 ## Docker registries
-Docker images遠端儲藏庫有 `Docker Hub`及`Docker Cloud`, 預設由 `Docker Hub` 抓取 Docker images.<br>
+
+Docker images遠端儲藏庫有 `Docker Hub` 及 `Docker Cloud`, 預設由 `Docker Hub` 抓取 Docker images.
+
+```bash
+$# docker pull alpine:latest
+# 等同於
+$# docker pull docker.io/library/apline:latest
+
+# 又如
+$# docker pull myregistrydomain:port/abc/xyz
+# 表示是從 myregistrydomain:port 這裡的 registry
+# 抓取 abc/xyz 的 image
+```
+
 If you use Docker Datacenter (DDC), it includes Docker Trusted Registry (DTR).
 
 ## Docker Daemon(dockerd)

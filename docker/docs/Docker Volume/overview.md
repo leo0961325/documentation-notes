@@ -1,6 +1,5 @@
 # [Manage application Data](https://docs.docker.com/storage/)
-- 2018/01/12 (v17.09)
-- 2018/06/26 (開始改寫成v18.03 ing)
+- 2018/06/26
 
 # 重要概念釐清 && 摘要
 
@@ -65,13 +64,13 @@ Volumes 使用 rprivate綁定傳播，並且綁定傳播對 volumes不可配置�
 
 
 
-# -v(or --volume) / --mount  (此文, 一律使用 「-v」)
+# --volume / --mount (此文, 一律使用 「-v」)
 [Choose the -v or -mount flag](https://docs.docker.com/v17.09/engine/admin/volumes/volumes/#choose-the--v-or-mount-flag)
 
-flag    | Description
-------- | ----------------------------
--v      | 把後面的 options 喇在一起
---mount | 有把後面的 options 作區隔
+flag         | Description
+------------ | ----------------------------
+-v, --volume | 把後面的 options 喇在一起
+--mount      | 有把後面的 options 作區隔
 
 - -v, 由3個部分所組成(有先後順序, 但用意不明顯), 用「:」分隔
     -
