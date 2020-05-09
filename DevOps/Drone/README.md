@@ -16,6 +16,7 @@ Scopes 選擇 `api` && `read_user`, 取得底下:
 
 ## Drone
 
+- [使用Drone进行CI支持(分類還蠻詳細的)](https://xenojoshua.com/2019/12/drone-ci/#1-%E5%89%8D%E8%A8%80)
 ### Install drone CLI
 
 - https://docs.drone.io/cli/install/
@@ -92,3 +93,16 @@ DRONE_LOG_FILE=/Users/<user>/.drone-runner-exec/log.txt
 ```
 
 exec runner 會在 host 端寫 log,
+
+
+
+## pipeline
+
+- [pipeline的環境變數](https://exec-runner.docs.drone.io/configuration/variables/)
+
+drone 提供了底下幾種 runner
+- docker runner: 全部在 Container 內, 保證跨平台
+- exec runner:在 runner 所在的主機上執行, 一般用在某些不方便在 container 內執行的工作
+- ssh runner: 通常透過 ssh 執行遠端命令來做建置
+- kubernetes runner: (不鳥他)
+- digital ocean runner: (不鳥他)
