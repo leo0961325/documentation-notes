@@ -26,3 +26,14 @@ HTTP/2 為 HTTP/1.1 的替代方案 ; 藉由引入 `header field compression` &&
    clients that need to make many requests use multiple connections to a
    server in order to achieve concurrency and thereby reduce latency.
 
+# HTTP
+
+- [What does enctype='multipart/form-data' mean?](https://stackoverflow.com/questions/4526273/what-does-enctype-multipart-form-data-mean)
+
+> When you make a POST request, you have to encode the data that forms the body of the request in some way.
+
+HTML form 提供了 3 種方法來做 encoding:
+
+- application/x-www-form-urlencoded (default)
+- multipart/form-data
+- text/plain

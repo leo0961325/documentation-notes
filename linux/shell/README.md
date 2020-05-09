@@ -11,3 +11,16 @@ CentOS Linux release 7.4.1708 (Core)
 ```
 
 > 指令 `command [-options] parameter1 parameter2 ...`
+
+
+### set -e
+
+- [What does set -e mean in a bash script?](https://stackoverflow.com/questions/19622198/what-does-set-e-mean-in-a-bash-script)
+- [Aborting a shell script if any command returns a non-zero value?](https://stackoverflow.com/questions/821396/aborting-a-shell-script-if-any-command-returns-a-non-zero-value/821419#821419)
+
+```bash
+#!/bin/bash
+set -e 
+# Scripts.....
+```
+上頭這種 `set -e` 常看到出現再 shell script, 就是再告知, 腳本內如果出錯的話, 立即停止執行

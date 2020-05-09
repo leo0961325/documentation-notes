@@ -73,7 +73,7 @@ $ sudo vi /etc/default/grub
 GRUB_CMDLINE_LINUX="crashkernel=auto rd.lvm.lv=cl/root rd.lvm.lv=cl/swap rhgb quiet rd.driver.blacklist=nouveau nouveau.modeset=0"
 # 在原本的 grub內, 加上「rd.driver.blacklist=nouveau nouveau.modeset=0」
 
-# 重建 grub.cfg(grub2的 主設定檔)
+# 重建 grub.cfg(grub2的 設定主檔)
 $ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 Generating grub configuration file ...
 Found linux image: /boot/vmlinuz-3.10.0-514.el7.x86_64

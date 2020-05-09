@@ -275,3 +275,25 @@ img.youwillneverknow.com    A   <IP4>
 最後面得要有「/」 才能 list
 
 
+# other
+
+```conf
+### 可查 public IP
+location /ip {
+    default_type text/plain;
+    return 200 $remote_addr;
+}
+# curl XXXX/ip
+```
+
+
+## 使用變數
+
+```conf
+location / {
+    root web;
+    set $file index.html;
+
+    index $file;
+}
+```

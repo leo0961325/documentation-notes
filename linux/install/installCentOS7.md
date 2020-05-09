@@ -875,6 +875,24 @@ DB=# \t
 ```
 
 
+# Install Postgre-Client
+
+- 2020/05/05
+- [How to Install PostgreSQL on CentOS 7](https://www.hostinger.com/tutorials/how-to-install-postgresql-on-centos-7/)
+
+僅安裝 psql client
+
+```bash
+$# yum install postgresql-contrib
+# 安裝到 /bin/psql
+
+$# psql --version
+psql (PostgreSQL) 9.2.24
+
+$# psql
+```
+
+
 
 # Install Python3.7 on CentOS7.6
 

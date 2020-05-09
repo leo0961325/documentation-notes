@@ -5,6 +5,7 @@
 - [OpenSSL官網](https://www.openssl.org/)
 - [實作取得CA_Bundle](https://ephrain.net/maclinux-%E7%94%A8-openssl-%E4%B8%8B%E8%BC%89-https-%E7%B6%B2%E7%AB%99%E6%86%91%E8%AD%89%EF%BC%8C%E8%A7%A3%E6%B1%BA-curl-%E6%8A%B1%E6%80%A8-self-signed-certificate-%E7%9A%84%E5%95%8F%E9%A1%8C/)
 - [使用 Openssl 建立憑證](https://raix852.github.io/2016/06/20/use-openssl-generate-certificate/)
+- [SSL/TLS and PKI History](https://www.feistyduck.com/ssl-tls-and-pki-history/)
 
 *****************************************************************************
 
@@ -13,17 +14,19 @@
 ```bash
 ## 產生 私鑰 && 憑證(要四處發行的)
 
+$# CA_DOMAIN=tt.com
+$# CA_SUBJ="/C=TW/ST=Taiwan/L=TaichungCity/O=SelfCA/OU=swrd/CN=${CA_DOMAIN}"
+
 ### CA Server, 產生 CA private key
-$# openssl genrsa -aes256 -out myrootCA.key 4096
-# 產生 myrootCA.key
+$# openssl genrsa -aes256 -out ${CA_DOMAIN}.key 4096
+# 產生 ${CA_DOMAIN}.key
 # 若設定了 [-des3, -aes256], 將來使用此 private key, 都會要求輸入 passphases (比較安全)
 # 鳥哥網站則是使用 -aes128 (差在哪我就不知道了)
 # 2020/04 的現在, -aes256 是比較安全的 (最近關於 Zoom 的新聞有爆出來)
 
 ### CA Server, 產生 CA certificate
-$# CA_DOMAIN=os7vm.com
-$# openssl req -x509 -new -nodes -key myrootCA.key -sha256 -days 36500 -out myrootCA.crt -subj "/C=TW/ST=Taiwan/L=TaichungCity/O=SelfCA/OU=swrd/CN=${CA_DOMAIN}"
-# 產生 myrootCA.crt
+$# openssl req -x509 -new -nodes -key ${CA_DOMAIN}.key -sha256 -days 36500 -out ${CA_DOMAIN}.crt -subj ${CA_SUBJ}
+# 產生 ${CA_DOMAIN}.crt
 # req: PKCS#10 certificate request and certificate generating utility
 # -x509: 產生 self signed certificate, 而非 CSR
 # -new: 產生一個 certificate request; 若沒與 -key 一同出現, 則會根據 config 產生一個新的 RSA private key
@@ -34,6 +37,10 @@ $# openssl req -x509 -new -nodes -key myrootCA.key -sha256 -days 36500 -out myro
 # -out OOO: 產出的 憑證 名稱
 # -subj: 省略後續的 inter-active input
 
+$# openssl req -new -x509 -days 36500 -nodes -text -out ${CA_DOMAIN}.crt -keyout ${CA_DOMAIN}.key -subj ${CA_SUBJ}
+# -text: prints out the certificate request in text form.
+# -keyout: (同時產生私鑰 & 憑證使用) 產生的私鑰名稱 
+
 ## APP Server - 自己製作一份憑證簽署請求(CSR), 請 CA Server 幫忙簽署
 
 ### APP Server, 產生 APP Server private key
@@ -41,25 +48,33 @@ $# APP_DOMAIN=os7vm.com
 $# openssl genrsa -out ${APP_DOMAIN}.key 2048
 # 產生 {APP_DOMAIN}.key
 # 之所以用 {APP_DOMAIN}, 只是想表達 {APP_DOMAIN} 這組(命名上方便識別)
+# 建議 APP Server 的 Private Key 不要設定密碼!!
 
 ### APP Server, 產生 certificat sign request (CSR)
 $# openssl req -new -key ${APP_DOMAIN}.key -subj "/C=TW/ST=Taiwan/L=TaichungCity/O=tonychoucc.com/OU=swrd/CN=${APP_DOMAIN}"  -sha256  -out ${APP_DOMAIN}.csr
 # 產生 {APP_DOMAIN}.csr (憑證簽署請求)
 
+$# openssl x509 -req -in server.csr -text -days 3650 \
+  -extfile /etc/pki/tls/openssl.cnf -extensions v3_ca \
+  -signkey server.key -out server.crt
+
+### 使用 OpenSSL 檢查 SCR (可不理會)
+$# openssl req -in ${APP_DOMAIN}.csr -noout -text
+
 ## CA Server 收到 CSR 之後(收完錢以後), 幫忙製作 APP Server Certificate
 
 ### CA Server, 使用 CA private key && CA certificate, 來簽署 CSR
 $# DAYS=3650
-$# openssl x509 -req -in ${APP_DOMAIN}.csr -CA myrootCA.crt -CAkey myrootCA.key -CAcreateserial -out ${APP_DOMAIN}.crt -days ${DAYS} -sha256
+$# openssl x509 -req -in ${APP_DOMAIN}.csr -CA ${CA_DOMAIN}.crt -CAkey ${CA_DOMAIN}.key -CAcreateserial -out ${APP_DOMAIN}.crt -days ${DAYS} -sha256
 # 產生 {APP_DOMAIN}.crt
 # -CAcreateserial: 需與 -CA 一同使用, 產生 CA serial number file
 
 $# ll
--rw-r--r--.  1 root root  3311  4月 12 00:12 myrootCA.key   # CA Server Private Key
--rw-r--r--.  1 root root  2021  4月 12 00:15 myrootCA.crt   # CA Server Certificate (把它散播出去~)
+-rw-r--r--.  1 root root  3311  4月 12 00:12 ${CA_DOMAIN}.key   # CA Server Private Key
+-rw-r--r--.  1 root root  2021  4月 12 00:15 ${CA_DOMAIN}.crt   # CA Server Certificate (把它散播出去~)
 -rw-r--r--.  1 root root  1017  4月 12 01:08 os7vm.com.csr  # APP Server CSR  (APP Server 給的)
 -rw-r--r--.  1 root root  1566  4月 12 01:09 os7vm.com.crt  # APP Server Certificate (要給 APP Server 的)
--rw-r--r--.  1 root root    17  4月 12 01:09 myrootCA.srl   # CA serial number file
+-rw-r--r--.  1 root root    17  4月 12 01:09 ${CA_DOMAIN}.srl   # CA serial number file
 
 ## 收到 CA Server 簽署後的憑證以後, 開始安裝
 
@@ -99,10 +114,10 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 $# nginx -s reload
 
 ## 往後, 區網內的 Client, 要讓系統信任 CA Server 簽發的憑證(os7vm.com.crt)
-# 所以要先拿到 myrootCA.crt
+# 所以要先拿到 ${CA_DOMAIN}.crt
 
 ### 底下步驟開始安裝 CA Server 憑證
-$# cp myrootCA.crt /etc/pki/ca-trust/source/anchors/.
+$# cp ${CA_DOMAIN}.crt /etc/pki/ca-trust/source/anchors/.
 $# update-ca-trust
 
 ### 如此一來, 不需要加上 -k, 作業系統就自動信任 os7vm.com 囉~
@@ -116,6 +131,41 @@ Last-Modified: Fri, 16 May 2014 15:12:48 GMT
 Connection: keep-alive
 ETag: "53762af0-12e1"
 Accept-Ranges: bytes
+```
+
+
+## openssl 其他指令備註
+
+- TODO: 2020/04/28 研究 ↓
+- https://www.postgresql.org/docs/11/ssl-tcp.html
+- [](https://hackmd.io/Gbub0_EJS9eaeghyvuBj0g#PFX%E3%80%81P12)
+- [Navicat-SSL 設定](https://www2.navicat.com/manual/online_manual/en/navicat/mac_manual/SSLSettings.html)
+- [建立安全SSL连接PostgreSQL数据库服务器](https://blog.csdn.net/zhu4674548/article/details/71248365)
+
+
+```bash
+### 依序產生私鑰(aa.key)(不使用passphase), 再用它來產生CSR(aa.crt)
+$# openssl genrsa -out aa.key 2048
+$# openssl req -new -key aa.key -out aa.crt
+
+### 同時生成私鑰, 並立即使用它來簽屬CSR (下面這行幾乎等於上面兩行, 但需要使用passphase才行)
+$# openssl req -newkey rsa:2048 -keyout cc.key -out cc.crt
+
+### 若私鑰有設定passphase, 此方式可把它移除
+$# openssl rsa -in aa.key -out qq.key
+
+# 驗證憑證簽屬請求 (CA 收到CSR 後, 為了避免CSR 中途有被串改過, 保險一點需要驗證)
+$# openssl req -in req.pem -text -verify -noout
+# -noout: 不要把 CERTIFICATE REQUEST 那一段印出來
+# 第一行可看到驗證結果
+# verify OK         <- 驗證成功
+# verify failure    <- 驗證失敗
+
+### 使用 $(KEY), 產生 CSR
+$# openssl req $(UTF8) -new -key $(KEY) -out $(CSR)
+
+### 使用 $(KEY), 產生 CRT
+$# openssl req $(UTF8) -new -key $(KEY) -out $(CRT) -x509 -days $(DAYS) $(EXTRA_FLAGS)
 ```
 
 *****************************************************************************
@@ -387,6 +437,20 @@ $# openssl req -config /etc/pki/tls/openssl.cnf -x509 -days 3650 -batch -nodes -
 $# certbot delete
 # or
 $# certbot delete --cert-name host.domain.com
+
+
+$# certbot certonly \
+    --agree-tos \
+    --manual-public-ip-logging-ok \
+    --manual \
+    --preferred-challenges=http \
+    --manual-auth-hook /var/sh/certbot-auth.sh \
+    --dry-run \
+    --test-cert \
+    -d dmoain.com \
+    -d www.dmoain.com \
+    --register-unsafely-without-email \
+    --keep-until-expiring
 ```
 
 

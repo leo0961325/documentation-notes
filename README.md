@@ -19,6 +19,7 @@ network       | Networking, Web Server, NAT, TCPIP, RFC...
 node          | Nodejs v6.11
 other         | 不屬於以上的都放這~~
 pg            | Programming(without Python) && Design Pattern
+PKI           | PKI 基礎架構 && Certificates, ...
 python        | Python 3.6
 ssg           | Single Page Generator, ex: HUGO
 vscode        | Powerful IDE
