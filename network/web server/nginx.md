@@ -1,16 +1,17 @@
 # Web Server - Nginx
+
 - [官方 Beginner’s Guide](http://nginx.org/en/docs/beginners_guide.html)
 
-
-
 ```sh
-$ uname -r
+$# uname -r
 3.10.0-693.21.1 el7.x86_64
 
-$ nginx -V
-# 1.12.2
-```
+### 測試設定檔
+$# nginx -t
 
+### 重啟
+$# nginx -s reload
+```
 
 
 # 組態的最基本寫法
@@ -60,44 +61,19 @@ http {
 
 
 
-# 設定檔
 
-- 設定主檔 : `/etc/nginx/nginx.conf`
-- 設定副檔目錄 : `/etc/nginx/nginx.d/*.conf`
-- Ubuntu 的設定副檔玩法 :
-    - `/etc/nginx/sites-available/*.conf`       設定軟連結到 sites-enabled/xxx.conf
-    - `/etc/nginx/sites-enabled/*.conf`         在 nginx.conf 增加引用目錄到此目錄
+# nginx variables
 
-```conf
-user  nginx;                            # worker processes 使用的 user ,group 的 credentials
-worker_processes  1;                    # 可設成 auto, 建議設定成 CPU 核心數量, 但可參考 disk driver, load-balance 來設定
-error_log  /tmp/nginx/error.log warn;   # Error Log 紀錄位置 及其 Log-Level
-pid        /var/run/nginx.pid;          # 就 pid
+- [What's the difference of $host and $http_host in Nginx](https://stackoverflow.com/questions/15414810/whats-the-difference-of-host-and-http-host-in-nginx)
 
-events {
-    worker_connections  1024;           # 一個 worker_process 可建立的連線數(包含 proxied servers 之間的連線, 不僅限於 client 端的連線)
-}
+設定檔裡頭, server {} 區塊內
 
-http {
-    include       /etc/nginx/mime.types;            # 套用 mime 別名檔
-    default_type  application/octet-stream;         # (不懂啊~~~)
-
-    # Log Format... 恩! 需要再看
-    # 此 log_format 取名為 main
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
-
-    access_log  /var/log/nginx/access.log  main;    # 存取紀錄, 套用 main 格式
-    sendfile        on;                             # 使用 Linux 底層的 aio...(不懂的話就別動它)
-    #tcp_nopush     on;                             # sendfile on 的話才能用, 至於它幹嘛我不知道
-    keepalive_timeout  65;                          # 連線建立的持續時間
-    #gzip       on;                                 # 壓縮 response (假如CPU強大且網路流量相對吃緊的話, 值得這麼作)
-    include /etc/nginx/conf.d/default.conf;         # 引入設定副檔 or 目錄
-}
-```
-
-
+- $host : in this order of precedence: 
+    - host name from the request line
+    - host name from the 'Host' request header field
+    - the server name matching a request
+- $http_host : HTTP request header 'Host'; 本身會帶 port; `$http_host = $host:$port`
+- $server_name : nginx vhost server name. 若有多個, 則取第一個
 
 # 範例
 
@@ -247,29 +223,11 @@ upstream test {
 ```
 
 
-# error.log
-
-```conf
-# http://blog.51cto.com/chenx1242/1769724
-
-2018/07/19 11:38:03 [notice] 1989#1989: signal process started
-# 原本程序已經啟用了, 但又被重新啟用 (非嚴重錯誤)
-```
-
-# access.log
-
-
-# 零碎概念
-
-Nginx支援 `熱啟動`, 所以改完組態檔後, **不用重啟服務**, 重讀組態即可!!
-```sh
-# 重讀組態
-$ nginx -s reload
-```
 
 
 
-# 靜態圖片代理
+
+## 靜態圖片代理
 
 1. 建立資源
 
@@ -317,13 +275,3 @@ img.youwillneverknow.com    A   <IP4>
 最後面得要有「/」 才能 list
 
 
-# other
-
-```conf
-### 可查 public IP
-location /ip {
-    default_type text/plain;
-    return 200 $remote_addr;
-}
-# curl XXXX/ip
-```
