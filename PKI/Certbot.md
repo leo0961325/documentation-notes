@@ -11,6 +11,17 @@ certbot 所有指令工具, 僅供查詢...
 $# certbot --version
 certbot 1.3.0
 
+### 直接驗證網域
+MAIL=cool21540125@gmail.com
+DOMAIN="*.tonychoucc.com"
+$# certbot certonly --manual --agree-tos \
+-d ${DOMAIN}  \
+--email ${MAIL} \
+--preferred-challenges dns \
+--manual-public-ip-logging-ok \
+--server https://acme-v02.api.letsencrypt.org/directory
+# 接著不要急著按 Enter, 先到 DNS 加一筆 TXT record
+
 $# certbot -h all
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 usage:
