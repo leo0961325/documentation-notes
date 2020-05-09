@@ -2,14 +2,16 @@ version: '3'
 services:
   pypiserver:
     image: pypiserver/pypiserver:latest
-    container_name: mypypi
+    container_name: pypi
     restart: always
     ports:
-      - 28888:8080
+      - "28888:8080"
+    add:
+      - ""
     volumes:
-      - ./auth/:/data/
-      - pypiserver:/data/packages
-    command: ["-P", ".htpasswd", "packages"]
+      - "./data/:/data/"
+      - "pypiserver:/data/packages"
+    entrypoint: ["-P", "htpasswd", "packages"]
 
 volumes:
   pypiserver:

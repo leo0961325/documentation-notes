@@ -12,28 +12,57 @@
 $# docker pull pypiserver/pypiserver:latest
 
 ### 新增帳號密碼 -> .htpasswd
-$# touch .auth/htpasswd
-$# htpasswd -Bb ./auth/htpasswd user01 password01  # 建立 user && password
-# -B, docker 身分驗證 htpasswd 僅支援 bcrypt 格式, 故一定要給(否則預設為-m)
+$# touch data/.htpasswd
+$# htpasswd -Bb data/.htpasswd user01 password01  # 建立 user && password
+# -B, 較為安全的加密方式
 # -b, 後面接著給 <file> <user> <password>
 
 ### 測試用
 $# docker run --rm \
-    -v $(pwd)/auth/:/data/ \
+    -v $(pwd)/data/:/data/ \
     -p 28888:8080 \
     --name mypypi \
     pypiserver/pypiserver:latest \
-    -P .htpasswd packages
+    -P htpasswd packages
 
 ### 實際使用
 $# docker run -d \
     --restart always \
-    -v $(pwd)/auth/:/data/ \
+    -v $(pwd)/data/:/data/ \
     -v pypiserver:/data/packages \
     -p 28888:8080 \
     --name mypypi \
     pypiserver/pypiserver:latest \
-    -P .htpasswd packages
+    -P htpasswd packages
+```
+
+```bash
+### Step1
+$# docker-compose up -d
+
+### Step2
+$# vim /etc/nginx/conf.d/pypi.conf
+# -------------------------------------------
+server {
+    server_name pypi.tonychoucc.com;
+    location / {
+        proxy_pass http://localhost:28888;
+    }
+    return 404;
+}
+# -------------------------------------------
+$# nginx -t
+$# nginx -s reload
+
+### Step3
+$# vim ~/.pypirc
+# -------------------------------------------
+[mypypi]
+repository:http://127.0.0.1:28888
+username:user1
+password:password1
+# -------------------------------------------
+
 ```
 
 
