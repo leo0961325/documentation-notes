@@ -4,6 +4,16 @@
 - 系統作 `備份` 時, 這邊的指令細節必須要注意...
 
 
+```bash
+### 快速打包本地資料夾所有檔案
+$# tar -czf all.tar.gz *
+# 若檔案很大, 為加速傳輸效率, 上述 z 改 J
+
+### 解壓縮 tar ball 到本地資料夾
+$# tar -xzf all.tar.gz
+```
+
+
 ```sh
     c   z              .gz
 tar xv  jf  tarName.tar.bz2
