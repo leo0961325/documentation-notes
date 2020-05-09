@@ -44,3 +44,8 @@ $# $ curl https://randomuser.me/api/ | jq '.results[0].name'  # 可作 filter
 }
 
 ```
+
+
+
+### 自簽憑證位置
+/Users/tony/Library/Application Support/Certificate Authority
