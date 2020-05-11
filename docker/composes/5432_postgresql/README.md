@@ -33,14 +33,14 @@ $# docker run -d \
 
 ```bash
 $# openssl req -new -x509 -days 365 -nodes -text -out root.crt \
-  -keyout root.key -subj "/CN=tgfc-42"
+  -keyout root.key -subj "/CN=vm-42"
 # 產生 root.crt, root.key
 
 $# chmod og-rwx root.key
 # 私鑰 600
 
 $# openssl req -new -nodes -text -out server.csr \
-  -keyout server.key -subj "/CN=tgfc-42"
+  -keyout server.key -subj "/CN=vm-42"
 # 產生 server.csr, server.key
 $# chmod og-rwx server.key
 # 600
@@ -51,7 +51,7 @@ $# openssl x509 -req -in server.csr -text -days 3650 \
 # 產生 server.crt
 
 $# openssl req -new -nodes -text -out root.csr \
-  -keyout root.key -subj "/CN=tgfc-42"
+  -keyout root.key -subj "/CN=vm-42"
 # 產生 root.csr
 $# chmod og-rwx root.key
 # 600

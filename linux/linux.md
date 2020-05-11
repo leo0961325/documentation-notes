@@ -1468,19 +1468,19 @@ $# service XXX status       # SysV status
 $# lsof -i
 COMMAND  PID USER FD  TYPE  DEVICE SIZE/OFF NODE NAME
 python3 3705 root 17u IPv4 3383170      0t0  TCP *:commplex-main (LISTEN)
-python3 3705 root 19u IPv4 3387478      0t0  TCP tgfc-220:39544->tgfc-220:6379 (ESTABLISHED)
-python3 3705 root 23u IPv4 3387483      0t0  TCP tgfc-220:52422->tgfc-220:postgres (ESTABLISHED)
-python3 3705 root 24u IPv4 3387486      0t0  TCP tgfc-220:39548->tgfc-220:6379 (ESTABLISHED)
-python3 3705 root 25u IPv4 3387488      0t0  TCP tgfc-220:39550->tgfc-220:6379 (ESTABLISHED)
-python3 3705 root 26u IPv4 3387489      0t0  TCP tgfc-220:52428->tgfc-220:postgres (ESTABLISHED)
-python3 3705 root 27u IPv4 3387490      0t0  TCP tgfc-220:52430->tgfc-220:postgres (ESTABLISHED)
-python3 3705 root 28u IPv4 3387491      0t0  TCP tgfc-220:52432->tgfc-220:postgres (ESTABLISHED)
-python3 3705 root 29u IPv4 3387492      0t0  TCP tgfc-220:52434->tgfc-220:postgres (ESTABLISHED)
-python3 3705 root 30u IPv4 3387493      0t0  TCP tgfc-220:52436->tgfc-220:postgres (ESTABLISHED)
-python3 3705 root 31u IPv4 3387494      0t0  TCP tgfc-220:52438->tgfc-220:postgres (ESTABLISHED)
-python3 3705 root 32u IPv4 3387495      0t0  TCP tgfc-220:52440->tgfc-220:postgres (ESTABLISHED)
-python3 3705 root 33u IPv4 3387496      0t0  TCP tgfc-220:52442->tgfc-220:postgres (ESTABLISHED)
-python3 3705 root 34u IPv4 3387497      0t0  TCP tgfc-220:52444->tgfc-220:postgres (ESTABLISHED)
+python3 3705 root 19u IPv4 3387478      0t0  TCP vm-220:39544->vm-220:6379 (ESTABLISHED)
+python3 3705 root 23u IPv4 3387483      0t0  TCP vm-220:52422->vm-220:postgres (ESTABLISHED)
+python3 3705 root 24u IPv4 3387486      0t0  TCP vm-220:39548->vm-220:6379 (ESTABLISHED)
+python3 3705 root 25u IPv4 3387488      0t0  TCP vm-220:39550->vm-220:6379 (ESTABLISHED)
+python3 3705 root 26u IPv4 3387489      0t0  TCP vm-220:52428->vm-220:postgres (ESTABLISHED)
+python3 3705 root 27u IPv4 3387490      0t0  TCP vm-220:52430->vm-220:postgres (ESTABLISHED)
+python3 3705 root 28u IPv4 3387491      0t0  TCP vm-220:52432->vm-220:postgres (ESTABLISHED)
+python3 3705 root 29u IPv4 3387492      0t0  TCP vm-220:52434->vm-220:postgres (ESTABLISHED)
+python3 3705 root 30u IPv4 3387493      0t0  TCP vm-220:52436->vm-220:postgres (ESTABLISHED)
+python3 3705 root 31u IPv4 3387494      0t0  TCP vm-220:52438->vm-220:postgres (ESTABLISHED)
+python3 3705 root 32u IPv4 3387495      0t0  TCP vm-220:52440->vm-220:postgres (ESTABLISHED)
+python3 3705 root 33u IPv4 3387496      0t0  TCP vm-220:52442->vm-220:postgres (ESTABLISHED)
+python3 3705 root 34u IPv4 3387497      0t0  TCP vm-220:52444->vm-220:postgres (ESTABLISHED)
 ```
 
 ## 6 vs 7 版

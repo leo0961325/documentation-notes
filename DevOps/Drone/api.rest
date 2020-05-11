@@ -1,0 +1,16 @@
+
+
+
+@droneServer=
+@token=
+
+### 取得當前專案清單
+GET {{droneServer}}/api/user/repos
+Authorization: Bearer {{token}}
+
+
+### Deploy
+@branch=dev
+@deployHost=
+POST {{droneServer}}/api/repos/python/proj/builds?branch={{branch}}&HOST={{deployHost}}
+Authorization: Bearer {{token}}

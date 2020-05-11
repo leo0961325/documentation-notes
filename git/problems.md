@@ -7,7 +7,7 @@
 
 ```bash
 $# git pull
-fatal: unable to access 'https://git.tgfc.tw/python-team/dayu.git/': SSL certificate problem: unable to get local issuer certificate
+fatal: unable to access 'https://git.company.tw/python-team/proj.git/': SSL certificate problem: unable to get local issuer certificate
 
 $# git config --global http.sslBackend schannel
 # git config --global http.sslVerify false  # 把SSL驗證關掉, 也就是說如果網域被導向到其他, 你也不會知道, 所以不安全
