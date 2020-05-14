@@ -37,6 +37,7 @@ $# openssl req -x509 -new -nodes -key ${CA_DOMAIN}.key -sha256 -days 36500 -out 
 # -out OOO: 產出的 憑證 名稱
 # -subj: 省略後續的 inter-active input
 
+### 只是把上面步驟弄成一個步驟而已
 $# openssl req -new -x509 -days 36500 -nodes -text -out ${CA_DOMAIN}.crt -keyout ${CA_DOMAIN}.key -subj ${CA_SUBJ}
 # -text: prints out the certificate request in text form.
 # -keyout: (同時產生私鑰 & 憑證使用) 產生的私鑰名稱 
@@ -54,9 +55,9 @@ $# openssl genrsa -out ${APP_DOMAIN}.key 2048
 $# openssl req -new -key ${APP_DOMAIN}.key -subj "/C=TW/ST=Taiwan/L=TaichungCity/O=tonychoucc.com/OU=swrd/CN=${APP_DOMAIN}"  -sha256  -out ${APP_DOMAIN}.csr
 # 產生 {APP_DOMAIN}.csr (憑證簽署請求)
 
-$# openssl x509 -req -in server.csr -text -days 3650 \
+$# openssl x509 -req -in ${APP_DOMAIN}.csr -text -days 3650 \
   -extfile /etc/pki/tls/openssl.cnf -extensions v3_ca \
-  -signkey server.key -out server.crt
+  -signkey ${APP_DOMAIN}.key -out ${APP_DOMAIN}.crt
 
 ### 使用 OpenSSL 檢查 SCR (可不理會)
 $# openssl req -in ${APP_DOMAIN}.csr -noout -text

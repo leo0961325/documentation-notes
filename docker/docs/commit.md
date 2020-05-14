@@ -15,6 +15,8 @@ Name, shorthand | Default | Description
 ```sh
 # 要先登入~
 $ docker login
+# login 之後, credential 會被存到 ~/.docker/config.json
+
 
 $ docker images
 REPOSITORY           TAG    IMAGE ID        CREATED          SIZE
