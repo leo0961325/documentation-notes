@@ -1318,6 +1318,38 @@ $# chronyc sources -v
 ```
 
 
+# Install k8s
+
+- 2020/05/14
+- [Installing kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+
+```bash
+### 下面我有改過... 
+$# cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+# exclude=kubelet kubeadm kubectl
+EOF
+
+### SELinux 問題... 為了開發方便...... 斟酌使用
+$# setenforce 0
+$# sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+$# yum install -y kubelet kubeadm kubectl
+
+$# systemctl start kubelet
+$# systemctl enable kubelet
+
+$# kubelet --version
+Kubernetes v1.18.2
+```
+
+
 
 # htpasswd
 

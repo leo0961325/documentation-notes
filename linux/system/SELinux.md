@@ -11,7 +11,11 @@
 ```sh
 $ getenforce
 
+### stop selinux
 $# setenforce 0
+
+### disable selinux
+$# sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 
 # (不建議使用) 直接改變 SELinux Context (但 重置or重開機後, 將會還原)
 $# chcon -t <context label> <file>

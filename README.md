@@ -84,6 +84,7 @@ abbr   | Termonology                                 | Category        | Note
 AD     | Active Directory                            | 集中驗證         |
 BSD    | Berkeley Software Distribution              | DNS             |
 CA     | Certification Authority, 憑證授權中心         | 資安            |
+CRI    | Container Runtime Interface                 | Container        | 
 CSR    | Certificate Signing Request, 憑證簽署請求     | 資安            |
 DHCP   | Dynamic Host Configuration Protocol         | TCP/IP          |
 DMZ    | Demilitarized Zone                          | 資安            |
@@ -100,6 +101,7 @@ OCSP   | Online Certificate Status Protocol          | 在線憑證狀態協定 
 PERT   | Program Evaluation and Review Technique     | 專案管理        | [PERT 網路分析法](https://wiki.mbalib.com/zh-tw/PERT%E7%BD%91%E7%BB%9C%E5%88%86%E6%9E%90%E6%B3%95)
 POC    | Proof of Concept                            | DevOps          |
 SEO    | Search Engine Optimization                  | FrontEnd        |
+SPOF   | Single Point Of Failure                     | 單點失效         |
 SSG    | Static Site Generator                       | FrontEnd        | 前端框架產生器, ex: Hugo, Hexo, MkDocs
 SSL   | Secure Sockets Layer                         | 資安            |
 SSO    | Single Sign-On                              | 集中驗證         | 單點登錄

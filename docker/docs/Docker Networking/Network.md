@@ -255,6 +255,10 @@ e5f58da319fa    alpine    "ash"      (pass)     (pass)    alpine4           # 17
     - `UDP 4789 port` : overlay network traffic
 - 得先使用 `docker swarm init` 來 **初始化 `swarm manager`** ; 或使用 `docker swarm join` 來加入至 swarm
 
+![Docker_Network](../../../img/Docker_Network_Architecture.png)
+
+圖片來源: https://blog.toright.com/posts/5578/%E7%94%A8-docker-swarm-%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84%E9%9B%B2%E6%9C%8D%E5%8B%99-%E6%A6%82%E5%BF%B5%E7%AF%87.html
+
 ```sh
 # 建立自定義的 overlay network, 名為 my-overlay...
 $ docker network create -d overlay my-overlay
