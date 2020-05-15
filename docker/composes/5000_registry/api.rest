@@ -1,15 +1,17 @@
 
+@MyRegistryHost=https://registry.tonychoucc.com
+@auth=
+#
+# https://docs.docker.com/registry/spec/api/#detail
+# 裡頭記載了很多 registry 的 API
+#
 
 
-### ping
-GET https://{{MyRegistryHost}}/v2
-Authorization: Basic user01 password01
-
-### ping
-GET https://{{MyRegistryHost}}/v2
-Authorization: Basic 190126c613daf6af79a920bc6dc5a95a
+### 僅測試看能不能通
+GET {{MyRegistryHost}}/v2/
+Authorization: Basic {{auth}}
 
 
-### Login
-POST https://{{MyRegistryHost}}
-Authorization: Basic 190126c613daf6af79a920bc6dc5a95a
+### 可看到 Repository 裡頭有哪些 Images
+GET {{MyRegistryHost}}/v2/_catalog
+Authorization: Basic {{auth}}

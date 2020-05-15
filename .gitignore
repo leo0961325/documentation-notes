@@ -11,7 +11,7 @@ bin/
 .ipynb_checkpoints
 venv/
 .env
-.htpasswd
+*.htpasswd
 packages/*
 .idea/
 *.crt
