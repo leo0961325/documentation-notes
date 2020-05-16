@@ -5,7 +5,7 @@
 - [Deploy a registry server](https://docs.docker.com/registry/deploying/)
 
 
-## Build
+# Build
 
 Nginx 負責 ssl, proxy, loggin, set-header
 
@@ -17,18 +17,45 @@ auth  certs  docker-compose.yml conf.d
 # conf.d: 把裡頭的東西丟到 /etc/nginx/conf.d
 
 ### 增加帳密資訊
-$# htpasswd -Bb ./auth/registry.htpasswd user01 password01
+$# htpasswd -Bb auth/registry.htpasswd user01 password01
 # -b, 後面接著給 <file> <user> <password>
 # -B, docker 身分驗證 htpasswd 僅支援 bcrypt 格式, 故一定要給(否則預設為-m)
 
 ### 測試
-HOST=https://registry.tonychoucc.com
+HOST=https://${MyRegistryHost}
 Base64_Creds=
 curl -X GET ${HOST}/v2/_catalog -H "Authorization: Basic ${Base64_Creds}"
 {"repositories":[]}
 # 要看到上面這樣
 ```
 
+## 變數
+
+- REGISTRY_HTTP_ADDR: 預設開在 5000, 但可用此指定開在其他 port
+- REGISTRY_HTTP_TLS_CERTIFICATE: 憑證位置
+- REGISTRY_HTTP_TLS_KEY: 私鑰位置
+- REGISTRY_AUTH: 認證方式, 使用 htpasswd 吧
+- REGISTRY_AUTH_HTPASSWD_REALM: 認證頁面看到的提示訊息
+- REGISTRY_AUTH_HTPASSWD_PATH: htpasswd 位置
+
+# Usage
+
+```bash
+### Docker client
+$# docker login ${MyRegistryHost}
+
+$# docker tag alpine ${MyRegistryHost}/alpine
+
+$# docker images
+REPOSITORY                  TAG     IMAGE ID      CREATED      SIZE
+${MyRegistryHost}/alpine  latest  f70734b6a266  3 weeks ago  5.61MB
+alpine                    latest  f70734b6a266  3 weeks ago  5.61MB
+
+$# docker push ${MyRegistryHost}/alpine
+
+$# curl -X GET https://${MyRegistryHost}/v2/_catalog -H "Authorization: Basic ${MyRegistryCreds}"
+{"repositories":[]}
+```
 
 
 # 其他備註
@@ -47,7 +74,7 @@ Docker Distribution 專案, 實作了 Docker Registry 2.0 的規範, 與 1.0 版
 ```jsonc
 {
     // 增加信任的 Registry
-    "insecure-registries": ["registry.tonychoucc.com"],
+    "insecure-registries": ["YOURDOMAIN"],
 }
 ```
 
@@ -63,15 +90,6 @@ Docker Distribution 專案, 實作了 Docker Registry 2.0 的規範, 與 1.0 版
 ```py
 import hashlib
 uid='tony'
-pwd='00'
+pwd='1234'
 hashlib.md5((uid + ':' + pwd).encode('utf8')).hexdigest()
 ```
-
-# 變數
-
-- REGISTRY_HTTP_ADDR: 預設開在 5000, 但可用此指定開在其他 port
-- REGISTRY_HTTP_TLS_CERTIFICATE: 憑證位置
-- REGISTRY_HTTP_TLS_KEY: 私鑰位置
-- REGISTRY_AUTH: 認證方式, 使用 htpasswd 吧
-- REGISTRY_AUTH_HTPASSWD_REALM: 認證頁面看到的提示訊息
-- REGISTRY_AUTH_HTPASSWD_PATH: htpasswd 位置
