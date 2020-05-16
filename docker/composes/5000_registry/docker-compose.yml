@@ -7,16 +7,16 @@ services:
     ports:
       - "5000:5000"
     restart: always
-    #environment: 
-      #REGISTRY_HTTP_TLS_CERTIFICATE: /certs/fullchain.pem
-      #REGISTRY_HTTP_TLS_KEY: /certs/privkey.pem
-      #REGISTRY_AUTH: "htpasswd"
-      #REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.htpasswd
-      #REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
+    environment: 
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry-Realm
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.htpasswd
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/fullchain.pem
+      REGISTRY_HTTP_TLS_KEY: /certs/privkey.pem
     volumes:
-      - docker_registry:/var/lib/registry
+      - data_registry:/var/lib/registry
       - ./certs:/certs
       - /etc/nginx/auth:/auth
 
 volumes:
-  docker_registry: {}
+  data_registry: {}

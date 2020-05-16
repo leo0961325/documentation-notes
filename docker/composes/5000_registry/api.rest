@@ -6,12 +6,6 @@
 # 裡頭記載了很多 registry 的 API
 #
 
-
-### 僅測試看能不能通
-GET {{MyRegistryHost}}/v2/
-Authorization: Basic {{auth}}
-
-
-### 可看到 Repository 裡頭有哪些 Images
+### 列出 Images
 GET {{MyRegistryHost}}/v2/_catalog
 Authorization: Basic {{auth}}
