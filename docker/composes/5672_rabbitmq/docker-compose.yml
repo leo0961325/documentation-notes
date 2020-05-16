@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  mq:
+    image: rabbitmq:management
+    container_name: mymq
+    restart: always
+    networks:
+      - mq-network
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${MQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${MQ_PASSWD}
+    volumes:
+      - "mq-data:/var/lib/rabbitmq"
+      - "mq-config:/opt/bitnami/rabbitmq/etc"
+
+networks:
+  mq-network:
+    driver: bridge
+
+volumes:
+  mq-data: {}
+  mq-config: {}
