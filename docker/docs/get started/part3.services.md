@@ -1,6 +1,7 @@
 # Part3 - Services
 - [Services](https://docs.docker.com/v17.09/get-started/part3/)
 - 2017/12/17
+- 2020/05/14 Updated
 
 ##### 1. [Orientation ](./part1.orientation.md)
 ##### 2. [Containers](./part2.containers.md)
@@ -27,7 +28,7 @@
 
 ```sh
 # 1. 下載 Compose
-$ sudo curl -L https://github.com/docker/compose/releases/download/1.17.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+$ sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 # 2. 給目前使用者執行 docker-compose的權限
 $ sudo chmod +x /usr/local/bin/docker-compose
@@ -37,7 +38,7 @@ $ sudo chmod +x /usr/local/bin/docker-compose
 
 # 4. 看看版本~
 $ docker-compose --version
-docker-compose version 1.17.0, build ac53b73
+docker-compose version 1.25.3, build d4d1b42b
 ```
 
 寫 `docker-compose.yml`
@@ -140,4 +141,22 @@ $ docker stack rm <Service ID>                  # 砍掉 任一 的 docker服務
 $ docker service rm <Service ID>                # 砍掉 任一執行中 的 docker服務
 
 $ docker swarm leave --force                    # 拿掉單一節點的 swarm
+```
+
+
+# 疑難排解
+```bash
+$# vim /etc/docker/daemon.json
+# 把 live-restore 改為 false
+# 如此才可使用 docker swarm init || docker swarm join
+
+### 發生以下問題, 很有可能是 Server 時間跑掉了
+$# docker swarm join --token XXXXXXX 1.2.3.4:2377
+Error response from daemon: error while validating Root CA Certificate: x509: certificate has expired or is not yet valid
+# 另外, master 記得開 port
+
+$# yum install -y chrony
+$# systemctl start chronyd
+$# systemctl enable chronyd
+$# chronyc sources -v
 ```

@@ -647,8 +647,9 @@ $ sudo yum install zlib-devel
 
 # Useful docker CLI
 
+> `docker inspect -f`: 可使用 Golang 的範本來提取資訊
+
 ```bash
-# 查看容器, 透過 -f 可使用 Golang 的範本來提取資訊
 $# docker inspect -f '{{.NetworkSettings.IPAddress}}' myredis
 172.17.0.2
 
