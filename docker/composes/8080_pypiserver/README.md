@@ -19,6 +19,8 @@ $# touch data/pypi.htpasswd
 $# htpasswd -Bb data/pypi.htpasswd user01 password01  # 建立 user && password
 # -B, 較為安全的加密方式
 # -b, 後面接著給 <file> <user> <password>
+
+$# pypi-server -o -p 28888 -P ./.htaccess /var/private_pypi/packages
 ```
 
 ```bash

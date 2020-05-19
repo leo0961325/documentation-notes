@@ -10,6 +10,7 @@ services:
       - "./auth:/auth"
       - "pypiserver:/data/packages"
     entrypoint: ["pypi-server", "-P", "/auth/pypi.htpasswd"]
+    command: ["/data/packages"]
 
 volumes:
  pypiserver: {}
