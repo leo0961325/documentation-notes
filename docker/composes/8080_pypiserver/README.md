@@ -15,8 +15,8 @@ $# ls
 data    docker-compose.yml
 
 ### 新增帳號密碼
-$# touch data/pypi.htpasswd
-$# htpasswd -Bb data/pypi.htpasswd user01 password01  # 建立 user && password
+$# touch auth/pypi.htpasswd
+$# htpasswd -Bb auth/pypi.htpasswd user01 password01  # 建立 user && password
 # -B, 較為安全的加密方式
 # -b, 後面接著給 <file> <user> <password>
 
