@@ -17,8 +17,13 @@ data    docker-compose.yml
 ### 新增帳號密碼
 $# touch data/pypi.htpasswd
 $# htpasswd -Bb data/pypi.htpasswd user01 password01  # 建立 user && password
-# -B, 較為安全的加密方式
+# -B, 較為安全的加密方式 or 使用 -s, 為較不安全的加密方式
 # -b, 後面接著給 <file> <user> <password>
+# -c, 若一開始檔案不存在, 可用此來建立檔案
+
+### 或使用
+$# htpasswd -B .htaccess <some_username>
+# 這樣可以互動式的輸入密碼
 
 $# pypi-server -o -p 28888 -P ./.htaccess /var/private_pypi/packages
 ```

@@ -9,8 +9,7 @@ services:
     volumes:
       - "./auth:/auth"
       - "pypiserver:/data/packages"
-    entrypoint: ["pypi-server", "-P", "/auth/pypi.htpasswd"]
-    command: ["/data/packages"]
+      entrypoint: ["pypi-server", "-P", "/auth/pypi.htpasswd", "/data/packages"]
 
 volumes:
  pypiserver: {}
