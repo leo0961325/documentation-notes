@@ -1,4 +1,5 @@
-# Install
+
+## Install
 
 - 2020/05/01
 - [下載安裝檔](https://nodejs.org/en/download/)
@@ -36,9 +37,26 @@ Package                      Version
 @schematics/update           0.901.4
 rxjs                         6.5.4
 # ----------------------------------------------------------
+```
 
 
-### 環境變數設定好, 一般使用者
-$ ng new NG_APP_NAME
-# 開始新的專案
+
+## Usage
+
+```bash
+### New APP
+$# ng new NG_APP_NAME
+
+
+### New Component
+$# ng g c ComponentName
+
+
+### New Service
+$# ng g s ServiceName
+
+
+### Routing Module (src/app/app-routing.module.ts)
+$# ng generate module app-routing --flat --module=app
+# --flat: 不增加資料夾結構
 ```
