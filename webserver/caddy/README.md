@@ -74,13 +74,24 @@ server {
 		ssl_certificate_key /etc/letsencrypt/live/diamondfsd.com/privkey.pem;
 
 		location / {
-		   proxy_pass http://127.0.0.1:3999;
-		   proxy_http_version 1.1;
-		   proxy_set_header X_FORWARDED_PROTO https;
-		   proxy_set_header X-Real-IP $remote_addr;
-			   proxy_set_header X-Forwarded-For $remote_addr;
-		   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-			   proxy_set_header Host $host;
+			proxy_pass http://127.0.0.1:3999;
+			proxy_http_version 1.1;
+			proxy_set_header X_FORWARDED_PROTO https;
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header X-Forwarded-For $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_set_header Host $host;
+		}
+
+		location = /__check {
+			return 200 'OK';
+			add_header Content-Type text/plain;
+		}
+
+		# 可透過這樣來允許特定客戶端進行訪問
+		location /__server_status {
+			deny all;
+			allow 100.101.102.103;
 		}
     }
 ```

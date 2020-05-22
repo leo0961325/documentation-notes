@@ -13,6 +13,12 @@
 # 底下幾個指令自己太常用... 備註到最前面
 
 ```sh
+### 測試能否與 Git Server 連線
+$# ssh -vT git@GIT_SERVER_DOMAIN -p PORT
+# 若 PORT 為預設的 22, -p PORT 可略
+# GIT_SERVER_DOMAIN, ex: gitlab.com
+# 永遠使用 git user 來測
+
 # 首次設定 PKI
 ssh-keygen -t rsa -b 4096 -C "tony@tonynb"
 

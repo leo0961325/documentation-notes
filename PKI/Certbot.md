@@ -42,7 +42,7 @@ obtain, install, and renew certificates:
   --standalone      Run a standalone webserver for authentication
   --nginx           Use the Nginx plugin for authentication & installation
   --webroot         Place files in a server''s webroot folder for authentication
-  --manual          Obtain certificates interactively, or using shell script hooks
+  --manual          Obtain certificates interactively, or using shell script hooks  # 互動式申請 或 藉由 --manual-auth-hook XXX.sh 處理 (Shell Script Hook)
 
    -n               Run non-interactively
   --test-cert       Obtain a test certificate from a staging server                     # 從 Staging Server 取得 Certificate
@@ -128,7 +128,7 @@ optional arguments:
                         hook commands are not called. (default: False)
   --debug-challenges    After setting up challenges, wait for user input
                         before submitting to CA (default: False)
-  --preferred-challenges PREF_CHALLS  # 
+  --preferred-challenges PREF_CHALLS  # ex: 「--preferred-challenges=http」
                         A sorted, comma delimited list of the preferred
                         challenge to use during authorization with the most
                         preferred challenge listed first (Eg, "dns" or
@@ -513,7 +513,7 @@ manual:
   script.
 
   --manual-auth-hook MANUAL_AUTH_HOOK
-                        Path or command to execute for the authentication
+                        Path or command to execute for the authentication  # 指定幫忙處理 ACME channenge (認證) 的腳本
                         script (default: None)
   --manual-cleanup-hook MANUAL_CLEANUP_HOOK
                         Path or command to execute for the cleanup script

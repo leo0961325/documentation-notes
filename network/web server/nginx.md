@@ -216,6 +216,7 @@ upstream test {
 
 ```ini
 upstream test {
+    # ip_hash 會用 IPv4 的前 24 bits / 整個 IPv6 做 hash, 確保同一個客戶請求始終發到同一台Server
     ip_hash;
     server 192.168.10.10:8080 weight=9; # 訪問比重
     server 192.168.10.11:8081 weight=1; # 訪問比重

@@ -11,22 +11,23 @@
 ### 2020/04/05, stable 的最大版號為 1.3.2
 $# docker pull pypiserver/pypiserver:latest
 
-### 新增帳號密碼 -> .htpasswd
-$# touch data/.htpasswd
-$# htpasswd -Bb data/.htpasswd user01 password01  # 建立 user && password
+$# ls
+data    docker-compose.yml
+
+### 新增帳號密碼
+$# touch auth/pypi.htpasswd
+$# htpasswd -Bb auth/pypi.htpasswd user01 password01  # 建立 user && password
 # -B, 較為安全的加密方式
 # -b, 後面接著給 <file> <user> <password>
 
-### 測試用
-$# docker run --rm \
-    -v $(pwd)/data/:/data/ \
-    -p 28888:8080 \
-    --name mypypi \
-    pypiserver/pypiserver:latest \
-    -P htpasswd packages
+$# pypi-server -o -p 28888 -P ./.htaccess /var/private_pypi/packages
+```
 
-### 實際使用
-$# docker run -d \
+```bash
+$# docker-compose up -d
+
+# OR
+$# $# docker run -d \
     --restart always \
     -v $(pwd)/data/:/data/ \
     -v pypiserver:/data/packages \
@@ -36,9 +37,9 @@ $# docker run -d \
     -P htpasswd packages
 ```
 
-```bash
-### Step1
-$# docker-compose up -d
+
+
+```
 
 ### Step2
 $# vim /etc/nginx/conf.d/pypi.conf
