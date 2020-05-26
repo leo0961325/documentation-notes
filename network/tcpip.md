@@ -371,14 +371,6 @@ $ ip -4 addr
 4: virbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN qlen 1000
     inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
        valid_lft forever preferred_lft forever
-6: docker_gwbridge: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN
-    inet 172.18.0.1/16 brd 172.18.255.255 scope global docker_gwbridge
-       valid_lft forever preferred_lft forever
-7: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN
-    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
-       valid_lft forever preferred_lft forever
-
-# 6 為 Docker bridge network, 在特定情況下, 自行建立的.
 ```
 
 

@@ -101,15 +101,7 @@ $ docker network inspect bridge
                 "IPv6Address": ""
             }
         },
-        "Options": {
-            "com.docker.network.bridge.default_bridge": "true",
-            "com.docker.network.bridge.enable_icc": "true",
-            "com.docker.network.bridge.enable_ip_masquerade": "true",
-            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
-            "com.docker.network.bridge.name": "docker0",
-            "com.docker.network.driver.mtu": "1500"
-        },
-        "Labels": {}
+        ...
     }
 ]
 ```
@@ -146,15 +138,7 @@ $ docker network inspect bridge
         },
         "ConfigOnly": false,
         "Containers": {}, # 沒有任何一個 Container 套用此 network
-        "Options": {
-            "com.docker.network.bridge.default_bridge": "true",
-            "com.docker.network.bridge.enable_icc": "true",
-            "com.docker.network.bridge.enable_ip_masquerade": "true",
-            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
-            "com.docker.network.bridge.name": "docker0",
-            "com.docker.network.driver.mtu": "1500"
-        },
-        "Labels": {}
+        ...
     }
 ]
 

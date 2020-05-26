@@ -1,38 +1,32 @@
 
 # Container networking
 - [Docker and iptables Linux防火牆的設定吧!?](https://docs.docker.com/network/)
-- 不知道為啥的, 早期版本(v17.09) 有種莫名的吸引力要我讀它...
 - 2018/06/19
 
 ```sh
-$ docker network ls
+$# docker network ls
 NETWORK ID      NAME      DRIVER    SCOPE
 eada4c9a1c64    bridge    bridge    local   # 對應 docker0 網卡
 dc201b36ce6d    host      host      local   # 直接使用 Docker Host 的網卡
 1d7619669ced    none      null      local   # 無網路服務
 
-# docker0 -> 172.17.0.1/16
-$ ifconfig
+### 安裝 docker 之後, 會自動建立 虛擬橋接器 docker0
+$# ifconfig docker0
 docker0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
-        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255  # 172.17.0.1/16
         inet6 fe80::42:fff:fe72:f251  prefixlen 64  scopeid 0x20<link>
         ether 02:42:0f:72:f2:51  txqueuelen 0  (Ethernet)
         RX packets 133  bytes 19283 (18.8 KiB)
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 1287  bytes 245884 (240.1 KiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-# (其他略)
 
 # 檢視預設網卡 : bridge
-$ docker network inspect bridge
+$# docker network inspect bridge
 [
     {
         "Name": "bridge",           # Network Name : bridge
-        "Id": "eada4c9a1c64...",
-        "Created": "2018-06-19T17:36:50.250035871+08:00",
-        "Scope": "local",
-        "Driver": "bridge",         # Network Driver : bridge
-        "EnableIPv6": false,
+        ...,
         "IPAM": {
             "Driver": "default",
             "Options": null,
@@ -43,41 +37,23 @@ $ docker network inspect bridge
                 }
             ]
         },
-        "Internal": false,
-        "Attachable": false,
-        "Ingress": false,
-        "ConfigFrom": {
-            "Network": ""
-        },
-        "ConfigOnly": false,
+        ...,
         "Containers": {},
-        "Options": {
-            "com.docker.network.bridge.default_bridge": "true",
-            "com.docker.network.bridge.enable_icc": "true",
-            "com.docker.network.bridge.enable_ip_masquerade": "true",
-            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
-            "com.docker.network.bridge.name": "docker0",
-            "com.docker.network.driver.mtu": "1500"
-        },
-        "Labels": {}
+        ...
     }
 ]
 ```
 
 ## 故事開始
 ```sh
-$ docker run -itd --name=container1 busybox
-$ docker run -itd --name=container2 busybox
+$# docker run -itd --name=container1 busybox
+$# docker run -itd --name=container2 busybox
 
-$ docker inspect bridge
+$# docker inspect bridge
 [
     {
         "Name": "bridge",
-        "Id": "eada4c9a1c64...",
-        "Created": "2018-06-19T17:36:50.250035871+08:00",
-        "Scope": "local",
-        "Driver": "bridge",
-        "EnableIPv6": false,
+        ...,
         "IPAM": {
             "Driver": "default",
             "Options": null,
@@ -88,13 +64,7 @@ $ docker inspect bridge
                 }
             ]
         },
-        "Internal": false,
-        "Attachable": false,
-        "Ingress": false,
-        "ConfigFrom": {
-            "Network": ""
-        },
-        "ConfigOnly": false,
+        ...,
         "Containers": {
             "8905204af6b7...": {       # Container 2
                 "Name": "container2",
@@ -111,22 +81,14 @@ $ docker inspect bridge
                 "IPv6Address": ""
             }
         },
-        "Options": {
-            "com.docker.network.bridge.default_bridge": "true",
-            "com.docker.network.bridge.enable_icc": "true",
-            "com.docker.network.bridge.enable_ip_masquerade": "true",
-            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
-            "com.docker.network.bridge.name": "docker0",
-            "com.docker.network.driver.mtu": "1500"
-        },
-        "Labels": {}
+        ...
     }
 ]
 # container1 : 172.17.0.2/16    df714af76fab
 # container2 : 172.17.0.3/16    8905204af6b7
 
-$ docker attach container1
-$ cat /etc/hosts
+$# docker attach container1
+$# cat /etc/hosts
 127.0.0.1       localhost
 172.17.0.2      df714af76fab    # default bridge 幫忙做好預設
 # (IPv6 pass...)
@@ -140,8 +102,8 @@ $ cat /etc/hosts
 ## Bridge networks
 
 ```sh
-$ docker network create --driver bridge isolated_nw
-$ docker network inspect isolated_nw
+$# docker network create --driver bridge isolated_nw
+$# docker network inspect isolated_nw
 [
     {
         "Name": "isolated_nw",
@@ -173,14 +135,14 @@ $ docker network inspect isolated_nw
     }
 ]
 
-$ docker network ls
+$# docker network ls
 NETWORK ID      NAME           DRIVER    SCOPE
 eada4c9a1c64    bridge         bridge    local
 dc201b36ce6d    host           host      local
 7cf996dfe9d1    isolated_nw    bridge    local
 1d7619669ced    none           null      local
 
-$ docker run --network=isolated_nw -itd --name=container3 busybox
+$# docker run --network=isolated_nw -itd --name=container3 busybox
 [
     {
         "Name": "isolated_nw",  # user-defined network 無法使用 (legacy option) --link
@@ -233,7 +195,7 @@ $ docker run --network=isolated_nw -itd --name=container3 busybox
 
 ```sh
 # Docker network - docker_gwbridge 也可以先自行建立(不讓系統預設建立)
-$ docker network create \
+$# docker network create \
     --subnet 172.30.0.0/16 \
     --opt com.docker.network.bridge.name=docker_gwbridge \
     --opt com.docker.network.bridge.enable_icc=false \
@@ -246,7 +208,7 @@ $ docker network create \
 
 ```sh
 # 建立 overlay network driver (要事先啟動 docker swarm)
-$ docker network create \
+$# docker network create \
     --driver overlay \
     --subnet 10.0.9.0/24 \
     my-multi-host-network
@@ -284,19 +246,19 @@ $ docker network create \
 
 ```sh
 # 隨機映射 (>30000的 port) 對應到 Container內的 80 port
-$ docker run -it -d -p 80 nginx
+$# docker run -it -d -p 80 nginx
 
-$ docker ps
+$# docker ps
 CONTAINER ID    IMAGE    COMMAND    CREATED    STATUS    PORTS                    NAMES
 2ba6bec4866a    nginx    (pass)     (pass)     (pass)    0.0.0.0:32768->80/tcp    upbeat_bose
 # 使用到 Docker host的 32768 port -> Container內的 80 port
 
 # 這樣就可以連進去惹~
-$ curl -4 localhost:32768
+$# curl -4 localhost:32768
 
 # 打開防火牆後, 外面的電腦也可以進去湊熱鬧惹~
-$ sudo firewall-cmd --zone=public --add-port=32768/tcp
+$# sudo firewall-cmd --zone=public --add-port=32768/tcp
 
 # 自訂映射 : Docker Host 8080 port -> Docker Container 80 port
-$ docker run -it -d -p 8080:80 nginx
+$# docker run -it -d -p 8080:80 nginx
 ```

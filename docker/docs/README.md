@@ -7,7 +7,7 @@
 
 ```sh
 $ uname -a
-Linux tonynb 3.10.0-693.21.1.el7.x86_64 #1 SMP Wed Mar 7 19:03:37 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+Linux tonynb 3.10.0-693.21.1.el7.x86_64 \#1 SMP Wed Mar 7 19:03:37 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
 
 $ hostnamectl
    Static hostname: tonynb
@@ -25,16 +25,6 @@ CentOS Linux release 7.4.1708 (Core)
 
 $ rpm --query centos-release
 centos-release-7-4.1708.el7.centos.x86_64
-```
-
-
-## Docker版本
-
-- 2018/04/15後, 改用 **18.03版**
-
-```sh
-$ docker --version
-Docker version 18.03.0-ce, build 0520e24
 ```
 
 
