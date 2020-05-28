@@ -399,3 +399,45 @@ $# /usr/lib/postgresql/11/bin/pg_ctl reload
 # reload config
 ```
 
+
+
+# Trigger
+
+- 2020/05/28
+- [Creating a Trigger in PostgreSQL](https://www.postgresqltutorial.com/creating-first-trigger-postgresql/)
+
+Postgres 上, 若要建立 trigger, 需要分成 2 個步驟:
+
+## 1. 建立 trigger function
+
+trigger function 本身不接收參數, 並且會回傳一個 trigger 類別的值
+
+建立 trigger function 時, 可使用任意 postgreSQL 支援的語言, PL/pgSQL 為其中一種
+
+> A trigger function receives data about its calling environment through a special structure called TriggerData, which contains a set of *local variables*. For example, `OLD` and `NEW` represent the **states of the row in the table before or after the triggering event**.
+> PostgreSQL provides other *local variables* starting with `TG_` as the prefix such as TG_WHEN, and TG_TABLE_NAME.
+> Once you define a trigger function, you can bind it to one or more trigger events such as INSERT, UPDATE, and DELETE.
+
+PostgreSQL 提共 2 種類型的 triggers:
+
+1. row-level trigger **FOR EACH ROW**
+2. statement-level trigger **FOR EACH STATEMENT**
+
+> 兩種類型 triggers 的差異: The differences between the two kinds are how many times the trigger is invoked and at what time. For example, if you issue an UPDATE statement that affects 20 rows, the row-level trigger will be invoked 20 times, while the statement level trigger will be invoked 1 time.
+
+```sql
+CREATE FUNCTION trig_func()
+  RETURNS trigger AS ...
+```
+
+
+## 2. 建立 trigger, 並把它綁訂到 trigger function
+
+```sql
+DROP TRIGGER IF EXISTS "trigger_name" ON "table-name";
+CREATE TRIGGER "trigger_name" 
+  {BEFORE | AFTER | INSTEAD OF} {event [OR ...]}
+  ON "table-name"
+    [FOR [EACH] {ROW | STATEMENT}]
+        EXECUTE PROCEDURE trig_func()
+```
