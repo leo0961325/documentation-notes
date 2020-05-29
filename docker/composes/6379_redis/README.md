@@ -4,7 +4,7 @@
 - 2020/03/27
 - [docker_redis](https://hub.docker.com/_/redis/)
 - [redis-compose](https://peihsinsu.gitbooks.io/docker-note-book/content/redis_user_guide.html)
-
+- [在 Docker Compose file 3 下限制 CPU 與 Memory](https://blog.yowko.com/docker-compose-3-cpu-memory-limit/)
 
 底下紀錄了 3 種啟動方式
 
@@ -16,12 +16,6 @@
 ```bash
 ### 2020/03/27 的現在, latest 為 5.0.8 版
 $# docker pull redis
-
-### 用完就丟
-$# docker run --rm \
-    --name myredis \
-    redis
-
 
 ### 正式使用 (persistent storage)
 $# docker run -d \
@@ -40,6 +34,9 @@ $# docker run -d \
     -v ./redis.conf:/usr/local/etc/redis/redis.conf \
     --name myredis redis redis-server /usr/local/etc/redis/redis.conf
 # -v ./redis.conf 為 DockerHost 真實組態檔的位置
+
+### 若 v3 以上的 compose 指定資源限制, 需加上 --compatibility
+$# docker-compose --compatibility up -d
 ```
 
 
