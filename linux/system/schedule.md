@@ -17,15 +17,6 @@
 ```sh
 # 一次性排程服務 atd
 $ systemctl status atd.service
-● atd.service - Job spooling tools
-   Loaded: loaded (/usr/lib/systemd/system/atd.service; enabled; vendor preset: enabled)
-   Active: active (running) since 四 2018-08-30 10:28:28 CST; 2 days ago
- Main PID: 1528 (atd)
-   CGroup: /system.slice/atd.service
-           └─1528 /usr/sbin/atd -f
-
- 8月 30 10:28:28 tonynb systemd[1]: Started Job spooling tools.
- 8月 30 10:28:28 tonynb systemd[1]: Starting Job spooling tools...
 ```
 
 相關指令:
@@ -125,18 +116,7 @@ $# tail -f /root/memory_record
 
 ```sh
 # 週期性排程服務 crond
-$ systemctl status crond.service
-● crond.service - Command Scheduler
-   Loaded: loaded (/usr/lib/systemd/system/crond.service; enabled; vendor preset: enabled)
-   Active: active (running) since 四 2018-08-30 10:28:28 CST; 2 days ago
- Main PID: 1527 (crond)
-   CGroup: /system.slice/crond.service
-           └─1527 /usr/sbin/crond -n
-
- 8月 30 10:28:28 tonynb systemd[1]: Started Command Scheduler.
- 8月 30 10:28:28 tonynb systemd[1]: Starting Command Scheduler...
- 8月 30 10:28:28 tonynb crond[1527]: (CRON) INFO (RANDOM_DELAY will be scaled with factor 27% if used.)
- 8月 30 10:28:28 tonynb crond[1527]: (CRON) INFO (running with inotify support)
+$# systemctl status crond.service
 ```
 
 系統排程服務 `crond`, **每分鐘** 會檢查 `/etc/crontab`, 並在適當時機執行檔案內指令的排程工作
