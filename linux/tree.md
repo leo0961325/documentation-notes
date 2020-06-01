@@ -235,6 +235,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /yum.log                        # 使用 yum 安裝/刪除/更新 的所有紀錄
     /mail/                          # 個人電子郵件信箱的目錄. 這目錄也被放置到 /var/spool/mail/, 與之互為連結
     /run/                           # 早期 系統開機後所產生的各項資訊. (連結至 /run/)
+        /docker.sock                    # Docker Server 預設監聽的位置(通訊協定)
     /spool/                         # 通常用來放 佇列(排隊等待其他程式來使用)資料(理解成 快取目錄). ex: 系統收到新信, 會放到 /var/spool/mail/ , 但使用者收下信件後, 會從此刪除
         /at/                            # 一次行 工作排程
         /anacron/
