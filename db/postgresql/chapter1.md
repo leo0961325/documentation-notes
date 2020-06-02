@@ -57,6 +57,23 @@ SELECT pg_relation_filepath ('jkb_check_data');
 -- base/17658/62945.1  <-- 新的
 -- 而此定義的 1GB, 可使用 --with-segsize 修改
 
+
+-- 先建立 /var/lib/postgresql/tblspc
+CREATE TABLESPACE demo_dbspace LOCATION '/var/lib/postgresql/tblspc';
+-- DROP TABLESPACE IF EXISTS demo_dbspace;
+
+CREATE TABLE dayu_monitoring.newtbl (
+	xid INT,
+	xname VARCHAR(16)
+) TABLESPACE demo_dbspace;
+
+SELECT pg_relation_filepath('newtbl');
+-- 得到
+-- pg_relation_filepath
+-- pg_tblspc/63108/PG_11_201809051/17658/63109
+
+
+
 ```
 
 ```bash
