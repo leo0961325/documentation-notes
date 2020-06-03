@@ -8,8 +8,9 @@ services:
       - "55555:8080"
     volumes:
       - "./auth:/data"
-      - "pypiserver:/data/packages"
-    entrypoint: ["pypi-server", "-P", "/data/pypi.htpasswd", "./packages"]
+      - "./packages:/data/packages"
+    # entrypoint: ["pypi-server", "-P", "/auth/pypi.htpasswd", "/data/packages"]
+    entrypoint: ["pypi-server", "-P", "./data/pypi.htpasswd", "/data/packages"]
 
 volumes:
   pypiserver: {}

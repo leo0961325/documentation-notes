@@ -26,7 +26,7 @@ $# htpasswd -sb nginx/auth/pypi.htpasswd user1 password1
 
 ### PyPI-Server 上傳的認證檔
 $# touch auth/pypi.htpasswd
-$# htpasswd -Bb auth/pypi.htpasswd user01 password01  # 建立 user && password
+$# htpasswd -sb auth/pypi.htpasswd user 123  # 建立 user && password
 # -B, 較為安全的加密方式
 # -b, 後面接著給 <file> <user> <password>
 ```
@@ -54,9 +54,11 @@ index-servers=
   mypypi
 
 [mypypi]
-repository:https://{DOMAIN:PORT}
-username:user1
-password:password1
+repository:https://pypi.tonychoucc.com
+username:user
+password:123
+# -------------------------------------------
+
 ```
 
 
@@ -70,8 +72,8 @@ $# echo 'export PIP_EXTRA_INDEX_URL=http://localhost:28888/simple/' >> ~/.bash_p
 ### 設定這個之後, 便可將檔案上傳上去
 $# vim ~/.pypirc
 [mypypi]
-repository:http://127.0.0.1:28888
-username:pypi001
+repository:https://pypi.tonychoucc.com
+username:user
 password:123
 
 ### 上傳

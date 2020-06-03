@@ -76,3 +76,10 @@ DOM
     // property -> DOM
 </script>
 ```
+
+
+```html
+<a href="" target="_blank" rel="noreferrer noopener"></a>
+<!-- 務必加上 rel="noreferrer noopener" -->
+<!-- 防止網頁使用 window.opener 來操作原有頁面 -->
+```
