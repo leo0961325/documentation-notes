@@ -5,12 +5,11 @@ services:
     container_name: pypi
     restart: always
     ports:
-      - "28888:8080"
+      - "55555:8080"
     volumes:
-      - "./auth:/auth"
+      - "./auth:/data"
       - "pypiserver:/data/packages"
-    entrypoint: ["pypi-server", "-P", "/auth/pypi.htpasswd"]
-    command: ["/data/packages"]
+    entrypoint: ["pypi-server", "-P", "/data/pypi.htpasswd", "./packages"]
 
 volumes:
- pypiserver: {}
+  pypiserver: {}
