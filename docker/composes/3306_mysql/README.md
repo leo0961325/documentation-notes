@@ -7,15 +7,9 @@
 ### 不管啦, 就算時代變了我還是要 5.7 版
 $# docker pull mysql:5.7
 
-### 必備
-$# PASSWD=123456
 
 ### 測試使用
-$# docker run --rm \
-    --name mysql57 \
-    -p 3306:3306 \
-    -e MYSQL_ROOT_PASSWORD=${PASSWD} \
-    mysql:5.7
+$# docker run -d --name mysql57 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1qaz@WSX mysql:5.7
 
 
 ### 正式使用 (目前目錄需要有 ./conf.d/)
