@@ -13,7 +13,10 @@
 $ ps aux        # u : 看到 user name
 $ ps alx        # l :
 $ ps afx
+
 $ pstree -p
+# -p: 顯示 PIDs
+
 $ ps au --sort=...      # 指定排序欄位
 
 # 只能查閱自己的 bash程序

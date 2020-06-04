@@ -11,27 +11,33 @@
 ### 2020/04/05, stable 的最大版號為 1.3.2
 $# docker pull pypiserver/pypiserver:latest
 
+### docker-compose.yml 資料夾底下
 $# ls
-data    docker-compose.yml
+auth    docker-compose.yml
+# auth/ 底下要放 pypi.htpasswd (上傳認證定義檔)
 
-### 新增帳號密碼
+
+### PyPI-Server 經由 Nginx 預覽的認證 (nginx/auth/pypi.htpasswd)
+$# touch nginx/auth/pypi.htaccess
+$# htpasswd -sb nginx/auth/pypi.htpasswd user1 password1
+# -s, (較不安全)的方式 (Nginx 認證似乎只能認這個, -B 會報錯)
+# -b, 後面接著給 <file> <user> <password>
+
+
+### PyPI-Server 上傳的認證檔
 $# touch auth/pypi.htpasswd
 $# htpasswd -sb auth/pypi.htpasswd user 123  # 建立 user && password
 # -B, 較為安全的加密方式
 # -b, 後面接著給 <file> <user> <password>
-
-$# pypi-server -o -p 28888 -P ./.htaccess /var/private_pypi/packages
 ```
 
 ```bash
 $# docker-compose up -d
 
 # OR
-$# $# docker run -d \
+$# docker run -d \
     --restart always \
-    -v $(pwd)/data/:/data/ \
-    -v pypiserver:/data/packages \
-    -p 28888:8080 \
+    -p 33333:8080 \
     --name mypypi \
     pypiserver/pypiserver:latest \
     -P htpasswd packages
@@ -39,25 +45,14 @@ $# $# docker run -d \
 
 
 
-```
-
-### Step2
-$# vim /etc/nginx/conf.d/pypi.conf
-# -------------------------------------------
-server {
-    server_name pypi.tonychoucc.com;
-    location / {
-        proxy_pass http://localhost:28888;
-    }
-    return 404;
-}
-# -------------------------------------------
-$# nginx -t
-$# nginx -s reload
 
 ### Step3
-$# vim ~/.pypirc
-# -------------------------------------------
+
+```.pypirc
+[distutils]
+index-servers=
+  mypypi
+
 [mypypi]
 repository:https://pypi.tonychoucc.com
 username:user
@@ -65,6 +60,7 @@ password:123
 # -------------------------------------------
 
 ```
+
 
 
 ## Client 上傳 && 下載 設定
