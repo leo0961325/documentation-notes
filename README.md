@@ -91,6 +91,7 @@ DMZ    | Demilitarized Zone                          | 資安            |
 DN     | Distinguished Name                          | 集中驗證         |
 EIP    | Elastic IP                                  | AWS             | 固定IP
 GDPR   | General Data Protection Regulation          | 資安            |
+GWF    | Great Fire Wall                             | 監控            | 中國長城...
 IPA    | Identiti, Policy and Auditing               | 集中驗證         | 提供 LDAP & Kerberos
 MITM   | Man-In-The-Middle attack                    | 資安            | [MITM](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)
 KDC    | Key Distribution Centers                    | 集中驗證         |
@@ -108,6 +109,7 @@ SSO    | Single Sign-On                              | 集中驗證         | �
 TDD    | Test-Driven-Development                     | DevOps          |
 TLS   | Transport Layer Security                     | 資安            |
 VPC    | Virtual Private Cloud                       | Cloud           |
+VPN    | Virtual Private Network                     | 虛擬私有網路    | servers間點對點加密溝通 (軟體翻牆的其中一種方式)
 
 
 ## Software
