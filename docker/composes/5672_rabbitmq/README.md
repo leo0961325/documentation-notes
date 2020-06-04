@@ -14,6 +14,7 @@ MQ_PASSWD=1234
 $# docker run -d \
     -p 5672:5672 \
     -p 15672:15672 \
+    -p 15674:15674 \
     -v  ~/docker_data/rabbitmq:/var/lib/rabbitmq \
     -e RABBITMQ_DEFAULT_USER=${MQ_USER} \
     -e RABBITMQ_DEFAULT_PASS=${MQ_PASSWD} \

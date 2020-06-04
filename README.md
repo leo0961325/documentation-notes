@@ -8,22 +8,27 @@ attach        | Additional Files
 aws           | AWS
 cs            | C#
 db            | Database
+DevOps        | Drone, Jenkins, Gitlab...
 docker        | Docker v18.03
 ELK           | Elastic, Logstash, Kibana
 front-end     | 網頁前端 (HTML, CSS, BootStrap, JavaScript, jQuery)
 git           | Git v2.14
-hadoop        | Hadoop Eco-System
 img           | (Only pictures within each Markdown documentations)
 linux         | Almost all about CentOS7, some about Ubuntu 16.04
+mac           | Macbook
 network       | Networking, Web Server, NAT, TCPIP, RFC...
 node          | Nodejs v6.11
 other         | 不屬於以上的都放這~~
 pg            | Programming(without Python) && Design Pattern
 PKI           | PKI 基礎架構 && Certificates, ...
 python        | Python 3.6
+RabbitMQ      | 就... RabbitMQ
 ssg           | Single Page Generator, ex: HUGO
+ts            | TypeScript
 vscode        | Powerful IDE
+webserver     | Apache, Nginx, Caddy
 windows       | Windows Operating System
+Zabbix        | 監控相關
 
 
 ### 常見常忘的 英翻中...

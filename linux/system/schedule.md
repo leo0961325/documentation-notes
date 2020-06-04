@@ -17,15 +17,6 @@
 ```sh
 # 一次性排程服務 atd
 $ systemctl status atd.service
-● atd.service - Job spooling tools
-   Loaded: loaded (/usr/lib/systemd/system/atd.service; enabled; vendor preset: enabled)
-   Active: active (running) since 四 2018-08-30 10:28:28 CST; 2 days ago
- Main PID: 1528 (atd)
-   CGroup: /system.slice/atd.service
-           └─1528 /usr/sbin/atd -f
-
- 8月 30 10:28:28 tonynb systemd[1]: Started Job spooling tools.
- 8月 30 10:28:28 tonynb systemd[1]: Starting Job spooling tools...
 ```
 
 相關指令:
@@ -94,29 +85,30 @@ $ atrm 7
 ```
 
 
-### 範例: 快照每兩分鐘的記憶體狀況
+### 範例: 快照每兩分鐘的記憶體狀況(記憶體用量, 記憶體使用狀況)
 
 ```bash
 ### Step1 - 腳本
-$# vim /root/memory_script
+$# vim $HOME/memory_script
 # --------------------------------
 #!/bin/bash
 aa=$(date +%H:%M:%S)
 bb=$(free -m | head -2 | tail -1 | awk '{print $2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7}')
-echo -e "$aa\t$bb" >> /root/memory_record
+echo -e "$aa\t$bb" >> $HOME/memory_record
 # --------------------------------
 
 ### Step2 - chmod
-$# chmod a+x /root/memory_script
+$# chmod a+x $HOME/memory_script
+$# touch $HOME/memory_record
 
 ### Step3 - 掛排程
 $# crontab -e
 # --------------------------------
-*/1 * * * * /root/memory_script
+*/1 * * * * $HOME/memory_script
 # --------------------------------
 
 ### Step4 - 追蹤 (要等一分鐘=.=")
-$# tail -f /root/memory_record
+$# tail -f $HOME/memory_record
 ```
 
 
@@ -125,18 +117,7 @@ $# tail -f /root/memory_record
 
 ```sh
 # 週期性排程服務 crond
-$ systemctl status crond.service
-● crond.service - Command Scheduler
-   Loaded: loaded (/usr/lib/systemd/system/crond.service; enabled; vendor preset: enabled)
-   Active: active (running) since 四 2018-08-30 10:28:28 CST; 2 days ago
- Main PID: 1527 (crond)
-   CGroup: /system.slice/crond.service
-           └─1527 /usr/sbin/crond -n
-
- 8月 30 10:28:28 tonynb systemd[1]: Started Command Scheduler.
- 8月 30 10:28:28 tonynb systemd[1]: Starting Command Scheduler...
- 8月 30 10:28:28 tonynb crond[1527]: (CRON) INFO (RANDOM_DELAY will be scaled with factor 27% if used.)
- 8月 30 10:28:28 tonynb crond[1527]: (CRON) INFO (running with inotify support)
+$# systemctl status crond.service
 ```
 
 系統排程服務 `crond`, **每分鐘** 會檢查 `/etc/crontab`, 並在適當時機執行檔案內指令的排程工作

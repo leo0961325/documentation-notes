@@ -81,20 +81,6 @@ $ tzselect
 ```sh
 # 校時服務
 $ systemctl status chronyd
-● chronyd.service - NTP client/server
-   Loaded: loaded (/usr/lib/systemd/system/chronyd.service; enabled; vendor preset: enabled)
-   Active: active (running) since 六 2018-08-18 15:06:06 CST; 46min ago
-     Docs: man:chronyd(8)
-           man:chrony.conf(5)
-  Process: 13555 ExecStartPost=/usr/libexec/chrony-helper update-daemon (code=exited, status=0/SUCCESS)
-  Process: 13547 ExecStart=/usr/sbin/chronyd $OPTIONS (code=exited, status=0/SUCCESS)
- Main PID: 13553 (chronyd)
-   CGroup: /system.slice/chronyd.service
-           └─13553 /usr/sbin/chronyd
-
- 8月 18 15:06:06 tonynb systemd[1]: Starting NTP client/server...
- 8月 18 15:06:06 tonynb chronyd[13553]: chronyd version 3.1 starting (+CMDMON +NTP +REFCLOCK +RTC +PRIVDROP +SCFILTER +SECHASH +SIGND +ASYNCDNS +IPV6 +DEBUG)
- ...PASS...
 
 # (不會看...)
 $ chronyc sources -v

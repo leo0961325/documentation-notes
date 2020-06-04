@@ -1,11 +1,7 @@
-
-@MyRegistryHost=https://registry.tonychoucc.com
-@auth=
-#
 # https://docs.docker.com/registry/spec/api/#detail
 # 裡頭記載了很多 registry 的 API
 #
 
 ### 列出 Images
 GET {{MyRegistryHost}}/v2/_catalog
-Authorization: Basic {{auth}}
+Authorization: Basic {{MyRegistryCreds}}
