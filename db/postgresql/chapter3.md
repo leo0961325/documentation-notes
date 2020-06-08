@@ -90,11 +90,83 @@ EXECUTOR 處理 query 時會使用到一些記憶體區域: `temp_buffs` && `wor
 
 ## 2. 單表查詢的成本估計
 
+PG 裏頭, 成本分為 3 類:
+- start-up cost : 由 index 從 pages 找到對應的 table 內第一個 Tuple 所耗費的時間
+- run cost      : 取得所有 Tuples 所耗費的時間
+- total cost    : 連兩者相加
+
+```sql
+EXPLAIN SELECT * FROM jkb_check_data;
+-- QUERY PLAN
+-- Seq Scan on jkb_check_data  (cost=0.00..124742.27 rows=584027 width=931)
+-- 說明
+-- 0.00 及 124742.27 分別表示 start-up cost && total cost
+```
+
+```sql
+db=# CREATE TABLE tbl (id int PRIMARY KEY, data int);
+db=# CREATE INDEX tbl_data_idx ON tbl (data);
+db=# INSERT INTO tbl SELECT generate_series(1,10000),generate_series(1,10000);
+db=# ANALYZE;
+db=# \d tbl
+      Table "public.tbl"
+ Column |  Type   | Modifiers 
+--------+---------+-----------
+ id     | integer | not null
+ data   | integer | 
+Indexes:
+    "tbl_pkey" PRIMARY KEY, btree (id)
+    "tbl_data_idx" btree (data)
+```
 
 ### 2-1. 循序查詢 (Table Scan, Sequential Scan)
 
+> `run cost` = `cpu run cost` + `disk run cost` = (`cpu_tuple_cost` + `cpu_operator_cost`) * `N_tuple` + `seq_page_cost` * `N_page`
+
+- seq_page_cost     : (預設1.0) Planner 估計的 disk page fetch 成本 (此為 sequential fetch 其中一部分). 此參數可被 tablespace 內的同名 tables & indexes 修改
+- cpu_tuple_cost    : (預設0.01) Planner 估計的每行查詢成本.
+- cpu_operator_cost : (預設0.0025) Planner 估計的
+
+```sql
+db=# SELECT relpages, reltuples FROM pg_class WHERE relname = 'tbl';
+-- | relpages | reltuples  |
+-- | -------- | ---------- |
+-- | 45       | 10000      |
+--   Npage      Ntuple
+-- TC = (0.01 + 0.0025) * 10000 + 1.0 * 45 = 125 + 45 = 170
+
+db=# EXPLAIN SELECT * FROM tbl WHERE id < 8000;
+Seq Scan on tbl  (cost=0.00..170.00 rows=8000 width=8)
+   Filter: (id < 8000)  -- 此處的 Filter, 也稱作 table level filter predicate, 因為這種條件會 sacn 整張 table, 並沒有縮小查詢範圍
+```
+
 
 ### 2-2. Index Scan
+
+PG 提供了底下幾種 index:
+- B-tree
+- Hash
+- GiST
+- SP-GiST
+- GIN
+- BRIN
+
+`CREATE INDEX` 預設會建立 `B-tree index`
+
+關於各種Index的適用情境及詳細說明, 參考[官網](https://www.postgresql.org/docs/11/indexes-types.html)
+
+```sql
+db=# SELECT relpages, reltuples FROM pg_class WHERE relname = 'tbl_data_idx';
+-- | relpages | reltuples  |
+-- | -------- | ---------- |
+-- | 30       | 10000      |
+```
+
+TC = start up cost + run cost
+
+start up cost = cost to read the index pages to access to the first tuple in the tartet table = ( ceil( log2(Ntuple) ) + (Hindex+1) * 50 ) * cpu_operator_cost = ( ceil( log2(10000) ) + (1+1) * 50 ) * .0025 = .285
+
+run cost = sum of CPU costs + IO costs of both the table && index = ( index CPU cost + table CPU cost ) + ( index IO cost + table IO cost )
 
 
 ### 2-3. Sort

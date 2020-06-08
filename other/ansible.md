@@ -66,6 +66,17 @@ www.tony.com
 mysql.tony.com
 ms.tony.com
 mongo.tony.com
+
+[test]
+node2
+
+[prod]
+node3
+node4
+
+[webservers:children]
+prod
+# 上頭的寫法表示, node3, node4 隸屬於 prod 群組, 而 prod 群組屬於 webservers 群組
 ```
 
 
