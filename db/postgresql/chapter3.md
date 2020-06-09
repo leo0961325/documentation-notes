@@ -162,9 +162,9 @@ db=# SELECT relpages, reltuples FROM pg_class WHERE relname = 'tbl_data_idx';
 -- | 30       | 10000      |
 ```
 
-TC = start up cost + run cost
+TC = start-up cost + run cost
 
-start up cost = cost to read the index pages to access to the first tuple in the tartet table = ( ceil( log2(Ntuple) ) + (Hindex+1) * 50 ) * cpu_operator_cost = ( ceil( log2(10000) ) + (1+1) * 50 ) * .0025 = .285
+start-up cost = cost to read the index pages to access to the first tuple in the target table = ( ceil( log2(Ntuple) ) + (Hindex+1) * 50 ) * cpu_operator_cost = ( ceil( log2(10000) ) + (1+1) * 50 ) * .0025 = .285
 
 run cost = sum of CPU costs + IO costs of both the table && index = ( index CPU cost + table CPU cost ) + ( index IO cost + table IO cost )
 
@@ -197,3 +197,10 @@ run cost = sum of CPU costs + IO costs of both the table && index = ( index CPU 
 
 ### 6-3. Getting the Cheapest Path (三表查詢)
 
+
+
+# Other
+
+- ceil(N) : 大於等於 N 的最小整數. ex:
+  - ceil(66.8) = 67
+  - ceil(-33.7) = -33
