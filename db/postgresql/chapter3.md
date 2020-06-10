@@ -126,6 +126,7 @@ Indexes:
 - seq_page_cost     : (預設1.0) Planner 估計的 disk page fetch 成本 (此為 sequential fetch 其中一部分). 此參數可被 tablespace 內的同名 tables & indexes 修改
 - cpu_tuple_cost    : (預設0.01) Planner 估計的每行查詢成本.
 - cpu_operator_cost : (預設0.0025) Planner 估計的
+- random_page_cost  : (預設4.0) PG 假定 random scan 時間是 sequential scan 的 4 倍(seq_page_cost) (以 HHD 為基礎). 若硬碟改用 SSD, 建議調低此 random_page_cost=1 來避免 Planner 選擇較為無效率的查詢計畫. 更多詳情可參考[這篇](https://amplitude.engineering/how-a-single-postgresql-config-change-improved-slow-query-performance-by-50x-85593b8991b0)
 
 ```sql
 db=# SELECT relpages, reltuples FROM pg_class WHERE relname = 'tbl';
@@ -164,10 +165,19 @@ db=# SELECT relpages, reltuples FROM pg_class WHERE relname = 'tbl_data_idx';
 
 TC = start-up cost + run cost
 
-start-up cost = cost to read the index pages to access to the first tuple in the target table = ( ceil( log2(Ntuple) ) + (Hindex+1) * 50 ) * cpu_operator_cost = ( ceil( log2(10000) ) + (1+1) * 50 ) * .0025 = .285
+- start-up cost = cost to read the index pages to access to the first tuple in the target table
+- run cost = sum of CPU costs + IO costs of both the table && index = ( index CPU cost + table CPU cost ) + ( index IO cost + table IO cost )
 
-run cost = sum of CPU costs + IO costs of both the table && index = ( index CPU cost + table CPU cost ) + ( index IO cost + table IO cost )
-
+```sql
+db=# EXPLAIN SELECT id, data FROM tbl WHERE data < 240;
+--  Index Scan using tbl_data_idx on tbl  (cost=0.29..13.49 rows=240 width=8)
+--    Index Cond: (data < 240)
+-- 說明:
+-- start-up cost = 0.29
+-- total cost = 13.49
+-- 尋找了 240 rows(tuples)
+-- 最後的 Index Cond, 稱之為 `access predicate`, 表示使用了 Index Scan 來尋找 起始 && 終止
+```
 
 ### 2-3. Sort
 
