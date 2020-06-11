@@ -25,12 +25,3 @@
 ## 其他備註...
 - ipv4 127.0.0.1:8000
 - ipv6 [::1]:8000
-
-
-# HTTP Headers
-```bash
-
-X-Request-Type: GraphQL  # GraphQL 查詢, 所送的 Request Header
-
-
-```

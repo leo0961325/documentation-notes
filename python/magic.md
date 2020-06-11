@@ -137,3 +137,12 @@ print(C1.__dict__)
 ```
 
 
+## hashable
+
+- 實例化後, 整個執行期間, hash(obj) 都不會變動 (immutable 必為 hashable)
+- 需實作 `__hash__()` && `__eq__()`
+
+## iterable
+
+- 物件有 `__iter__()`, 就是個 iterable, 他就可以回傳 iterator
+- 可使用 `iter(obj)`

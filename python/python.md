@@ -105,3 +105,15 @@ sql_pd=12345687
 [Section_B]
 # 放其他的...
 ```
+
+
+
+# PYTHONPATH
+
+```bash
+### Linux
+$# export PYTHONPATH=/path-to-module1_path:/path-to-module2_path
+
+### Windows
+$# set PYTHONPATH=C:/path-to-module1_path
+```

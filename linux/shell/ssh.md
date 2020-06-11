@@ -49,6 +49,8 @@ $# firewall-cmd --add-port=6868/tcp --permanent
 
 # 製作本機端管控遠端登入的組態檔 (可免改 /etc/hosts 或 DNS)
 
+- [SSH](https://stackoverflow.com/questions/4565700/how-to-specify-the-private-ssh-key-to-use-when-executing-shell-command-on-git)
+
 ```bash
 ### 製作組態
 $ vim ~/.ssh/config
@@ -68,6 +70,7 @@ Host aws
     User        ec2-user
     Port        22
     IdentityFile    /home/tony/aws.pem      # 登入私鑰 or 「D:\key\aws.pem」 for Win10
+    IdentitiesOnly  yes                     # 避免 SSH 預設行為(否則會先使用 ~/.ssh/id_rsa 去訪問遠端)
 # --------- 內容如上 ---------
 
 
