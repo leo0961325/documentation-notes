@@ -446,3 +446,19 @@ token: {{token}}
 }
 ```
 
+# GraphQL (還不會用)
+
+- 2020/06/09
+
+```bash
+POST https://api.github.com/graphql
+Content-Type: application/json
+Authorization: Bearer v3q905ja9f
+X-Request-Type: GraphQL  # GraphQL 查詢, 所送的 Request Header
+
+query ($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+        name
+    }
+}
+```
