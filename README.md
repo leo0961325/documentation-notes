@@ -58,6 +58,7 @@ Zabbix        | 監控相關
 - snippets : 片段
 - space bar : 空白鍵
 - sponsor : 發起人
+- starting from scratch : 從零開始
 - throughput : 吞吐量
 - tilde : 波浪號
 - under the hood : 在引擎蓋底下(有點封裝的概念, 複雜的細節人家幫你包好了)
