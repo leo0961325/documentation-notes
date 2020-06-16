@@ -37,16 +37,19 @@ Zabbix        | 監控相關
 - alphanumeric : 標點符號
 - backlog : 積壓
 - back slash : 反斜線
+- behind the scenes : 幕後
 - bootstrap configuration file : 引導程序配置文件
 - cascade: 串連
 - congestion : 擁塞
 - enumerable : 可列舉的
 - fabric : 布, 結構, 構造, 品質, 織品
 - immutable : 不可變的
+- in favor of : 有利於, 取而代之
 - intelliSense : 提示
 - IP Masquerade: IP掩蔽
 - linter : code 語法 check
 - malformed : 異常
+- marshal: 整頓
 - masquerade: 偽裝
 - on the fly : 動態產生
 - oval : 橢圓形
@@ -61,6 +64,7 @@ Zabbix        | 監控相關
 - throughput : 吞吐量
 - tilde : 波浪號
 - under the hood : 在引擎蓋底下(有點封裝的概念, 複雜的細節人家幫你包好了)
+- unmarshal: 解組
 - wildcard characters : 萬用字元 (「*」啦)
 - wireframe : 線框
 
