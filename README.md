@@ -136,6 +136,7 @@ log4j2       | 讓你方便作 Logging 的軟體
 
 - [隨機用戶產生器](https://randomuser.me/api/)
 - [產生人像](https://generated.photos/)
+- [假API](https://reqres.in/)
 
 
 by TonyCC

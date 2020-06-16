@@ -16,3 +16,4 @@ packages/*
 .idea/
 *.crt
 *.key
+pass_*
