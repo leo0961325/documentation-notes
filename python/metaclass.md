@@ -1,7 +1,9 @@
-# metaclass
+# Metaclass
 
 - 2020/06/16
 - [What are metaclasses in Python?](https://stackoverflow.com/questions/100003/what-are-metaclasses-in-python?rq=1)
+
+**The main purpose of a metaclass is to change the class automatically, when it's created.**
 
 永遠記得, Python 裏頭的任何東西, 都是 object
 
@@ -137,4 +139,42 @@ c.__class__.__class__  # <type 'type'>
 
 `type` 就是 Python 底層使用的 built-in metaclass
 
+
+## `__metaclass__` 屬性
+
+### Python2
+
+用法如下:
+
+```py
+class Qoo(Orz):
+    __metaclass__ = ...
+```
+
+`class Qoo(object)` 並未真正在記憶體裡面建立 `Qoo`
+
+Python 會去尋找 class 裏頭有沒有定義 `__metaclass__`. 
+- 若有找到, 會使用它來建立 class
+- 若沒找到, 它會在 MODULE level 尋找看看有沒有 `__metaclass__`
+  - 有找到, 會使用它來建立 class
+  - 沒找到, 會去找父類別(Orz) 的 metaclass 來建立 class
+
+而 `__metaclass__` 裏頭可以放些什麼? 基本上就是放 **能建立 class 的東西** (ex: `type`)
+
+
+### Python3
+
+```py
+class Qoo(metaclass=xxx):
+    ...
+```
+
+此外也可透過下面的方式, 來為 metaclass 添增屬性
+
+```py
+class Qoo(metaclass=xxx, kwarg1=value1, kwarg2=value2):
+    ...
+```
+
+回到一開頭寫的, **The main purpose of a metaclass is to change the class automatically, when it's created.**
 
