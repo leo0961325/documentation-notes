@@ -18,6 +18,14 @@ getattr(p, 'name')
 ## `__init__`
 - 建構式
 - 用途為: binding(繫結)
+- 用來定義 **物件建立後** 的初始化方式
+
+
+## `__new__`
+- 用來定義 **物件如何被建構**
+- 方法的第一個參數, 必須是 `cls`, 方法簽署為: `def __new__(cls, xxx)`
+- 此方法必須回傳 Class Instance(通常為 cls 的 Instance)
+- 如果此方法沒回傳 Instance, 則 `__init__` 將不會被調用
 
 
 ## `__name__`
