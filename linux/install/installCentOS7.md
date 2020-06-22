@@ -605,6 +605,8 @@ $# yum install -y autoconf libcurl-devel expat-devel gcc kernel-headers openssl-
 # 其實可以不安裝它... 只是最後, git 會被安裝在 /usr/local/bin/git
 # root 環境變數裡面沒有它, 所以 root 要再設個軟連結~
 
+### https://mirrors.edge.kernel.org/pub/software/scm/git/
+
 # 下載 (v2.14.3)
 $ wget https://github.com/git/git/archive/v2.14.3.tar.gz
 
@@ -638,8 +640,7 @@ GIT_VERSION = 2.19.1
     GEN configure
 
 $ ./configure --prefix=/usr/local
-$ make
-$# make install
+$# make && make install
 ```
 
 一般使用者可使用 git 了!!

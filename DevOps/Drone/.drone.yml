@@ -1,20 +1,27 @@
-# 這裡將記錄一堆寫法
+---
 kind: pipeline
+type: docker
+name: Deploy Web
 
 steps:
-# from https://drone.io/
-- name: test
-  image: node
-  commands:
-  - npm install
-  - npm test
+#  - name: build
+#    image: node:latest
+#    commands:
+#      - npm install
+#      - npm run-script build
+  - name: Deploy
+    image: appleboy/drone-scp
+    settings:
+      host: ${HOST=192.168.2.87}
+      username: 
+        from_secret: ${vm1_user}
+      password: 
+        from_secret: ${vm1_password}
+      port: 22
+      strip_components: 1
+      source:
+        - dist
+      target:
+        - /var/web
 
-# https://www.youtube.com/watch?v=B1aZ9-gYVTE
-- name: demo
-  deploy:
-    image: python:3.7
-    commands:
-      - echo "Hello World"
-    when:
-      local: false  # 使用 drone CLI 執行的話,忽略本地 deploy
-
+# drone exec --env-file ./secret
