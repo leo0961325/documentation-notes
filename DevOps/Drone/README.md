@@ -77,7 +77,7 @@ $# vim ~/.drone-runner-exec/config
 # 呼叫遠端 Drone Server 的協定
 DRONE_RPC_PROTO=https
 
-# Drone Server
+# Drone Server (Drone Agent 要 follow 的 Drone Server)
 DRONE_RPC_HOST=drone.company.com
 
 # Drone Server 用來驗證 http request 的 共享密鑰(Shared Secret)

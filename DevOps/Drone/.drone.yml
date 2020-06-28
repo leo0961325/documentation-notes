@@ -1,5 +1,6 @@
-# 這裡將記錄一堆寫法
+---
 kind: pipeline
+name: pipeline名稱
 
 steps:
 # from https://drone.io/
