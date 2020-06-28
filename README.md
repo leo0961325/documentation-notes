@@ -43,6 +43,7 @@ Zabbix        | 監控相關
 - congestion : 擁塞
 - enumerable : 可列舉的
 - fabric : 布, 結構, 構造, 品質, 織品
+- FWIW : for what it's worth (用在 `不知道講出來有沒有用, 但就我所知是這樣` 的情境)
 - immutable : 不可變的
 - in favor of : 有利於, 取而代之
 - intelliSense : 提示

@@ -78,7 +78,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
         /cacerts                        # 儲存 LDAP Server 用來驗證 SSL憑證 的 Root Certificate Authorities(CA)
         /ldap.conf                      # central LDAP Server 組態設定
     /opt/                           # 第三方協作軟體 /opt/ 的相關設定檔
-    /pam.d/                         # 集中驗證相關; 各種服務該如何組態 Auth 的設定檔
+    /pam.d/                         # 驗證相關; 各種服務該如何組態 Auth 的設定檔.
     /passwd                         # id 與 使用者帳號(User ID, UID) && 群組(Group ID, GID) 資訊
     /pki/                           # 公鑰存放區
         /CA/                            # 如果自己這台 Server 當成 CA, 建議把 PrivateKey && Certificate && Serial 放這邊
@@ -269,6 +269,7 @@ variable | /var/mail <br> /var/spool/news | /var/run <br> /var/lock
 
 ```python
 ### python 監控, 目前有多少進程數量
+python
 import os
 pids = [item for item in os.listdir('/proc') if item.isdigit()]
 len(pids)
