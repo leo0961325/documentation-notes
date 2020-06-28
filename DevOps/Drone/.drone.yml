@@ -1,11 +1,7 @@
 ---
 kind: pipeline
-<<<<<<< HEAD
 name: pipeline名稱
-=======
 type: docker
-name: Deploy Web
->>>>>>> 3c0bca1b8316d65339daaa4630092eebeb645fd2
 
 steps:
 #  - name: build
