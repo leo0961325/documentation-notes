@@ -1,0 +1,26 @@
+---
+kind: pipeline
+type: docker
+name: Deploy Web
+
+steps:
+  - name: build
+    image: node:12.14
+    commands:
+      - npm install
+      - npm run-script build
+  - name: Deploy
+    image: appleboy/drone-scp
+    settings:
+      host: ${HOST=192.168.2.87}
+      username: root
+      password:
+        from_secret: PASSWD
+      port: 22
+      strip_components: 1
+      source:
+        - dist
+      target:
+        - /var/app/static_web
+
+# drone exec --secret-file=secrets.txt
