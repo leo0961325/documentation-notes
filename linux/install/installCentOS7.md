@@ -1095,9 +1095,9 @@ $ sudo yum groupinstall "Development Tools"
 
 
 
-# 解壓縮
+# unrar
 
-- [Linux 解壓縮 rar](https://www.phpini.com/linux/linux-extract-rar-file)
+- [Linux rar](https://www.phpini.com/linux/linux-extract-rar-file)
 - 2018/06/16
 
 ```sh
