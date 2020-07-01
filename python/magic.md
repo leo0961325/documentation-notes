@@ -118,6 +118,21 @@ print(uu) # [1, 2, 3, 4]
 uu.append(888) # ..... AttributeError: append
 ```
 
+## `__slots__`
+
+用來控制特定物件他可擁有的特性名稱
+
+```py
+class People:
+    __slots__ = ('name', 'age')
+
+
+a = People()
+a.name = 'tony'
+a.height = 170
+# AttributeError: 'People' object has no attribute 'height'
+```
+
 
 ## `__dict__`
 - 其他屬性映射, 回傳 dictionary ((C1範例))
@@ -143,6 +158,8 @@ print(C1.__dict__)
 }
 """
 ```
+
+
 
 
 ## hashable
