@@ -139,7 +139,6 @@ server {
     listen          80;
     server_name     bis;
     charset         utf-8;
-    client_max_body_size 75M;   # adjust to taste
     location /static {
         alias       /home/tony/bis_emc/bis_emc/static;
     }

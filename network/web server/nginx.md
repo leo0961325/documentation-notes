@@ -84,7 +84,7 @@ http {
 server {
     listen                  80;         # 若為 default server, 此行隱含了 「listen       80 default_server;」
     server_name             localhost;  # Request Http header 為 localhost 者, 套用此 server, 否則找 default server
-    client_max_body_size    1024M;      #
+    client_max_body_size    1024M;      # POST Request Body 的上限限制, 若超出此限制會出現 HTTP 413: Request entity too large
 
     location / {        # URL pattern: /
         root        /data/www;          # 存取 /data/www/...
@@ -187,9 +187,6 @@ server {
     # 監聽 本地 80 port 的請求
     listen       80;
     server_name  localhost;
-
-    # request body 上限大小
-    client_max_body_size 1024M;
 
     location / {
         # 代理 localhost:8080
