@@ -4,6 +4,40 @@
 - [OAuth 2.0 筆記](https://blog.yorkxin.org/2013/09/30/oauth2-1-introduction.html)
 - [RFC6749-Oauth2.0](https://tools.ietf.org/html/rfc6749)
 
+# Terms
+
+- *RO*, Resource Owner(User): 可悲的你
+- Client(Third-party APP): 第三方用戶程序
+- *UA*, User Agent: 通常是指瀏覽器
+- *AS*, Authorization Server: 認證伺服器, Http Service Provider 用來做認證的伺服器, 頒發 token 用
+- *RS*, Resource Server: 資源伺服器. 你得拿 token 來驗證身分, 才可領走你想要的東西
+
+
+# Client 取得授權的方式
+
+- Authorizaiton code : 最嚴謹 最完整
+- Implicit
+- Resource Owner Password Credentials
+- Client Credentials
+
+
+## 1. Authorization Code
+
+透過 **Client 後湍** 與 **Service Provider** 互動. 
+
+- Client 將 User 導向 *AS*
+- Client 再決定是否授權給 Client
+- 若OK, *AS* 將 Client 導向 Client 事先設定好的 **Redirect URI**, URI 會附上 **Authorization Code, AC**
+- Client 收到 **AC**, 連同 **Redirect URI** 向 *AS* 申請 token (在 Client Backend Server 完成, User 看不到此流程)
+- *AS* 核對 **AC** && **Redirect URI**, 確認無誤後核發 token && refresh token
+
+
+## 2. Implicit
+
+## 3. Resource Owner Password Credentials
+
+## 4. Client Credentials
+
 
 # 摘要
 

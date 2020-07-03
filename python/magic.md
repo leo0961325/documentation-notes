@@ -167,7 +167,22 @@ print(C1.__dict__)
 - 實例化後, 整個執行期間, hash(obj) 都不會變動 (immutable 必為 hashable)
 - 需實作 `__hash__()` && `__eq__()`
 
+
+
 ## iterable
 
-- 物件有 `__iter__()`, 就是個 iterable, 他就可以回傳 iterator
-- 可使用 `iter(obj)`
+- 物件若實作了 `__iter__()`, 它就是個 iterable, 就可以回傳 iterator(它實作了 iterable 介面)
+- 可使用 `qq = iter(obj)` 來取的 iterator, 後續可使用 `next(qq)` 逐一取出
+- 取完後, 會拋出 StopIteration
+
+
+## Iterator
+
+- 迭代器物件, 它實作了 iterable 介面 && 並實作了 `__next__()`
+
+
+## Generator
+
+- 它繼承了 Iterator
+- function 內如果有 yield, 那它便是個 generator function
+- 
