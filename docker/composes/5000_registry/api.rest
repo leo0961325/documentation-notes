@@ -5,3 +5,7 @@
 ### 列出 Images
 GET {{MyRegistryHost}}/v2/_catalog
 Authorization: Basic {{MyRegistryCreds}}
+
+
+### 可查 image 的 tags
+GET {{MyRegistryHost}}/v2/<name>/tags/list?n=<int>

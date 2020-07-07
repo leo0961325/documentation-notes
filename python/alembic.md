@@ -1,5 +1,6 @@
 # alembic
 
+alembic && sqlalchemy(SQA) 用法
 
 
 ## basic
@@ -51,7 +52,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 ### 更改欄位名稱
-op.alter_column(operations='git_system_hook', column_name='colunmA', new_column_name='columnA', schema='admin')
+op.alter_column(table_name='git_system_hook', column_name='colunmA', new_column_name='columnA', schema='admin')
 
 ### Create Table
 op.create_table('monitor_info',
@@ -63,7 +64,7 @@ op.create_table('monitor_info',
 )
 
 ### Create Index
-op.create_index(op.f(operations='idx_monitor_id'), table_name='monitor_info', columns=['monitor_id'], unique=True, schema='monitoring')
+op.create_index(op.f('idx_monitor_id'), table_name='monitor_info', columns=['monitor_id'], unique=True, schema='monitoring')
 ```
 
 ## sqlalchemy 語法紀錄
