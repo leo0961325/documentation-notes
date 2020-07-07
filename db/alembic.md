@@ -11,7 +11,8 @@
 ### 虛擬環境底下
 $# pip install mysqlclient      # 若無法解決, 參考 DBApi 那篇
 $# pip install alembic
-$# alembic init <alembic name>
+
+$# alembic init alembic  # 產生 alembic dir, 作為託管 SQL 版本的基地
 # 產生如下
 /alembic
     /__pycache__
@@ -24,28 +25,48 @@ $# alembic init <alembic name>
 $# vim alembic.ini
 # 修改裏頭的 sqlalchemy.url 部分, 定義好 DB 連線
 
-$# alembic revision -m "meaningful operation name"
+$# alembic revision -m "meaningful operation name" --autogenerate
 # 會產生
 /alembic/versions/68ff4441380d_meaningful_operation_name.py
 # 其中, 裏頭的 upgrade && downgrade 需要是
 # 操作完其中一者後, 另一者可以把它復原
 # ex: upgrade 用來 create table, 則 downgrade 需要作 drop table
 
-### DB 依照 alembic file 升級至 最新版
-$# alembic upgrade head
-INFO  [alembic.migration] Context impl MySQLImpl.
-INFO  [alembic.migration] Will assume non-transactional DDL.
-INFO  [alembic.migration] Running upgrade None -> 469d90f0cd28, Create users table
-
-### DB 依照 alembic file 降一版
+$# alembic upgrade head    # 升到最新
+$# alembic upgrade +1
 $# alembic downgrade -1
+$# alembic downgrade base  # 降至最初始版本
 
-### DB 依照 alembic file 降至最初始版本
-$# alembic downgrade base
-
-### 查看目前 DB 版本
+### 查看 DB 版本
 $# alembic current
-INFO  [alembic.runtime.migration] Context impl MySQLImpl.
-INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+```
+
+
+## alembic migration 語法紀錄
+
+- alembic==1.0.11
+
+```python
+from sqlalchemy.dialects import postgresql
+
+### 更改欄位名稱
+op.alter_column(operations='git_system_hook', column_name='colunmA', new_column_name='columnA', schema='admin')
+
+### Create Table
+op.create_table('monitor_info',
+    sa.Column('id', postgresql.UUID(), server_default=sa.text('gen_random_uuid()'), nullable=False, comment='PK'),
+    sa.Column('monitor_id', sa.String(length=8), nullable=False),
+    sa.Column('monitor_name', sa.String(length=32), nullable=False, comment='監測點名稱'),
+    sa.PrimaryKeyConstraint('id'), 
+    schema='monitoring'
+)
+
+### Create Index
+op.create_index(op.f(operations='idx_monitor_id'), table_name='monitor_info', columns=['monitor_id'], unique=True, schema='monitoring')
+```
+
+## sqlalchemy 語法紀錄
+
+```python
 
 ```
