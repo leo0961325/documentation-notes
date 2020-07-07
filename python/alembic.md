@@ -28,9 +28,7 @@ $# vim alembic.ini
 $# alembic revision -m "meaningful operation name" --autogenerate
 # 會產生
 /alembic/versions/68ff4441380d_meaningful_operation_name.py
-# 其中, 裏頭的 upgrade && downgrade 需要是
-# 操作完其中一者後, 另一者可以把它復原
-# ex: upgrade 用來 create table, 則 downgrade 需要作 drop table
+# 裡面的 upgrade && downgrade, 一定要能夠做反向操作!!
 
 $# alembic upgrade head    # 升到最新
 $# alembic upgrade +1
@@ -45,8 +43,11 @@ $# alembic current
 ## alembic migration 語法紀錄
 
 - alembic==1.0.11
+- SQLAlchemy==1.3.8
 
 ```python
+from alembic import op
+import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 ### 更改欄位名稱
