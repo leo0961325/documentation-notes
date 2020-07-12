@@ -117,3 +117,58 @@ $# export PYTHONPATH=/path-to-module1_path:/path-to-module2_path
 ### Windows
 $# set PYTHONPATH=C:/path-to-module1_path
 ```
+
+
+# Descriptor
+
+如果 class 實作了 **Descriptor Protocol** 的其中一個方法: `__get__(self, obj, type)` / `__set__(self, obj, value)` / `__delete__(self, obj)` / `__set_name__(self, owner, name)`, 則此 class 所創建的 Instance 為 **Descriptor Object**
+
+```py
+class DD:
+    value: int = 33
+    def __get__(self, obj, type=None) -> object:
+        return self.value
+    def __set__(self, obj, value):
+        self.value = value
+
+class FF:
+    aa = DD()  # NOTE: class 內定義的 描述器實例, 共享同一個實體!!
+
+xx = FF()
+print(xx.aa)  # 33
+```
+
+上面這範例, 完全可以透過 property 來實作. 其實, properties 其實就是 descriptors!
+
+```py
+class FF:
+    value: int = 33
+    @property
+    def aa(self) -> object:
+        return self.value
+    @aa.setter
+    def aa(self, value):
+        self.value = value
+
+xx = FF()
+print(xx.aa)  # 33
+```
+
+上面使用了 decorators 來定義 property. 用更根本的寫法, 可改寫成如下
+
+```py
+class FF:
+    value: int = 33
+    def getter(self) -> object:
+        return self.value
+    def setter(self, value):
+        self.value = value
+    aa = property(getter, setter)
+
+xx = FF()
+print(xx.aa)  # 33
+```
+
+> property 的 signature 為 `property(fget=None, fset=None, fdel=None, doc=None) -> object`
+> 回傳了實作了 descriptor protocol 的 property object 
+
