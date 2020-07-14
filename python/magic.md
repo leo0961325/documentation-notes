@@ -3,6 +3,16 @@
 
 ## getattr
 
+試圖取得 obj 的屬性時, 順序如下:
+
+- 會從 `obj.__dict__` 尋找相符的屬性名稱
+  - 若有找到 && 是個 Descriptor, 
+    - 取值使用 `__get__`
+    - 設值使用 `__set__`, 若無此方法, AttributeError
+    - 刪值使用 `__delete__`, 若無此方法, AttributeError
+  - 若有找到 && 只有 `__get__`
+    - 從 instance 的 `__dict__` 尋找相符屬性名稱
+
 ```python
 class People:
     def __init__(self, name):
@@ -69,17 +79,30 @@ Car.__bases__ # (__main__.Traffic,)
 ```
 
 
-## `__set__`
-- 類別物件內, 若有定義這個, 則稱此類別為 `覆寫式描述器(overriding descriptor)` or `data descriptor(資料描述器)`(比較老舊的稱呼)
+## `__get__(self, instance, owner)`
+- 若物件有 `__get__` 則此類別 實作了 描述器(Descriptor) 協定
+- 若僅有 `__get__`, 也可稱為 `nonoverriding descriptor(非覆寫式描述器)` or `nondata descriptor(非資料描述器)`
+- 這是三種 Descriptor 裡面, 唯一可以被 class 自己來調用的方法 (這也說明了為何只有 `__get__` 裡面有 owner)
+- 
+
+## `__set__(self, instance, value)`
+- 若物件有 `__set__` 則此類別 實作了 描述器(Descriptor) 協定
+- 若物件同時有 `__set__`, `__get__`, `__delete__`, 則稱此類別為 data descriptor(資料描述器)`
+- 若物件同時有 `__set__`, 則稱此類別為 `覆寫式描述器(overriding descriptor)`
 
 
-## `__get__`
-- 類別物件內, 若有定義此方法, 則此類別稱為 `descriptor(描述器)`
-- 若為唯讀(無 `__set__`), 則稱為 `nonoverriding descriptor(非覆寫式描述器)` or `nondata descriptor(非資料描述器)`
+## `__delete__(self, instance)`
+- 若物件有 `__delete__` 則此類別 實作了 描述器(Descriptor) 協定
+- 若物件同時有 `__set__`, `__get__`, `__delete__`, 則稱此類別為 data descriptor(資料描述器)`
+
+
+## `__class__`
+- 每個 instance of object 都有個 `__class__` 屬性, 參考至 instance 建構時所使用的 class
+- 而 class 本身也有個 `__class__`, 它參考的就是 `<class 'type'>`
+- 每個 class 也是個 object, 是 type 類別的 instance
 
 
 ## `__getattr__`
-
 - 如果要取得物件內不存在的屬性時, 會透過這個方法
 
 ```py
