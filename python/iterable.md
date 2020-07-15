@@ -1,23 +1,78 @@
 # Iterable, Iterator, Generator, Yield
 
-- 2019/11/09
+- 2020/07/14
 - python 3.7
-- [Python之生成器詳解](kissg.me/2016/04/09/python-generator-yield/)
+- [What does the “yield” keyword do?](https://stackoverflow.com/questions/231767/what-does-the-yield-keyword-do/231855#231855)
 
 
-## 內容
 
-這邊懶得打了, 上面的參考文章寫得非常棒...
+# 摘要
+
+要懂 yield 以前, 必須先懂 generator; 而要懂 generator 前, 必須先懂 iterable 及 iterator
+
+![generator_iterator_iterable](/img/iterator_generator.png)
 
 
-## 名詞定義 (自己消化吸收出來的)
 
-- Iterable: 可迭代物件(介面), 它實作了 `__iter__()`, 它可回傳 Iterator.
-- Iterator: 迭代器物件. 它實作了上述的 **Iterable 介面**, 並且額外實作了 `__next__()`. 它的作用是:
+# 名詞定義
+
+## 1. Iterable (可被迭代的東西)
+
+- 當你建立了一個 list, 你可以 '一個接一個' 讀取它內部的物件.
+- '一個接一個' 讀取的過程, 稱之為 iteration(迭代).
+- 可以被 '一個接一個' 讀取的東西, 就是個 Iterable.
+
+```py
+mylist = [1, 2, 3]
+for ii in mylist:   # 任何可以使用 for in 來逐一取值的東西, 就是個 iterable (string, list, set, dict, ...)
+  print(ii)
+```
+
+使用上述範例的缺點就是, mylist 裡頭的東西需要載入到記憶體(他們可能非常非常非常的大...)
+
+
+## 2. Iterator (迭代器物件)
+
+- 假設 obj 是個 Iterable , 使用 `iter(obj)` 就可以取得 Iterator.
+- Iterator 是個 Iterable.
+- Iterator 之所以可以被 `iter(obj)`, 是因為它實作了 `__next__()`.
     - 將指標指向下一個, 讓下次可以繼續調用.
     - 返回當前結果.
+
+## 3. Generator (產生器)
+
+- Generator 是個較特殊的 Iterator, 同時它也是個 Iterable.
+- Generator 本身不會把所有資料塞到記憶體, 取而代之的是, 它只在有需要的時候, 產生它所需要的值(此動作我們稱之為: **Lazy Evaluation 惰性求值**)
+
+```py
+mygenr = (x for x in range(3))  # <generator object <genexpr> at 0x7ff92814f450>
+for ii in mygenr:
+  print(ii)
+```
+
 - Generator: 一種比較特殊的 Iterator(繼承), 但內部實作了 `yield` 與 `send()`
 
+## 4. Yield
+
+- yield 本身一定要寫在 function 裡頭, 此 function 稱之為 Generator Function (底下簡稱為 GF)
+- yield 本身有點類似 return, 但相較於 return 回傳一個任意物件, yield 返回了一個 Generator.
+- GF 本身 **yield (返回)** 了一個 Generator
+- GF 內部執行到 yield 那一行時, 程式的執行流程會 **返回** 呼叫 GF 的調用方, 等到下次再次調用 GF, 執行流程會回到上次 返回 的下一行開始.
+
+```py
+def gg():  # 裡面定義了 yield, 所以 gg() 是個 GF
+  rr = range(3)
+  for ii in rr:
+    yield ii  # yield 返回的不是個 0, 1, 2 的物件, 而是 Generator
+
+mm = gg()
+print(mm)  # <generator object gg at 0x7fd9e8a29650>
+for ii in mm:
+  print(ii)  # 依序印出 0 1 2
+```
+
+
+## 彙整基礎範例
 
 ```python
 # Iterable 與 Iterator
@@ -31,12 +86,12 @@ print(isinstance(a, Iterable))  # True
 print(isinstance(b, Iterable))  # True
 
 # 因為 a 是個 iterable, 所以透過 iter(a) 取得它的 Iterator
-# 它可以透過 next(b) 一個一個慢慢取出來 (b 內部 container 儲存得值隱含著被 pop 掉了)
+# 它可以透過 next(b) 一個一個慢慢取出來 (b 內部 container 儲存的值隱含著被 pop 掉了)
 # 也可透過 list(b) 一口氣取出來 (b 內部 container 瞬間被抽乾)
 c = list(b)     # [1, 2, 3]
 d = list(b)     # []
 
-b == None       # False
+b == None       # False. 被抽乾後, b 依舊是剛剛那個 <list_iterator object at 0x10b705890>
 
 e = iter(a)     # <list_iterator object at 0x10b705850>
 next(e)  # 1
@@ -48,19 +103,18 @@ next(e)  # Exception StopIteration
 `for a in b` 的原理, 其實就是先調用 `iter(b)`, 取得 Iterator. 如此便可使用 next 方法, 一個一個叫出來處理, 直到 StopIteration.
 
 
-## 該死的 Generator (產生器, 生成器)
+
+## 再論 Generator (產生器, 生成器)
 
 > `generator`: A function which returns a generator iterator. It looks like a normal function except that it contains yield expressions for producing a series of values usable in for-loop or that can be retrieved at a time with the next() function.
-
 > `generator iterator`: An object created by a generator function.
-
 > `generator expression`: An expression that returns an iterator.
 
 自己理解的白話文:
 
-- generator 就是個會 yield `generator iterator` 的 function.
-- generator iterator: 被 generator function 回傳的東西
-- 如果一個 function 裡面有 yield, 那麼這個 function 就稱為 generator, 它會透過 `yield` 回傳 generator.
+- generator 就是個會 yield `generator iterator` 的 function. 也就上上面講的 GF
+- generator iterator: 被 GF 回傳的東西
+- 如果一個 function 裡面有 yield, 那麼這個 GF 就稱為 Generator, 它會透過 `yield` 返回 generator.
 
 ```python
 # Generator
@@ -101,6 +155,11 @@ next(f)  # StopIteration
 
 generator 的 yield 可理解成 `中斷服務子程序的斷點`. 爾後每次對 generator 調用 `next()` 時, 就會回到斷點之後繼續執行
 
-![](../img/iterators-generators-iterables.png)
-圖片來源自本文參考之文章
+
+
+# Itertools
+
+- itertools 模組內, 有些特別的 function 可以用來方便操作 iterable.
+
+
 
