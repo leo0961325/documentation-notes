@@ -36,7 +36,7 @@ curl -d '{"k1": "v1", "k2": "v2"}' -H "Content-Type: application/json" -X http:/
 ```sh
 $# mkdir ~/bin
 $# vim ~/bin/curl
-$# echo '#! /bin/bash' > ~/bin/curl
+$# echo '#!/bin/bash' > ~/bin/curl
 $# echo '/usr/bin/curl -H "Content-Type: application/json" "$@"' > ~/bin/curl
 $# chmod +x bin/curl
 

@@ -35,6 +35,5 @@ set -e
 #!/bin/bash
 set -x
 # Scripts.....
-# 將所有 executable commands 印到 terminal(debug用). 後續可使用
-# 「set +x」將該設定 disable 掉
+# 每當執行到此 shell script 裏頭的任何指令時, 都會把它在 terminal 上印出來
 ```
