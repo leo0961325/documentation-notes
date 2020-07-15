@@ -1,4 +1,4 @@
-# Python dunder methods
+# Python magic methods
 
 
 ## getattr
@@ -39,13 +39,13 @@ getattr(p, 'name')
 
 
 ## `__name__`
+- `class A: pass`, 背後會隱含的建立 `__name__()`, 用來取得 class 名稱 'A'
 - 類別方法 (實例無此方法)
 - 回傳 類別的名稱
 
 ```python
 ### __name__ 用途
-class C:
-    pass
+class C: pass
 
 C.__name__ # 'C'
 ```
@@ -78,22 +78,27 @@ class Car(Traffic):
 Car.__bases__ # (__main__.Traffic,)
 ```
 
+## `__get__(self, instance, type=None) -> value`
+- object 若有綁定 `__get__`, 則此物件稱之為 `Descriptor(描述器)` / `Non-Data Descriptor(非資料描述器)` (實作了 描述器協定)
+    - self 為 Descriptor instance
+    - obj  為 Descriptor 所 attached to 的 Object
+    - type(owner) 為 Descriptor 所 attached to 的 Object
+- 若使用 a.x, 首先會先尋找 `a.__dict__['x']`, 再者尋找 `type(a).__dict__['x']`(父類別們)
+- 如果 instance.attr1 與 `instance.__dict__['attr1']` 同名, 則**後者**優先
+    - Non-Data Descriptors, 
+- 三種 Descriptor 方法裡面, 唯一可以被 class 自己來調用的方法 (這也說明了為何只有 `__get__` 裡面有 owner (←有待驗證))
 
-## `__get__(self, instance, owner)`
-- 若物件有 `__get__` 則此類別 實作了 描述器(Descriptor) 協定
-- 若僅有 `__get__`, 也可稱為 `nonoverriding descriptor(非覆寫式描述器)` or `nondata descriptor(非資料描述器)`
-- 這是三種 Descriptor 裡面, 唯一可以被 class 自己來調用的方法 (這也說明了為何只有 `__get__` 裡面有 owner)
-- 
 
 ## `__set__(self, instance, value)`
-- 若物件有 `__set__` 則此類別 實作了 描述器(Descriptor) 協定
-- 若物件同時有 `__set__`, `__get__`, `__delete__`, 則稱此類別為 data descriptor(資料描述器)`
-- 若物件同時有 `__set__`, 則稱此類別為 `覆寫式描述器(overriding descriptor)`
+- object 若有綁定 `__set__`, 則此物件稱之為 `Descriptor(描述器)` / `覆寫式描述器(Overriding Descriptor)` / `Data Descriptor(資料描述器)` (實作了 描述器協定)
+- 如果 instance.attr1 與 `instance.__dict__['attr1']` 同名, 則**前者**優先
+    - Data Descriptors 永遠都會覆寫 instance dictionaries (`instance.__dict__['xxx']` 啦)
+- 若要讓物件成為 ReadOnly Descriptor, 可在 `__set__()` 內拋出 AttributeError
 
 
 ## `__delete__(self, instance)`
-- 若物件有 `__delete__` 則此類別 實作了 描述器(Descriptor) 協定
-- 若物件同時有 `__set__`, `__get__`, `__delete__`, 則稱此類別為 data descriptor(資料描述器)`
+- object 若有綁定 `__delete__`, 則此物件稱之為 `Descriptor(描述器)` / `覆寫式描述器(Overriding Descriptor)` / `Data Descriptor(資料描述器)` (實作了 描述器協定)
+- 如果 instance.attr1 與 `instance.__dict__['attr1']` 同名, 則**前者**優先
 
 
 ## `__class__`
@@ -119,8 +124,9 @@ print(p.age)
 ```
 
 
-## `__getattribute__`
+## `__getattribute__()`
 - 對 `實體屬性` 的所有參考, 都會通過 `特殊方法 __getattribute__`
+- Descriptors 都被此方法所調用, 若覆寫此方法, 會阻止自動調用 Descriptors
 - 調用 `instance` 屬性 or 方法 之前, 都會先來調用 `__getattribute__`
 - 由 `object` 實作 `__getattribute__`
 
@@ -142,8 +148,9 @@ uu.append(888) # ..... AttributeError: append
 ```
 
 ## `__slots__`
-
-用來控制特定物件他可擁有的特性名稱
+- `x=C()`, 若 C 之中有定義了 `__slots__`, 那 x 就不會在有 `x.__dict__`, 爾後如果呼叫了 x 不存在的屬性, 便會拋出 Exception
+- 用來控制特定物件他可擁有的特性名稱, 其值為 tuples
+- `__slots__` 不會限制特性
 
 ```py
 class People:
@@ -157,32 +164,80 @@ a.height = 170
 ```
 
 
-## `__dict__`
+## `__dict__()`
+- `class A: pass` 背後, (除非有定義 `__slots__`) 會自動創建 `__dict__`
+    - 它是 class 用來保存其他屬性的 映射物件(mapping object, 即它的 namespace)
+    - 它在 class 之中是 read only
 - 其他屬性映射, 回傳 dictionary ((C1範例))
+- 所有 object 都有個 built-in `__dict__` attribute. 可在裡面查看到 object 自行定義的所有屬性
+- 
 
 ```python
 ### C1範例
-class C1:
-    x = 23
-    C1.y = 8
-    def m1(self):
-        C1.z = 5
-        w=6
+class Vehicle:
+    can_fly: bool = False
+    weels: int = 0
+    def __get__(self, object, type=None):
+        return 'yellow'
 
-print(C1.__dict__)
-"""
-{
-    '__module__': '__main__',
-    'x': 23,
-    'm1': <function C1.m1 at 0x7fa35243f1e0>,
-    '__dict__': <attribute '__dict__' of 'C1' objects>,
-    '__weakref__': <attribute '__weakref__' of 'C1' objects>,
-    '__doc__': None
-}
-"""
+class Car(Vehicle):
+    weels: int = 0
+    vv = Vehicle()
+    def __init__(self, color):
+        self.color = color
+
+cc = Car(color='blue')
+print(cc.color)           # blue
+print(cc.__dict__)        # {'color': 'blue'}
+print(type(cc).__dict__)  # {'__module__': '__main__', '__annotations__': {'weels': <class 'int'>}, 'weels': 0, '__init__': <function Car.__init__ at 0x7fb46fa440e0>, '__doc__': None}
 ```
 
 
+## `__prepare__()`
+- metaclass 專屬的方法.
+- 因為這個東西很底層, 99.9999% 的情況下幾乎碰不到, 就不多做記錄了.
+
+
+## `__set_name__(self, owner, name)`
+- Python3.6 以上適用.
+- Descriptor Protocol 定義的方法
+- 如果初始化 Descriptor, 此方法會自動被調用.
+
+```python
+class NN:
+    def __set_name__(self, owner, name):
+        self.name = name
+    def __get__(self, obj, type=None):
+        return obj.__dict__.get(self.name)
+    def __set__(self, obj, value):
+        obj.__dict__[self.name] = value
+
+class FF:
+    nn = NN()
+
+xx = FF()
+yy = FF()
+xx.nn = 3
+print(xx.nn)  # 3
+print(yy.nn)  # 0
+```
+
+
+# Functions
+
+## getattr
+
+```python
+class People:
+    def __init__(self, name):
+        self.name = name
+
+p = People('tony')
+
+p.name
+# 等同於
+getattr(p, 'name')
+```
 
 
 ## hashable
