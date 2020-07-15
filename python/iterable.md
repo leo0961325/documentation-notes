@@ -21,6 +21,8 @@
 - 當你建立了一個 list, 你可以 '一個接一個' 讀取它內部的物件.
 - '一個接一個' 讀取的過程, 稱之為 iteration(迭代).
 - 可以被 '一個接一個' 讀取的東西, 就是個 Iterable.
+- 具有 `__iter()__` 的物件, 就是個 Iterable. 如果物件狀態比較複雜, 可自行定義 `__iter()__` 來取得迭代器.
+- `iterator = iter(iterable)`
 
 ```py
 mylist = [1, 2, 3]
@@ -135,6 +137,7 @@ g = fib()  # <generator object fib at 0x10b842850>
 
 
 ```python
+from typing import Generator, Iterable
 # Generator 與 Iterator
 def g():
   print('第1次')
@@ -149,6 +152,9 @@ next(f)  # '第1次'  收到 1
 next(f)  # '第2次'  收到 2
 next(f)  # '第3次'  收到 3
 next(f)  # StopIteration
+
+isinstance(f, Iterable)   # True
+isinstance(f, Generator)  # True
 ```
 
 `generator` 在遇到了 yield 就將程式的`執行流程返回給了呼叫端` & `返回當前的值`. 下次進入的時候, 會接在上次中斷的地方繼續...  這樣的概念就如同 generator 的 `將指標指向下一個, 方便下次迭代` & `返回當前的值`

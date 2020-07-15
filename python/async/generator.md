@@ -2,7 +2,7 @@
 
 - 2019/07/29
 
-![generator](../../img/generator.png)
+![generator](/img/generator.png)
 
 ## yield
 
