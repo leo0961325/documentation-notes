@@ -42,6 +42,9 @@ getattr(p, 'name')
 - `class A: pass`, 背後會隱含的建立 `__name__()`, 用來取得 class 名稱 'A'
 - 類別方法 (實例無此方法)
 - 回傳 類別的名稱
+- 每個模組其實也都有個 `__name__` 屬性, 模組被 import 後, 這東西會是模組名稱
+    - 若直接執行那個模組, `__name__` 則會變成 `__main__`
+- 可使用 `sys.modules[__name__]` 來取得目前模組物件
 
 ```python
 ### __name__ 用途
@@ -105,10 +108,23 @@ Car.__bases__ # (__main__.Traffic,)
 - 每個 instance of object 都有個 `__class__` 屬性, 參考至 instance 建構時所使用的 class
 - 而 class 本身也有個 `__class__`, 它參考的就是 `<class 'type'>`
 - 每個 class 也是個 object, 是 type 類別的 instance
+- 可使用 `instance.__class__` 或 `type(instance)` 來看出, instance 從哪個類別建構出來的
+
+```py
+class Demo: pass
+
+print(Demo)    # <class '__main__.Demo'>
+type(Demo)     # <class 'type'>
+d = Demo()
+d.__class__    # <class '__main__.Demo'>
+d.__class__()  # <__main__.Demo object at 0x7f87b123edd0>
+```
 
 
 ## `__getattr__`
 - 如果要取得物件內不存在的屬性時, 會透過這個方法
+    - 如果 C 為特定類別 && `C.__dict__` 不存在屬性 x, 而調用 C.x 時, 會轉而透過呼叫 `C.__getattr__()` 來看看是否有 x
+    - 承上, 若沒定義此方法 && `C.__dict__` 又找不到, 則拋出 AttributeError 
 
 ```py
 class People:
@@ -122,6 +138,13 @@ p = People('tony')
 print(p.age)
 # 沒 age 這東西
 ```
+
+
+## `__mro__`
+- class 在尋找指定的屬性 or 方法, 會根據此屬性內的 tuple 中的順序來尋找
+- MRO: Method Resolution Order
+- 此為 RO 屬性
+
 
 
 ## `__getattribute__()`
@@ -165,12 +188,12 @@ a.height = 170
 
 
 ## `__dict__()`
-- `class A: pass` 背後, (除非有定義 `__slots__`) 會自動創建 `__dict__`
+- `class A: pass` 背後, (除非有定義 `__slots__`) 會自動創建 `__dict__`(類別or實例 都會有這個屬性), 用以紀錄它所擁有的 特性
     - 它是 class 用來保存其他屬性的 映射物件(mapping object, 即它的 namespace)
     - 它在 class 之中是 read only
 - 其他屬性映射, 回傳 dictionary ((C1範例))
 - 所有 object 都有個 built-in `__dict__` attribute. 可在裡面查看到 object 自行定義的所有屬性
-- 
+- 建議使用 `vars(instance)` 來查看它的屬性, 而非使用赤裸裸的 `instance.__dict__`
 
 ```python
 ### C1範例
