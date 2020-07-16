@@ -4,7 +4,6 @@ from singleton.singleton_decorator import S1, S2
 
 class TestSingleton:
 
-
     def test_overwrite_new(self):
         s1 = S1()
         s2 = S1()

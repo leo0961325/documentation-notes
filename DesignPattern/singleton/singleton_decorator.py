@@ -25,6 +25,6 @@ class S2:
 
     def __new__(cls, *args, **kwargs):
         if cls.__obj is None:
-            cls.__obj = object.__new__(cls, *args, **kwargs)
+            cls.__obj = super().__new__(cls, *args, **kwargs)
 
         return cls.__obj
