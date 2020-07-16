@@ -28,21 +28,3 @@ class S2:
             cls.__obj = object.__new__(cls, *args, **kwargs)
 
         return cls.__obj
-
-
-def main():
-    # Instance 1
-    s1 = S1()
-    s2 = S1()
-    print(type(s1), id(s1))
-    print(type(s2), id(s2))
-
-    # Instance 2
-    s3 = S2()
-    s4 = S2()
-    print(type(s3), id(s3))
-    print(type(s4), id(s4))
-
-
-if __name__ == "__main__":
-    main()
