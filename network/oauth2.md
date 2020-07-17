@@ -81,3 +81,17 @@
 - 使用 TLS(HTTPS)
 - User-Agent 要支援 HTTP Redirection
     - 
+
+
+
+
+# Compare
+
+- A. Authorization Code
+- B. Implicit
+- C. Password Credentials
+- D. Client Credentials
+
+複雜程度: A > B > C > D
+
+- Refresh Token: A, C, D

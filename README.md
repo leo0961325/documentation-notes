@@ -8,10 +8,12 @@ attach        | Additional Files
 aws           | AWS
 cs            | C#
 db            | Database
+DesignPattern | 設計模式
 DevOps        | Drone, Jenkins, Gitlab...
 docker        | Docker v18.03
 ELK           | Elastic, Logstash, Kibana
 front-end     | 網頁前端 (HTML, CSS, BootStrap, JavaScript, jQuery)
+gcp           | GCP
 git           | Git v2.14
 img           | (Only pictures within each Markdown documentations)
 linux         | Almost all about CentOS7, some about Ubuntu 16.04

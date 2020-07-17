@@ -12,5 +12,5 @@ class TestSimpleFactory:
         assert mage.attack() == -9999
 
     def test_warrier_attack(self, init_factory):
-        mage = init_factory.train(career='warrier', name='Tony2')
-        assert mage.attack() == -1
+        warrier = init_factory.train(career='warrier', name='Tony2')
+        assert warrier.attack() == -1
