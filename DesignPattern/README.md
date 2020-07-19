@@ -19,3 +19,10 @@
     - 
 - I *(Interface Segregation Principle)* 介面隔離 : 把各種不同功能的功能, 分離到介面.
 - D *(Dependency Inversion Principle)* 依賴倒轉原則 : 高階模組 不應該依賴 低階模組, 兩者都應該依賴在抽象之上. ex: 精品商店說他們賣精品, 但卻不會說死他們是在賣鑽石或是高檔包包
+    - 以 CS 觀點來說, 就好比 `Shape s = new Circle();` 而不要使用 `Circle c = new Clrcle();`
+
+
+```bash
+### 增加到環境變數
+$# export PYTHONPATH=/Users/tony/Documents/illu/DesignPattern
+```
