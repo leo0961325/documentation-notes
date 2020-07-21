@@ -25,4 +25,5 @@
 ```bash
 ### 增加到環境變數
 $# export PYTHONPATH=/Users/tony/Documents/illu/DesignPattern
+$# export PYTHONPATH=~/Documents/doc/illu/DesignPattern
 ```
