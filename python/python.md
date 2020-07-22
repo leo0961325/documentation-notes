@@ -16,6 +16,23 @@ python -m doctest -v abc.py
 ![Python Class](../img/python_class.png)
 
 
+
+## [base64](https://docs.python.org/3.6/library/base64.html)
+
+```py
+>>> import base64
+>>> s='tony:password123'.encode()
+>>>
+>>> q = base64.b64encode(s)
+>>> q
+b'dG9ueTpwYXNzd29yZDEyMw=='
+>>>
+>>> base64.b64decode(q)
+b'tony:password123'
+```
+
+
+
 ## Shebang Line 與 Encoding
 
 ```py
@@ -257,3 +274,38 @@ x.name
 
 ## 設定 物件 or 類別 屬性
 除非該屬性值為 descriptor 或者該類別有定義 `__setattr__`, 否則只會在 `__dict__` 之中加入 key-value
+
+
+
+## classmethod vs staticmethod
+
+- [classmethod vs staticmethod](https://zhuanlan.zhihu.com/p/28010894)
+
+這問題好久之前看過了, 印象中當時讀了一直看不懂是在衝三小, 就不理他了. 結果問題找上門了...
+
+
+```py
+class A(object):
+    def m1(self, n):
+        print('self', self)
+
+    @classmethod
+    def m2(cls, n):
+        print('cls:', cls)
+
+    @staticmethod
+    def m3(n):
+        print(n)
+
+a = A()
+a.m1(1)     # self <__main__.A object at 0x0000014A1B1D95F8>
+A.m2(1)     # cls: <class '__main__.A'>
+A.m3(1)     # 1
+
+#
+```
+
+
+## property
+- property 是具有特殊功能的一個實體屬性.
+- `class property(fget=None, fset=None, fdel=None, doc=None)`

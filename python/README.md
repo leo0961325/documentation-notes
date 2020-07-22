@@ -1,4 +1,6 @@
 
+- [繼承(Inheritance) vs 合成(Composition)](https://study.holmesian.org/learn-python-the-hard-way/ex44.html)
+
 
 ## 中英對照
 

@@ -1,5 +1,7 @@
 # Python magic methods
 
+每當我們使用 `x.__magic__(...)` 其實就是在使用 `type(x).__magic__(x, ...)`
+
 ## `__bases__`
 - 回傳 父類別們 (tuple)
 - 類別專屬的屬性 (實例無此屬性)
@@ -17,6 +19,10 @@ Car.__bases__ # (<class '__main__.Traffic'>, <class '__main__.Tools'>)
 ```
 
 
+## `__bytes__`
+- In v3, 使用 `bytes(x)` 會先呼叫 `x.__bytes__()`
+- 若類別內同時定義了 `__str__` && `__bytes__`, 那他們兩應該回傳等校的字串(text type && butes type)
+
 ## `__class__`
 - 每個 instance of object 都有個 `__class__` 屬性, 參考至 instance 建構時所使用的 class
 - 而 class 本身也有個 `__class__`, 它參考的就是 `<class 'type'>`
@@ -33,6 +39,11 @@ d = Demo()
 d.__class__    # <class '__main__.Demo'>
 d.__class__()  # <__main__.Demo object at 0x7f87b123edd0>
 ```
+
+
+## `__delattr__(self, name)`
+- 解除實體屬性繫結, `del x.y` 其實就是 `x.__delattr__('y')`
+- 若類別沒定義 `__delattr__`, 則 `del x.y` 會被轉譯為 `del x.__dict__['y']`
 
 
 ## `__delete__(self, instance)`
@@ -61,6 +72,19 @@ cc = Car(color='blue')
 print(cc.color)           # blue
 print(cc.__dict__)        # {'color': 'blue'}
 print(type(cc).__dict__)  # {'__module__': '__main__', '__annotations__': {'wheels': <class 'int'>}, 'wheels': 4, '__doc__': None}
+```
+
+
+## `__doc__`
+- 抓 類別說明 (instance or class 皆可使用)
+
+```python
+### __doc__ 用途
+class C:
+    '''沒有用的東西'''
+    pass
+
+print(C.__doc__) # 沒有用的東西
 ```
 
 
@@ -104,6 +128,8 @@ print(p.age)  # 沒 age 這東西
 
 
 ## `__getattribute__(self, name)`
+- 沒事別用這個東西! 若這麼做, 會使屬性的存取變得緩慢 (覆寫的程式碼, 會在每次存取這種屬性時被執行)
+- 若覆寫此方法, 會阻止自動調用 Descriptors
 - 對於任何尋找實例屬性, ex: C 類別實例x, `x.y` 的所有請求, 都會呼叫 `x.__getattribute__('y')`
     - 此結果必然 raise AttributeError, 不然就是得 取得 && 回傳屬性值, 取得的方式可能是底下幾種:
         - `x.__dict__`
@@ -111,8 +137,6 @@ print(p.age)  # 沒 age 這東西
         - `C 的類別屬性`
         - `x.__getattr__`
         - `透過 type(y).__get__`
-- 若覆寫此方法, 會阻止自動調用 Descriptors
-    - 若這麼做, 會使屬性的存取變得緩慢 (覆寫的程式碼, 會在每次存取這種屬性時被執行)
 - 調用 `instance` 屬性 or 方法 之前, 都會先來調用 `__getattribute__`
 - 由 `object` 實作 `__getattribute__`
 
@@ -134,17 +158,8 @@ uu.append(888) # ..... AttributeError: append
 ```
 
 
-## `__doc__`
-- 抓 類別說明 (instance or class 皆可使用)
-
-```python
-### __doc__ 用途
-class C:
-    '''沒有用的東西'''
-    pass
-
-print(C.__doc__) # 沒有用的東西
-```
+## `__hash__`
+- 
 
 
 ## `__init__(self, *args, **kwds)`
@@ -241,7 +256,10 @@ print(yy.nn)  # 0
 ```
 
 
-## `__setattr__()`
+## `__setattr__(self, name, value)`
+- 使用 `setattr(x, 'y', value)`, 其實就是 `x.__setattr__('y', value)`
+- 對於 Instance x 來說, 若對 x 做任何的 **Attribute Binding**, 都會用到 `__setattr__`
+    - 這動作與 `__getattribute__` 有點類似 (都一定會被使用到)
 
 
 ## `__slots__`
@@ -259,3 +277,8 @@ a.name = 'tony'
 a.height = 170
 # AttributeError: 'People' object has no attribute 'height'
 ```
+
+
+## `__unicode__`
+- in v2, 呼叫 `unicode(x)` 會先呼叫 `x.__unicode__()`
+- 若類別內同時有 `__unicode__` && `__str__`, 則兩者應該回傳等校字串 (分別為 Unicode Type && Text Type)
