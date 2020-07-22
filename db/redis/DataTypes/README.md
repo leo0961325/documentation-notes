@@ -1,11 +1,6 @@
 # [Data Types]()
 - 2018/05/11
 
-```sh
-# 連到遠端 redis
-redis-cli -h <host> -p <port> -a <password> -n <db>
-# -n: 可選擇使用哪個 db
-```
 
 [Redis原生的資料格式(Native Data Type)]((https://redis.io/topics/data-types)), 分為底下 6 類
 
