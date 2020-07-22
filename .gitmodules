@@ -1,0 +1,3 @@
+[submodule "DesignPattern"]
+	path = DesignPattern
+	url = git@github.com:cool21540125/DesignPattern.git
