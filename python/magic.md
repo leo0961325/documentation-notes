@@ -41,6 +41,20 @@ d.__class__()  # <__main__.Demo object at 0x7f87b123edd0>
 ```
 
 
+## `__contains__(self, item)`
+- 此為 Container 功能(非必備)
+- 若測試 `y in x` 會呼叫 `x.__contains__(y)`
+- 若沒定義此方法, 則會執行如下程式碼
+
+```py
+for item in x:
+    if y == item: 
+        return True
+return False
+```
+
+
+
 ## `__delattr__(self, name)`
 - 解除實體屬性繫結, `del x.y` 其實就是 `x.__delattr__('y')`
 - 若類別沒定義 `__delattr__`, 則 `del x.y` 會被轉譯為 `del x.__dict__['y']`
@@ -49,6 +63,10 @@ d.__class__()  # <__main__.Demo object at 0x7f87b123edd0>
 ## `__delete__(self, instance)`
 - object 若有綁定 `__delete__`, 則此物件稱之為 `Descriptor(描述器)` / `覆寫式描述器(Overriding Descriptor)` / `Data Descriptor(資料描述器)` (實作了 描述器協定)
 - 如果 instance.attr1 與 `instance.__dict__['attr1']` 同名, 則**前者**優先
+
+
+## `__delitem__(self, key)`
+- 此為 Container 功能(非必備)
 
 
 ## `__dict__()`
@@ -158,6 +176,10 @@ uu.append(888) # ..... AttributeError: append
 ```
 
 
+## `__getietm__(self, key)`
+- 此為 Container 功能(非必備)
+
+
 ## `__hash__`
 - 
 
@@ -166,6 +188,14 @@ uu.append(888) # ..... AttributeError: append
 - 建構式
 - 用途為: binding(繫結)
 - 用來定義 **物件建立後** 的初始化方式
+
+
+## `__iter__(self)`
+- 此為 Container 的建議功能
+
+
+## `__len__(self)`
+- 此為 Container 的建議功能
 
 
 ## `__mro__`
@@ -260,6 +290,10 @@ print(yy.nn)  # 0
 - 使用 `setattr(x, 'y', value)`, 其實就是 `x.__setattr__('y', value)`
 - 對於 Instance x 來說, 若對 x 做任何的 **Attribute Binding**, 都會用到 `__setattr__`
     - 這動作與 `__getattribute__` 有點類似 (都一定會被使用到)
+
+
+## `__setitem__(self, key, value)`
+- 此為 Container 的建議功能
 
 
 ## `__slots__`
