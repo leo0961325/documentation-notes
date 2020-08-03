@@ -46,6 +46,7 @@ Zabbix        | 監控相關
 - enumerable : 可列舉的
 - fabric : 布, 結構, 構造, 品質, 織品
 - FWIW : for what it's worth (用在 `不知道講出來有沒有用, 但就我所知是這樣` 的情境)
+- IIUC : if I understood correctly
 - immutable : 不可變的
 - in favor of : 有利於, 取而代之
 - intelliSense : 提示
@@ -137,18 +138,6 @@ log4j2       | 讓你方便作 Logging 的軟體
 
 - attributes (headers)
 - payload (body)
-
-
-
-## Agile
-- 需求永遠在變化, 但實作時, 不去預測程式將如何變化, 不花費時間做當下不存在的需求.
-- 不需要一個成熟的初始設計
-- 使用許多的 **測試**
-- 應用 **設計原則** 診斷問題 (SOLID)
-- 應用 **設計模式** 解決問題
-- **敏捷設計 是一個 過程(Process) 而非 事件(Event)**. 
-- 持續應用 原則, 模式, 實踐 來改善 軟體結構 && 可讀性 的過程
-- 致力於保持系統設計在任何時間都盡可能 簡單 && 富表達力
 
 
 
