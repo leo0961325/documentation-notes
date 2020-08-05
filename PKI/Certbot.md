@@ -45,7 +45,7 @@ obtain, install, and renew certificates:
   --manual          Obtain certificates interactively, or using shell script hooks  # 互動式申請 或 藉由 --manual-auth-hook XXX.sh 處理 (Shell Script Hook)
 
    -n               Run non-interactively
-  --test-cert       Obtain a test certificate from a staging server                     # 從 Staging Server 取得 Certificate
+  --test-cert       Obtain a test certificate from a staging server                     # 從 Staging Server 取得 test Certificate
   --dry-run         Test "renew" or "certonly" without saving any certificates to disk  # (使用測試環境)嘗試做 renew + certonly, 但不儲存 Certificate
   # 每個註冊域名的憑證頒發數量限制為每個星期 30000 張
   # 重複憑證限制為每隔星期 30000 張
@@ -159,7 +159,7 @@ optional arguments:
 automation:
   Flags for automating execution & other tweaks
 
-  --keep-until-expiring, --keep, --reinstall  # 與 --force-renewal 相反
+  --keep-until-expiring, --keep, --reinstall  # 與 --force-renewal 相反 (避免 REPL 詢問)
                         If the requested certificate matches an existing
                         certificate, always keep the existing one until it is
                         due for renewal (for the 'run' subcommand this means
@@ -188,7 +188,7 @@ automation:
                         succeed even if some domains no longer point at this
                         system. This option cannot be used with --csr.
                         (default: False)
-  --agree-tos           Agree to the ACME Subscriber Agreement (default: Ask)
+  --agree-tos           Agree to the ACME Subscriber Agreement (default: Ask)  # 直接同意 ACME 的一些條款 (避免 REPL 詢問)
   --duplicate           Allow making a certificate lineage that duplicates an
                         existing one (both can be renewed in parallel)
                         (default: False)
@@ -393,7 +393,7 @@ revoke:
 register:
   Options for account registration
 
-  --register-unsafely-without-email
+  --register-unsafely-without-email  # (強烈建議不要用這個) 不使用 email 來申請憑證 (將無法收到即將到期的告知 && 無法撤銷申請的憑證)
                         Specifying this flag enables registering an account
                         with no email address. This is strongly discouraged,
                         because in the event of key loss or account compromise
@@ -518,7 +518,7 @@ manual:
   --manual-cleanup-hook MANUAL_CLEANUP_HOOK
                         Path or command to execute for the cleanup script
                         (default: None)
-  --manual-public-ip-logging-ok
+  --manual-public-ip-logging-ok  # (避免 REPL 詢問)
                         Automatically allows public IP logging (default: Ask)
 
 nginx:

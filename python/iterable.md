@@ -18,10 +18,12 @@
 
 ## 1. Iterable (可被迭代的東西)
 
+- 所有的 Sequense(序列) 都是 Iterable
+  - List, Set, Dictionary, ...
 - 當你建立了一個 list, 你可以 '一個接一個' 讀取它內部的物件.
 - '一個接一個' 讀取的過程, 稱之為 iteration(迭代).
 - 可以被 '一個接一個' 讀取的東西, 就是個 Iterable.
-- 具有 `__iter()__` 的物件, 就是個 Iterable. 如果物件狀態比較複雜, 可自行定義 `__iter()__` 來取得迭代器.
+- class 內定義了 `__iter()__`, 其 實例 就是個 Iterable. 如果 實例 狀態比較複雜, 可自行定義 `__iter()__` 來取得迭代器.
 - `iterator = iter(iterable)`
 
 ```py
