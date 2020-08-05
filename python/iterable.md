@@ -10,7 +10,7 @@
 
 要懂 yield 以前, 必須先懂 generator; 而要懂 generator 前, 必須先懂 iterable 及 iterator
 
-![generator_iterator_iterable](/img/iterator_generator.png)
+![generator_iterator_iterable](../img/iterator_generator.png)
 
 
 
@@ -45,6 +45,7 @@ for ii in mylist:   # 任何可以使用 for in 來逐一取值的東西, 就是
 
 - Generator 是個較特殊的 Iterator, 同時它也是個 Iterable.
 - Generator 本身不會把所有資料塞到記憶體, 取而代之的是, 它只在有需要的時候, 產生它所需要的值(此動作我們稱之為: **Lazy Evaluation 惰性求值**)
+- 產生器函式(GF), 通常被用來建立 迭代器(Iterator)
 
 ```py
 mygenr = (x for x in range(3))  # <generator object <genexpr> at 0x7ff92814f450>
@@ -58,8 +59,10 @@ for ii in mygenr:
 
 - yield 本身一定要寫在 function 裡頭, 此 function 稱之為 Generator Function (底下簡稱為 GF)
 - yield 本身有點類似 return, 但相較於 return 回傳一個任意物件, yield 返回了一個 Generator.
-- GF 本身 **yield (返回)** 了一個 Generator
+  - GF 回傳的東西稱作: `迭代器物件(iterator object)`, 又稱作 `產生器物件(generator object)`, 也會被(讓人搞混的)稱作 `一個產生器(a generator)`
+  - 上述的 `a generator`, 記錄了 **函式主體** && **區域變數** && **目前的執行位置(current point of execution)**
 - GF 內部執行到 yield 那一行時, 程式的執行流程會 **返回** 呼叫 GF 的調用方, 等到下次再次調用 GF, 執行流程會回到上次 返回 的下一行開始.
+  - `yield XXX`, 其實就是 `next(iterator)` 會拿到的值(也就是 XXX 啦)
 
 ```py
 def gg():  # 裡面定義了 yield, 所以 gg() 是個 GF
