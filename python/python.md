@@ -223,6 +223,10 @@ getattr(p, 'name')
 ```
 
 
+## globals
+- `globals(): dict`
+- 回傳 呼叫端模組的 `__dict__`
+
 
 ## hashable
 - 實例化後, 整個執行期間, hash(obj) 都不會變動 (immutable 必為 hashable)
@@ -238,6 +242,10 @@ getattr(p, 'name')
 
 ## Iterator
 - 迭代器物件, 它實作了 iterable 介面 && 並實作了 `__next__()`
+
+
+## locals
+- `locals(): dict` 回傳的是 目前區域命名空間 的一個 dict
 
 
 # Other

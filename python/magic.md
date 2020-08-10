@@ -192,6 +192,28 @@ uu.append(888) # ..... AttributeError: append
 
 ## `__iter__(self)`
 - 此為 Container 的建議功能
+- 若 `iter(obj)`:
+    - 若 obj 有定義 `__iter__`, 則: `iter(obj) -> obj.__iter__()`
+    - 若 obj 沒定義 `__iter__`, 則回傳的結果同下列的 generator:
+
+```py
+def iter_sequence(obj):
+    i = 0
+    while True:
+        try: yield obj[i]
+        except IndexError: raise StopIteration
+        i += 1
+```
+
+- 若 `iter(callable_func, sentinel) -> generator` 同下列的 generator:
+
+```py
+def iter_sentinel(callable_func, sentinel):
+    while True:
+        item = callable_func()
+        if item == sentinel: raise StopIteration
+        yield item
+```
 
 
 ## `__len__(self)`
