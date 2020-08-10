@@ -1491,7 +1491,31 @@ python3 3705 root 33u IPv4 3387496      0t0  TCP vm-220:52442->vm-220:postgres (
 python3 3705 root 34u IPv4 3387497      0t0  TCP vm-220:52444->vm-220:postgres (ESTABLISHED)
 ```
 
-## 6 vs 7 版
+
+# tree
+
+```bash
+$# yum install -y tree
+$# python3 -m venv /tmp/tmpvenv
+
+### 看目錄結構
+$# tree -dL 4 /tmp/tmpvenv
+/tmp/tmpvenv
+├── bin
+├── include
+├── lib
+│   └── python3.7
+│       └── site-packages
+│           ├── pip
+│           ├── pip-19.0.3.dist-info
+│           ├── pkg_resources
+│           ├── __pycache__
+│           ├── setuptools
+│           └── setuptools-40.8.0.dist-info
+└── lib64 -> lib
+```
+
+# 6 vs 7 版
 
 ```sh
 systemctl start named
