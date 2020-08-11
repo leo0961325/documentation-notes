@@ -245,8 +245,16 @@ getattr(p, 'name')
 
 
 ## locals
-- `locals(): dict` 回傳的是 目前區域命名空間 的一個 dict
+- `locals() -> dict`, return 目前區域命名空間 的一個 dict
 
+
+## vars
+- `vars() -> dict`, 同 `locals()`
+- `vars(obj) -> dict`, 同 `dir(obj)`
+
+
+## zip
+- `zip(seq, *seqs) -> iterator`, 因為這樣的關係, 他本質上與 generator 一樣 (會回傳 iterator)
 
 # Other
 

@@ -192,22 +192,24 @@ uu.append(888) # ..... AttributeError: append
 
 ## `__iter__(self)`
 - 此為 Container 的建議功能
-- 若 `iter(obj)`:
-    - 若 obj 有定義 `__iter__`, 則: `iter(obj) -> obj.__iter__()`
-    - 若 obj 沒定義 `__iter__`, 則回傳的結果同下列的 generator:
+- 方法簽署有兩種:
+    - `iter(obj)` 及 `iter(callable_func, sentinel)`
+        - `iter(obj)`
+            - 若 obj 有定義 `__iter__`, 則: `iter(obj) -> obj.__iter__()`
+            - 若 obj 沒定義 `__iter__`, 則回傳的結果同下列 A1
+        - `iter(callable_func, sentinel)`
+            - 回傳同下列 A2
 
 ```py
+# Example A1
 def iter_sequence(obj):
     i = 0
     while True:
         try: yield obj[i]
         except IndexError: raise StopIteration
         i += 1
-```
 
-- 若 `iter(callable_func, sentinel) -> generator` 同下列的 generator:
-
-```py
+# Example A2
 def iter_sentinel(callable_func, sentinel):
     while True:
         item = callable_func()
@@ -249,6 +251,10 @@ C.__name__ # 'C'
     - ex: `x=C(23)`, 等同於 `x=C.__new__(C, 23)`. (之後開始使用 `type(x).__init__(x, 23)` 作初始化)
 - 此方法必須回傳 Class Instance(通常為 cls 的 Instance)
 - 如果此方法沒回傳 Instance, 則 `__init__` 將不會被調用
+
+
+## `__next__(self)`
+- class 內部如果定義了 `__next__(self)`(沒有其他參數), 則此 instance 就是個 iterator
 
 
 ## `__prepare__()`

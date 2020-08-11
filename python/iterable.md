@@ -24,7 +24,7 @@
 - '一個接一個' 讀取的過程, 稱之為 iteration(迭代).
 - 可以被 '一個接一個' 讀取的東西, 就是個 Iterable.
 - class 內定義了 `__iter()__`, 其 實例 就是個 Iterable. 如果 實例 狀態比較複雜, 可自行定義 `__iter()__` 來取得迭代器.
-- `iterator = iter(iterator)`
+- `iterator = iter(iterator)`, 此為寡等操作
 
 ```py
 mylist = [1, 2, 3]
