@@ -54,8 +54,9 @@ Zabbix        | 監控相關
 - IP Masquerade: IP掩蔽
 - linter : code 語法 check
 - malformed : 異常
-- marshal: 整頓
-- masquerade: 偽裝
+- marshal : 整頓
+- masquerade : 偽裝
+- more or less : 或多或少
 - on the fly : 動態產生
 - oval : 橢圓形
 - overlap : 交疊
