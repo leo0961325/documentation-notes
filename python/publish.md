@@ -1,4 +1,5 @@
 # 發布擴充功能
+- [Setuptools Integration](https://click.palletsprojects.com/en/7.x/setuptools/)
 
 - 2018/08/01
 
