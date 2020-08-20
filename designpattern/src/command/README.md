@@ -1,7 +1,0 @@
-- 物件 封裝了 執行特定動作 or 稍後驅動特定事件 的所有必要資訊.
-  - 必要資訊包含方法名稱
-- 扯到 Command Pattern, 通常會提到 4 個名詞:
-  - command  : `command object` 知道 `receiver`, 並從 `receiver` 調用(invoke) 方法. receiver 方法的參數, 儲存在 command 之中.
-  - receiver : 
-  - invoker  : 
-  - client   : 
