@@ -2,6 +2,19 @@
 
 - 2019/11/07
 
+# 指令備註
+
+- [Do git tags get pushed as well?](https://stackoverflow.com/questions/2988088/do-git-tags-get-pushed-as-well)
+
+```bash
+### 推送本地所有 tags (git push <remote> --tags)
+git push --tags
+# 但此會把所有的 bad tags 通通推上去, 對於共同開發來講很不妙
+
+### 一次推送一個 tag
+git push origin <tag_name>
+```
+
 
 # 故事開始~
 

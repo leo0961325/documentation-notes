@@ -44,6 +44,7 @@ Zabbix        | 監控相關
 - cascade: 串連
 - congestion : 擁塞
 - enumerable : 可列舉的
+- expression : 運算式
 - fabric : 布, 結構, 構造, 品質, 織品
 - FWIW : for what it's worth (用在 `不知道講出來有沒有用, 但就我所知是這樣` 的情境)
 - IIUC : if I understood correctly
@@ -53,8 +54,9 @@ Zabbix        | 監控相關
 - IP Masquerade: IP掩蔽
 - linter : code 語法 check
 - malformed : 異常
-- marshal: 整頓
-- masquerade: 偽裝
+- marshal : 整頓
+- masquerade : 偽裝
+- more or less : 或多或少
 - on the fly : 動態產生
 - oval : 橢圓形
 - overlap : 交疊
@@ -66,6 +68,7 @@ Zabbix        | 監控相關
 - space bar : 空白鍵
 - sponsor : 發起人
 - starting from scratch : 從零開始
+- stub : 存根
 - throughput : 吞吐量
 - tilde : 波浪號
 - under the hood : 在引擎蓋底下(有點封裝的概念, 複雜的細節人家幫你包好了)

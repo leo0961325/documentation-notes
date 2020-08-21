@@ -1,15 +1,39 @@
 # 發布擴充功能
+- [Setuptools Integration](https://click.palletsprojects.com/en/7.x/setuptools/)
 
 - 2018/08/01
+- [Python Package User Guide](https://packaging.python.org/tutorials/)
+- [Python Package Project Structure](https://packaging.python.org/tutorials/packaging-projects/)
+- 總之為了底下能夠順利進行, 先執行 `pip install twine setuptools wheel` 就對了
 
+<<<<<<< HEAD
 - python standard library 內含 **distutils** (用來封裝 && 發布 python 程式 && 擴充功能) (但別用它)
   - distutils 用來 封裝 && 發布 Python 程式 && 擴充功能
   - 請使用 **setuptools** && **wheels** 代替 內建的 distutils
   - 然後搭配 **twine** 來幫你的套件上傳
   - 總之 `pip install setuptools wheel twine`
+=======
+>>>>>>> d0b9f8804b8a85e5c2798aeacfad8f0dc98ee143
 
 
-`wheels` 前身為 `eggs`
+
+# 零碎關鍵字詞
+
+- Distribution   : 一個打算把它發行出去的 Python 專案
+    - 他通常會被封裝成 `xx.whl` 或 `xx.tar.gz`
+- pure(純粹)      : 程式碼發行版(Distribution) 完全使用 Python 來寫. 反之則為 nonpure, 底層會依賴 C 實作的腳本 or 其他
+- universal(通用) : 當 Distribution 是 pure, 且可適用於 v2 && v3, 若無需 2to3 的轉換, 則此 Distribution 為 universal
+- distutils      : (標準函式庫) 用來封裝 && 發布 Python 程式 && 擴充功能, 但不要用它
+- setuptools     : (第三方套件) 承上, 使用這個來代替上面那個爛東西.
+- sdist          : 
+- wheels         : (第三方套件) 先把它理解成跟 setuptools 差不多的東西.
+- eggs           : (不要鳥他) 這個是 wheels 的前身
+- twine          : (第三方套件) 用來上傳套件到 Python Repository
+- setup.py       : 如果要讓 Python 套件發行出去, 需要定義這個東西. 這裡面包含了三個部分:
+    - Distribution 的 Metadata
+    - 存在於 Distribution 裡頭的其他檔案資訊
+    - 依賴性的資訊
+
 
 
 # 搭建私有 pypi server
@@ -31,9 +55,7 @@
 
 
 
-
-
-打包套件
+# 打包套件
 
 ```bash
 $# ls
