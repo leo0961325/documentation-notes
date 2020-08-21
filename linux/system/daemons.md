@@ -111,7 +111,9 @@ After=syslog.target systemd-user-sessions.service       # 在哪個服務之後�
 EnvironmentFile=/etc/sysconfig/atd                      # 執行環境檔
 ExecStart=/usr/sbin/atd -f $OPTS                        # 執行時的指令
 IgnoreSIGPIPE=no                                        # 
-  
+# Environment="XXX"  可以使用來設定環境變數, 而且可以多行 Environment
+# Environment="PYTHONPATH=xxx"
+
 [Install]
 WantedBy=multi-user.target                              # 在多人模式時啟動
 ### 每個 Unit描述檔, 都一定會有上面3個段落
