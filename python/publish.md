@@ -2,8 +2,11 @@
 
 - 2018/08/01
 
-- python standard library 內含 **distutils** (用來封裝 && 發布 python 程式 && 擴充功能)
-  - 但別用他!! 請使用 **setuptools** && **wheels**. `pip install setuptools wheels`
+- python standard library 內含 **distutils** (用來封裝 && 發布 python 程式 && 擴充功能) (但別用它)
+  - distutils 用來 封裝 && 發布 Python 程式 && 擴充功能
+  - 請使用 **setuptools** && **wheels** 代替 內建的 distutils
+  - 然後搭配 **twine** 來幫你的套件上傳
+  - 總之 `pip install setuptools wheel twine`
 
 
 `wheels` 前身為 `eggs`
