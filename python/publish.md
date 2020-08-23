@@ -6,6 +6,14 @@
 - [Python Package Project Structure](https://packaging.python.org/tutorials/packaging-projects/)
 - 總之為了底下能夠順利進行, 先執行 `pip install twine setuptools wheel` 就對了
 
+<<<<<<< HEAD
+- python standard library 內含 **distutils** (用來封裝 && 發布 python 程式 && 擴充功能) (但別用它)
+  - distutils 用來 封裝 && 發布 Python 程式 && 擴充功能
+  - 請使用 **setuptools** && **wheels** 代替 內建的 distutils
+  - 然後搭配 **twine** 來幫你的套件上傳
+  - 總之 `pip install setuptools wheel twine`
+=======
+>>>>>>> d0b9f8804b8a85e5c2798aeacfad8f0dc98ee143
 
 
 
